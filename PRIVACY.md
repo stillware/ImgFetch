@@ -59,4 +59,4 @@ activity. It has no account, no server, no analytics, and no telemetry.**
 
 ## Contact
 
-Open an issue on the GitHub repository: https://github.com/umr-x/imgfetch/issues
+Open an issue on the GitHub repository: https://github.com/umr-x/ImgFetch/issues

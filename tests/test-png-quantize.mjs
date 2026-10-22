@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch unit tests — PNG quality quantization (J2).
+ * ImgFetch unit tests, PNG quality quantization (J2).
  * Runs with plain Node, no dependencies: node tests/test-png-quantize.mjs
  */
 import { strict as assert } from 'node:assert';

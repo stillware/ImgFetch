@@ -1,0 +1,2022 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: Pengunduh Gambar Pintar. Simpan gambar dalam kualitas terbaik, pindai seluruh halaman, ambil tangkapan layar.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch Pengunduh Gambar Pintar",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Bahasa Indonesia",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Otomatis (bahasa browser)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Batal",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Konfirmasi",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Memuat",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Ukuran tidak diketahui",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch sedang dijalankan, coba lagi sebentar lagi.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Terjadi kesalahan. Silakan coba lagi.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "gambar",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Pengunduh Gambar Pintar",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "Navigasi ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Beranda",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "Riwayat unduhan",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "Pengaturan ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Ambil gambar dari halaman mana pun",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Pindai halaman, pilih yang Anda mau, dan simpan versi terbaik yang tersedia.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Pindai halaman ini",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Tangkapan layar",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Ambil halaman yang terlihat",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Terlihat",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Ambil area yang dipilih",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Area",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Ambil elemen",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Elemen",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Ambil seluruh halaman",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Seluruh halaman",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Memindai",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Memindai halaman…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Mencari gambar",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "Sejauh ini ditemukan {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Hasil",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Cari gambar…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Filter ukuran",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Ukuran apa pun",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px+",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px+",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Filter format",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Semua format",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Filter orientasi",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Orientasi apa pun",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Lanskap",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Potret",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Kotak",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Urutkan gambar",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Urutan halaman",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Terbesar dulu",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Terkecil dulu",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Pilih semua",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Batalkan pilihan",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Balik",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Gambar yang ditemukan",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Kualitas unduhan",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Unduhan Pintar",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Seperti yang terlihat",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Format unduhan",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Format asli",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Coba kualitas terbaik untuk unduhan massal",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Mencari sumber berkualitas lebih tinggi untuk setiap gambar sebelum mengunduh. Lebih lambat, dapat memicu batas kecepatan di beberapa situs.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "Unduh pilihan",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "Unduh {count} gambar",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Unduh pilihan sebagai ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Mengemas gambar yang dipilih ke dalam satu file .zip, persis seperti yang terlihat di halaman (tanpa peningkatan kualitas Pintar di dalam ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Pindai ulang",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "Ditemukan {count} gambar",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "Tidak ada gambar yang ditemukan di halaman ini.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "Tidak ada gambar yang ditemukan, filter ukuran melewati {dropped} gambar kecil. Turunkan di Pengaturan → Pemindaian.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Tidak ada gambar yang cocok dengan filter ini.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "Menampilkan {shown} · ditemukan {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "{count} duplikat dihapus",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "{count} elemen antarmuka disembunyikan",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} disembunyikan oleh filter",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "Menampilkan {shown} dari {total}, gulir untuk lainnya",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (tidak didukung)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count} unduhan sedang berlangsung",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Lihat unduhan",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "Ditemukan {count} gambar di halaman ini",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Lihat hasil",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Pratinjau gambar",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Tutup pratinjau",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Pratinjau",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Pratinjau {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Ukuran",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Format",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Sumber",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Gambar latar",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Gambar halaman",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "tidak diketahui",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Simpan sebagai PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Simpan sebagai JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Simpan sebagai WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Simpan sebagai AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Buka asli",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Info gambar",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Gambar ini tidak dapat dibuka di tab.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Unduhan",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Menyiapkan…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Coba lagi yang gagal",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Hapus yang selesai",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Kembali ke hasil",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Antrean kosong.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "{done} dari {total} tersimpan",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} gagal",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "tertunda",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "aktif",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "selesai",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "gagal",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "dibatalkan",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Tampilkan di folder",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "Unduhan terputus.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "Riwayat unduhan",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Hapus",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Riwayat",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Hapus riwayat unduhan?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Ini menghapus daftar file yang diunduh ImgFetch. File itu sendiri tetap ada di perangkat Anda.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Hapus riwayat",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Riwayat dihapus.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Belum ada unduhan. Gambar yang Anda simpan akan muncul di sini.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Belum ada apa pun di sini.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Hari ini",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Kemarin",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Ditambahkan ke antrean unduhan ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Disalin ke papan klip.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Penyalinan gagal. Coba lagi.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch dijeda di situs ini.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch dijeda di situs ini (lihat Preferensi Situs).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Konversi gagal, aslinya disimpan.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Asli tidak ditemukan, versi terbaik yang tersedia digunakan.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens tidak dapat dibuka. Coba lagi.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens terbuka, tempel tautan gambar (Ctrl+V) ke kotak tautannya.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Selesai.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Tautan gambar disalin.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Buka halaman web biasa terlebih dahulu, lalu coba lagi.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Tautan gambar ini terlihat tidak aman, ImgFetch melewatinya.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch tidak menemukan gambar yang bisa dipakai di sini.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Situs web tidak mengizinkan gambar ini disimpan.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch tidak dapat mengonversi gambar ini. Aslinya disimpan sebagai gantinya.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch tidak dapat menyandikan gambar ini sebagai GIF. Tidak ada yang disimpan.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "Penyandian AVIF tidak tersedia di browser ini (memerlukan Chrome/Edge 130+, perbarui browser untuk mengaktifkannya). PNG disimpan sebagai gantinya.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Halaman ini terlalu besar untuk diambil sebagai satu gambar.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch tidak dapat menemukan aslinya dengan yakin. Versi terbaik yang tersedia digunakan.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch tidak dapat memindai halaman ini. Muat ulang halaman dan pindai lagi.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch tidak dapat mengambil halaman ini.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "Unduhan tidak dimulai. Coba lagi.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Dibatalkan.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Ini memakan waktu terlalu lama. Coba lagi.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch memblokir permintaan ke alamat jaringan privat (seperti localhost atau halaman router) untuk melindungi jaringan lokal Anda.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch dijeda di situs ini. Aktifkan kembali di Pengaturan → Preferensi Situs.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Terjadi kesalahan. Coba lagi.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Pengaturan",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Bagian pengaturan",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Umum",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Unduhan",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Kualitas",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Nama File",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Pemindaian",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Tangkapan Layar",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Preferensi Situs",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Pintasan keyboard",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Folder",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "Riwayat Unduhan",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Cadangan dan Atur Ulang",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "Tentang",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Privasi",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "Pengaturan ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - Pengaturan ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Bagian pengaturan",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Menyimpan…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Semua perubahan tersimpan",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Penyimpanan gagal, coba lagi",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Bahasa",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Atur ulang semua pengaturan?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Setiap pengaturan ImgFetch kembali ke nilai default. Riwayat unduhan Anda tetap terjaga.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Atur ulang pengaturan",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Pengaturan telah diatur ulang.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "Tampilan dan perilaku ImgFetch.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Tampilan",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Sistem",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Terang",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Gelap",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "Setelah unduhan selesai",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Tetap diam",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Tampilkan notifikasi",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Tutup panel unduhan saat selesai",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "Tampilan progres menciut kembali ke layar beranda beberapa saat setelah setiap unduhan selesai.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Cara file disimpan ke perangkat Anda.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Tanya tempat menyimpan setiap file",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Menampilkan dialog Simpan browser di setiap unduhan.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Otomatis coba lagi unduhan yang gagal",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Jika unduhan tidak dimulai, ImgFetch akan mencobanya sekali lagi sendiri.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Unduhan bersamaan:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Lebih tinggi lebih cepat untuk banyak gambar, tetapi beberapa situs mungkin membatasi Anda.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch menyimpan sumber asli terbaik yang dapat diverifikasinya. Tidak pernah memperbesar gambar.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Pemilihan kualitas pintar",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Unduhan Pintar (disarankan)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Memeriksa setiap sumber yang tersedia dan menyimpan versi asli terbaik yang dapat diverifikasinya.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Utamakan sumber persisnya",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Melewati pemeriksaan kualitas ekstra dan menyimpan gambar persis seperti yang ditampilkan halaman. Lebih cepat dan lebih privat.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "Kualitas JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "Kualitas PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "Kualitas WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Dipakai saat mengonversi ke JPG. Lebih tinggi berarti file lebih besar.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% tanpa kehilangan. Nilai lebih rendah mengurangi warna untuk file yang lebih kecil.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Dipakai saat mengonversi ke WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Format lain",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Kualitas tertinggi, selalu 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Palet 256 warna tetap (encoder milik ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Tanpa kompresi, selalu 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Pembungkus vektor di sekitar gambar.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch selalu membuat nama file aman, tidak pernah ada karakter aneh.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Penamaan",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Pertahankan nama asli",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Menggunakan nama file gambar yang telah dibersihkan.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Situs + tanggal + nomor",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Contoh: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Templat kustom",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Buat pola Anda sendiri di bawah.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Templat kustom",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Token yang tersedia",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Biarkan saya mengganti nama file sebelum mengunduh",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Membuka lembar ganti nama kecil dengan pratinjau sebelum unduhan tunggal dari menu klik kanan.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Cara ImgFetch menemukan gambar di halaman.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Lewati gambar yang lebih kecil dari",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Jangan lewati apa pun",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Sedang (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Besar (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Sangat besar (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Menyembunyikan ikon kecil dan pemisah dari hasil. Anda tetap dapat mengubahnya di setiap pemindaian.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Sertakan gambar latar",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Juga menemukan gambar yang dipakai sebagai latar halaman (lebih lambat di halaman raksasa).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Kedalaman pemindaian",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Halaman yang dimuat",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Gulir halaman",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Halaman yang dimuat: hanya memindai gambar yang sudah dimuat (tercepat). Gulir halaman: menggulir halaman sebentar terlebih dahulu untuk mengungkap gambar lazy-load, lalu mengembalikan posisi Anda.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Hapus gambar duplikat",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Saat gambar yang sama muncul dalam beberapa ukuran, hanya yang terbesar yang dipertahankan dan sisanya disembunyikan.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Default untuk pengambilan halaman.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Format default",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Kualitas:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Ambil sekarang",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Area terlihat",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Pilih area",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Ambil elemen",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Seluruh halaman",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“Pilih area” membuka lapisan pilihan sungguhan di halaman saat ini, seret persegi, Esc untuk batal. “Ambil elemen” memungkinkan Anda mengklik elemen mana pun untuk mengambil tepat elemen itu.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Buka editor anotasi setelah mengambil",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Gambar panah, tambah teks, atau buramkan bagian tangkapan layar sebelum menyimpan.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Area terlihat diambil",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Area diambil",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Elemen diambil",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Seluruh halaman diambil",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, periksa tab pratinjau untuk menyimpannya.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Beri situs web tertentu perilaku unduhan masing-masing.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Domain situs web",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Gunakan situs saat ini",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Tambah",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Pintar menemukan sumber asli terbaik di situs ini · Seperti yang terlihat menyimpan gambar persis seperti yang ditampilkan · Dijeda mematikan unduhan ImgFetch di situs ini.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Belum ada preferensi situs.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Pintar",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Seperti yang terlihat",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Dijeda",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Hapus",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Perilaku untuk {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Ketik domain situs web, mis. example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} ditambahkan.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Situs saat ini tidak dapat dibaca.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Situs saat ini: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Pintasan keyboard yang saat ini ditetapkan ke ImgFetch.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Memuat…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Pindai halaman ini",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Pindai halaman ini (alternatif)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Pilih elemen",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Ambil area yang dipilih",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Ambil elemen",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Tidak ada pintasan yang terdaftar.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Tidak diatur",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Salin tautan halaman pintasan",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Untuk mengubah pintasan, buka chrome://extensions/shortcuts (atau edge://extensions/shortcuts di Edge), temukan ImgFetch dan atur tombol pilihan Anda. Di Mac, gunakan ⌘ sebagai pengganti Ctrl. Jika pintasan menunjukkan “Tidak diatur”, tombol yang disarankan bertabrakan dengan browser atau ekstensi lain, atur secara manual di sini.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Pintasan tidak dapat dibaca.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Tautan halaman pintasan disalin, tempel ke bilah alamat Anda.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "File disimpan di dalam folder Unduhan browser Anda. Opsi ini mengaturnya lebih jauh.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Atur unduhan ke",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Satu tempat (tanpa folder pintar)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Folder per situs web",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Folder pintar per jenis",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Folder per tanggal",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Folder pintar mengurutkan secara otomatis: Foto, Tangkapan Layar, GIF, Grafis. Contoh “Per situs web”: Unduhan / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Gunakan subfolder default",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Saat aktif, semuanya disimpan di dalam folder ini terlebih dahulu, di atas pengurutan di atas.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Nama subfolder",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "cth. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Contoh: Unduhan / ImgFetch / example.com / photo.jpg. Diabaikan selama sakelar mati.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Daftar sederhana dari apa yang Anda simpan, ditampilkan di popup.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Unduhan terbaru",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Simpan riwayat unduhan",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Menyimpan nama file, situs, format, dan ukuran setiap unduhan.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Simpan riwayat (hari)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Entri yang lebih lama dihapus secara otomatis.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Hapus sekarang",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Hapus riwayat unduhan",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Segera menghapus semua entri riwayat. File yang diunduh tidak terpengaruh.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Riwayat tidak dapat dihapus.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Bawa pengaturan Anda, atau mulai dari awal.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Ekspor pengaturan",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Mengunduh file imgfetch-settings.json dengan semua pengaturan Anda.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Pengaturan diekspor.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Impor pengaturan",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "File pengaturan untuk diimpor",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Memulihkan pengaturan dari file ekspor ImgFetch. File yang tidak valid ditolak dengan aman.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Pengaturan diimpor.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "File ini bukan ekspor pengaturan ImgFetch yang valid.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Atur ulang ke default",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Atur ulang semuanya",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Meminta konfirmasi terlebih dahulu, lalu mengembalikan semua default ImgFetch. Riwayat tetap terjaga kecuali Anda menghapusnya di atas.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Versi",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Lisensi",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Izin",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "Apa yang dapat diakses ImgFetch dan alasannya:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Menambahkan item ImgFetch ke menu klik kanan.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Menyimpan file gambar ke folder Unduhan Anda.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Mengingat pengaturan dan riwayat Anda di perangkat ini.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Memindai halaman yang Anda minta untuk mencari gambar.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Bekerja dengan tab yang sedang terbuka.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Mengonversi gambar antar format di latar belakang.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Memberi tahu Anda saat unduhan selesai (hanya jika Anda mengaktifkannya).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Menyalin tautan gambar ke papan klip Anda untuk Anda.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Membaca gambar di situs yang Anda kunjungi, hanya saat Anda memindai halaman atau memulai unduhan.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Dokumentasi",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Dokumentasi, kebijakan privasi, dan syarat penggunaan ada di repositori publik:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch tidak memiliki server dan tidak mengumpulkan apa pun. Hanya gambar yang Anda pilih untuk diunduh yang diambil, dan Google Lens (hanya jika Anda mengklik) membuka Google dengan alamat gambar. Lihat PRIVACY.md di repositori untuk pernyataan lengkap.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch menyimpan semuanya di perangkat Anda. Tanpa akun, tanpa pelacakan, tanpa analitik.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "Apa yang disimpan ImgFetch",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Pengaturan, preferensi situs, dan riwayat unduhan Anda berada di penyimpanan lokal browser Anda, hanya di perangkat ini.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Gambar yang diunduh langsung masuk ke folder Unduhan Anda. ImgFetch tidak mengunggahnya ke mana pun.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Yang tidak pernah dilakukan ImgFetch",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Tanpa akun dan tanpa login, tidak ada tempat untuk masuk.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Tanpa analitik, tanpa telemetri, tanpa laporan crash.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Tanpa kode jarak jauh, setiap skrip ada di dalam paket ekstensi.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Gambar diambil langsung dari situs yang Anda kunjungi, dengan sesi browser normal Anda. ImgFetch tidak menambahkan parameter pelacakan.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Alasan ImgFetch meminta setiap izin dijelaskan di bagian Tentang, dan pernyataan lengkap ada di PRIVACY.md di repositori publik.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Anotasi tangkapan layar",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Memuat tangkapan layar…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Alat anotasi",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Pena",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Panah",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Persegi panjang",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Lingkaran",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Teks",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Pikselkan",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "Merah",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Oranye",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Hijau",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Biru",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Hitam",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Putih",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Tipis",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Sedang",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Tebal",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Urungkan",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Ulangi",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "Ulangi (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Hapus",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Ketik teks, Enter untuk menempatkan",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Batalkan teks",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Simpan",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Buang",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Tips: seret pada gambar untuk menggambar. Alat teks: klik di mana teks harus ditempatkan, ketik, tekan Enter. Klik teks yang ditempatkan untuk memilihnya, seret untuk memindahkannya, tekan Delete atau Backspace untuk menghapusnya. Buramkan: seret pada area yang disembunyikan.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Pikselisasi menyembunyikan detail dari mata yang ingin tahu, tetapi terkadang dapat dibalik, jangan andalkan untuk teks sensitif.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Tangkapan layar tersimpan.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Penyimpanan gagal.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Tautan editor ini tidak valid.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Tangkapan layar tidak dapat dimuat.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "Pratinjau tangkapan layar",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Menyiapkan tangkapan layar Anda…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Pratinjau tangkapan layar",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Simpan tangkapan layar",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Salin ke papan klip",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Ambil ulang halaman yang terlihat",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Ambil ulang area",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Buang",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Tautan pratinjau ini tidak valid.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} piksel",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Tangkapan layar siap",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} tersimpan",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Tangkapan layar disalin ke papan klip.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Tangkapan layar tidak dapat disalin.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Info gambar",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Membaca detail gambar…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Tautan langsung",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Salin tautan",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Simpan sebagai JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Tidak ada gambar yang ditentukan.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Nama file",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Dimensi",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Ditampilkan sebagai",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Teks alternatif",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Kamera",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Diambil pada",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Ukuran penuh",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Lokasi",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Detail foto",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Foto ini berisi koordinat GPS. Membagikan file asli membagikan lokasi persis pengambilan. Gunakan “Simpan tanpa metadata” untuk salinan bersih.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Simpan tanpa metadata",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Salinan tanpa metadata tersimpan.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Metadata tidak dapat dihapus.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Salin tautan yang dipilih secara manual.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Beri nama unduhan Anda",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Nama file",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Unduh",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Akan disimpan sebagai {format}. Ekstensi yang benar ditambahkan secara otomatis.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "format asli",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Selamat datang di ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Pengunduh gambar pintar Anda. Simpan gambar apa pun dalam versi terbaik yang tersedia, pindai seluruh halaman sekaligus, dan ambil tangkapan layar, semua dari satu menu yang rapi.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Klik kanan gambar mana pun",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Menu ImgFetch memungkinkan Anda mengunduh gambar seperti yang terlihat, dalam kualitas terbaik, atau sebagai aslinya, atau mengonversinya ke PNG, JPG, atau WebP saat itu juga.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Pindai halaman dan ambil tangkapan",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Klik tombol ImgFetch di toolbar untuk memindai seluruh halaman mencari gambar, atau mengambil tangkapan layar halaman yang terlihat atau area mana pun yang Anda pilih.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "pindai halaman",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "ambil area",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Jadikan milik Anda",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Lima pilihan cepat, sisanya sudah memiliki default yang masuk akal. Anda dapat mengubahnya kapan pun di Pengaturan.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Buka editor setelah tangkapan layar",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Gambar panah, tambah teks, atau buramkan sebelum menyimpan.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Saat unduhan selesai",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Beri tahu saya",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Simpan ke subfolder",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Kosong = langsung ke Unduhan.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Nama subfolder",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Tanya nama sebelum unduhan tunggal",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Buka pengaturan lengkap →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Kembali",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Lanjut",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "Mulai gunakan ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Selamat menikmati ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Tidak diatur, tetapkan di pintasan browser",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Seret untuk memilih: panah menggerakkan, Shift+panah mengubah ukuran, Enter mengonfirmasi, Esc membatalkan",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Klik elemen untuk mengambilnya, Esc membatalkan",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Klik elemen untuk memeriksa gambarnya, Esc membatalkan",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Simpan sebagai...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (gambar tersemat)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Salin Tautan Gambar",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Salin Gambar",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Info Gambar",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Lainnya...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Buka Asli",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Cari Gambar dengan Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Pindai Halaman Ini",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Tangkapan Layar",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Ambil Area Terlihat",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Pilih Area",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Seluruh Halaman",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Ambil Elemen",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Tambah Preferensi Situs",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Nonaktifkan di Situs Ini",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Pengaturan",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} tersimpan",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Mengonversi gambar antar format, memotong tangkapan layar, dan menyalin tautan gambar.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch dimulai ulang, {resumed} unduhan antrean dilanjutkan{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", {failed} gagal",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Mengonversi ke {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Catatan: gambar animasi disimpan sebagai bingkai diam.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Mengunduh…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "Mengunduh ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "Menyiapkan ZIP ({count} gambar{cappedNote}, seperti yang terlihat)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (200 pertama dari {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ZIP diunduh ({count} gambar).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ZIP diunduh ({count} dari {total}, {skipped} dilewati).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Mencari kualitas terbaik…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch tidak dapat menggunakan versi kualitas tertinggi. Mencoba sumber lain yang tersedia…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Berhasil diunduh.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Elemen ini lebih tinggi dari layar, hanya bagian yang terlihat yang diambil. Gunakan Seluruh halaman untuk sisanya.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Halaman ini sangat panjang, {tileCount} ubin pertama (bagian atas) sedang diambil. Gunakan pengambilan area untuk sisanya.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Halaman ini sangat besar, gambar seluruh halaman diperkecil ke {percent}% agar muat dalam batas memori.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Mengambil seluruh halaman, ubin {n} dari {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Seluruh halaman diambil ({width} × {height} px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Gambar itu sendiri tidak dapat disalin, jadi tautannya disalin.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Tautan gambar tidak dapat disalin.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} ditambahkan ke preferensi situs.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch dijeda di {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch hanya dapat memindai halaman web biasa, halaman browser seperti chrome://, edge://, atau toko web tidak didukung.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch hanya dapat memilih elemen di halaman web biasa, halaman browser seperti chrome://, edge://, atau toko web tidak didukung.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "Tidak ada gambar yang ditemukan di elemen yang dipilih.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Salin",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Salin tangkapan layar yang diedit ke papan klip",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Tangkapan layar disalin ke papan klip.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Tangkapan layar disalin ke papan klip, diperkecil ke {width} x {height} agar muat.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Tangkapan layar tidak dapat disalin. Coba simpan sebagai gantinya.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Penyalinan tidak tersedia saat ini.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} tidak tersedia di halaman ini. Bagian yang terlihat telah diambil.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Browser tidak mengizinkan pengambilan halaman ini.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "Bagian {count} dari {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "Halaman ini sangat panjang. Mengambil dalam {count} bagian pada resolusi penuh.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "Halaman ini sangat panjang. Hanya {count} bagian pertama yang diambil.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Area konten yang dapat digulir dari halaman ini telah diambil.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Bagian halaman ini yang digulir secara terpisah diambil sebagaimana terlihat saat ini.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Konten tersemat dari situs lain hanya dapat diambil sebagaimana terlihat.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

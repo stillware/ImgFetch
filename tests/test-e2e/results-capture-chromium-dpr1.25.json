@@ -1,0 +1,52 @@
+{
+  "dpr": 1.25,
+  "headed": true,
+  "browser": "chromium",
+  "phases": [
+    {
+      "name": "P0 worker alive + offscreen up",
+      "ok": true,
+      "evidence": {
+        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+      }
+    },
+    {
+      "name": "C3 seam-free stitching at DPR 1.25",
+      "ok": true,
+      "evidence": {
+        "ms": 2862,
+        "planTiles": 25,
+        "parts": 2,
+        "seq": "part1: rows=128 bad=0 [0..127] | part2: rows=72 bad=0 [128..199]",
+        "refGoodRows": "200/200",
+        "refDiff": "part1: diff=0/25296000 (0.000%) | part2: diff=0/14229000 (0.000%)",
+        "maxDiffPct": 0,
+        "meanAbs": 0,
+        "refSkippedPx": 0,
+        "wholePageCovered": true,
+        "note": "2 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
+      }
+    },
+    {
+      "name": "C9 area crop exact at DPR 1.25, PNG quality ignored",
+      "ok": true,
+      "evidence": {
+        "rect": "{\"x\":125,\"y\":125,\"width\":500,\"height\":375}",
+        "dim": "500x375",
+        "qualityIgnored": true,
+        "refDiffPixels": 0,
+        "groundTruth": "exact",
+        "note": "rect {\"x\":125,\"y\":125,\"width\":500,\"height\":375} -> 500x375, qualityIgnored=true, diffPixels=0"
+      }
+    },
+    {
+      "name": "no console errors / pageerrors anywhere",
+      "ok": true,
+      "evidence": {
+        "note": "0 errors, 0 total entries",
+        "first": []
+      }
+    }
+  ],
+  "errors": []
+}

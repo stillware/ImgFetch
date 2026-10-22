@@ -45,4 +45,4 @@ be updated alongside releases; the version shipped with your copy applies.
 
 ## Contact
 
-Open an issue on the GitHub repository: https://github.com/umr-x/imgfetch/issues
+Open an issue on the GitHub repository: https://github.com/umr-x/ImgFetch/issues

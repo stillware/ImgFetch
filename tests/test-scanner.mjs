@@ -16,11 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch scanner relevance tests — runs with plain Node, no dependencies:
+ * ImgFetch scanner relevance tests, runs with plain Node, no dependencies:
  *   node tests/test-scanner.mjs
  *
  * Exercises the REAL relevanceOf() from content/scanner.js against stub DOM
- * elements (Node has no DOM). The scoring logic itself is unmodified — only
+ * elements (Node has no DOM). The scoring logic itself is unmodified, only
  * its inputs (getBoundingClientRect/getComputedStyle/closest/getAttribute)
  * are stubbed, which is what makes the assertions meaningful.
  */

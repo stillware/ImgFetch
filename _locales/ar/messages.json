@@ -1,0 +1,2342 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: أداة ذكية لتنزيل الصور. احفظ الصور بأفضل جودة، وامسح صفحات كاملة، والتقط لقطات شاشة.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch أداة ذكية لتنزيل الصور",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "العربية",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "تلقائي (لغة المتصفح)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "إلغاء",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "تأكيد",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "جارٍ التحميل",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "حجم غير معروف",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "جارٍ بدء تشغيل ImgFetch، يرجى المحاولة مرة أخرى بعد قليل.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "صورة",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "أداة ذكية لتنزيل الصور",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "تنقل ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "الرئيسية",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "سجل التنزيلات",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "إعدادات ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "التقط الصور من أي صفحة",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "امسح الصفحة، واختر ما تريد، واحفظ أفضل نسخة متاحة.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "امسح هذه الصفحة",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "لقطة شاشة",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "التقاط الصفحة المرئية",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "مرئية",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "التقاط المنطقة المحددة",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "منطقة",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "التقاط عنصر",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "عنصر",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "التقاط الصفحة كاملة",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "الصفحة كاملة",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "جارٍ المسح",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "جارٍ مسح الصفحة…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "جارٍ البحث عن الصور",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar_zero": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_one": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Singular: one image found so far."
+  },
+  "scan_foundSoFar_two": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_few": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_many": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_other": {
+    "message": "تم العثور على {done} حتى الآن…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "النتائج",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "ابحث في الصور…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "فلتر الحجم",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "أي حجم",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 بكسل",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 بكسل فأكثر",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 بكسل فأكثر",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "فلتر الصيغة",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "كل الصيغ",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "فلتر الاتجاه",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "أي اتجاه",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "أفقي",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "عمودي",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "مربع",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "ترتيب الصور",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "ترتيب الصفحة",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "الأكبر أولًا",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "الأصغر أولًا",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "تحديد الكل",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "إلغاء التحديد",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "عكس",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "الصور المعثور عليها",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "جودة التنزيل",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "تنزيل ذكي",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "كما تظهر",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "صيغة التنزيل",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "الصيغة الأصلية",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "جرّب أفضل جودة للتنزيل الجماعي",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "يبحث في كل صورة عن مصدر بجودة أعلى قبل التنزيل. أبطأ، وقد يؤدي إلى حدود معدل الطلبات في بعض المواقع.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "تنزيل المحدد",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount_zero": {
+    "message": "تنزيل ({count})",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_one": {
+    "message": "تنزيل {count} صورة",
+    "description": "Download button. Singular: one image selected."
+  },
+  "popup_downloadCount_two": {
+    "message": "تنزيل {count} صورتين",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_few": {
+    "message": "تنزيل {count} صور",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_many": {
+    "message": "تنزيل {count} صورة",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_other": {
+    "message": "تنزيل {count} صورة",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "تنزيل المحدد كملف ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "يجمّع الصور المحددة في ملف ‎.zip واحد، كما تظهر تمامًا في الصفحة (بدون ترقية ذكية للجودة داخل ملفات ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "إعادة المسح",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound_zero": {
+    "message": "عدد الصور المعثور عليها: {count}",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_one": {
+    "message": "تم العثور على {count} صورة",
+    "description": "Results heading. Singular."
+  },
+  "results_titleFound_two": {
+    "message": "تم العثور على {count} صورتين",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_few": {
+    "message": "تم العثور على {count} صور",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_many": {
+    "message": "تم العثور على {count} صورة",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_other": {
+    "message": "تم العثور على {count} صورة",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "لم يتم العثور على صور في هذه الصفحة.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered_zero": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صورة صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_one": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صورة صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Singular."
+  },
+  "results_noImagesFiltered_two": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صورتين صغيرتين بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_few": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صور صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_many": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صورة صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_other": {
+    "message": "لم يتم العثور على صور، تم تخطي {dropped} صورة صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "لا توجد صور تطابق هذه الفلاتر.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "المعروض {shown} · الموجود {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved_zero": {
+    "message": "عدد النسخ المكررة المزالة: {count}",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_one": {
+    "message": "تمت إزالة {count} نسخة مكررة",
+    "description": "Status line fragment. Singular."
+  },
+  "results_duplicatesRemoved_two": {
+    "message": "تمت إزالة {count} نسختين مكررتين",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_few": {
+    "message": "تمت إزالة {count} نسخ مكررة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_many": {
+    "message": "تمت إزالة {count} نسخة مكررة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_other": {
+    "message": "تمت إزالة {count} نسخة مكررة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_zero": {
+    "message": "عدد عناصر الواجهة المخفية: {count}",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_one": {
+    "message": "تم إخفاء {count} عنصر واجهة",
+    "description": "Status line fragment. Singular."
+  },
+  "results_assetsHidden_two": {
+    "message": "تم إخفاء {count} عنصري واجهة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_few": {
+    "message": "تم إخفاء {count} عناصر واجهة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_many": {
+    "message": "تم إخفاء {count} عنصر واجهة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_other": {
+    "message": "تم إخفاء {count} عنصر واجهة",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_zero": {
+    "message": "عدد المخفية بالفلاتر: {count}",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_one": {
+    "message": "{count} صورة مخفية بالفلاتر",
+    "description": "Status line fragment. Singular."
+  },
+  "results_hiddenByFilters_two": {
+    "message": "{count} صورتان مخفيتان بالفلاتر",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_few": {
+    "message": "{count} صور مخفية بالفلاتر",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_many": {
+    "message": "{count} صورة مخفية بالفلاتر",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_other": {
+    "message": "{count} صورة مخفية بالفلاتر",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "عرض {shown} من {total}، مرر لرؤية المزيد",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}، {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (غير مدعوم)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress_zero": {
+    "message": "التنزيلات الجارية: {count}",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_one": {
+    "message": "{count} تنزيل جارٍ",
+    "description": "Home status card. Singular."
+  },
+  "home_downloadsInProgress_two": {
+    "message": "{count} تنزيلان جاريان",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_few": {
+    "message": "{count} تنزيلات جارية",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_many": {
+    "message": "{count} تنزيلًا جاريًا",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_other": {
+    "message": "{count} تنزيل جارٍ",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "عرض التنزيلات",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound_zero": {
+    "message": "عدد الصور في هذه الصفحة: {count}",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_one": {
+    "message": "تم العثور على {count} صورة في هذه الصفحة",
+    "description": "Home status card for a stored scan. Singular."
+  },
+  "home_imagesFound_two": {
+    "message": "تم العثور على {count} صورتين في هذه الصفحة",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_few": {
+    "message": "تم العثور على {count} صور في هذه الصفحة",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_many": {
+    "message": "تم العثور على {count} صورة في هذه الصفحة",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_other": {
+    "message": "تم العثور على {count} صورة في هذه الصفحة",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "عرض النتائج",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "معاينة الصورة",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "إغلاق المعاينة",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "معاينة",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "معاينة {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "الحجم",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "الصيغة",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "المصدر",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "صورة خلفية",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "صورة الصفحة",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "غير معروف",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "حفظ بصيغة PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "حفظ بصيغة JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "حفظ بصيغة WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "حفظ بصيغة AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "فتح الأصل",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "معلومات الصورة",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "لا يمكن فتح هذه الصورة في تبويب.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "التنزيلات",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "جارٍ التجهيز…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "إعادة الفاشلة",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "مسح المنتهية",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "عودة إلى النتائج",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "القائمة فارغة.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "تم حفظ {done} من {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "فشل: {failed}",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "قيد الانتظار",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "نشط",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "تم",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "فشل",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "ملغي",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "إظهار في المجلد",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "انقطع التنزيل.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "سجل التنزيلات",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "مسح",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "السجل",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "مسح سجل التنزيلات؟",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "سيؤدي هذا إلى إزالة قائمة الملفات التي نزّلها ImgFetch. تبقى الملفات نفسها على جهازك.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "مسح السجل",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "تم مسح السجل.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "لا توجد تنزيلات بعد. ستظهر صورك المحفوظة هنا.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "لا شيء هنا بعد.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "اليوم",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "أمس",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "أُضيف إلى قائمة تنزيلات ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "تم النسخ إلى الحافظة.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "تعذّر النسخ. حاول مرة أخرى.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch متوقف مؤقتًا على هذا الموقع.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch متوقف مؤقتًا على هذا الموقع (انظر تفضيلات المواقع).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "تعذّر التحويل، تم حفظ الأصل.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "لم يتم العثور على الأصل، تم استخدام أفضل نسخة متاحة.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "تعذّر فتح Google Lens. حاول مرة أخرى.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens مفتوح، الصق رابط الصورة (Ctrl+V) في مربع الرابط.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "تم.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "تم نسخ رابط الصورة.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "افتح صفحة ويب عادية أولًا، ثم حاول مرة أخرى.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "رابط الصورة هذا يبدو غير آمن، فتخطاه ImgFetch.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "لم يعثر ImgFetch على صورة صالحة هنا.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "لم يسمح الموقع بحفظ هذه الصورة.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "تعذّر على ImgFetch تحويل هذه الصورة. تم حفظ الأصل بدلًا منها.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "تعذّر على ImgFetch ترميز هذه الصورة بصيغة GIF. لم يتم حفظ شيء.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "ترميز AVIF غير متاح في هذا المتصفح (يتطلب Chrome/Edge 130+، حدّث المتصفح لتفعيله). تم حفظ PNG بدلًا منه.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "هذه الصفحة كبيرة جدًا لالتقاطها في صورة واحدة.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "تعذّر على ImgFetch العثور على الأصل بثقة. تم استخدام أفضل نسخة متاحة.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "تعذّر على ImgFetch مسح هذه الصفحة. أعد تحميل الصفحة وحاول المسح مرة أخرى.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "تعذّر على ImgFetch التقاط هذه الصفحة.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "لم يبدأ التنزيل. حاول مرة أخرى.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "تم الإلغاء.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "استغرق هذا وقتًا طويلًا. حاول مرة أخرى.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "حظر ImgFetch طلبًا إلى عنوان شبكة خاصة (مثل localhost أو صفحة الموجه) لحماية شبكتك المحلية.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch متوقف مؤقتًا على هذا الموقع. أعد تفعيله في الإعدادات → تفضيلات المواقع.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "حدث خطأ ما. حاول مرة أخرى.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "الإعدادات",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "أقسام الإعدادات",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "عام",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "التنزيلات",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "الجودة",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "أسماء الملفات",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "المسح",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "لقطات الشاشة",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "تفضيلات المواقع",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "اختصارات لوحة المفاتيح",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "المجلدات",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "سجل التنزيلات",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "النسخ الاحتياطي وإعادة التعيين",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "حول",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "الخصوصية",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "إعدادات ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - إعدادات ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "قسم الإعدادات",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "جارٍ الحفظ…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "تم حفظ كل التغييرات",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "تعذّر الحفظ، حاول مرة أخرى",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "اللغة",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "إعادة تعيين كل الإعدادات؟",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "يعود كل إعداد في ImgFetch إلى قيمته الافتراضية. يبقى سجل التنزيلات محفوظًا.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "إعادة تعيين الإعدادات",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "تمت إعادة تعيين الإعدادات.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "كيف يبدو ImgFetch ويتصرف.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "المظهر",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "النظام",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "فاتح",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "داكن",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "بعد انتهاء التنزيل",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "البقاء صامتًا",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "إظهار إشعار",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "إغلاق لوحة التنزيل عند الانتهاء",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "تنكمش شاشة التقدم إلى الشاشة الرئيسية بعد انتهاء كل تنزيل بقليل.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "كيف تُحفظ الملفات على جهازك.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "السؤال عن مكان حفظ كل ملف",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "يعرض حوار الحفظ في المتصفح مع كل تنزيل.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "إعادة محاولة التنزيلات الفاشلة تلقائيًا",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "إذا لم يبدأ التنزيل، يحاول ImgFetch مرة أخرى من تلقاء نفسه.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "التنزيلات المتزامنة:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "الأعلى أسرع مع صور كثيرة، لكن بعض المواقع قد تحدّ من سرعتك.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "يحفظ ImgFetch أفضل مصدر حقيقي يمكنه التحقق منه. ولا يكبّر الصورة أبدًا.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "اختيار الجودة الذكي",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "تنزيل ذكي (موصى به)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "يفحص كل مصدر متاح ويحفظ أفضل نسخة حقيقية يمكنه التحقق منها.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "تفضيل المصدر الدقيق",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "يتخطى فحص الجودة الإضافي ويحفظ الصورة كما تظهرها الصفحة تمامًا. أسرع وأكثر خصوصية.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "جودة JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "جودة PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "جودة WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "تُستخدم عند التحويل إلى JPG. الأعلى يعني ملفات أكبر.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% بلا فقدان. القيم الأقل تقلل الألوان لملفات أصغر.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "تُستخدم عند التحويل إلى WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "صيغ أخرى",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "أعلى جودة، دائمًا 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "لوحة ثابتة من 256 لونًا (مرمّز ImgFetch الخاص).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "غير مضغوط، دائمًا 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "غلاف متجه حول الصورة.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "يجعل ImgFetch أسماء الملفات آمنة دائمًا، بلا أحرف غريبة، أبدًا.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "التسمية",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "الاحتفاظ بالاسم الأصلي",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "يستخدم اسم ملف الصورة نفسه، منظّفًا.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "الموقع + التاريخ + الرقم",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "مثال: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "قالب مخصص",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "أنشئ النمط الخاص بك أدناه.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "قالب مخصص",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "الرموز المتاحة",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "السماح لي بإعادة تسمية الملفات قبل التنزيل",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "يفتح ورقة إعادة تسمية صغيرة مع معاينة قبل التنزيلات الفردية من قائمة الزر الأيمن.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "كيف يجد ImgFetch الصور في الصفحة.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "تخطي الصور الأصغر من",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "عدم تخطي أي صورة",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "متوسطة (400 بكسل)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "كبيرة (1200 بكسل)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "كبيرة جدًا (2000 بكسل)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "يخفي الأيقونات الصغيرة والفواصل من النتائج. يمكنك تغييره مع كل مسح.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "تضمين صور الخلفية",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "يجد أيضًا الصور المستخدمة كخلفيات للصفحة (أبطأ في الصفحات الضخمة).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "عمق المسح",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "الصفحة المحمّلة",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "تمرير الصفحة",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "الصفحة المحمّلة: يمسح الصور المحمّلة فقط (الأسرع). تمرير الصفحة: يمرر الصفحة قليلًا أولًا لكشف الصور بطيئة التحميل، ثم يعيد موضعك.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "إزالة الصور المكررة",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "عندما تظهر الصورة نفسها بعدة أحجام، يحتفظ بالأكبر فقط ويخفي الباقي.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "الافتراضيات لالتقاط الصفحات.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "الصيغة الافتراضية",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "الجودة:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "التقاط الآن",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "المنطقة المرئية",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "تحديد منطقة",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "التقاط عنصر",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "الصفحة كاملة",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“تحديد منطقة” يفتح طبقة تحديد حقيقية على الصفحة الحالية، اسحب مستطيلًا، واضغط Esc للإلغاء. “التقاط عنصر” يتيح لك النقر على أي عنصر لالتقاطه بدقة.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "فتح محرر التعليقات بعد الالتقاط",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "ارسم أسهمًا، وأضف نصًا، أو طمس أجزاء من لقطة الشاشة قبل حفظها.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "تم التقاط المنطقة المرئية",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "تم التقاط المنطقة",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "تم التقاط العنصر",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "تم التقاط الصفحة كاملة",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}، راجع تبويب المعاينة لحفظها.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "امنح مواقع ويب معينة سلوك تنزيل خاصًا بها.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "نطاق الموقع",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "استخدام الموقع الحالي",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "إضافة",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "الذكي يجد أفضل مصدر حقيقي على هذا الموقع · كما تظهر يحفظ الصور كما تظهر تمامًا · متوقف مؤقتًا يعطّل تنزيلات ImgFetch على هذا الموقع.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "لا توجد تفضيلات مواقع بعد.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "ذكي",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "كما تظهر",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "متوقف مؤقتًا",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "إزالة",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "السلوك لـ {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "اكتب نطاق موقع ويب، مثل example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "تمت إضافة {host}.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "تعذّر قراءة الموقع الحالي.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "الموقع الحالي: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "اختصارات لوحة المفاتيح المعينة حاليًا لـ ImgFetch.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "جارٍ التحميل…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "امسح هذه الصفحة",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "امسح هذه الصفحة (بديل)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "تحديد عنصر",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "التقاط المنطقة المحددة",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "التقاط عنصر",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "لا توجد اختصارات مسجلة.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "غير معيّن",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "نسخ رابط صفحة الاختصارات",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "لتغيير اختصار، افتح chrome://extensions/shortcuts (أو edge://extensions/shortcuts في Edge)، وابحث عن ImgFetch وعيّن مفاتيحك المفضلة. على Mac، استخدم ⌘ بدل Ctrl. إذا أظهر اختصار “غير معيّن”، فالمفتاح المقترح تعارض مع المتصفح أو إضافة أخرى، عيّنه يدويًا هنا.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "تعذّر قراءة الاختصارات.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "تم نسخ رابط صفحة الاختصارات، الصقه في شريط العناوين.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "تُحفظ الملفات داخل مجلد التنزيلات في متصفحك. هذه الخيارات تنظمها أكثر.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "تنظيم التنزيلات في",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "مكان واحد (بدون مجلدات ذكية)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "مجلدات حسب الموقع",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "مجلدات ذكية حسب النوع",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "مجلدات حسب التاريخ",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "المجلدات الذكية ترتب تلقائيًا: الصور، لقطات الشاشة، GIF، الرسومات. مثال “حسب الموقع”: التنزيلات / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "استخدام مجلد فرعي افتراضي",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "عند التفعيل، يُحفظ كل شيء داخل هذا المجلد أولًا، فوق التنظيم أعلاه.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "اسم المجلد الفرعي",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "مثال: ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "مثال: التنزيلات / ImgFetch / example.com / photo.jpg. يُتجاهل بينما المفتاح متوقف.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "قائمة بسيطة بما حفظته، تُعرض في النافذة المنبثقة.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "التنزيلات الأخيرة",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "الاحتفاظ بسجل التنزيلات",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "يخزن اسم الملف والموقع والصيغة والحجم لكل تنزيل.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "الاحتفاظ بالسجل لمدة (أيام)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "تُزال المدخلات الأقدم تلقائيًا.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "مسح الآن",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "مسح سجل التنزيلات",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "يزيل كل مدخلات السجل فورًا. لا تتأثر الملفات المنزّلة.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "تعذّر مسح السجل.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "خذ إعداداتك معك، أو ابدأ من جديد.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "تصدير الإعدادات",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "ينزّل ملف imgfetch-settings.json مع كل إعداداتك.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "تم تصدير الإعدادات.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "استيراد الإعدادات",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "ملف الإعدادات للاستيراد",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "يستعيد الإعدادات من ملف تصدير ImgFetch. تُرفض الملفات غير الصالحة بأمان.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "تم استيراد الإعدادات.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "هذا الملف ليس تصديرًا صالحًا لإعدادات ImgFetch.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "إعادة التعيين للافتراضيات",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "إعادة تعيين الكل",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "يطلب التأكيد أولًا، ثم يعيد كل افتراضيات ImgFetch. يُحفظ السجل ما لم تمسحه أعلاه.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "الإصدار",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "الترخيص",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "الأذونات",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ما يمكن لـ ImgFetch الوصول إليه، ولماذا:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "إضافة عناصر ImgFetch إلى قائمة الزر الأيمن.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "حفظ ملفات الصور في مجلد التنزيلات.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "تذكر إعداداتك وسجلك على هذا الجهاز.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "مسح الصفحات التي تطلبها بحثًا عن الصور.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "العمل مع التبويب المفتوح حاليًا.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "تحويل الصور بين الصيغ في الخلفية.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "إخبارك عند انتهاء التنزيل (فقط إذا فعّلته).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "نسخ روابط الصور إلى حافظتك نيابة عنك.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "قراءة الصور على المواقع التي تزورها، فقط عندما تمسح صفحة أو تبدأ تنزيلًا.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "التوثيق",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "التوثيق وسياسة الخصوصية وشروط الاستخدام في المستودع العام:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "لا يملك ImgFetch خادمًا ولا يجمع شيئًا. تُجلب فقط الصور التي تختار تنزيلها، وGoogle Lens (فقط إذا نقرت) يفتح Google مع عنوان الصورة. انظر PRIVACY.md في المستودع للبيان الكامل.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "يحتفظ ImgFetch بكل شيء على جهازك. لا حسابات، لا تتبع، لا تحليلات.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ما يخزنه ImgFetch",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "تعيش إعداداتك وتفضيلات المواقع وسجل التنزيلات في التخزين المحلي لمتصفحك، على هذا الجهاز فقط.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "تذهب الصور المنزّلة مباشرة إلى مجلد التنزيلات. لا يرفعها ImgFetch إلى أي مكان.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "ما لا يفعله ImgFetch أبدًا",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "لا حسابات ولا تسجيل دخول، لا يوجد ما تُسجّل فيه.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "لا تحليلات، لا قياس عن بُعد، لا تقارير أعطال.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "لا كود بعيد، كل سكربت داخل حزمة الإضافة.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "تُجلب الصور مباشرة من المواقع التي تزورها، باستخدام جلسة متصفحك العادية. لا يضيف ImgFetch معاملات تتبع.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "سبب طلب ImgFetch كل إذن مشروح في قسم “حول”، والبيان الكامل في PRIVACY.md في المستودع العام.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "التعليق على لقطة الشاشة",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "جارٍ تحميل لقطة الشاشة…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "أدوات التعليق",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "قلم",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "سهم",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "مستطيل",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "دائرة",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "نص",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "بكسلة",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "أحمر",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "برتقالي",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "أخضر",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "أزرق",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "أسود",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "أبيض",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "رفيع",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "متوسط",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "سميك",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "تراجع",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "إعادة",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "إعادة (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "مسح",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "اكتب النص، واضغط Enter لوضعه",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "إلغاء النص",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "حفظ",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "تجاهل",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "تلميح: اسحب على الصورة للرسم. أداة النص: انقر حيث يجب أن يذهب النص، واكتب، واضغط Enter. انقر النص الموضوع لتحديده، واسحب لتحريكه، واضغط Delete أو Backspace لإزالته. التمويه: اسحب فوق المنطقة المراد إخفاؤها.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "البكسلة تخفي التفاصيل عن الأعين الفضولية، لكن يمكن عكسها أحيانًا، فلا تعتمد عليها للنص الحساس.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "تم حفظ لقطة الشاشة.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "فشل الحفظ.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "رابط المحرر هذا غير صالح.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "تعذّر تحميل لقطة الشاشة.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "معاينة لقطة الشاشة",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "جارٍ تجهيز لقطة الشاشة…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "معاينة لقطة الشاشة",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "حفظ لقطة الشاشة",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "نسخ إلى الحافظة",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "إعادة التقاط الصفحة المرئية",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "إعادة التقاط المنطقة",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "تجاهل",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "رابط المعاينة هذا غير صالح.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} بكسل",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "لقطة الشاشة جاهزة",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "تم حفظ {filename}",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "تم نسخ لقطة الشاشة إلى الحافظة.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "تعذّر نسخ لقطة الشاشة.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "معلومات الصورة",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "جارٍ قراءة تفاصيل الصورة…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "رابط مباشر",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "نسخ الرابط",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "حفظ بصيغة JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "لم يتم تحديد صورة.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "اسم الملف",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "الأبعاد",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "تظهر بحجم",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} بكسل",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "نص بديل",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "الكاميرا",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "تاريخ الالتقاط",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "الحجم الكامل",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "الموقع",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "تفاصيل الصورة",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "تحتوي هذه الصورة على إحداثيات GPS. مشاركة الملف الأصلي تشارك الموقع الدقيق الذي التُقطت فيه. استخدم “حفظ بدون بيانات وصفية” لنسخة نظيفة.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "حفظ بدون بيانات وصفية",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "تم حفظ نسخة بدون بيانات وصفية.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "تعذّرت إزالة البيانات الوصفية.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "انسخ الرابط المحدد يدويًا.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "سمِّ تنزيلك",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "اسم الملف",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "تنزيل",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "سيُحفظ بصيغة {format}. تُضاف الامتداد الصحيح تلقائيًا.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "الصيغة الأصلية",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "مرحبًا بك في ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "أداة تنزيل الصور الذكية. احفظ أي صورة بأفضل نسخة متاحة، وامسح صفحات كاملة دفعة واحدة، والتقط لقطات شاشة، كل ذلك من قائمة مرتبة واحدة.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "انقر بزر الفأرة الأيمن على أي صورة",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "تتيح لك قائمة ImgFetch تنزيل الصورة كما تظهر، أو بأفضل جودة، أو كالأصل، أو تحويلها إلى PNG أو JPG أو WebP فورًا.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "امسح الصفحات والتقط الشاشات",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "انقر زر ImgFetch في شريط الأدوات لمسح صفحة كاملة بحثًا عن الصور، أو لالتقاط الصفحة المرئية أو أي منطقة تحددها.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "مسح الصفحة",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "التقاط منطقة",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "اجعله لك",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "خمسة خيارات سريعة، وكل شيء آخر له قيمة افتراضية معقولة. يمكنك تغييرها متى شئت في الإعدادات.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "فتح المحرر بعد لقطات الشاشة",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "ارسم أسهمًا، وأضف نصًا، أو طمس قبل الحفظ.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "عند انتهاء التنزيلات",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "أعلمني",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "الحفظ في مجلد فرعي",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "فارغ = مباشرة في التنزيلات.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "اسم المجلد الفرعي",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "السؤال عن اسم الملف قبل التنزيلات الفردية",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "فتح الإعدادات الكاملة ←",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "رجوع",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "التالي",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "ابدأ استخدام ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "استمتع بـ ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "غير معيّن، عيّنه من إعدادات اختصارات المتصفح",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "اسحب للتحديد: الأسهم تحرك، وShift+الأسهم تغيّر الحجم، وEnter يؤكد، وEsc يلغي",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "انقر عنصرًا لالتقاطه، وEsc للإلغاء",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "انقر عنصرًا لفحص صورته، وEsc للإلغاء",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "حفظ باسم...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (صورة مضمّنة)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "نسخ رابط الصورة",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "نسخ الصورة",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "معلومات الصورة",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "المزيد...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "فتح الأصل",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "البحث عن الصورة باستخدام Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "مسح هذه الصفحة",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "لقطة شاشة",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "التقاط المنطقة المرئية",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "تحديد منطقة",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "الصفحة كاملة",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "التقاط عنصر",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "إضافة تفضيل موقع",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "التعطيل على هذا الموقع",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "الإعدادات",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "تم حفظ {filename}",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "يحوّل الصور بين الصيغ، ويقص لقطات الشاشة، وينسخ روابط الصور.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted_zero": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنف {resumed} من التنزيلات في القائمة{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_one": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنف {resumed} تنزيل في القائمة{failedPart}.",
+    "description": "Notice after restart. Singular."
+  },
+  "sw_restarted_two": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنف {resumed} تنزيلان في القائمة{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_few": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنفت {resumed} تنزيلات في القائمة{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_many": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنف {resumed} تنزيلًا في القائمة{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_other": {
+    "message": "أُعيد تشغيل ImgFetch، واستُؤنف {resumed} تنزيل في القائمة{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": "، فشل {failed}",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "جارٍ التحويل إلى {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "ملاحظة: تُحفظ الصور المتحركة كإطار ثابت.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "جارٍ التنزيل…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "جارٍ تنزيل ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip_zero": {
+    "message": "جارٍ تجهيز ZIP ({count} صورة{cappedNote}، كما تظهر)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_one": {
+    "message": "جارٍ تجهيز ZIP ({count} صورة{cappedNote}، كما تظهر)…",
+    "description": "Queue label. Singular."
+  },
+  "sw_preparingZip_two": {
+    "message": "جارٍ تجهيز ZIP ({count} صورتان{cappedNote}، كما تظهران)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_few": {
+    "message": "جارٍ تجهيز ZIP ({count} صور{cappedNote}، كما تظهر)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_many": {
+    "message": "جارٍ تجهيز ZIP ({count} صورة{cappedNote}، كما تظهر)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_other": {
+    "message": "جارٍ تجهيز ZIP ({count} صورة{cappedNote}، كما تظهر)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (أول 200 من {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull_zero": {
+    "message": "تم تنزيل ZIP ({count} صورة).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_one": {
+    "message": "تم تنزيل ZIP ({count} صورة).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDoneFull_two": {
+    "message": "تم تنزيل ZIP ({count} صورتان).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_few": {
+    "message": "تم تنزيل ZIP ({count} صور).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_many": {
+    "message": "تم تنزيل ZIP ({count} صورة).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_other": {
+    "message": "تم تنزيل ZIP ({count} صورة).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_zero": {
+    "message": "تم تنزيل ZIP ({count} صورة من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_one": {
+    "message": "تم تنزيل ZIP ({count} صورة من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDonePartial_two": {
+    "message": "تم تنزيل ZIP ({count} صورتان من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_few": {
+    "message": "تم تنزيل ZIP ({count} صور من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_many": {
+    "message": "تم تنزيل ZIP ({count} صورة من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_other": {
+    "message": "تم تنزيل ZIP ({count} صورة من {total}، تم تخطي {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "جارٍ البحث عن أفضل جودة…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "تعذّر على ImgFetch استخدام أعلى نسخة جودة. تجربة مصدر آخر متاح…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "تم التنزيل بنجاح.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "هذا العنصر أطول من الشاشة، تم التقاط الجزء المرئي فقط. استخدم “الصفحة كاملة” للباقي.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "هذه الصفحة طويلة جدًا، يتم التقاط أول {tileCount} بلاطات (الجزء العلوي). استخدم التقاط المنطقة للباقي.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "هذه الصفحة كبيرة جدًا، تم تصغير صورة الصفحة الكاملة إلى {percent}% لتناسب حدود الذاكرة.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "جارٍ التقاط الصفحة كاملة، البلاطة {n} من {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "تم التقاط الصفحة كاملة ({width} × {height} بكسل).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "تعذّر نسخ الصورة نفسها، فتم نسخ رابطها بدلًا من ذلك.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "تعذّر نسخ رابط الصورة.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "تمت إضافة {host} إلى تفضيلات المواقع.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch متوقف مؤقتًا على {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "يمكن لـ ImgFetch مسح صفحات الويب العادية فقط، أما صفحات المتصفح مثل chrome:// وedge:// أو متجر الويب فهي خارج النطاق.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "يمكن لـ ImgFetch تحديد العناصر على صفحات الويب العادية فقط، أما صفحات المتصفح مثل chrome:// وedge:// أو متجر الويب فهي خارج النطاق.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "لم يتم العثور على صورة في العنصر المحدد.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "نسخ",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "نسخ لقطة الشاشة المعدلة إلى الحافظة",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "تم نسخ لقطة الشاشة إلى الحافظة.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "تم نسخ لقطة الشاشة إلى الحافظة، مصغّرة إلى {width} x {height} لتناسب.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "تعذّر نسخ لقطة الشاشة. جرّب حفظها بدلًا من ذلك.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "النسخ غير متاح الآن.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} غير متاح على هذه الصفحة. تم التقاط الجزء المرئي بدلاً من ذلك.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "المتصفح لا يسمح بالتقاط هذه الصفحة.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title_zero": {
+    "message": "الجزء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_one": {
+    "message": "الجزء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_two": {
+    "message": "الجزء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_few": {
+    "message": "الأجزاء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_many": {
+    "message": "الجزء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_other": {
+    "message": "جزء {count} من {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting_zero": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} أجزاء بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_one": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} جزء بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_two": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} جزأين بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_few": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} أجزاء بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_many": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} جزءًا بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_other": {
+    "message": "هذه الصفحة طويلة جدًا. جارٍ الالتقاط في {count} جزء بالدقة الكاملة.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped_zero": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} أجزاء فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_one": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} جزء فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_two": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} جزأين فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_few": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} أجزاء فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_many": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} جزءًا فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_other": {
+    "message": "هذه الصفحة طويلة للغاية. تم التقاط أول {count} جزء فقط.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "تم التقاط منطقة المحتوى القابلة للتمرير في هذه الصفحة.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "تم التقاط قسم التمرير المنفصل في هذه الصفحة كما كان ظاهرًا.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "تعذر التقاط المحتوى المضمن من موقع آخر إلا كما كان ظاهرًا.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

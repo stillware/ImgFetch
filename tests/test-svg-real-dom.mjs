@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-svg-real-dom.mjs
+ * ImgFetch, tests/test-svg-real-dom.mjs
  * Pattern check #6: the SVG sanitizer must ALSO pass against a REAL DOM.
  * test-svg.mjs uses a stub DOM; this file parses every attack payload with
  * jsdom's real DOMParser (image/svg+xml), runs the REAL sanitizeSvgDocument

@@ -16,10 +16,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/validation.js
+ * ImgFetch, core/validation.js
  * Message + sender validation for the background service worker.
  * Every runtime message is checked here before it is routed.
  */
+
+import { LOCALES } from '../shared/i18n.js';
 
 export const MESSAGE_TYPES = new Set([
   // Popup / options / pages -> background
@@ -41,6 +43,7 @@ export const MESSAGE_TYPES = new Set([
   'CAPTURE_AREA',
   'CAPTURE_ELEMENT',
   'CAPTURE_FULL',
+  'CANCEL_CAPTURE',
   'SAVE_CAPTURE',
   'SAVE_ANNOTATED',
   'SUGGEST_FILENAME',
@@ -74,6 +77,7 @@ const STRING_FIELDS = {
   CAPTURE_VISIBLE: [],
   CAPTURE_ELEMENT: [],
   CAPTURE_FULL: [],
+  CANCEL_CAPTURE: [],
   SAVE_CAPTURE: ['id'],
   SAVE_ANNOTATED: ['id', 'dataUrl'],
   SUGGEST_FILENAME: ['srcUrl', 'format', 'pageUrl'],
@@ -116,7 +120,7 @@ export function isValidMessage(msg) {
 
 /**
  * Classify the sender. Extension pages (popup, options, capture, info) always
- * have a chrome-extension:// URL — even when they are open in a tab, in which
+ * have a chrome-extension:// URL, even when they are open in a tab, in which
  * case sender.tab is also set. Content scripts have the page's http(s) URL.
  * Checking the URL scheme first is what keeps settings/capture working.
  * Fail-closed: anything unrecognized is 'unknown', never 'extension' (M6).
@@ -154,6 +158,7 @@ export const SENDER_RULES = {
   CAPTURE_AREA: ['extension'],
   CAPTURE_ELEMENT: ['extension'],
   CAPTURE_FULL: ['extension'],
+  CANCEL_CAPTURE: ['extension'],
   SAVE_CAPTURE: ['extension'],
   SAVE_ANNOTATED: ['extension'],
   SUGGEST_FILENAME: ['extension'],
@@ -165,8 +170,26 @@ export const SENDER_RULES = {
   SHOW_DOWNLOAD: ['extension'],
 };
 
+/** True when v is 'auto' or one of the 21 supported locale codes. */
+export function isValidLanguage(v) {
+  return v === 'auto' || LOCALES.includes(v);
+}
+
+/** Optional translator for friendlyError(). Set by the UI layer once
+ *  i18n is ready; the default (null) keeps the English strings below. */
+let errorTranslator = null;
+export function setErrorTranslator(fn) {
+  errorTranslator = (typeof fn === 'function') ? fn : null;
+}
+
 /** Human-friendly error mapping. Never leaks raw technical errors. */
 export function friendlyError(code) {
+  if (errorTranslator) {
+    try {
+      const translated = errorTranslator(code);
+      if (typeof translated === 'string' && translated) return translated;
+    } catch {}
+  }
   const map = {
     'no-tab': 'Open a normal web page first, then try again.',
     'bad-url': 'This image link looks unsafe, so ImgFetch skipped it.',

@@ -16,9 +16,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-zip-accum.mjs
+ * ImgFetch, tests/test-zip-accum.mjs
  * N2: a failed multi-chunk ZIP must leave ZERO retained entries in the
- * offscreen accumulator. the pre-release code had no ZIP_ABORT and no TTL — accumulated
+ * offscreen accumulator. the pre-release code had no ZIP_ABORT and no TTL, accumulated
  * chunks (up to 300 MB) stayed until the offscreen document closed.
  */
 import { createZipAccumulator, ZIP_ACCUM_TTL_MS } from '../core/zip-accum.js';
@@ -27,7 +27,7 @@ let pass = 0;
 let fail = 0;
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; console.log(`  FAIL ${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; console.log(`  FAIL ${name}${extra ? `, ${extra}` : ''}`); }
 }
 
 // 1. Abort after partial chunks leaves nothing retained.

@@ -24,6 +24,27 @@
 'use strict';
 const UI = window.ImgFetchUI;
 
+/* B: runtime localization. Classic script: no static imports, so the
+ * i18n module loads lazily; English defaults stay until it resolves. */
+let __t = null;
+(async () => {
+  try {
+    const { initI18n, t, applyI18n, onLanguageChange } = await import('../shared/i18n.js');
+    await initI18n();
+    __t = t;
+    applyI18n();
+    onLanguageChange(() => { applyI18n(); paintFormatHint(); });
+  } catch { /* English defaults remain */ }
+})();
+
+/** Translate a key; falls back to the given English when i18n is unavailable. */
+function tr(key, english, vars) {
+  if (__t) {
+    try { return __t(key, vars); } catch { /* fall through */ }
+  }
+  return english;
+}
+
 const q = new URLSearchParams(location.search);
 const srcUrl = q.get('src') || '';
 const format = q.get('format') || 'as-is';
@@ -47,10 +68,14 @@ async function init() {
       $('filename').value = (srcUrl.split('/').pop() || 'image').split('?')[0] || 'image';
     } catch { /* malformed URL; keep default filename */ }
   }
-  const fmt = format && format !== 'as-is' ? format.toUpperCase() : 'original format';
-  $('formatHint').textContent = `Will be saved as ${fmt}. The correct extension is added automatically.`;
+  paintFormatHint();
   $('filename').focus();
   $('filename').select();
+}
+
+function paintFormatHint() {
+  const fmt = format && format !== 'as-is' ? format.toUpperCase() : tr('rename_originalFormat', 'original format');
+  $('formatHint').textContent = tr('rename_formatHint', `Will be saved as ${fmt}. The correct extension is added automatically.`, { format: fmt });
 }
 
 $('btnSave').addEventListener('click', async () => {

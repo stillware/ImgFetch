@@ -5,9 +5,11 @@ A free and open-source browser extension that saves images in their best genuine
 [![GitHub release](https://img.shields.io/github/v/release/umr-x/ImgFetch)](https://github.com/umr-x/ImgFetch/releases)
 [![License: GPL v3](https://img.shields.io/github/license/umr-x/ImgFetch)](https://github.com/umr-x/ImgFetch/blob/main/LICENSE)
 
+**Version 1.1.0**
+
 ## About
 
-ImgFetch is a browser extension for Chrome, Edge and Firefox. Right-click any image and choose **Smart Download**: ImgFetch finds every real source (original, srcset, picture, lazy-loaded variants), verifies each one loads, and saves the best valid source. It never upscales and never invents quality.
+ImgFetch is a browser extension for Chrome and Edge. A Firefox port is planned. Right-click any image and choose **Smart Download**: ImgFetch finds every real source (original, srcset, picture, lazy-loaded variants), verifies each one loads, and saves the best valid source. It never upscales and never invents quality.
 
 Everything runs on your device. There are no accounts, no analytics, no telemetry and no tracking.
 
@@ -17,9 +19,11 @@ Everything runs on your device. There are no accounts, no analytics, no telemetr
 
 **Load unpacked** (developers):
 
-1. Download the latest `imgfetch-1.0.0.zip` from [Releases](https://github.com/umr-x/ImgFetch/releases) and unzip it.
+1. On the [GitHub repository](https://github.com/umr-x/ImgFetch), click the green **Code** button and choose **Download ZIP** (or clone it: `git clone https://github.com/umr-x/ImgFetch`), then unzip the downloaded file.
 2. Open `chrome://extensions` (or `edge://extensions`), enable **Developer mode**.
 3. Click **Load unpacked** and select the unzipped folder.
+
+Signed release zips (for example `imgfetch-1.1.0.zip`) will appear under [Releases](https://github.com/umr-x/ImgFetch/releases) once published.
 
 ## Features
 
@@ -51,6 +55,11 @@ Everything runs on your device. There are no accounts, no analytics, no telemetr
 - Keyboard shortcuts for Smart Download, Scan This Page and screenshots.
 - One-click settings backup and restore.
 
+**Languages**
+
+- The interface is available in 19 languages (21 locales), switchable at runtime from Options, General, Language. Auto follows the browser language. Arabic uses a right-to-left layout.
+- Translations are AI-assisted and have not been reviewed by native speakers. If you spot a mistake, please open an issue or see docs/TRANSLATING.md.
+
 ## Screenshots
 
 ![Settings](store-assets/screenshot-1-welcome.png)
@@ -67,11 +76,10 @@ ImgFetch collects nothing. No accounts, no analytics, no telemetry, no tracking.
 
 The defaults are shown on the welcome page and can be changed at `chrome://extensions/shortcuts` (or `edge://extensions/shortcuts`):
 
-- Smart Download
-- Save as
-- Scan This Page
-- Screenshot: visible area
-- Screenshot: full page
+- `Ctrl+Shift+S`, Scan This Page
+- `Ctrl+Shift+X`, Screenshot: selected area
+- `Ctrl+Shift+E`, Screenshot: element
+- `Alt+Shift+E`, select element for image details
 
 ## Project structure
 

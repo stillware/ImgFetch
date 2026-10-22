@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch unit tests — runs with plain Node, no dependencies:
+ * ImgFetch unit tests, runs with plain Node, no dependencies:
  *   node tests/test-core.mjs
  */
 import { strict as assert } from 'node:assert';
@@ -154,7 +154,7 @@ await test('qualityModeForHost maps legacy modes', () => {
   const s = settings.normalizeSettings({ qualityPreference: 'original', sitePrefs: { 'ex.com': 'best' } });
   assert.equal(settings.qualityModeForHost(s, 'ex.com'), 'smart');
   assert.equal(settings.qualityModeForHost(s, 'other.com'), 'original');
-  // B3: defaultAction is removed — old installs carrying it lose the dead key.
+  // B3: defaultAction is removed, old installs carrying it lose the dead key.
   const s2 = settings.normalizeSettings({ defaultAction: 'smart' });
   assert.equal('defaultAction' in s2, false, 'defaultAction must be migrated away');
   assert.equal('defaultAction' in settings.DEFAULT_SETTINGS, false);
@@ -182,47 +182,75 @@ await test('B3: qualityPreference changes real behavior (probe vs exact source)'
 });
 
 /* ------------------------------------------------------------------ */
-/* B6 (ROUND 2): capture planning — area cap + tile cap.               */
+/* FIX 4 (ROUND 2): part-based capture planning. No truncation, no      */
+/* downscaling: long pages are split into numbered parts at full device */
+/* resolution, each part within the single shared stitch limit.         */
 /* ------------------------------------------------------------------ */
 
-await test('B6: 20000px page at DPR 1 needs no downscale', () => {
+await test('FIX4: page within limits is one part at full resolution', () => {
+  const p = capture.planFullPageCapture({
+    fullW: 1600, fullH: 12000, viewportW: 1600, viewportH: 900, dpr: 1,
+  });
+  assert.equal(p.parts.length, 1);
+  assert.equal(p.parts[0].w, 1600);
+  assert.equal(p.parts[0].h, 12000);
+  assert.equal(p.sanityCapped, false);
+});
+
+await test('FIX4: 20000px page at DPR 1 splits only by the side limit, no downscale', () => {
   const p = capture.planFullPageCapture({
     fullW: 1600, fullH: 20000, viewportW: 1600, viewportH: 900, dpr: 1,
   });
-  assert.equal(p.tileCapped, false);
-  assert.equal(p.scale, 1);
-  assert.equal(p.outW, 1600);
-  assert.equal(p.outH, 20000);
+  // 20000px side > 16384: two parts, each at full device resolution.
+  assert.equal(p.parts.length, 2);
+  for (const part of p.parts) {
+    assert.ok(capture.isStitchSizeAccepted(part.w, part.h));
+  }
+  assert.equal(p.parts[0].h + p.parts[1].h, 20000, 'no truncation, no downscale');
 });
 
-await test('B6: 20000px page at DPR 2 stays readable (area cap, not 8192px)', () => {
+await test('FIX4: 20000px page at DPR 2 splits into full-resolution parts, whole page covered', () => {
   const p = capture.planFullPageCapture({
     fullW: 1600, fullH: 20000, viewportW: 1600, viewportH: 900, dpr: 2,
   });
-  assert.equal(p.tileCapped, false);
-  assert.ok(p.scale < 1 && p.scale > 0.8, `scale=${p.scale} should stay near 0.82, not 0.2`);
-  assert.equal(p.outH, 32767, 'longest side capped at 32767');
-  assert.ok(p.outW * p.outH <= 100_000_000 + 32767, 'area within budget');
+  assert.ok(p.parts.length > 1, `expected parts, got ${p.parts.length}`);
+  for (const part of p.parts) {
+    assert.ok(capture.isStitchSizeAccepted(part.w, part.h), `part ${part.w}x${part.h} rejected`);
+  }
+  const covered = p.parts.reduce((n, part) => n + part.h, 0);
+  assert.equal(covered, p.devH, 'parts cover the whole page height, no truncation');
+  assert.equal(p.sanityCapped, false);
 });
 
-await test('B6: very long page captures first 24 tiles instead of failing', () => {
+await test('FIX4: very long page is never truncated, parts tile it exactly', () => {
   const p = capture.planFullPageCapture({
-    fullW: 1600, fullH: 30000, viewportW: 1600, viewportH: 900, dpr: 1,
+    fullW: 1600, fullH: 60000, viewportW: 1600, viewportH: 900, dpr: 1,
   });
-  assert.equal(p.tileCapped, true);
-  assert.equal(p.tileCount, 24);
-  assert.equal(p.capH, 24 * 900, 'captures the top 21600 CSS px');
-  assert.ok(p.rows * p.cols <= 24);
+  let y = 0;
+  for (const part of p.parts) {
+    assert.equal(part.y0, y, 'parts are contiguous, no gaps');
+    assert.ok(capture.isStitchSizeAccepted(part.w, part.h));
+    y += part.h;
+  }
+  assert.equal(y, p.devH, 'the whole page is covered');
+  assert.equal(p.sanityCapped, false);
 });
 
-await test('B6: normal page is untouched by caps', () => {
+await test('FIX4: normal page is one untouched part', () => {
   const p = capture.planFullPageCapture({
     fullW: 1440, fullH: 3000, viewportW: 1440, viewportH: 900, dpr: 2,
   });
-  assert.equal(p.tileCapped, false);
-  assert.equal(p.scale, 1);
-  assert.equal(p.outW, 2880);
-  assert.equal(p.outH, 6000);
+  assert.equal(p.parts.length, 1);
+  assert.equal(p.parts[0].w, 2880);
+  assert.equal(p.parts[0].h, 6000);
+});
+
+await test('FIX4: runaway page hits the sanity cap, never silently', () => {
+  const p = capture.planFullPageCapture({
+    fullW: 1280, fullH: 1000000, viewportW: 1280, viewportH: 800, dpr: 1,
+  });
+  assert.equal(p.parts.length, capture.PART_MAX_COUNT);
+  assert.equal(p.sanityCapped, true);
 });
 
 // ---------- queue ----------
@@ -304,10 +332,10 @@ await test('isValidMessage covers all message types', () => {
 });
 await test('senderKind and friendlyError', () => {
   assert.equal(validation.senderKind({ tab: { id: 3 }, url: 'https://example.com/' }), 'content');
-  // Extension pages open in tabs still carry sender.tab — the URL scheme decides.
+  // Extension pages open in tabs still carry sender.tab, the URL scheme decides.
   assert.equal(validation.senderKind({ tab: { id: 9 }, url: 'chrome-extension://abcdef/options/options.html' }), 'extension');
   assert.equal(validation.senderKind({ url: 'chrome-extension://abcdef/popup/popup.html' }), 'extension');
-  // M6: fail-closed — unrecognized senders are 'unknown', never 'extension'.
+  // M6: fail-closed, unrecognized senders are 'unknown', never 'extension'.
   assert.equal(validation.senderKind({}), 'unknown');
   assert.equal(validation.senderKind(null), 'unknown');
   assert.ok(validation.friendlyError('blocked').length > 5);
@@ -325,7 +353,7 @@ await test('export format helpers', () => {
   const s = settings.normalizeSettings({ jpgQuality: 0.9, webpQuality: 0.8, avifQuality: 0.7 });
   assert.equal(exp.qualityForFormat('jpg', s), 0.9);
   assert.equal(exp.qualityForFormat('webp', s), 0.8);
-  assert.equal(exp.qualityForFormat('avif', s), 1); // no slider — always 100%
+  assert.equal(exp.qualityForFormat('avif', s), 1); // no slider, always 100%
   assert.equal(exp.qualityForFormat('png', settings.normalizeSettings({ pngQuality: 0.85 })), 0.85);
 });
 
@@ -783,7 +811,7 @@ await test('quality defaults are 100% and old 0.92 migrates', () => {
   const s = settings.normalizeSettings({});
   assert.equal(s.jpgQuality, 1);
   assert.equal(s.webpQuality, 1);
-  assert.equal('avifQuality' in s, false); // slider removed — AVIF always 100%
+  assert.equal('avifQuality' in s, false); // slider removed, AVIF always 100%
   assert.equal(s.screenshotQuality, 1);
   const migrated = settings.normalizeSettings({ jpgQuality: 0.92, webpQuality: 0.5 });
   assert.equal(migrated.jpgQuality, 1); // old default moves to 100%
@@ -833,13 +861,13 @@ await test('copy-link: src attribute used when currentSrc is empty', () => {
     'https://cdn.x.com/b.webp');
 });
 
-await test('copy-link: responsive srcset — currentSrc is already the rendered pick', () => {
+await test('copy-link: responsive srcset, currentSrc is already the rendered pick', () => {
   assert.equal(
     pickBestImageUrl({ currentSrc: 'https://cdn.x.com/a-2048.jpg', srcAttr: 'https://cdn.x.com/a-480.jpg', sourceSrcsets: [], lazy: {}, naturalWidth: 2048, naturalHeight: 1024 }),
     'https://cdn.x.com/a-2048.jpg');
 });
 
-await test('copy-link: <picture> source srcset — largest candidate wins', () => {
+await test('copy-link: <picture> source srcset, largest candidate wins', () => {
   assert.equal(
     pickBestImageUrl({
       currentSrc: '', srcAttr: '',
@@ -849,7 +877,7 @@ await test('copy-link: <picture> source srcset — largest candidate wins', () =
     'https://cdn.x.com/s-2160.avif');
 });
 
-await test('copy-link: <picture> x-descriptors — 2x wins over 1x', () => {
+await test('copy-link: <picture> x-descriptors, 2x wins over 1x', () => {
   assert.equal(
     pickBestImageUrl({
       currentSrc: '', srcAttr: '',
@@ -859,7 +887,7 @@ await test('copy-link: <picture> x-descriptors — 2x wins over 1x', () => {
     'https://cdn.x.com/s-2x.png');
 });
 
-await test('copy-link: lazy image — 1px placeholder src yields to data-src', () => {
+await test('copy-link: lazy image, 1px placeholder src yields to data-src', () => {
   assert.equal(
     pickBestImageUrl({
       currentSrc: 'https://cdn.x.com/blank.gif', srcAttr: 'https://cdn.x.com/blank.gif',
@@ -997,7 +1025,7 @@ await test('B1: completed items stay gone, failed items stay failed', async () =
     concurrency: 2,
     starter: () => new Promise(() => {}),
   });
-  // serialize() drops DONE/CANCELLED — the worker never restores them.
+  // serialize() drops DONE/CANCELLED, the worker never restores them.
   const q2 = new DownloadQueue({ starter: () => Promise.resolve() });
   q2.enqueue([{ id: 'will-finish', label: 'x' }]);
   await new Promise((r) => setTimeout(r, 30));
@@ -1093,13 +1121,13 @@ const B2_ALLOWED = [
 ];
 
 for (const u of B2_BLOCKED) {
-  await test(`B2: blocked — ${u}`, () => {
+  await test(`B2: blocked, ${u}`, () => {
     assert.equal(urls.isPrivateNetworkUrl(u), true, `${u} must be treated as private`);
   });
 }
 
 for (const u of B2_ALLOWED) {
-  await test(`B2: allowed — ${u}`, () => {
+  await test(`B2: allowed, ${u}`, () => {
     assert.equal(urls.isPrivateNetworkUrl(u), false, `${u} must NOT be treated as private`);
   });
 }

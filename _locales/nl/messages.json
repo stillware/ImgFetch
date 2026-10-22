@@ -1,0 +1,2086 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: slimme downloader voor afbeeldingen. Sla afbeeldingen op in de beste kwaliteit, scan hele pagina’s, maak screenshots.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch Slimme Downloader voor Afbeeldingen",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Nederlands",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Auto (browsertaal)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Annuleren",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Bevestigen",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Laden",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Onbekende grootte",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch start op, probeer het over een ogenblik opnieuw.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Er ging iets mis. Probeer het opnieuw.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "afbeelding",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Slimme Downloader voor Afbeeldingen",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "ImgFetch-navigatie",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Home",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "Downloadgeschiedenis",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "ImgFetch-instellingen",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Pak afbeeldingen van elke pagina",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Scan de pagina, kies wat je wilt en sla de beste beschikbare versie op.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Scan deze pagina",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Screenshot",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Zichtbare pagina vastleggen",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Zichtbaar",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Geselecteerd gebied vastleggen",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Gebied",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Element vastleggen",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Element",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Volledige pagina vastleggen",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Volledige pagina",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Scannen",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Pagina scannen…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Zoeken naar afbeeldingen",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar_one": {
+    "message": "{done} gevonden tot nu toe…",
+    "description": "Scan progress. Singular: one image found so far."
+  },
+  "scan_foundSoFar_other": {
+    "message": "{done} gevonden tot nu toe…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Resultaten",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Afbeeldingen zoeken…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Groottefilter",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Elke grootte",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px+",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px+",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Formaatfilter",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Alle formaten",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Oriëntatiefilter",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Elke oriëntatie",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Landschap",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Portret",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Vierkant",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Afbeeldingen sorteren",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Paginavolgorde",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Grootste eerst",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Kleinste eerst",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Alles selecteren",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Niets selecteren",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Omkeren",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Gevonden afbeeldingen",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Downloadkwaliteit",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Slimme download",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Zoals getoond",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Downloadformaat",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Origineel formaat",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Probeer beste kwaliteit voor bulkdownload",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Zoekt vóór het downloaden bij elke afbeelding naar een bron van hogere kwaliteit. Trager, kan op sommige sites snelheidslimieten activeren.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "Selectie downloaden",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount_one": {
+    "message": "{count} afbeelding downloaden",
+    "description": "Download button. Singular: one image selected."
+  },
+  "popup_downloadCount_other": {
+    "message": "{count} afbeeldingen downloaden",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Selectie downloaden als ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Verpakt de geselecteerde afbeeldingen in één .zip-bestand, precies zoals op de pagina getoond (geen slimme kwaliteitsupgrade in ZIP’s)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Opnieuw scannen",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound_one": {
+    "message": "{count} afbeelding gevonden",
+    "description": "Results heading. Singular."
+  },
+  "results_titleFound_other": {
+    "message": "{count} afbeeldingen gevonden",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "Geen afbeeldingen gevonden op deze pagina.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered_one": {
+    "message": "Geen afbeeldingen gevonden, {dropped} kleine afbeelding is overgeslagen door je groottefilter. Zet hem lager bij Instellingen → Scannen.",
+    "description": "Toast when only the size filter removed images. Singular."
+  },
+  "results_noImagesFiltered_other": {
+    "message": "Geen afbeeldingen gevonden, {dropped} kleine afbeeldingen zijn overgeslagen door je groottefilter. Zet hem lager bij Instellingen → Scannen.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Geen afbeeldingen komen overeen met deze filters.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "{shown} getoond · {total} gevonden",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved_one": {
+    "message": "{count} duplicaat verwijderd",
+    "description": "Status line fragment. Singular."
+  },
+  "results_duplicatesRemoved_other": {
+    "message": "{count} duplicaten verwijderd",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_one": {
+    "message": "{count} interfaceonderdeel verborgen",
+    "description": "Status line fragment. Singular."
+  },
+  "results_assetsHidden_other": {
+    "message": "{count} interfaceonderdelen verborgen",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_one": {
+    "message": "{count} verborgen door filters",
+    "description": "Status line fragment. Singular."
+  },
+  "results_hiddenByFilters_other": {
+    "message": "{count} verborgen door filters",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "{shown} van {total} getoond, scroll voor meer",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (niet ondersteund)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress_one": {
+    "message": "{count} download bezig",
+    "description": "Home status card. Singular."
+  },
+  "home_downloadsInProgress_other": {
+    "message": "{count} downloads bezig",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Downloads bekijken",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound_one": {
+    "message": "{count} afbeelding gevonden op deze pagina",
+    "description": "Home status card for a stored scan. Singular."
+  },
+  "home_imagesFound_other": {
+    "message": "{count} afbeeldingen gevonden op deze pagina",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Resultaten bekijken",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Afbeeldingsvoorbeeld",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Voorbeeld sluiten",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Voorbeeld",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Voorbeeld van {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Grootte",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Formaat",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Bron",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Achtergrondafbeelding",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Pagina-afbeelding",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "onbekend",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Opslaan als PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Opslaan als JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Opslaan als WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Opslaan als AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Origineel openen",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Afbeeldingsinfo",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Deze afbeelding kan niet in een tabblad worden geopend.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Downloads",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Voorbereiden…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Mislukte opnieuw",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Voltooide wissen",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Terug naar resultaten",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "De wachtrij is leeg.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "{done} van {total} opgeslagen",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} mislukt",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "wachtend",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "actief",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "voltooid",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "mislukt",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "geannuleerd",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Tonen in map",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "De download is onderbroken.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "Downloadgeschiedenis",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Wissen",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Geschiedenis",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Downloadgeschiedenis wissen?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Dit verwijdert de lijst met bestanden die ImgFetch heeft gedownload. De bestanden blijven op je apparaat.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Geschiedenis wissen",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Geschiedenis gewist.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Nog geen downloads. Je opgeslagen afbeeldingen verschijnen hier.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Nog niets hier.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Vandaag",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Gisteren",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Toegevoegd aan de ImgFetch-downloadwachtrij.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Gekopieerd naar klembord.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Kopiëren mislukt. Probeer het opnieuw.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch is gepauzeerd op deze site.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch is gepauzeerd op deze site (zie Sitevoorkeuren).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Kon niet converteren, het origineel is opgeslagen.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Origineel niet gevonden, beste beschikbare versie gebruikt.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens kon niet worden geopend. Probeer het opnieuw.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens is open, plak de afbeeldingslink (Ctrl+V) in het linkvak.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Klaar.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Afbeeldingslink gekopieerd.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Open eerst een normale webpagina en probeer het dan opnieuw.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Deze afbeeldingslink ziet er onveilig uit, ImgFetch heeft hem overgeslagen.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch kon hier geen bruikbare afbeelding vinden.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "De website stond niet toe dat deze afbeelding werd opgeslagen.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch kon deze afbeelding niet converteren. Het origineel is opgeslagen.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch kon deze afbeelding niet als GIF coderen. Er is niets opgeslagen.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "AVIF-codering is niet beschikbaar in deze browser (vereist Chrome/Edge 130+, update de browser om het in te schakelen). Er is een PNG opgeslagen.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Deze pagina is te groot om in één afbeelding vast te leggen.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch kon het origineel niet met zekerheid vinden. De beste beschikbare versie is gebruikt.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch kon deze pagina niet scannen. Herlaad de pagina en scan opnieuw.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch kon deze pagina niet vastleggen.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "De download is niet gestart. Probeer het opnieuw.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Geannuleerd.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Dit duurde te lang. Probeer het opnieuw.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch heeft een verzoek naar een privénetwerkadres geblokkeerd (zoals localhost of een routerpagina) om je lokale netwerk te beschermen.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch is gepauzeerd op deze site. Schakel het weer in bij Instellingen → Sitevoorkeuren.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Er ging iets mis. Probeer het opnieuw.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Instellingen",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Instellingensecties",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Algemeen",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Downloads",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Kwaliteit",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Bestandsnamen",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Scannen",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Screenshots",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Sitevoorkeuren",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Sneltoetsen",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Mappen",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "Downloadgeschiedenis",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Back-up & reset",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "Over",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Privacy",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "ImgFetch-instellingen",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - ImgFetch-instellingen",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Instellingensectie",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Opslaan…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Alle wijzigingen opgeslagen",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Kon niet opslaan, probeer opnieuw",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Taal",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Alle instellingen resetten?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Elke ImgFetch-instelling keert terug naar de standaard. Je downloadgeschiedenis blijft bewaard.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Instellingen resetten",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Instellingen gereset.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "Hoe ImgFetch eruitziet en zich gedraagt.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Vormgeving",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Systeem",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Licht",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Donker",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "Nadat een download is voltooid",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Stil blijven",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Een melding tonen",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Downloadpaneel sluiten als het klaar is",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "De voortgangsweergave klapt kort na elke voltooide download terug naar het startscherm.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Hoe bestanden op je apparaat worden opgeslagen.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Vragen waar elk bestand wordt opgeslagen",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Toont bij elke download het Opslaan-dialoog van de browser.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Mislukte downloads automatisch opnieuw proberen",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Als een download niet start, probeert ImgFetch het zelf nog één keer.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Gelijktijdige downloads:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Hoger is sneller bij veel afbeeldingen, maar sommige sites kunnen je afremmen.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch slaat de beste echte bron op die het kan verifiëren. Het schaalt een afbeelding nooit op.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Slimme kwaliteitskeuze",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Slimme download (aanbevolen)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Controleert elke beschikbare bron en slaat de beste echte versie op die het kan verifiëren.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Voorkeur voor de exacte bron",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Slaat de extra kwaliteitscontrole over en slaat precies de afbeelding op die de pagina toont. Sneller en privater.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "JPG-kwaliteit:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "PNG-kwaliteit:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "WebP-kwaliteit:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Gebruikt bij converteren naar JPG. Hoger betekent grotere bestanden.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% is verliesloos. Lagere waarden verminderen kleuren voor kleinere bestanden.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Gebruikt bij converteren naar WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Andere formaten",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Hoogste kwaliteit, altijd 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Vast 256-kleurenpalet (eigen encoder van ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Ongecomprimeerd, altijd 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Vectorwrapper om de afbeelding.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch maakt bestandsnamen altijd veilig, nooit vreemde tekens, echt nooit.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Naamgeving",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Oorspronkelijke naam behouden",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Gebruikt de eigen, opgeschoonde bestandsnaam van de afbeelding.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Site + datum + nummer",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Voorbeeld: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Aangepast sjabloon",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Bouw hieronder je eigen patroon.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Aangepast sjabloon",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Beschikbare tokens",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Laat me bestanden hernoemen voor het downloaden",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Opent een klein hernoemblad met voorbeeld vóór enkele downloads uit het rechtsklikmenu.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Hoe ImgFetch afbeeldingen op een pagina vindt.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Afbeeldingen kleiner dan deze overslaan",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Geen overslaan",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Middel (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Groot (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Zeer groot (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Verbergt kleine pictogrammen en spacers uit resultaten. Je kunt dit per scan nog wijzigen.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Achtergrondafbeeldingen opnemen",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Vindt ook afbeeldingen die als pagina-achtergrond worden gebruikt (trager op enorme pagina’s).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Scandiepte",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Geladen pagina",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Pagina scrollen",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Geladen pagina: scant alleen al geladen afbeeldingen (snelst). Pagina scrollen: scrollt eerst kort door de pagina om lazy-afbeeldingen te onthullen en herstelt daarna je positie.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Dubbele afbeeldingen verwijderen",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Als dezelfde afbeelding in meerdere groottes voorkomt, alleen de grootste behouden en de rest verbergen.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Standaarden voor paginavastlegging.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Standaardformaat",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Kwaliteit:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Nu vastleggen",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Zichtbaar gebied",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Gebied selecteren",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Element vastleggen",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Volledige pagina",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“Gebied selecteren” opent een echte selectie-overlay op de huidige pagina, sleep een rechthoek, druk op Esc om te annuleren. “Element vastleggen” laat je op elk element klikken om precies dat vast te leggen.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Annotatie-editor openen na vastleggen",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Teken pijlen, voeg tekst toe of vervaag delen van de screenshot vóór het opslaan.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Zichtbaar gebied vastgelegd",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Gebied vastgelegd",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Element vastgelegd",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Volledige pagina vastgelegd",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, bekijk het voorbeeldtabblad om op te slaan.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Geef specifieke websites hun eigen downloadgedrag.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Websitedomein",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Huidige site gebruiken",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Toevoegen",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Slim vindt de beste echte bron op deze site · Zoals getoond slaat afbeeldingen precies zo op als getoond · Gepauzeerd schakelt ImgFetch-downloads op deze site uit.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Nog geen sitevoorkeuren.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Slim",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Zoals getoond",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Gepauzeerd",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Verwijderen",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Gedrag voor {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Typ een websitedomein, zoals example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} toegevoegd.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Kon de huidige site niet lezen.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Huidige site: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Sneltoetsen die momenteel aan ImgFetch zijn toegewezen.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Laden…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Scan deze pagina",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Scan deze pagina (alternatief)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Element selecteren",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Geselecteerd gebied vastleggen",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Element vastleggen",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Geen sneltoetsen geregistreerd.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Niet ingesteld",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Link naar sneltoetsenpagina kopiëren",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Om een sneltoets te wijzigen, open chrome://extensions/shortcuts (of edge://extensions/shortcuts in Edge), zoek ImgFetch en stel je gewenste toetsen in. Gebruik op Mac ⌘ in plaats van Ctrl. Als een sneltoets “Niet ingesteld” toont, botste de voorgestelde toets met de browser of een andere extensie, stel hem hier handmatig in.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Kon sneltoetsen niet lezen.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Link naar sneltoetsenpagina gekopieerd, plak hem in je adresbalk.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Bestanden worden opgeslagen in de Downloadmap van je browser. Deze opties organiseren ze verder.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Downloads organiseren in",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Eén plek (geen slimme mappen)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Mappen per website",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Slimme mappen per type",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Mappen per datum",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Slimme mappen sorteren automatisch: Foto’s, Screenshots, GIF’s, Graphics. Voorbeeld “Per website”: Downloads / example.com / foto.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Een standaardsubmap gebruiken",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Als dit aan staat, wordt alles eerst in deze map opgeslagen, bovenop de organisatie hierboven.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Submapnaam",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "bijv. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Voorbeeld: Downloads / ImgFetch / example.com / foto.jpg. Genegeerd zolang de schakelaar uit staat.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Een eenvoudige lijst van wat je hebt opgeslagen, getoond in de pop-up.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Recente downloads",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Downloadgeschiedenis bewaren",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Bewaard bestandsnaam, site, formaat en grootte van elke download.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Geschiedenis bewaren voor (dagen)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Oudere items worden automatisch verwijderd.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Nu wissen",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Downloadgeschiedenis wissen",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Verwijdert direct alle geschiedenisitems. Gedownloade bestanden worden niet geraakt.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Kon geschiedenis niet wissen.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Neem je instellingen mee of begin opnieuw.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Instellingen exporteren",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Downloadt een imgfetch-settings.json-bestand met al je instellingen.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Instellingen geëxporteerd.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Instellingen importeren",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "In te lezen instellingenbestand",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Herstelt instellingen uit een ImgFetch-exportbestand. Ongeldige bestanden worden veilig geweigerd.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Instellingen geïmporteerd.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Dat bestand is geen geldige ImgFetch-instellingenexport.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Resetten naar standaard",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Alles resetten",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Vraagt eerst om bevestiging en herstelt dan alle ImgFetch-standaarden. Geschiedenis blijft bewaard tenzij je hem hierboven wist.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Versie",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Licentie",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Machtigingen",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "Waartoe ImgFetch toegang heeft, en waarom:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "ImgFetch-items toevoegen aan het rechtsklikmenu.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Afbeeldingsbestanden opslaan in je Downloadmap.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Je instellingen en geschiedenis onthouden op dit apparaat.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Pagina’s scannen die je erom vraagt, op zoek naar afbeeldingen.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Werken met het momenteel geopende tabblad.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Afbeeldingen op de achtergrond tussen formaten converteren.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Je vertellen wanneer een download klaar is (alleen als je het inschakelt).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Afbeeldingslinks voor je naar je klembord kopiëren.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Afbeeldingen lezen op websites die je bezoekt, alleen als je een pagina scant of een download start.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Documentatie",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Documentatie, privacybeleid en gebruiksvoorwaarden staan in de openbare repository:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch heeft geen server en verzamelt niets. Alleen de afbeeldingen die je kiest te downloaden worden opgehaald, en Google Lens (alleen als je erop klikt) opent Google met het afbeeldingsadres. Zie PRIVACY.md in de repository voor de volledige verklaring.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch houdt alles op je apparaat. Geen accounts, geen tracking, geen analytics.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "Wat ImgFetch bewaart",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Je instellingen, sitevoorkeuren en downloadgeschiedenis leven in de lokale opslag van je browser, alleen op dit apparaat.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Gedownloade afbeeldingen gaan rechtstreeks naar je Downloadmap. ImgFetch uploadt ze nergens.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Wat ImgFetch nooit doet",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Geen accounts en geen inloggen, er is niets om in te loggen.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Geen analytics, geen telemetrie, geen crashrapporten.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Geen externe code, elk script zit in het extensiepakket.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Afbeeldingen worden rechtstreeks opgehaald van de sites die je bezoekt, met je normale browsersessie. ImgFetch voegt geen trackingparameters toe.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Waarom ImgFetch elke machtiging vraagt staat in de sectie Over, en de volledige verklaring is PRIVACY.md in de openbare repository.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Screenshot annoteren",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Screenshot laden…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Annotatietools",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Pen",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Pijl",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Rechthoek",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Cirkel",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Tekst",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Pixeleren",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "Rood",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Oranje",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Groen",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Blauw",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Zwart",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Wit",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Dun",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Middel",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Dik",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Ongedaan maken",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Opnieuw",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "Opnieuw (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Wissen",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Typ tekst, Enter om te plaatsen",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Tekst annuleren",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Opslaan",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Verwerpen",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Tip: sleep over de afbeelding om te tekenen. Teksttool: klik waar de tekst moet komen, typ, druk op Enter. Klik op geplaatste tekst om te selecteren, sleep om te verplaatsen, druk op Delete of Backspace om te verwijderen. Vervagen: sleep over het te verbergen gebied.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Pixeleren verbergt details voor nieuwsgierige blikken, maar kan soms worden teruggedraaid, vertrouw er niet op voor gevoelige tekst.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Screenshot opgeslagen.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Opslaan mislukt.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Deze editorlink is ongeldig.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Kon de screenshot niet laden.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "Screenshotvoorbeeld",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Je screenshot voorbereiden…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Screenshotvoorbeeld",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Screenshot opslaan",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Kopiëren naar klembord",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Zichtbare pagina opnieuw",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Gebied opnieuw",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Verwerpen",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Deze voorbeeldlink is ongeldig.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} pixels",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Screenshot klaar",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} opgeslagen",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Screenshot gekopieerd naar klembord.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Kon de screenshot niet kopiëren.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Afbeeldingsinfo",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Afbeeldingsdetails lezen…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Directe link",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Link kopiëren",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Opslaan als JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Er is geen afbeelding opgegeven.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Bestandsnaam",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Afmetingen",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Getoond als",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Alt-tekst",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Camera",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Genomen op",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Volledige grootte",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Locatie",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Fotodetails",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Deze foto bevat GPS-coördinaten. Wie het originele bestand deelt, deelt de exacte locatie waar het is genomen. Gebruik “Opslaan zonder metadata” voor een schone kopie.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Opslaan zonder metadata",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Kopie zonder metadata opgeslagen.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Kon metadata niet verwijderen.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Kopieer de geselecteerde link handmatig.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Geef je download een naam",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Bestandsnaam",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Downloaden",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Wordt opgeslagen als {format}. De juiste extensie wordt automatisch toegevoegd.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "originele formaat",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Welkom bij ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Je slimme downloader voor afbeeldingen. Sla elke afbeelding op in de beste beschikbare versie, scan hele pagina’s in één keer en maak screenshots, allemaal uit één netjes menu.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Klik met rechts op een afbeelding",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Met het ImgFetch-menu download je de afbeelding zoals getoond, in beste kwaliteit of als origineel, of converteer je hem direct naar PNG, JPG of WebP.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Scan pagina’s & maak screenshots",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Klik op de ImgFetch-knop in de werkbalk om een hele pagina te scannen op afbeeldingen, of maak screenshots van de zichtbare pagina of een geselecteerd gebied.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "pagina scannen",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "gebied vastleggen",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Maak het van jou",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Vijf snelle keuzes, al het andere heeft al een verstandige standaard. Je kunt ze altijd wijzigen bij Instellingen.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Editor openen na screenshots",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Teken pijlen, voeg tekst toe of vervaag vóór het opslaan.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Als downloads klaar zijn",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Meld het me",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Opslaan in submap",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Leeg = direct in Downloads.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Submapnaam",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Bestandsnaam vragen vóór enkele downloads",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Volledige instellingen openen →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Terug",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Volgende",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "ImgFetch gaan gebruiken",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Veel plezier met ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Niet ingesteld, stel in bij de sneltoetsinstellingen van de browser",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Sleep om te selecteren: pijlen verplaatsen, Shift+pijlen schalen, Enter bevestigt, Esc annuleert",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Klik op een element om het vast te leggen, Esc om te annuleren",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Klik op een element om zijn afbeelding te inspecteren, Esc om te annuleren",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Opslaan als...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (ingebedde afbeelding)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Afbeeldingslink kopiëren",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Afbeelding kopiëren",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Afbeeldingsinfo",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Meer...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Origineel openen",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Afbeelding zoeken met Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Scan deze pagina",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Screenshot",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Zichtbaar gebied vastleggen",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Gebied selecteren",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Volledige pagina",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Element vastleggen",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Sitevoorkeur toevoegen",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Uitschakelen op deze site",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Instellingen",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} opgeslagen",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Converteert afbeeldingen tussen formaten, snijdt screenshots bij en kopieert afbeeldingslinks.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted_one": {
+    "message": "ImgFetch is opnieuw gestart, {resumed} download in wachtrij hervat{failedPart}.",
+    "description": "Notice after restart. Singular."
+  },
+  "sw_restarted_other": {
+    "message": "ImgFetch is opnieuw gestart, {resumed} downloads in wachtrij hervat{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", {failed} mislukt",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Converteren naar {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Opmerking: geanimeerde afbeeldingen worden als stilstaand beeld opgeslagen.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Downloaden…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "ZIP downloaden…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip_one": {
+    "message": "ZIP voorbereiden ({count} afbeelding{cappedNote}, zoals getoond)…",
+    "description": "Queue label. Singular."
+  },
+  "sw_preparingZip_other": {
+    "message": "ZIP voorbereiden ({count} afbeeldingen{cappedNote}, zoals getoond)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (eerste 200 van {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull_one": {
+    "message": "ZIP gedownload ({count} afbeelding).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDoneFull_other": {
+    "message": "ZIP gedownload ({count} afbeeldingen).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_one": {
+    "message": "ZIP gedownload ({count} van {total} afbeelding, {skipped} overgeslagen).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDonePartial_other": {
+    "message": "ZIP gedownload ({count} van {total} afbeeldingen, {skipped} overgeslagen).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Beste kwaliteit zoeken…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch kon de versie in hoogste kwaliteit niet gebruiken. Probeert een andere beschikbare bron…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Succesvol gedownload.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Dat element is hoger dan het scherm, alleen het zichtbare deel is vastgelegd. Gebruik Volledige pagina voor de rest.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Deze pagina is erg lang, de eerste {tileCount} tegels (bovenste deel) worden vastgelegd. Gebruik gebiedsvastlegging voor de rest.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Deze pagina is erg groot, de volledige-pagina-afbeelding is verkleind naar {percent}% om binnen geheugenlimieten te blijven.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Volledige pagina vastleggen, tegel {n} van {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Volledige pagina vastgelegd ({width} × {height}px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "De afbeelding zelf kon niet worden gekopieerd, dus is de link gekopieerd.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Kon afbeeldingslink niet kopiëren.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} toegevoegd aan sitevoorkeuren.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch gepauzeerd op {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch kan alleen normale webpagina’s scannen, browserpagina’s zoals chrome://, edge:// of de webwinkel zijn uitgesloten.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch kan alleen op normale webpagina’s elementen selecteren, browserpagina’s zoals chrome://, edge:// of de webwinkel zijn uitgesloten.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "Geen afbeelding gevonden in het geselecteerde element.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Kopiëren",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "De bewerkte screenshot naar het klembord kopiëren",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Screenshot gekopieerd naar klembord.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Screenshot gekopieerd naar klembord, verkleind naar {width} x {height} om te passen.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Kon de screenshot niet kopiëren. Probeer hem op te slaan.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Kopiëren is nu niet beschikbaar.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} is niet beschikbaar op deze pagina. Het zichtbare deel is vastgelegd.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "De browser staat het vastleggen van deze pagina niet toe.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title_one": {
+    "message": "Deel {count} van {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_other": {
+    "message": "Deel {count} van {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting_one": {
+    "message": "Deze pagina is erg lang. Vastleggen in {count} deel op volledige resolutie.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_other": {
+    "message": "Deze pagina is erg lang. Vastleggen in {count} delen op volledige resolutie.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped_one": {
+    "message": "Deze pagina is extreem lang. Alleen het eerste {count} deel is vastgelegd.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_other": {
+    "message": "Deze pagina is extreem lang. Alleen de eerste {count} delen zijn vastgelegd.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Het schuifbare inhoudsgebied van deze pagina is vastgelegd.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Een apart schuifbaar gedeelte van deze pagina is vastgelegd zoals het zichtbaar was.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Ingesloten inhoud van een andere site kon alleen worden vastgelegd zoals zichtbaar.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

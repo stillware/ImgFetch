@@ -1,0 +1,2214 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: chytrý stahovač obrázků. Ukládejte obrázky v nejlepší kvalitě, skenujte celé stránky, pořizujte snímky obrazovky.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch Chytrý Stahovač Obrázků",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Čeština",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Auto (jazyk prohlížeče)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Zrušit",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Potvrdit",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Načítání",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Neznámá velikost",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch se právě spouští, zkuste to prosím za chvíli znovu.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Něco se pokazilo. Zkuste to prosím znovu.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "obrázek",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Chytrý Stahovač Obrázků",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "Navigace ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Domů",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "Historie stahování",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "Nastavení ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Stahujte obrázky z libovolné stránky",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Naskenujte stránku, vyberte co chcete a uložte nejlepší dostupnou verzi.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Skenovat tuto stránku",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Snímek obrazovky",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Zachytit viditelnou stránku",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Viditelná",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Zachytit vybranou oblast",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Oblast",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Zachytit prvek",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Prvek",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Zachytit celou stránku",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Celá stránka",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Skenování",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Skenování stránky…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Hledání obrázků",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar_one": {
+    "message": "Nalezeno {done}…",
+    "description": "Scan progress. Singular: one image found so far."
+  },
+  "scan_foundSoFar_few": {
+    "message": "Nalezeno {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_many": {
+    "message": "Nalezeno {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_other": {
+    "message": "Nalezeno {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Výsledky",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Hledat obrázky…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Filtr velikosti",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Libovolná velikost",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px a více",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px a více",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Filtr formátu",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Všechny formáty",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Filtr orientace",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Libovolná orientace",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Na šířku",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Na výšku",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Čtvercový",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Řadit obrázky",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Pořadí na stránce",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Největší nejdřív",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Nejmenší nejdřív",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Vybrat vše",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Zrušit výběr",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Invertovat",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Nalezené obrázky",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Kvalita stahování",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Chytré stahování",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Jak zobrazeno",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Formát stahování",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Původní formát",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Zkusit nejlepší kvalitu pro hromadné stahování",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Před stažením u každého obrázku vyhledá zdroj ve vyšší kvalitě. Pomalejší, na některých webech může narazit na limity požadavků.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "Stáhnout výběr",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount_one": {
+    "message": "Stáhnout {count} obrázek",
+    "description": "Download button. Singular: one image selected."
+  },
+  "popup_downloadCount_few": {
+    "message": "Stáhnout {count} obrázky",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_many": {
+    "message": "Stáhnout {count} obrázků",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_other": {
+    "message": "Stáhnout {count} obrázky",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Stáhnout výběr jako ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Zabalí vybrané obrázky do jednoho .zip souboru, přesně jak jsou na stránce (bez chytrého vylepšení kvality uvnitř ZIPů)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Skenovat znovu",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound_one": {
+    "message": "Nalezen {count} obrázek",
+    "description": "Results heading. Singular."
+  },
+  "results_titleFound_few": {
+    "message": "Nalezeny {count} obrázky",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_many": {
+    "message": "Nalezeno {count} obrázků",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_other": {
+    "message": "Nalezeny {count} obrázky",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "Na této stránce nebyly nalezeny žádné obrázky.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered_one": {
+    "message": "Nenalezeny žádné obrázky, filtr velikosti přeskočil {dropped} malý obrázek. Snižte ho v Nastavení → Skenování.",
+    "description": "Toast when only the size filter removed images. Singular."
+  },
+  "results_noImagesFiltered_few": {
+    "message": "Nenalezeny žádné obrázky, filtr velikosti přeskočil {dropped} malé obrázky. Snižte ho v Nastavení → Skenování.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_many": {
+    "message": "Nenalezeny žádné obrázky, filtr velikosti přeskočil {dropped} malých obrázků. Snižte ho v Nastavení → Skenování.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_other": {
+    "message": "Nenalezeny žádné obrázky, filtr velikosti přeskočil {dropped} malé obrázky. Snižte ho v Nastavení → Skenování.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Těmto filtrům neodpovídá žádný obrázek.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "Zobrazeno {shown} · nalezeno {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved_one": {
+    "message": "odstraněn {count} duplikát",
+    "description": "Status line fragment. Singular."
+  },
+  "results_duplicatesRemoved_few": {
+    "message": "odstraněny {count} duplikáty",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_many": {
+    "message": "odstraněno {count} duplikátů",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_other": {
+    "message": "odstraněny {count} duplikáty",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_one": {
+    "message": "skryt {count} prvek rozhraní",
+    "description": "Status line fragment. Singular."
+  },
+  "results_assetsHidden_few": {
+    "message": "skryty {count} prvky rozhraní",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_many": {
+    "message": "skryto {count} prvků rozhraní",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_other": {
+    "message": "skryty {count} prvky rozhraní",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_one": {
+    "message": "{count} skrytý filtry",
+    "description": "Status line fragment. Singular."
+  },
+  "results_hiddenByFilters_few": {
+    "message": "{count} skryté filtry",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_many": {
+    "message": "{count} skrytých filtry",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_other": {
+    "message": "{count} skryté filtry",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "Zobrazeno {shown} z {total}, pro další posuňte",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (nepodporováno)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress_one": {
+    "message": "{count} stahování probíhá",
+    "description": "Home status card. Singular."
+  },
+  "home_downloadsInProgress_few": {
+    "message": "{count} stahování probíhají",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_many": {
+    "message": "{count} stahování probíhá",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_other": {
+    "message": "{count} stahování probíhají",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Zobrazit stahování",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound_one": {
+    "message": "Na této stránce nalezen {count} obrázek",
+    "description": "Home status card for a stored scan. Singular."
+  },
+  "home_imagesFound_few": {
+    "message": "Na této stránce nalezeny {count} obrázky",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_many": {
+    "message": "Na této stránce nalezeno {count} obrázků",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_other": {
+    "message": "Na této stránce nalezeny {count} obrázky",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Zobrazit výsledky",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Náhled obrázku",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Zavřít náhled",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Náhled",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Náhled: {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Velikost",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Formát",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Zdroj",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Obrázek pozadí",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Obrázek stránky",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "neznámý",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Uložit jako PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Uložit jako JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Uložit jako WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Uložit jako AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Otevřít originál",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Info o obrázku",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Tento obrázek nelze otevřít na kartě.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Stahování",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Příprava…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Zkusit neúspěšné znovu",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Vymazat hotové",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Zpět na výsledky",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Fronta je prázdná.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "Uloženo {done} z {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "selhalo: {failed}",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "čeká",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "aktivní",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "hotovo",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "selhalo",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "zrušeno",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Zobrazit ve složce",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "Stahování bylo přerušeno.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "Historie stahování",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Vymazat",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Historie",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Vymazat historii stahování?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Tím se odstraní seznam souborů stažených ImgFetch. Samotné soubory zůstanou ve vašem zařízení.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Vymazat historii",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Historie vymazána.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Zatím žádná stahování. Vaše uložené obrázky se objeví zde.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Zatím tu nic není.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Dnes",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Včera",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Přidáno do fronty stahování ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Zkopírováno do schránky.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Kopírování se nezdařilo. Zkuste to znovu.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch je na tomto webu pozastaven.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch je na tomto webu pozastaven (viz Předvolby webů).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Převod se nezdařil, originál byl uložen.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Originál nenalezen, použita nejlepší dostupná verze.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens se nepodařilo otevřít. Zkuste to znovu.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens je otevřený, vložte odkaz na obrázek (Ctrl+V) do jeho pole odkazu.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Hotovo.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Odkaz na obrázek zkopírován.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Nejprve otevřete běžnou webovou stránku a zkuste to znovu.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Tento odkaz na obrázek vypadá nebezpečně, ImgFetch ho přeskočil.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch zde nenašel použitelný obrázek.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Webová stránka nedovolila tento obrázek uložit.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch nemohl tento obrázek převést. Místo něj byl uložen originál.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch nemohl tento obrázek zakódovat jako GIF. Nic nebylo uloženo.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "Kódování AVIF není v tomto prohlížeči dostupné (vyžaduje Chrome/Edge 130+, aktualizujte prohlížeč pro zapnutí). Místo něj byl uložen PNG.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Tato stránka je příliš velká na zachycení do jednoho obrázku.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch nemohl s jistotou najít originál. Byla použita nejlepší dostupná verze.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch nemohl tuto stránku naskenovat. Znovu načtěte stránku a skenujte znovu.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch nemohl tuto stránku zachytit.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "Stahování se nespustilo. Zkuste to znovu.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Zrušeno.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Trvalo to příliš dlouho. Zkuste to znovu.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch zablokoval požadavek na adresu privátní sítě (např. localhost nebo stránku routeru), aby chránil vaši místní síť.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch je na tomto webu pozastaven. Znovu ho zapněte v Nastavení → Předvolby webů.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Něco se pokazilo. Zkuste to znovu.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Nastavení",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Oddíly nastavení",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Obecné",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Stahování",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Kvalita",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Názvy souborů",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Skenování",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Snímky obrazovky",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Předvolby webů",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Klávesové zkratky",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Složky",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "Historie stahování",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Záloha a reset",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "O aplikaci",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Soukromí",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "Nastavení ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - Nastavení ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Oddíl nastavení",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Ukládání…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Všechny změny uloženy",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Uložení se nezdařilo, zkuste znovu",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Jazyk",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Obnovit všechna nastavení?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Každé nastavení ImgFetch se vrátí na výchozí hodnotu. Historie stahování zůstane zachována.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Obnovit nastavení",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Nastavení obnovena.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "Jak ImgFetch vypadá a chová se.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Vzhled",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Systémový",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Světlý",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Tmavý",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "Po dokončení stahování",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Zůstat potichu",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Zobrazit oznámení",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Po dokončení zavřít panel stahování",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "Zobrazení průběhu se chvíli po dokončení každého stahování sbalí zpět na domovskou obrazovku.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Jak se soubory ukládají do vašeho zařízení.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Ptát se, kam uložit každý soubor",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Při každém stahování zobrazí dialog Uložit prohlížeče.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Automaticky opakovat neúspěšná stahování",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Pokud se stahování nespustí, ImgFetch to jednou zkusí sám znovu.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Souběžná stahování:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Více je rychlejší pro mnoho obrázků, ale některé weby vás mohou omezit.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch ukládá nejlepší skutečný zdroj, který dokáže ověřit. Obrázek nikdy nezvětšuje.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Chytrá volba kvality",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Chytré stahování (doporučeno)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Zkontroluje každý dostupný zdroj a uloží nejlepší skutečnou verzi, kterou dokáže ověřit.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Upřednostnit přesný zdroj",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Přeskočí extra kontrolu kvality a uloží přesně ten obrázek, který stránka ukazuje. Rychlejší a soukromější.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "Kvalita JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "Kvalita PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "Kvalita WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Použito při převodu do JPG. Vyšší znamená větší soubory.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100 % je bezeztrátové. Nižší hodnoty omezí barvy pro menší soubory.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Použito při převodu do WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Ostatní formáty",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Nejvyšší kvalita, vždy 100 %.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Pevná paleta 256 barev (vlastní kodér ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Nekomprimované, vždy 100 %.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Vektorový obal kolem obrázku.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch dělá názvy souborů vždy bezpečné, žádné podivné znaky, nikdy.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Pojmenování",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Zachovat původní název",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Použije vlastní vyčištěný název souboru obrázku.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Web + datum + číslo",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Příklad: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Vlastní šablona",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Níže si vytvořte vlastní vzor.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Vlastní šablona",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Dostupné tokeny",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Nechat mě přejmenovat soubory před stažením",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Před jednotlivými staženími z kontextové nabídky otevře malý list přejmenování s náhledem.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Jak ImgFetch nachází obrázky na stránce.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Přeskakovat obrázky menší než",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Nepřeskakovat žádné",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Střední (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Velké (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Velmi velké (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Skryje drobné ikonky a mezery z výsledků. Stále to můžete změnit při každém skenování.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Zahrnout obrázky pozadí",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Najde i obrázky použité jako pozadí stránky (pomalejší na obrovských stránkách).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Hloubka skenování",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Načtená stránka",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Posunout stránku",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Načtená stránka: skenuje jen již načtené obrázky (nejrychlejší). Posunout stránku: nejprve stránkou krátce posune, aby odhalila líně načítané obrázky, pak obnoví vaši pozici.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Odstraňovat duplicitní obrázky",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Když se stejný obrázek objeví ve více velikostech, ponechá jen největší a ostatní skryje.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Výchozí nastavení pro zachycení stránky.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Výchozí formát",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Kvalita:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Zachytit nyní",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Viditelná oblast",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Vybrat oblast",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Zachytit prvek",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Celá stránka",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "„Vybrat oblast“ otevře na aktuální stránce skutečné překrytí výběru, táhněte obdélník, Esc zruší. „Zachytit prvek“ vám dovolí kliknout na libovolný prvek a zachytit přesně ten.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Po zachycení otevřít editor anotací",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Před uložením nakreslete šipky, přidejte text nebo rozmažte části snímku.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Viditelná oblast zachycena",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Oblast zachycena",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Prvek zachycen",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Celá stránka zachycena",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, pro uložení zkontrolujte kartu náhledu.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Dejte konkrétním webům vlastní chování stahování.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Doména webu",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Použít aktuální web",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Přidat",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Chytré najde nejlepší skutečný zdroj na tomto webu · Jak zobrazeno uloží obrázky přesně jak se zobrazují · Pozastaveno vypne stahování ImgFetch na tomto webu.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Zatím žádné předvolby webů.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Chytré",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Jak zobrazeno",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Pozastaveno",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Odebrat",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Chování pro {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Zadejte doménu webu, např. example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} přidán.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Aktuální web se nepodařilo přečíst.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Aktuální web: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Klávesové zkratky aktuálně přiřazené ImgFetch.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Načítání…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Skenovat tuto stránku",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Skenovat tuto stránku (alternativní)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Vybrat prvek",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Zachytit vybranou oblast",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Zachytit prvek",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Nejsou registrovány žádné zkratky.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Nenastaveno",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Kopírovat odkaz na stránku zkratek",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Pro změnu zkratky otevřete chrome://extensions/shortcuts (nebo edge://extensions/shortcuts v Edge), najděte ImgFetch a nastavte preferované klávesy. Na Macu použijte ⌘ místo Ctrl. Pokud zkratka ukazuje „Nenastaveno“, navržená klávesa kolidovala s prohlížečem nebo jiným rozšířením, nastavte ji zde ručně.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Zkratky se nepodařilo přečíst.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Odkaz na stránku zkratek zkopírován, vložte ho do adresního řádku.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Soubory se ukládají do složky Stažené vašeho prohlížeče. Tyto volby je lépe zorganizují.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Uspořádat stahování do",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Jedno místo (bez chytrých složek)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Složky podle webů",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Chytré složky podle typu",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Složky podle data",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Chytré složky třídí samy: Fotky, Snímky, GIFy, Grafika. Příklad „Podle webů“: Stažené / example.com / foto.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Používat výchozí podsložku",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Když je zapnuto, vše se nejprve uloží do této složky, navíc k organizaci výše.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Název podsložky",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "např. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Příklad: Stažené / ImgFetch / example.com / foto.jpg. Ignorováno, dokud je přepínač vypnutý.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Jednoduchý seznam toho, co jste uložili, zobrazený ve vyskakovacím okně.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Nedávná stahování",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Uchovávat historii stahování",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Ukládá název souboru, web, formát a velikost každého stahování.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Uchovávat historii (dní)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Starší záznamy se odstraňují automaticky.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Vymazat nyní",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Vymazat historii stahování",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Okamžitě odstraní všechny záznamy historie. Stažené soubory nejsou dotčeny.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Historii se nepodařilo vymazat.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Vezměte si nastavení s sebou, nebo začněte znovu.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Exportovat nastavení",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Stáhne soubor imgfetch-settings.json se všemi vašimi nastaveními.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Nastavení exportována.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Importovat nastavení",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "Soubor nastavení k importu",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Obnoví nastavení ze souboru exportu ImgFetch. Neplatné soubory jsou bezpečně odmítnuty.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Nastavení importována.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Tento soubor není platný export nastavení ImgFetch.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Obnovit výchozí",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Obnovit vše",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Nejprve požádá o potvrzení, pak obnoví všechna výchozí nastavení ImgFetch. Historie zůstane, pokud ji výše nevymažete.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Verze",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Licence",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Oprávnění",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "K čemu má ImgFetch přístup a proč:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Přidat položky ImgFetch do kontextové nabídky.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Ukládat soubory obrázků do vaší složky Stažené.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Pamatovat si vaše nastavení a historii na tomto zařízení.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Skenovat stránky, o které požádáte, a hledat obrázky.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Pracovat s právě otevřenou kartou.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Převádět obrázky mezi formáty na pozadí.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Říct vám, když stahování skončí (jen pokud to zapnete).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Kopírovat odkazy na obrázky do vaší schránky za vás.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Číst obrázky na webech, které navštěvujete, jen když skenujete stránku nebo spouštíte stahování.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Dokumentace",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Dokumentace, zásady ochrany soukromí a podmínky použití jsou ve veřejném repozitáři:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch nemá server a nic nesbírá. Stahují se jen obrázky, které si vyberete, a Google Lens (jen když kliknete) otevře Google s adresou obrázku. Úplné prohlášení viz PRIVACY.md v repozitáři.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch drží vše na vašem zařízení. Žádné účty, žádné sledování, žádná analytika.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "Co ImgFetch ukládá",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Vaše nastavení, předvolby webů a historie stahování žijí v místním úložišti vašeho prohlížeče, jen na tomto zařízení.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Stažené obrázky jdou rovnou do vaší složky Stažené. ImgFetch je nikam nenahrává.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Co ImgFetch nikdy nedělá",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Žádné účty a žádné přihlašování, není se kam přihlásit.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Žádná analytika, žádná telemetrie, žádná hlášení pádů.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Žádný vzdálený kód, každý skript je uvnitř balíčku rozšíření.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Obrázky se berou přímo z webů, které navštěvujete, s vaší běžnou relací prohlížeče. ImgFetch nepřidává žádné sledovací parametry.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Proč ImgFetch žádá každé oprávnění, je vysvětleno v oddílu O aplikaci, a úplné prohlášení je v PRIVACY.md ve veřejném repozitáři.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Anotovat snímek",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Načítání snímku…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Anotační nástroje",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Pero",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Šipka",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Obdélník",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Kruh",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Text",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Pixelovat",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "Červená",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Oranžová",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Zelená",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Modrá",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Černá",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Bílá",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Tenká",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Střední",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Tlustá",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Zpět",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Znovu",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "Znovu (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Vymazat",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Napište text, Enter pro umístění",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Zrušit text",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Uložit",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Zahodit",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Tip: tažením po obrázku kreslete. Nástroj text: klikněte, kam má text patřit, napište ho, stiskněte Enter. Kliknutím na umístěný text ho vyberete, tažením přesunete, Delete nebo Backspace ho odstraní. Rozmazání: táhněte přes skrývanou oblast.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Pixelizace skryje detaily před zvědavými pohledy, ale někdy ji lze zvrátit, nespoléhejte na ni u citlivého textu.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Snímek uložen.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Uložení se nezdařilo.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Tento odkaz editoru je neplatný.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Snímek se nepodařilo načíst.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "Náhled snímku",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Příprava vašeho snímku…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Náhled snímku",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Uložit snímek",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Kopírovat do schránky",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Znovu zachytit viditelnou stránku",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Znovu zachytit oblast",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Zahodit",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Tento odkaz náhledu je neplatný.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} pixelů",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Snímek připraven",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} uložen",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Snímek zkopírován do schránky.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Snímek se nepodařilo zkopírovat.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Info o obrázku",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Čtení podrobností obrázku…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Přímý odkaz",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Kopírovat odkaz",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Uložit jako JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Nebyl zadán žádný obrázek.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Název souboru",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Rozměry",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Zobrazeno jako",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Alternativní text",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Fotoaparát",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Pořízeno",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Plná velikost",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Místo",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Podrobnosti fotky",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Tato fotka obsahuje GPS souřadnice. Sdílením původního souboru sdílíte přesné místo pořízení. Pro čistou kopii použijte „Uložit bez metadat“.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Uložit bez metadat",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Kopie bez metadat uložena.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Metadata se nepodařilo odstranit.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Vybraný odkaz zkopírujte ručně.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Pojmenujte své stahování",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Název souboru",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Stáhnout",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Bude uloženo jako {format}. Správná přípona se přidá automaticky.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "původní formát",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Vítejte v ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Váš chytrý stahovač obrázků. Ukládejte libovolný obrázek v nejlepší dostupné verzi, skenujte celé stránky najednou a pořizujte snímky, vše z jednoho úhledného menu.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Klikněte pravým tlačítkem na libovolný obrázek",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Nabídka ImgFetch umožňuje stáhnout obrázek jak je zobrazen, v nejlepší kvalitě nebo jako originál, případně ho za pochodu převést do PNG, JPG nebo WebP.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Skenujte stránky a pořizujte snímky",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Kliknutím na tlačítko ImgFetch na liště naskenujete celou stránku a najdete obrázky, nebo zachytíte viditelnou stránku či vybranou oblast.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "skenovat stránku",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "zachytit oblast",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Udělejte si ho po svém",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Pět rychlých voleb, vše ostatní už má rozumnou výchozí hodnotu. Můžete je kdykoli změnit v Nastavení.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Po snímcích otevírat editor",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Před uložením nakreslete šipky, přidejte text nebo rozmažte.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Po dokončení stahování",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Upozornit mě",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Ukládat do podsložky",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Prázdné = rovnou do Stažených.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Název podsložky",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Ptát se na název před jednotlivými staženími",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Otevřít úplná nastavení →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Zpět",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Další",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "Začít používat ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Přejeme příjemné používání ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Nenastaveno, nastavte ve zkratkách prohlížeče",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Tažením vyberte: šipky posouvají, Shift+šipky mění velikost, Enter potvrdí, Esc zruší",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Kliknutím na prvek ho zachytíte, Esc zruší",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Kliknutím na prvek prozkoumáte jeho obrázek, Esc zruší",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Uložit jako...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (vložený obrázek)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Kopírovat odkaz na obrázek",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Kopírovat obrázek",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Info o obrázku",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Více...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Otevřít originál",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Hledat obrázek přes Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Skenovat tuto stránku",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Snímek obrazovky",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Zachytit viditelnou oblast",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Vybrat oblast",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Celá stránka",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Zachytit prvek",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Přidat předvolbu webu",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Zakázat na tomto webu",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Nastavení",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} uložen",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Převádí obrázky mezi formáty, ořezává snímky a kopíruje odkazy na obrázky.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted_one": {
+    "message": "ImgFetch byl restartován, obnoveno {resumed} stahování ve frontě{failedPart}.",
+    "description": "Notice after restart. Singular."
+  },
+  "sw_restarted_few": {
+    "message": "ImgFetch byl restartován, obnovena {resumed} stahování ve frontě{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_many": {
+    "message": "ImgFetch byl restartován, obnoveno {resumed} stahování ve frontě{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_other": {
+    "message": "ImgFetch byl restartován, obnovena {resumed} stahování ve frontě{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", selhalo: {failed}",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Převádění do {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Pozn.: animované obrázky se ukládají jako statický snímek.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Stahování…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "Stahování ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip_one": {
+    "message": "Příprava ZIP ({count} obrázek{cappedNote}, jak zobrazen)…",
+    "description": "Queue label. Singular."
+  },
+  "sw_preparingZip_few": {
+    "message": "Příprava ZIP ({count} obrázky{cappedNote}, jak zobrazeny)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_many": {
+    "message": "Příprava ZIP ({count} obrázků{cappedNote}, jak zobrazeno)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_other": {
+    "message": "Příprava ZIP ({count} obrázky{cappedNote}, jak zobrazeny)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (prvních 200 z {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull_one": {
+    "message": "ZIP stažen ({count} obrázek).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDoneFull_few": {
+    "message": "ZIP stažen ({count} obrázky).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_many": {
+    "message": "ZIP stažen ({count} obrázků).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_other": {
+    "message": "ZIP stažen ({count} obrázky).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_one": {
+    "message": "ZIP stažen ({count} z {total} obrázku, přeskočeno: {skipped}).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDonePartial_few": {
+    "message": "ZIP stažen ({count} z {total} obrázků, přeskočeno: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_many": {
+    "message": "ZIP stažen ({count} z {total} obrázků, přeskočeno: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_other": {
+    "message": "ZIP stažen ({count} z {total} obrázků, přeskočeno: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Hledání nejlepší kvality…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch nemohl použít verzi v nejvyšší kvalitě. Zkouším jiný dostupný zdroj…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Úspěšně staženo.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Tento prvek je vyšší než obrazovka, zachycena byla jen viditelná část. Pro zbytek použijte Celou stránku.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Tato stránka je velmi dlouhá, zachycuje se prvních {tileCount} dlaždic (horní část). Pro zbytek použijte zachycení oblasti.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Tato stránka je velmi velká, obrázek celé stránky byl zmenšen na {percent} %, aby se vešel do limitů paměti.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Zachycení celé stránky, dlaždice {n} z {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Celá stránka zachycena ({width} × {height} px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Samotný obrázek se nepodařilo zkopírovat, proto byl zkopírován jeho odkaz.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Odkaz na obrázek se nepodařilo zkopírovat.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} přidán do předvoleb webů.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch pozastaven na {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch umí skenovat jen běžné webové stránky, stránky prohlížeče jako chrome://, edge:// nebo internetový obchod jsou mimo dosah.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch umí vybírat prvky jen na běžných webových stránkách, stránky prohlížeče jako chrome://, edge:// nebo internetový obchod jsou mimo dosah.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "Ve vybraném prvku nebyl nalezen žádný obrázek.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Kopírovat",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Kopírovat upravený snímek do schránky",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Snímek zkopírován do schránky.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Snímek zkopírován do schránky, zmenšen na {width} x {height}, aby se vešel.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Snímek se nepodařilo zkopírovat. Zkuste ho uložit.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Kopírování je právě nedostupné.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} není na této stránce k dispozici. Místo toho byla zachycena viditelná část.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Prohlížeč neumožňuje zachycení této stránky.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title_one": {
+    "message": "Část {count} z {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_few": {
+    "message": "Části {count} z {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_many": {
+    "message": "Částí {count} z {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_other": {
+    "message": "Část {count} z {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting_one": {
+    "message": "Tato stránka je velmi dlouhá. Zachycení v {count} části v plném rozlišení.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_few": {
+    "message": "Tato stránka je velmi dlouhá. Zachycení ve {count} částech v plném rozlišení.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_many": {
+    "message": "Tato stránka je velmi dlouhá. Zachycení v {count} částech v plném rozlišení.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_other": {
+    "message": "Tato stránka je velmi dlouhá. Zachycení v {count} části v plném rozlišení.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped_one": {
+    "message": "Tato stránka je extrémně dlouhá. Zachycena byla pouze první {count} část.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_few": {
+    "message": "Tato stránka je extrémně dlouhá. Zachyceny byly pouze první {count} části.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_many": {
+    "message": "Tato stránka je extrémně dlouhá. Zachyceno bylo pouze prvních {count} částí.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_other": {
+    "message": "Tato stránka je extrémně dlouhá. Zachycena byla pouze první {count} část.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Byla zachycena posuvná oblast obsahu této stránky.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Samostatně posuvná část této stránky byla zachycena v aktuálně viditelné podobě.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Vložený obsah z jiného webu bylo možné zachytit pouze v aktuálně viditelné podobě.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

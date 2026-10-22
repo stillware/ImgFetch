@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-urls-ipv6.mjs
+ * ImgFetch, tests/test-urls-ipv6.mjs
  * N3: the IPv6 private-network guard must also block IPv4-compatible
  * (::127.0.0.1), NAT64 (64:ff9b::/96) and 6to4 (2002::/16) by extracting
  * the embedded IPv4 and re-checking it. the pre-release code let all three through.
@@ -28,7 +28,7 @@ let pass = 0;
 let fail = 0;
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; console.log(`  FAIL ${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; console.log(`  FAIL ${name}${extra ? `, ${extra}` : ''}`); }
 }
 
 // N3: must be blocked (private).

@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ImgFetch, Rename before download</title>
+  <title data-i18n="rename_subtitle">ImgFetch, Rename before download</title>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 560px; margin: 0 auto; padding: 28px 20px 60px; }
@@ -33,20 +33,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
     <div>
       <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub">Name your download</div>
+      <div class="brand-sub" data-i18n="rename_subtitle">Name your download</div>
     </div>
   </div>
 
   <div class="card">
-    <img id="preview" class="preview" alt="Image preview">
+    <img id="preview" class="preview" data-i18n-attr="alt:preview_imagePreview" alt="Image preview">
     <div class="field" style="margin-top:12px;">
-      <label for="filename">File name</label>
+      <label for="filename" data-i18n="rename_filename">File name</label>
       <input type="text" id="filename" autocomplete="off" spellcheck="false">
       <div class="hint" id="formatHint"></div>
     </div>
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary">Download</button>
-      <button id="btnCancel" class="btn btn-ghost">Cancel</button>
+      <button id="btnSave" class="btn btn-primary" data-i18n="rename_download">Download</button>
+      <button id="btnCancel" class="btn btn-ghost" data-i18n="ui_cancel">Cancel</button>
     </div>
   </div>
 

@@ -22,6 +22,37 @@
 (() => {
   'use strict';
   const UI = window.ImgFetchUI;
+
+  /* B: runtime localization. Classic script: no static imports, so the
+   * i18n module loads lazily; English defaults stay until it resolves. */
+  let __t = null;
+  let partLabel = ''; // FIX 4.2: "Part i of N", re-applied after applyI18n()
+  function applyPartLabel() {
+    if (!partLabel) return;
+    try {
+      const sub = document.querySelector('.brand-sub');
+      if (sub) sub.textContent = partLabel;
+      document.title = partLabel;
+    } catch { /* never break the preview */ }
+  }
+  (async () => {
+    try {
+      const { initI18n, t, applyI18n, onLanguageChange } = await import('../shared/i18n.js');
+      await initI18n();
+      __t = t;
+      applyI18n();
+      applyPartLabel();
+      onLanguageChange(() => { applyI18n(); applyPartLabel(); });
+    } catch { /* English defaults remain */ }
+  })();
+
+  /** Translate a key; falls back to the given English when i18n is unavailable. */
+  function tr(key, english, vars) {
+    if (__t) {
+      try { return __t(key, vars); } catch { /* fall through */ }
+    }
+    return english;
+  }
   const $ = (id) => document.getElementById(id);
   const id = location.hash.replace('#', '');
 
@@ -36,15 +67,22 @@
       UI.applyTheme('system');
     }
     if (!id) {
-      fail('This preview link is invalid.');
+      fail(tr('capture_invalidLink', 'This preview link is invalid.'));
       return;
     }
     try {
       const cap = await UI.send('GET_CAPTURE', { id });
       $('shot').src = cap.dataUrl;
+      // FIX 4.2: parts of a split full-page capture show their
+      // "Part i of N" title in the subtitle and the tab title.
+      if (cap.partTotal > 1 && cap.partIndex > 0) {
+        partLabel = tr('part_title', `Part ${cap.partIndex} of ${cap.partTotal}`,
+          { count: cap.partIndex, total: cap.partTotal });
+        applyPartLabel();
+      }
       $('meta').textContent = cap.width > 0 && cap.height > 0
-        ? `${cap.width} × ${cap.height} pixels`
-        : 'Screenshot ready';
+        ? tr('capture_metaPixels', `${cap.width} × ${cap.height} pixels`, { width: cap.width, height: cap.height })
+        : tr('capture_ready', 'Screenshot ready');
       $('loading').hidden = true;
       $('content').hidden = false;
     } catch (err) {
@@ -55,7 +93,7 @@
       $('btnSave').disabled = true;
       try {
         const { filename } = await UI.send('SAVE_CAPTURE', { id });
-        UI.toast(`Saved ${filename.split('/').pop()}`);
+        UI.toast(tr('capture_savedFile', `Saved ${filename.split('/').pop()}`, { filename: filename.split('/').pop() }));
         setTimeout(() => window.close(), 900);
       } catch (err) {
         UI.toast(err.message);
@@ -68,9 +106,9 @@
         const cap = await UI.send('GET_CAPTURE', { id });
         const blob = await (await fetch(cap.dataUrl)).blob();
         await navigator.clipboard.write([new ClipboardItem({ [blob.type || 'image/png']: blob })]);
-        UI.toast('Screenshot copied to clipboard.');
+        UI.toast(tr('capture_copied', 'Screenshot copied to clipboard.'));
       } catch (err) {
-        UI.toast('Could not copy the screenshot.');
+        UI.toast(tr('capture_copyFailed', 'Could not copy the screenshot.'));
       }
     });
     $('btnRetakeVisible').addEventListener('click', async () => {

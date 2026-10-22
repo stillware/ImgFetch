@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/urls.js
+ * ImgFetch, core/urls.js
  * Pure URL helpers shared by background, popup and options.
  * No chrome.* dependencies so this module is unit-testable in Node.
  */
@@ -32,7 +32,7 @@ const SUPPORTED_SCHEMES = new Set(['http:', 'https:', 'data:', 'blob:']);
  * absolute URL string, or null when it cannot be used safely.
  */
 /**
- * L12: data: URL size limits — one per path, documented here (not unified,
+ * L12: data: URL size limits, one per path, documented here (not unified,
  * because the paths have genuinely different needs):
  * - Scanner discovery uses SCAN_DATA_URL_MAX (2 MB, in content/scanner.js).
  *   Scan results travel through extension messaging; keep them small.
@@ -59,7 +59,7 @@ export function normalizeUrl(raw, base) {
     return value;
   }
   if (url.protocol === 'blob:') {
-    // Page blob URLs (Giphy/Tenor media, editors) — resolved in-page to a
+    // Page blob URLs (Giphy/Tenor media, editors), resolved in-page to a
     // data URL by the service worker before downloading.
     return value;
   }
@@ -135,7 +135,7 @@ export function normalizeHost(raw) {
  * True when the URL targets a private network: loopback, link-local,
  * RFC-1918 / unique-local / CGNAT addresses, or internal hostnames
  * (M7, B2). Extension-privileged fetches (no CORS) must not hit these
- * unless the page itself is on that host — a malicious page could
+ * unless the page itself is on that host, a malicious page could
  * otherwise make the browser GET internal URLs.
  *
  * B2: IPv6 is parsed properly (not string prefixes): IPv4-mapped
@@ -145,7 +145,7 @@ export function normalizeHost(raw) {
  * (router, printer, intranet) count as private.
  */
 /** Single source of truth for the IPv4 private ranges (N1-pattern: one rule,
- *  one place — used for dotted IPv4 and for IPv4 embedded in IPv6). */
+ *  one place, used for dotted IPv4 and for IPv4 embedded in IPv6). */
 function isPrivateIPv4Octets(a, b) {
   if (a === 10) return true; // 10.0.0.0/8
   if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
@@ -183,7 +183,7 @@ export function isPrivateNetworkUrl(raw) {
     return isPrivateIPv6(host.slice(1, -1));
   }
   // Single-label hostnames (printer, intranet, router) resolve through
-  // local DNS / search domains — treat them as internal.
+  // local DNS / search domains, treat them as internal.
   if (host && !host.includes('.') && !host.includes(':')) return true;
   return false;
 }
@@ -246,11 +246,11 @@ function isPrivateIPv6(host) {
   if (g.slice(0, 6).every((x) => x === 0)) {
     return embeddedV4(g[6], g[7]);
   }
-  // N3: NAT64 64:ff9b::/96 — the last 32 bits are the IPv4 address.
+  // N3: NAT64 64:ff9b::/96, the last 32 bits are the IPv4 address.
   if (g[0] === 0x64 && g[1] === 0xff9b && g.slice(2, 6).every((x) => x === 0)) {
     return embeddedV4(g[6], g[7]);
   }
-  // N3: 6to4 2002::/16 — bits 16..47 are the IPv4 address.
+  // N3: 6to4 2002::/16, bits 16..47 are the IPv4 address.
   if (g[0] === 0x2002) {
     return embeddedV4(g[1], g[2]);
   }
@@ -271,7 +271,7 @@ export function isPrivateNetworkFetchBlocked(url, pageUrl) {
     const p = new URL(String(pageUrl || ''));
     const norm = (h) => h.toLowerCase().replace(/\.$/, '');
     if (norm(u.hostname) && norm(u.hostname) === norm(p.hostname)) {
-      return false; // same private host as the page — the user's own intranet
+      return false; // same private host as the page, the user's own intranet
     }
   } catch {
     /* fall through to blocked */
@@ -293,7 +293,7 @@ export function lensUrlBlocked(imageUrl, pageUrl) {
 }
 
 /**
- * M1: one consistent rule for folder naming — the registrable domain
+ * M1: one consistent rule for folder naming, the registrable domain
  * without a leading "www.", TLD kept (so example.com and example.org
  * never collide, and www.example.com matches example.com).
  * e.g. "images.example.co.uk" -> "example.co.uk". Best-effort, no PSL.

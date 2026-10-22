@@ -16,20 +16,20 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/image-url.js
+ * ImgFetch, core/image-url.js
  * Pick the best copyable image URL from a right-clicked <img> descriptor.
  *
  * Priority (per spec):
- *   1. currentSrc — what the browser actually rendered (srcset/<picture> aware)
+ *   1. currentSrc, what the browser actually rendered (srcset/<picture> aware)
  *   2. the src attribute
- *   3. <picture>/<source> srcset — best (largest) candidate
+ *   3. <picture>/<source> srcset, best (largest) candidate
  *   4. lazy-load data-* attributes (only when applicable: the rendered
  *      source is a data: URI or a 1px/placeholder image)
  *
  * Never invents URLs: candidates come only from the element's own
  * attributes. data: URIs are never returned (a truncated data: URL on the
- * clipboard is worse than an honest failure). Pure logic — no chrome.*,
- * no DOM — so this module is unit-testable in Node.
+ * clipboard is worse than an honest failure). Pure logic, no chrome.*,
+ * no DOM, so this module is unit-testable in Node.
  */
 
 import { parseSrcset } from './urls.js';
@@ -76,7 +76,7 @@ function firstLazy(desc) {
 }
 
 /**
- * @param {object} desc — { currentSrc, srcAttr, sourceSrcsets[], lazy{},
+ * @param {object} desc, { currentSrc, srcAttr, sourceSrcsets[], lazy{},
  *                         naturalWidth, naturalHeight } as collected from the
  *                         right-clicked <img> in the page.
  * @returns {string|null} the raw best URL (still relative-safe; the caller
@@ -98,7 +98,7 @@ export function pickBestImageUrl(desc) {
     return src;
   }
 
-  // <picture>/<source> srcsets — take the largest candidate.
+  // <picture>/<source> srcsets, take the largest candidate.
   const sets = Array.isArray(desc.sourceSrcsets) ? desc.sourceSrcsets : [];
   let best = null;
   let bestScore = -1;

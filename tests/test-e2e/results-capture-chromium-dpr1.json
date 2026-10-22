@@ -1,0 +1,205 @@
+{
+  "dpr": 1,
+  "headed": true,
+  "browser": "chromium",
+  "phases": [
+    {
+      "name": "P0 worker alive + offscreen up",
+      "ok": true,
+      "evidence": {
+        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+      }
+    },
+    {
+      "name": "C1 chrome://newtab: honest localized outcome, nothing from another tab",
+      "ok": true,
+      "evidence": {
+        "tabUrl": "(empty)",
+        "visible": "{\"ok\":false,\"error\":\"The browser does not allow capturing this page.\"}",
+        "full": "{\"ok\":false,\"error\":\"The browser does not allow capturing this page.\"}",
+        "tabsDelta": 0,
+        "newCaptures": 0,
+        "visibleVerdict": "refused-localized",
+        "fullVerdict": "refused-localized",
+        "note": "visible=refused-localized full=refused-localized tabsDelta=0 newCaptures=0"
+      }
+    },
+    {
+      "name": "C2 extension page: injection forbidden, honest localized refusal",
+      "ok": true,
+      "evidence": {
+        "injection": "{\"ok\":false,\"err\":\"Cannot access contents of the page. Extension manifest must request permission to access the respective host.\"}",
+        "full": "{\"ok\":false,\"error\":\"The browser does not allow capturing this page.\"}",
+        "note": "injectionOk=false refusedHonestly=true tabsDelta=0"
+      }
+    },
+    {
+      "name": "C3 seam-free stitching at DPR 1",
+      "ok": true,
+      "evidence": {
+        "ms": 2919,
+        "planTiles": 25,
+        "parts": 2,
+        "seq": "part1: rows=160 bad=0 [0..159] | part2: rows=40 bad=0 [160..199]",
+        "refGoodRows": "200/200",
+        "refDiff": "part1: diff=0/20240000 (0.000%) | part2: diff=0/5060000 (0.000%)",
+        "maxDiffPct": 0,
+        "meanAbs": 0,
+        "refSkippedPx": 0,
+        "wholePageCovered": true,
+        "note": "2 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
+      }
+    },
+    {
+      "name": "C4 inner scroll container captured whole, rows in order",
+      "ok": true,
+      "evidence": {
+        "target": "container",
+        "notices": "{\"innerCaptured\":true,\"nestedClipped\":false,\"crossOriginClipped\":false}",
+        "parts": 1,
+        "planTiles": 11,
+        "expectedH": 6000,
+        "gotH": 6000,
+        "seqOk": true,
+        "marksLeft": 0,
+        "winScroll": {
+          "x": 0,
+          "y": 0
+        },
+        "boxScrollRestored": true,
+        "note": "target=container h=6000 seq bad=0/60"
+      }
+    },
+    {
+      "name": "C5 sticky header + fixed banner appear exactly once",
+      "ok": true,
+      "evidence": {
+        "redRows": 60,
+        "expRed": 60,
+        "blueRows": 80,
+        "expBlue": 80,
+        "note": "red=60/60 blue=80/80"
+      }
+    },
+    {
+      "name": "C6 lazy images decoded in stitched output",
+      "ok": true,
+      "evidence": {
+        "checked": 10,
+        "loaded": 10,
+        "blank": 0,
+        "note": "loaded=10/10 blank=0 "
+      }
+    },
+    {
+      "name": "C7 page state fully restored",
+      "ok": true,
+      "evidence": {
+        "afterSuccess": {
+          "x": 0,
+          "y": 400,
+          "bannerDisplay": "",
+          "bannerVisible": "block",
+          "hdrVisibility": "",
+          "marks": 0
+        },
+        "afterFailure": {
+          "x": 0,
+          "y": 400,
+          "bannerVisible": "block",
+          "hdrVisibility": "",
+          "marks": 0
+        },
+        "simulatedThrow": true,
+        "note": "success restored=true, failure restored=true"
+      }
+    },
+    {
+      "name": "C8 long page: parts, all full resolution",
+      "ok": true,
+      "evidence": {
+        "ms": 5418,
+        "parts": 3,
+        "tiles": 50,
+        "expDevH": 40000,
+        "gotDevH": 40000,
+        "partDims": "1265x16000,1265x16000,1265x8000",
+        "fullRes": true,
+        "seqOk": true,
+        "note": "3 parts, 50 tiles, devH 40000/40000, seq bad=0/400"
+      }
+    },
+    {
+      "name": "C9 area crop exact at DPR 1, PNG quality ignored",
+      "ok": true,
+      "evidence": {
+        "rect": "{\"x\":100,\"y\":100,\"width\":400,\"height\":300}",
+        "dim": "400x300",
+        "qualityIgnored": true,
+        "refDiffPixels": 0,
+        "groundTruth": "exact",
+        "note": "rect {\"x\":100,\"y\":100,\"width\":400,\"height\":300} -> 400x300, qualityIgnored=true, diffPixels=0"
+      }
+    },
+    {
+      "name": "C10 64MP stitch peak memory measured",
+      "ok": true,
+      "evidence": {
+        "tiles": 64,
+        "outDims": "8000x8000",
+        "offscreenPeakMB": 11,
+        "offscreenAfterMB": 7,
+        "pngBytes": 1398260,
+        "note": "64 tiles -> 8000x8000, peak JS heap 11 MB"
+      }
+    },
+    {
+      "name": "C11 annotate 8000x8000: draw/undo/redo/save/copy/discard",
+      "ok": true,
+      "evidence": {
+        "pngMB": 0.2,
+        "editorBox": "1040x1040 css",
+        "strokeMs": 5468,
+        "undoRedo": {
+          "afterDraw": {
+            "undo": false,
+            "redo": true
+          },
+          "afterUndo": {
+            "undo": false,
+            "redo": false
+          },
+          "afterRedo": {
+            "undo": false,
+            "redo": true
+          },
+          "redoCleared": {
+            "redo": true
+          }
+        },
+        "clipboard": {
+          "ok": true,
+          "len": 274580,
+          "magic": true,
+          "w": 3464,
+          "h": 3464
+        },
+        "savedFile": "download.png",
+        "savedDims": "8000x8000",
+        "closedAfterSave": true,
+        "discardClosed": true,
+        "annErrors": 0,
+        "note": "strokes 5468ms, copy 3464x3464, save 8000x8000, discardClosed=true"
+      }
+    },
+    {
+      "name": "no console errors / pageerrors anywhere",
+      "ok": true,
+      "evidence": {
+        "note": "0 errors, 0 total entries",
+        "first": []
+      }
+    }
+  ],
+  "errors": []
+}

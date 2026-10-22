@@ -2,14 +2,14 @@
 
 Independent audit remediation pass on the pre-release code, executed 2026-10-03 per
 `IMGFETCH_AUDIT_REPORT.md` + `IMGFETCH_AGENT_PROMPT.md`. Every finding ends
-FIXED, REJECTED (technical reason), or DEFERRED — nothing silently skipped.
+FIXED, REJECTED (technical reason), or DEFERRED, nothing silently skipped.
 
 **Test evidence:** 49/49 unit tests pass (`node tests/test-core.mjs`),
 `python3 scripts/validate.py` → ALL STATIC CHECKS PASSED.
 Headless-Chromium smoke test: extension loads, service worker starts,
 zero console errors in worker/popup/options, message routing verified.
 
-## Phase A — must fix before any store submission
+## Phase A, must fix before any store submission
 
 | ID | Finding | Status | What changed |
 |---|---|---|---|
@@ -25,7 +25,7 @@ zero console errors in worker/popup/options, message routing verified.
 | M6 | Fail-open sender classification | FIXED | sender.id check; per-message SENDER_RULES; fail-closed unknown |
 | M7 | Private-network fetch guard | FIXED | isPrivateNetworkUrl blocks loopback/RFC-1918 unless same host |
 
-## Phase B — quality and trust
+## Phase B, quality and trust
 
 | ID | Finding | Status | What changed |
 |---|---|---|---|
@@ -38,11 +38,11 @@ zero console errors in worker/popup/options, message routing verified.
 | M9 | Docs/version drift | FIXED | README structure regenerated; CHANGELOG 1.0.0; version bumped |
 | M12 | AVIF shown when unsupported | FIXED | Menu item hidden; popup button hidden; dlFormat option disabled with "(not supported)" |
 
-## Phase C — clean code and performance
+## Phase C, clean code and performance
 
 | ID | Finding | Status | What changed |
 |---|---|---|---|
-| M10 | Dead code | FIXED | ranking.js deleted; 7 dead exports removed; saveToDownloads() extracted; captureRegion/finishCapture merged. (QUALITY_DEFAULTS and duplicate buildMenus from the report were verified absent — report was stale.) |
+| M10 | Dead code | FIXED | ranking.js deleted; 7 dead exports removed; saveToDownloads() extracted; captureRegion/finishCapture merged. (QUALITY_DEFAULTS and duplicate buildMenus from the report were verified absent, report was stale.) |
 | M11 | Performance | FIXED | Queue broadcasts throttled (200 ms); grid windowed (120/page + sentinel); annotate preview layer (no full repaint on drag/selection); captures moved to IndexedDB |
 | L1 | Windows reserved names | FIXED | `_` prefix; unit test |
 | L2 | Shortcuts link always chrome:// | FIXED | edge:// in Edge |
@@ -57,24 +57,24 @@ zero console errors in worker/popup/options, message routing verified.
 | L11 | Extension trusted from URL | FIXED | SNIFF_TYPE (Range-request magic bytes) corrects direct-download extensions |
 | L12 | data: URL limit mismatch | FIXED | Per-path named limits + documented rationale |
 
-## Phase D — UI/UX (audit §4)
+## Phase D, UI/UX (audit §4)
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Popup hierarchy | FIXED — screenshot icon row; primary scan button |
-| 2 | Grid interaction | FIXED — click toggles, magnifier previews, Invert selection |
+| 1 | Popup hierarchy | FIXED, screenshot icon row; primary scan button |
+| 2 | Grid interaction | FIXED, click toggles, magnifier previews, Invert selection |
 | 3 | Filter bar | Already satisfied by H1 (chips, hidden-count, reset) |
-| 4 | Queue progress | Partial — per-item status shown; byte-level speed deferred (needs downloads.onChanged plumbing) |
-| 5 | Settings order | Considered — current 13-section order already matches the recommended hierarchy; File Names/Folders merge deferred (large restructure, modest gain) |
-| 6 | Screenshot flow | Partial — capture page has Save/Annotate; clipboard copy deferred |
-| 7 | Menu depth | FIXED — 6-item top level; Save as… flattened to one submenu; Lens/Open Original under More |
-| 8 | Premium look | Considered — tokens, spacing, shadows already consistent; full redesign out of scope for a fix pass |
-| 9 | Accessibility | FIXED — aria-live on scan + queue; titles on all pages |
-| 10 | Honest copy | FIXED — "best available version" replaces "best quality" claims |
+| 4 | Queue progress | Partial, per-item status shown; byte-level speed deferred (needs downloads.onChanged plumbing) |
+| 5 | Settings order | Considered, current 13-section order already matches the recommended hierarchy; File Names/Folders merge deferred (large restructure, modest gain) |
+| 6 | Screenshot flow | Partial, capture page has Save/Annotate; clipboard copy deferred |
+| 7 | Menu depth | FIXED, 6-item top level; Save as… flattened to one submenu; Lens/Open Original under More |
+| 8 | Premium look | Considered, tokens, spacing, shadows already consistent; full redesign out of scope for a fix pass |
+| 9 | Accessibility | FIXED, aria-live on scan + queue; titles on all pages |
+| 10 | Honest copy | FIXED, "best available version" replaces "best quality" claims |
 
 ## Remaining risks (honest)
 
-- No real-browser acceptance yet: needs the manual matrix (Chrome/Edge stable, Chrome 116) — worker-restart mid-bulk, 200-image ZIP, 20000 px capture at DPR 2.
-- SNIFF_TYPE adds one tiny Range request per direct download; servers ignoring Range fall back to full 32-byte fetch — still cheap, but it's a behavior change to watch.
+- No real-browser acceptance yet: needs the manual matrix (Chrome/Edge stable, Chrome 116), worker-restart mid-bulk, 200-image ZIP, 20000 px capture at DPR 2.
+- SNIFF_TYPE adds one tiny Range request per direct download; servers ignoring Range fall back to full 32-byte fetch, still cheap, but it's a behavior change to watch.
 - IndexedDB capture store: quota errors are caught and fall back to the memory cache; private-mode edge cases untested.
 - Store review outcome can't be guaranteed; M8 work is risk reduction.

@@ -16,16 +16,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/svg.js
+ * ImgFetch, core/svg.js
  * Allowlist SVG sanitizer (B4, ROUND 2). A saved .svg opened in a browser
- * can run embedded scripts — the old denylist (strip <script>, on*,
+ * can run embedded scripts, the old denylist (strip <script>, on*,
  * javascript:) had working bypasses (tab/newline inside the scheme,
  * <set>/<animate> retargeting href, <foreignObject>, @import …).
  *
  * This module keeps only known-safe elements and attributes, normalizes
  * URL values before checking their scheme (browsers ignore tab/LF/CR
  * inside URLs), and neutralizes dangerous CSS. Pure policy over a parsed
- * document — unit-testable with a stub DOM, used by offscreen.js with the
+ * document, unit-testable with a stub DOM, used by offscreen.js with the
  * real DOMParser. No dependencies.
  */
 
@@ -52,12 +52,12 @@ const ALLOWED_ELEMENTS = new Set([
 /** Animation elements get an extra href-retarget check. */
 const ANIMATION_ELEMENTS = new Set(['animate', 'animatemotion', 'animatetransform', 'set']);
 
-/** Attributes holding URLs — value must pass isSafeSvgUrl(). */
+/** Attributes holding URLs, value must pass isSafeSvgUrl(). */
 const URL_ATTRS = new Set(['href', 'xlink:href', 'src']);
 
 /**
  * Safe attributes (compared lowercased; XML keeps the original spelling).
- * Presentation, geometry, gradients, filters, text, animation timing —
+ * Presentation, geometry, gradients, filters, text, animation timing,
  * nothing that can carry script or event handlers.
  */
 const ALLOWED_ATTRS = new Set([
@@ -211,12 +211,12 @@ export function sanitizeSvgDocument(doc) {
       try {
         el.textContent = sanitizeStyleText(el.textContent || '');
       } catch {
-        /* stub without textContent setter — attributes already cleaned */
+        /* stub without textContent setter, attributes already cleaned */
       }
       continue;
     }
     // B4: script, foreignObject, iframe, embed, object and friends are
-    // simply not on the allowlist — no denylist to bypass.
+    // simply not on the allowlist, no denylist to bypass.
     if (!ALLOWED_ELEMENTS.has(tag)) {
       el.remove();
       removed += 1;

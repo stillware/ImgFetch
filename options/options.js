@@ -20,14 +20,18 @@
  * Settings page controller. Every change saves automatically (debounced).
  */
 import { parseSettingsImport } from '../core/filenames.js';
+import { initI18n, t, applyI18n, onLanguageChange, setLanguage, LOCALES, LOCALE_INFO } from '../shared/i18n.js';
 import { normalizeHost } from '../core/urls.js';
 import { groupByDay } from '../core/history.js';
 
 const UI = window.ImgFetchUI;
+
+// B: runtime localization. No top-level await; init() awaits i18nReady.
+const i18nReady = initI18n();
 const $ = (id) => document.getElementById(id);
 
 // Public repository URL. Used by the About section links.
-const GITHUB_REPO = 'https://github.com/umr-x/imgfetch';
+const GITHUB_REPO = 'https://github.com/umr-x/ImgFetch';
 
 let settings = null;
 let saveTimer = 0;
@@ -35,6 +39,9 @@ let saveTimer = 0;
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+  await i18nReady;
+  applyI18n();
+  onLanguageChange(() => { applyI18n(); paintAboutPrivacy(); paintPrivacyPermNote(); });
   try {
     const res = await UI.send('GET_SETTINGS');
     settings = res.settings;
@@ -44,18 +51,19 @@ async function init() {
   }
   UI.applyTheme(settings.theme);
   UI.watchSystemTheme(() => settings.theme);
+  await buildLanguageOptions();
   paintAll();
   wireAll();
   $('aboutVersion').textContent = chrome.runtime.getManifest().version;
   $('aboutLicenceLink').href = GITHUB_REPO + '/blob/main/LICENSE';
   $('aboutRepoLink').href = GITHUB_REPO;
   $('aboutRepoLink').textContent = GITHUB_REPO.replace('https://', '');
-  $('aboutPrivacyLink').href = GITHUB_REPO + '/blob/main/PRIVACY.md';
+  // B: aboutPrivacyLink is created by paintAboutPrivacy() (wireAbout).
 }
 
 function scheduleSave() {
   const el = $('saveState');
-  el.textContent = 'Saving…';
+  el.textContent = t('options_saving');
   el.className = 'saving';
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
@@ -63,10 +71,10 @@ function scheduleSave() {
       const res = await UI.send('SAVE_SETTINGS', { settings });
       settings = res.settings;
       UI.applyTheme(settings.theme);
-      el.textContent = 'All changes saved';
+      el.textContent = t('options_saved');
       el.className = '';
     } catch (err) {
-      el.textContent = 'Could not save, try again';
+      el.textContent = t('options_saveFailed');
       el.className = 'error';
       UI.toast(err.message);
     }
@@ -122,6 +130,7 @@ function paintAll() {
   $('askFilename').checked = settings.askFilename;
   $('autoCollapseQueue').checked = settings.autoCollapseQueue !== false;
 
+  $('language').value = settings.language || 'auto';
   $('historyEnabled').checked = settings.historyEnabled;
   $('historyRetentionDays').value = settings.historyRetentionDays;
 
@@ -244,9 +253,55 @@ function wireAll() {
   wireHistorySection();
   wireBackup();
   wireScreenshots();
+  wireLanguage();
   wireShortcuts();
   wireAbout();
   wireSidebar();
+}
+
+/* ---------------- language ---------------- */
+
+/**
+ * B: language picker. Option labels come from each locale's own
+ * messages.json (languageName), read directly from the packaged files;
+ * when a file cannot be read the English name is used instead. The
+ * first option ("auto") is translated via data-i18n; locale names are
+ * never translated, so they carry no data-i18n attributes.
+ */
+async function buildLanguageOptions() {
+  const select = $('language');
+  if (!select) return;
+  const native = {};
+  await Promise.all(LOCALES.map(async (code) => {
+    try {
+      const url = chrome.runtime.getURL(`_locales/${code}/messages.json`);
+      const res = await fetch(url);
+      if (res && res.ok) {
+        const json = await res.json();
+        const name = json && json.languageName && json.languageName.message;
+        if (name) native[code] = name;
+      }
+    } catch { /* fall back to the English name below */ }
+  }));
+  for (const code of LOCALES) {
+    const opt = document.createElement('option');
+    opt.value = code;
+    const label = native[code] || LOCALE_INFO[code].englishName;
+    opt.textContent = `${label} (${LOCALE_INFO[code].englishName})`;
+    select.append(opt);
+  }
+}
+
+function wireLanguage() {
+  const select = $('language');
+  if (!select) return;
+  select.addEventListener('change', () => {
+    const code = select.value;
+    settings.language = code;
+    scheduleSave(); // debounced SAVE_SETTINGS, the same path as every option
+    // Re-render in the new language immediately, without a reload.
+    setLanguage(code).catch(() => {});
+  });
 }
 
 /* ---------------- site preferences ---------------- */
@@ -256,18 +311,18 @@ function renderSiteList() {
   list.textContent = '';
   const entries = Object.entries(settings.sitePrefs || {});
   if (!entries.length) {
-    list.append(UI.el('p', 'No site preferences yet.', 'muted small'));
+    list.append(UI.el('p', t('sp_empty'), 'muted small'));
     return;
   }
   const frag = document.createDocumentFragment();
-  const labels = { smart: 'Smart', best: 'Smart', normal: 'As shown', disabled: 'Paused' };
+  const labels = { smart: t('sp_smart'), best: t('sp_smart'), normal: t('sp_asShown'), disabled: t('sp_paused') };
   for (const [host, mode] of entries.sort()) {
     const row = UI.el('div', null, 'site-row');
     const name = UI.el('strong', host);
     name.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis;';
     const select = document.createElement('select');
     select.className = 'inline';
-    select.setAttribute('aria-label', `Behavior for ${host}`);
+    select.setAttribute('aria-label', t('sp_behaviorAria', { host }));
     for (const [v, label] of Object.entries(labels)) {
       const opt = document.createElement('option');
       opt.value = v;
@@ -279,7 +334,7 @@ function renderSiteList() {
       settings.sitePrefs[host] = select.value;
       scheduleSave();
     });
-    const remove = UI.el('button', 'Remove', 'btn btn-sm btn-ghost');
+    const remove = UI.el('button', t('sp_remove'), 'btn btn-sm btn-ghost');
     remove.addEventListener('click', () => {
       delete settings.sitePrefs[host];
       renderSiteList();
@@ -299,27 +354,27 @@ function wireSites() {
   $('btnAddSite').addEventListener('click', () => {
     const host = cleanHost($('siteHost').value);
     if (!host) {
-      UI.toast('Type a website domain, like example.com.');
+      UI.toast(t('sp_typeDomain'));
       return;
     }
     settings.sitePrefs[host] = settings.sitePrefs[host] || 'smart';
     $('siteHost').value = '';
     renderSiteList();
     scheduleSave();
-    UI.toast(`Added ${host}.`);
+    UI.toast(t('sp_added', { host }));
   });
   $('btnCurrentSite').addEventListener('click', async () => {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       const host = tab && tab.url ? cleanHost(new URL(tab.url).hostname) : '';
       if (!host) {
-        UI.toast('Could not read the current site.');
+        UI.toast(t('sp_noCurrentSite'));
         return;
       }
       $('siteHost').value = host;
-      UI.toast(`Current site: ${host}`);
+      UI.toast(t('sp_currentSiteIs', { host }));
     } catch {
-      UI.toast('Could not read the current site.');
+      UI.toast(t('sp_noCurrentSite'));
     }
   });
 }
@@ -330,18 +385,18 @@ function wireHistorySection() {
   loadOptHistory();
   $('btnClearHistory').addEventListener('click', async () => {
     const ok = await UI.confirmDialog({
-      title: 'Clear download history?',
-      message: 'This removes the list of files ImgFetch downloaded. The files themselves stay on your device.',
-      confirmLabel: 'Clear history',
+      title: t('history_clearTitle'),
+      message: t('history_clearMessage'),
+      confirmLabel: t('history_clearConfirm'),
       danger: true,
     });
     if (!ok) return;
     try {
       await UI.send('CLEAR_HISTORY');
-      UI.toast('History cleared.');
+      UI.toast(t('history_cleared'));
       loadOptHistory();
     } catch (err) {
-      UI.toast(err.message || 'Could not clear history.');
+      UI.toast(err.message || t('hi_clearFailed'));
     }
   });
 }
@@ -353,20 +408,20 @@ async function loadOptHistory() {
   list.textContent = '';
   try {
     const { records } = await UI.send('GET_HISTORY');
-    // A newer load started while we awaited (e.g. rapid section switches) —
+    // A newer load started while we awaited (e.g. rapid section switches),
     // only the latest may paint, or rows duplicate.
     if (seq !== optHistoryLoadSeq) return;
     if (!records || !records.length) {
-      list.append(UI.el('p', 'No downloads yet. Your saved images will appear here.', 'muted small'));
+      list.append(UI.el('p', t('history_empty'), 'muted small'));
       return;
     }
     const frag = document.createDocumentFragment();
-    for (const group of groupByDay(records)) {
-      frag.append(UI.el('div', `${group.label} · ${group.count}`, 'hist-day'));
+    for (const group of groupByDay(records, t)) {
+      frag.append(UI.el('div', t('history_groupLine', { label: group.label, count: group.count }), 'hist-day'));
       for (const r of group.items) {
         const row = UI.el('div', null, 'hist-item');
         row.append(UI.el('span', (r.format || '').toUpperCase(), 'fmt'));
-        const name = UI.el('span', r.filename || 'image');
+        const name = UI.el('span', r.filename || t('ui_fallbackName'));
         name.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
         name.title = r.filename || '';
         row.append(name, UI.el('span', UI.formatHistorySize(r), 'muted small'));
@@ -392,7 +447,7 @@ function wireBackup() {
     a.download = 'imgfetch-settings.json';
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
-    UI.toast('Settings exported.');
+    UI.toast(t('bk_exported'));
   });
 
   $('btnImport').addEventListener('click', () => $('importFile').click());
@@ -407,17 +462,17 @@ function wireBackup() {
       const res = await UI.send('SAVE_SETTINGS', { settings: imported });
       settings = res.settings;
       paintAll();
-      UI.toast('Settings imported.');
+      UI.toast(t('bk_imported'));
     } catch {
-      UI.toast('That file is not a valid ImgFetch settings export.');
+      UI.toast(t('bk_importInvalid'));
     }
   });
 
   $('btnReset').addEventListener('click', async () => {
     const ok = await UI.confirmDialog({
-      title: 'Reset all settings?',
-      message: 'Every ImgFetch setting returns to its default. Your download history is kept.',
-      confirmLabel: 'Reset settings',
+      title: t('options_resetTitle'),
+      message: t('options_resetMessage'),
+      confirmLabel: t('options_resetConfirm'),
       danger: true,
     });
     if (!ok) return;
@@ -425,7 +480,7 @@ function wireBackup() {
       const res = await UI.send('RESET_SETTINGS');
       settings = res.settings;
       paintAll();
-      UI.toast('Settings reset.');
+      UI.toast(t('options_resetDone'));
     } catch (err) {
       UI.toast(err.message);
     }
@@ -439,39 +494,41 @@ function wireScreenshots() {
     try {
       const res = await UI.send(type);
       if (res && res.cancelled) return;
-      UI.toast(`${label}, check the preview tab to save it.`);
+      UI.toast(t('sh_captured', { label }));
     } catch (err) {
       UI.toast(err.message);
     }
   };
-  $('shotNowVisible').addEventListener('click', () => run('CAPTURE_VISIBLE', 'Visible area captured'));
-  $('shotNowArea').addEventListener('click', () => run('CAPTURE_AREA', 'Area captured'));
-  $('shotNowElement').addEventListener('click', () => run('CAPTURE_ELEMENT', 'Element captured'));
-  $('shotNowFull').addEventListener('click', () => run('CAPTURE_FULL', 'Full page captured'));
+  $('shotNowVisible').addEventListener('click', () => run('CAPTURE_VISIBLE', t('sh_capturedVisible')));
+  $('shotNowArea').addEventListener('click', () => run('CAPTURE_AREA', t('sh_capturedArea')));
+  $('shotNowElement').addEventListener('click', () => run('CAPTURE_ELEMENT', t('sh_capturedElement')));
+  $('shotNowFull').addEventListener('click', () => run('CAPTURE_FULL', t('sh_capturedFull')));
 }
 
 /* ---------------- shortcuts: real bindings ---------------- */
 
-const COMMAND_LABELS = {
-  'imgfetch-scan-page': 'Scan this page',
-  'imgfetch-scan-page-alt': 'Scan this page (alternative)',
-  'imgfetch-select-element': 'Select element',
-  'imgfetch-capture-area': 'Capture selected area',
-  'imgfetch-capture-element': 'Capture element',
+// B: command name -> message key; labels resolve via t() at render time,
+// after initI18n() has loaded the locale.
+const COMMAND_LABEL_KEYS = {
+  'imgfetch-scan-page': 'kb_scanPage',
+  'imgfetch-scan-page-alt': 'kb_scanPageAlt',
+  'imgfetch-select-element': 'kb_selectElement',
+  'imgfetch-capture-area': 'kb_captureArea',
+  'imgfetch-capture-element': 'kb_captureElement',
 };
 
 async function wireShortcuts() {
   const list = $('shortcutList');
   try {
     const commands = await chrome.commands.getAll();
-    const known = commands.filter((c) => COMMAND_LABELS[c.name]);
+    const known = commands.filter((c) => COMMAND_LABEL_KEYS[c.name]);
     list.textContent = '';
     if (!known.length) {
-      list.append(UI.el('p', 'No shortcuts registered.', 'small muted'));
+      list.append(UI.el('p', t('kb_none'), 'small muted'));
     } else {
       const dl = UI.el('dl', null, 'kv');
       for (const c of known) {
-        dl.append(UI.el('dt', COMMAND_LABELS[c.name] || c.name));
+        dl.append(UI.el('dt', t(COMMAND_LABEL_KEYS[c.name])));
         const dd = document.createElement('dd');
         if (c.shortcut) {
           for (const part of String(c.shortcut).split('+')) {
@@ -480,7 +537,7 @@ async function wireShortcuts() {
           }
           dd.removeChild(dd.lastChild);
         } else {
-          dd.append(UI.el('span', 'Not set', 'muted small'));
+          dd.append(UI.el('span', t('kb_notSet'), 'muted small'));
         }
         dl.append(dd);
       }
@@ -488,7 +545,7 @@ async function wireShortcuts() {
     }
   } catch {
     list.textContent = '';
-    list.append(UI.el('p', 'Could not read shortcut bindings.', 'small muted'));
+    list.append(UI.el('p', t('kb_readFailed'), 'small muted'));
   }
   $('btnCopyShortcutLink').addEventListener('click', async () => {
     // L2: Edge uses edge://, Chrome uses chrome://.
@@ -496,7 +553,7 @@ async function wireShortcuts() {
     const link = `${scheme}://extensions/shortcuts`;
     try {
       await navigator.clipboard.writeText(link);
-      UI.toast('Shortcuts page link copied, paste it into your address bar.');
+      UI.toast(t('kb_linkCopied'));
     } catch {
       UI.toast(link);
     }
@@ -505,16 +562,84 @@ async function wireShortcuts() {
 
 /* ---------------- about ---------------- */
 
-const PERMISSION_DESCRIPTIONS = {
-  contextMenus: 'Add ImgFetch items to the right-click menu.',
-  downloads: 'Save image files to your Downloads folder.',
-  storage: 'Remember your settings and history on this device.',
-  scripting: 'Scan pages you ask it to, looking for images.',
-  activeTab: 'Work with the tab that is currently open.',
-  offscreen: 'Convert images between formats in the background.',
-  notifications: 'Tell you when a download finishes (only if you enable it).',
-  clipboardWrite: 'Copy image links to your clipboard for you.',
+// B: permission -> message key; descriptions resolve via t() at render time,
+// after initI18n() has loaded the locale.
+const PERMISSION_DESCRIPTION_KEYS = {
+  contextMenus: 'perm_contextMenus',
+  downloads: 'perm_downloads',
+  storage: 'perm_storage',
+  scripting: 'perm_scripting',
+  activeTab: 'perm_activeTab',
+  offscreen: 'perm_offscreen',
+  notifications: 'perm_notifications',
+  clipboardWrite: 'perm_clipboardWrite',
 };
+
+/**
+ * B: the About privacy sentence carries a live PRIVACY.md link inside a
+ * translated sentence. Rebuild the paragraph from t('about_privacyText'),
+ * splitting on the (never translated) file name so the link survives
+ * applyI18n(), which would otherwise wipe the anchor. Called at init and
+ * on every language change; the English default is byte-identical.
+ */
+const PRIVACY_LINK_TEXT = 'PRIVACY.md';
+function paintAboutPrivacy() {
+  const p = $('aboutPrivacyText');
+  if (!p) return;
+  const full = t('about_privacyText');
+  const a = document.createElement('a');
+  a.id = 'aboutPrivacyLink';
+  a.href = GITHUB_REPO + '/blob/main/PRIVACY.md';
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.textContent = PRIVACY_LINK_TEXT;
+  p.textContent = '';
+  const i = full.indexOf(PRIVACY_LINK_TEXT);
+  if (i >= 0) {
+    p.append(
+      document.createTextNode(full.slice(0, i)),
+      a,
+      document.createTextNode(full.slice(i + PRIVACY_LINK_TEXT.length)),
+    );
+  } else {
+    // A translation that drops the file name: keep the link anyway.
+    p.append(document.createTextNode(full + ' '), a);
+  }
+}
+
+/**
+ * B: the Privacy section note carries a live PRIVACY.md link inside a
+ * translated sentence. Rebuild the paragraph from t('pr_permNote'),
+ * splitting on the (never translated) file name so the link survives
+ * applyI18n(), which would otherwise wipe the anchor. The <bdi> wrapper
+ * isolates the Latin file name so RTL layouts stay correct. Called at
+ * init (wireAbout) and on every language change; the English default is
+ * byte-identical.
+ */
+function paintPrivacyPermNote() {
+  const p = $('privacyPermNote');
+  if (!p) return;
+  const full = t('pr_permNote');
+  const a = document.createElement('a');
+  a.href = GITHUB_REPO + '/blob/main/PRIVACY.md';
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.textContent = PRIVACY_LINK_TEXT;
+  const wrap = document.createElement('bdi');
+  wrap.append(a);
+  p.textContent = '';
+  const i = full.indexOf(PRIVACY_LINK_TEXT);
+  if (i >= 0) {
+    p.append(
+      document.createTextNode(full.slice(0, i)),
+      wrap,
+      document.createTextNode(full.slice(i + PRIVACY_LINK_TEXT.length)),
+    );
+  } else {
+    // A translation that drops the file name: keep the link anyway.
+    p.append(document.createTextNode(full + ' '), wrap);
+  }
+}
 
 function wireAbout() {
   const manifest = chrome.runtime.getManifest();
@@ -527,14 +652,16 @@ function wireAbout() {
   for (const p of perms) {
     if (p === 'offscreen') continue; // implementation detail, covered by "convert"
     const li = document.createElement('li');
-    li.textContent = PERMISSION_DESCRIPTIONS[p] || p;
+    li.textContent = (PERMISSION_DESCRIPTION_KEYS[p] && t(PERMISSION_DESCRIPTION_KEYS[p])) || p;
     ul.append(li);
   }
   if (hosts.length) {
     const li = document.createElement('li');
-    li.textContent = 'Read images on websites you visit, only when you scan a page or start a download.';
+    li.textContent = t('perm_hosts');
     ul.append(li);
   }
+  paintAboutPrivacy();
+  paintPrivacyPermNote();
 }
 
 /* ---------------- sidebar navigation ---------------- */
@@ -557,7 +684,7 @@ function showSection(id) {
   // "Settings" while showing something else (e.g. Download History).
   const navLabel = document.querySelector(`.side-nav button[data-section="${id}"]`);
   const label = navLabel ? navLabel.textContent.trim() : '';
-  document.title = label && id !== 'general' ? `${label} - ImgFetch Settings` : 'ImgFetch Settings';
+  document.title = label && id !== 'general' ? t('options_sectionTitle', { section: label }) : t('options_title');
   const select = $('navSelect');
   if (select) select.value = id;
   if (location.hash !== `#${id}`) {

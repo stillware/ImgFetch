@@ -16,31 +16,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-contract-fullpage.mjs
- * N1 contract: the full-page planner's output MUST be accepted by the
- * offscreen stitcher. Regression proof for the pre-release bug where the planner
- * allowed 32,767 px sides but the stitcher rejected anything above 12,000 px
- * ("bad-size") — tall pages failed on DPR 2 screens.
+ * ImgFetch, tests/test-contract-fullpage.mjs
+ * FIX 4 contract: the full-page planner's parts MUST all be accepted by
+ * the offscreen stitcher, and together they MUST cover the whole page.
+ * The planner and the stitcher share one rule
+ * (isStitchSizeAccepted in core/fullpage-capture.js), so they can never
+ * disagree: no more "bad-size" on tall pages at high DPR.
  *
- * The old stitcher rule is reproduced below verbatim (offscreen.js,
- * STITCH_MAX_SIDE = 12000) so this test fails on the old code and passes
- * once both sides share one constant from core/fullpage-capture.js.
+ * Contract grid: page heights 1,000..60,000 CSS px, several viewports,
+ * DPR 1 / 1.25 / 1.5 / 2 / 3.
  */
 import { planFullPageCapture, isStitchSizeAccepted } from '../core/fullpage-capture.js';
-
-// --- old stitcher rule (offscreen/offscreen.js, before the N1 fix) ---
-// Kept for the regression proof: on the old code the planner's output was
-// checked against this private 12000 const and rejected. After the fix,
-// both sides share isStitchSizeAccepted() from core/fullpage-capture.js.
-const OLD_STITCH_MAX_SIDE = 12000;
-function oldStitchAccepts(w, h) {
-  return w > 0 && h > 0 && w <= OLD_STITCH_MAX_SIDE && h <= OLD_STITCH_MAX_SIDE;
-}
-// Post-fix contract: the planner's output must satisfy the ONE shared rule
-// that the real stitcher enforces.
-function sharedStitchAccepts(w, h) {
-  return isStitchSizeAccepted(w, h);
-}
 
 let pass = 0;
 let fail = 0;
@@ -48,11 +34,9 @@ const failures = [];
 
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; failures.push(`${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; failures.push(`${name}${extra ? `, ${extra}` : ''}`); }
 }
 
-// Contract grid: page heights 1,000..60,000 CSS px, several viewports,
-// DPR 1 / 1.25 / 1.5 / 2 / 3 (the audit's N1 grid).
 const heights = [1000, 3000, 6000, 8000, 12000, 20000, 30000, 40000, 60000];
 const viewports = [[1280, 800], [1920, 900], [390, 844]];
 const dprs = [1, 1.25, 1.5, 2, 3];
@@ -61,14 +45,28 @@ for (const h of heights) {
   for (const [vw, vh] of viewports) {
     for (const dpr of dprs) {
       const plan = planFullPageCapture({ fullW: vw, fullH: h, viewportW: vw, viewportH: vh, dpr });
-      // N1 regression proof: on the old code this used oldStitchAccepts and failed.
-      // Post-fix it must pass against the shared rule both sides enforce.
-      const ok = sharedStitchAccepts(plan.outW, plan.outH);
-      check(
-        `contract ${vw}x${h} dpr=${dpr}`,
-        ok,
-        `planner out=${plan.outW}x${plan.outH} rejected by stitcher`,
-      );
+      const label = `${vw}x${h} dpr=${dpr}`;
+      // 1) every part is accepted by the stitcher's one shared rule.
+      const allOk = plan.parts.every((p) => isStitchSizeAccepted(p.w, p.h));
+      check(`contract parts accepted ${label}`, allOk,
+        `rejected part in ${plan.parts.map((p) => `${p.w}x${p.h}`).join(',')}`);
+      // 2) the parts cover the whole page: no truncation, no gaps.
+      let y = 0;
+      let contiguous = true;
+      for (const p of plan.parts) {
+        if (p.y0 !== y) contiguous = false;
+        y = p.y0 + p.h;
+      }
+      check(`contract whole page covered ${label}`, contiguous && y === plan.devH,
+        `covered=${y} devH=${plan.devH}`);
+      // 3) tile offsets are exact integers (seam-free stitching).
+      let exact = true;
+      for (const p of plan.parts) {
+        for (const t of p.tiles) {
+          if (!Number.isInteger(t.dx) || !Number.isInteger(t.dy)) exact = false;
+        }
+      }
+      check(`contract integer tile offsets ${label}`, exact);
     }
   }
 }

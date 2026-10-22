@@ -32,10 +32,27 @@ ZIP_EXCLUDED = {
 }
 if len(sys.argv) > 1:
     ROOT = Path(sys.argv[1]).resolve()
-# IS_ZIP: validating an extracted store zip (not the dev tree). The README
-# tree documents the repo; the zip holds a subset, so the reverse tree
-# check (every tree entry exists on disk) is skipped for zips.
+# IS_ZIP: validating an extracted store zip (not the dev tree).
+# docs/PROJECT_STRUCTURE.md documents the repo tree; the zip holds a subset,
+# so the reverse tree check (every tree entry exists on disk) is skipped for
+# zips.
 IS_ZIP = len(sys.argv) > 1
+
+# Folders the static checks never descend into: build output, VCS metadata,
+# private notes and hidden folders (any directory starting with ".").
+SKIP_DIR_NAMES = {"node_modules", ".git", "dist", "private", "hidden"}
+
+
+def skipped(rel):
+    """True when rel is a .pyc file or lives under a skipped folder."""
+    if rel.suffix == ".pyc":
+        return True
+    for part in rel.parts[:-1]:  # directory components only, not the file name
+        if part in SKIP_DIR_NAMES or part.startswith("."):
+            return True
+    return False
+
+
 failures = []
 
 
@@ -51,7 +68,7 @@ def ok(msg):
 # 1. manifest.json parses and has required MV3 fields.
 manifest_path = ROOT / "manifest.json"
 try:
-    manifest = json.loads(manifest_path.read_text())
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
     ok("manifest.json is valid JSON")
 except Exception as e:
     fail(f"manifest.json invalid: {e}")
@@ -89,7 +106,7 @@ if not js_files:
 node_ok = True
 for f in js_files:
     rel = f.relative_to(ROOT)
-    if "node_modules" in str(rel):
+    if skipped(rel):
         continue
     r = subprocess.run(["node", "--check", str(f)], capture_output=True, text=True)
     if r.returncode != 0:
@@ -102,10 +119,10 @@ if node_ok:
 remote_re = re.compile(r"""src\s*=\s*["']https?://|from\s+["']https?://|import\s*\(\s*["']https?://""")
 for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs")) + list(ROOT.rglob("*.html")):
     rel = f.relative_to(ROOT)
-    if rel.parts[0] in ("docs", "hidden", "tests"):
+    if skipped(rel) or rel.parts[0] in ("docs", "hidden", "tests"):
         continue
     try:
-        text = f.read_text()
+        text = f.read_text(encoding='utf-8')
     except Exception:
         continue
     for i, line in enumerate(text.splitlines(), 1):
@@ -114,36 +131,37 @@ for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs")) + list(ROOT.rglob(
 ok("no remote script references in extension code")
 
 # 3b. No inline scripts: MV3's CSP blocks them, so every page script must be
-# external (this silently broke pages/annotate.html once — never again).
+# external (this silently broke pages/annotate.html once, never again).
 inline_re = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>")
 for f in ROOT.rglob("*.html"):
     rel = f.relative_to(ROOT)
-    if rel.parts[0] in ("docs", "hidden"):
+    if skipped(rel) or rel.parts[0] in ("docs", "hidden"):
         continue
     try:
-        text = f.read_text()
+        text = f.read_text(encoding='utf-8')
     except Exception:
         continue
     if inline_re.search(text):
-        fail(f"inline <script> in {rel} — MV3 CSP blocks it; use an external file")
+        fail(f"inline <script> in {rel}, MV3 CSP blocks it; use an external file")
 ok("no inline scripts in extension pages")
 
 # 4. No innerHTML with untrusted data patterns (quick heuristic).
 dangerous = re.compile(r"\.innerHTML\s*=")
 for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs")):
     rel = f.relative_to(ROOT)
-    if rel.parts[0] in ("docs", "hidden", "tests"):
+    if skipped(rel) or rel.parts[0] in ("docs", "hidden", "tests"):
         continue
-    text = f.read_text()
+    text = f.read_text(encoding="utf-8")
     if dangerous.search(text):
         fail(f"{rel} uses innerHTML (use textContent/DOM instead)")
 
 # 5. Permissions used in code should be declared (spot check).
 declared = set(manifest.get("permissions", []))
 code = "\n".join(
-    f.read_text()
+    f.read_text(encoding="utf-8")
     for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs"))
-    if f.relative_to(ROOT).parts[0] not in ("docs", "hidden", "tests")
+    if not skipped(f.relative_to(ROOT))
+    and f.relative_to(ROOT).parts[0] not in ("docs", "hidden", "tests")
 )
 for perm, api in {
     "contextMenus": "contextMenus",
@@ -157,41 +175,74 @@ for perm, api in {
         fail(f"code uses chrome.{api} but '{perm}' not declared")
 ok("permission usage matches declarations")
 
-# 6. Brand check: user-visible name should be ImgFetch.
-if manifest.get("name") != "ImgFetch":
-    fail("manifest name is not ImgFetch")
+# 6. Brand check: user-visible name should be ImgFetch, either directly or
+# through the chrome.i18n manifest key __MSG_appName__.
+brand_name = manifest.get("name")
+if brand_name not in ("ImgFetch", "__MSG_appName__"):
+    fail(f"manifest name is {brand_name!r}, expected 'ImgFetch' or '__MSG_appName__'")
+elif brand_name == "__MSG_appName__":
+    # The _locales tree is added by a later change; skip gracefully until then.
+    locales_dir = ROOT / "_locales"
+    if not locales_dir.is_dir():
+        ok("manifest uses __MSG_appName__; _locales not present yet, appName sub-check skipped")
+    else:
+        try:
+            app_name_msg = json.loads((locales_dir / "en" / "messages.json").read_text(encoding="utf-8"))
+            app_name = (app_name_msg.get("appName") or {}).get("message")
+        except Exception as e:
+            fail(f"_locales/en/messages.json unreadable: {e}")
+            app_name = None
+        if app_name == "ImgFetch":
+            ok("manifest __MSG_appName__ resolves to 'ImgFetch' via _locales/en/messages.json")
+        elif app_name is not None:
+            fail(f"_locales/en/messages.json appName is {app_name!r}, expected 'ImgFetch'")
+else:
+    ok("manifest name is ImgFetch")
 
-# 7. B5: README project structure must match the real file tree.
+# 7. B5: docs/PROJECT_STRUCTURE.md documents the real file tree.
 # The tree lists basenames under each directory, so match on basenames
-# (they are unique in this project — enforced below).
-readme_text = (ROOT / "README.md").read_text()
+# (they are unique in this project, enforced below).
+readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
+struct_path = ROOT / "docs" / "PROJECT_STRUCTURE.md"
+try:
+    struct_text = struct_path.read_text(encoding="utf-8")
+    ok("docs/PROJECT_STRUCTURE.md is readable")
+except Exception as e:
+    fail(f"docs/PROJECT_STRUCTURE.md is unreadable: {e}")
+    struct_text = ""
 tree_files = []
 for f in sorted(ROOT.rglob("*")):
     if not f.is_file():
         continue
     rel = f.relative_to(ROOT)
-    if rel.parts[0] in ("dist", "hidden", "private", "node_modules", ".git"):
+    if skipped(rel):
         continue
     if "__pycache__" in rel.parts or rel.suffix == ".pyc":
         continue
-    # Generated e2e evidence — lives in TEST_REPORT.md, not in the zip.
+    # Generated e2e evidence, lives in TEST_REPORT.md, not in the zip.
     if rel.match("tests/test-e2e/results-*.json"):
         continue
     tree_files.append(rel.as_posix())
-basenames = [Path(p).name for p in tree_files]
-# README.md is conventional in subdirectories; allow it to repeat.
+# _locales/**/messages.json shares one basename across 21 locale folders by
+# design, so it is ignored in the uniqueness check. README.md is
+# conventional in subdirectories; allow it to repeat.
+dupes_scope = [
+    p for p in tree_files
+    if not (p.startswith("_locales/") and Path(p).name == "messages.json")
+]
+basenames = [Path(p).name for p in dupes_scope]
 dupes = {b for b in basenames if b != 'README.md' and basenames.count(b) > 1}
 if dupes:
     fail(f"basename check needs unique names, duplicates: {sorted(dupes)}")
-missing_from_readme = [p for p in tree_files if Path(p).name not in readme_text]
-for p in missing_from_readme:
-    fail(f"README does not mention real project file: {p}")
-if not missing_from_readme and not dupes:
-    ok(f"README mentions all {len(tree_files)} project files")
+missing_from_tree = [p for p in tree_files if Path(p).name not in struct_text]
+for p in missing_from_tree:
+    fail(f"PROJECT_STRUCTURE.md does not mention real project file: {p}")
+if not missing_from_tree and not dupes:
+    ok(f"PROJECT_STRUCTURE.md mentions all {len(tree_files)} project files")
 # Reverse direction: names listed in the tree block must exist.
 # Skipped for extracted store zips (the tree documents the full repo).
 listed_names = set()
-for line in readme_text.splitlines():
+for line in struct_text.splitlines():
     m = re.search(r"[├└]──\s+([^\s#]+)", line)
     if m:
         listed_names.add(m.group(1).strip())
@@ -199,34 +250,37 @@ known_basenames = {Path(p).name for p in tree_files}
 reverse_bad = 0
 zip_excluded_basenames = {Path(p.rstrip('/')).name for p in ZIP_EXCLUDED}
 if IS_ZIP:
-    ok("README tree reverse check skipped for extracted zip")
+    ok("PROJECT_STRUCTURE.md tree reverse check skipped for extracted zip")
 else:
     for name in sorted(listed_names):
         # Project-only files (brand assets, store graphics, manual matrix) are
         # excluded from store zips; do not fail when validating an extracted zip.
-        # README lists basenames, so match on basename as well as full path.
+        # The tree lists basenames, so match on basename as well as full path.
         if (name in ZIP_EXCLUDED or name.rstrip('/') in zip_excluded_basenames
                 or any(name == p or p.startswith(name) for p in ZIP_EXCLUDED)):
             continue
         if name.endswith('/'):
             # Directory entry: must exist as a directory somewhere in the tree.
+            # The tree's first line names the project root itself; allow it.
             stripped = name.rstrip('/')
+            if stripped in (".", ROOT.name):
+                continue
             found = any(
                 (ROOT / p / stripped).is_dir()
                 for p in [Path('.'), Path('tests'), Path('scripts'), Path('docs')]
             ) or (ROOT / stripped).is_dir()
             if not found:
-                fail(f"README lists unknown directory: {name}")
+                fail(f"PROJECT_STRUCTURE.md lists unknown directory: {name}")
                 reverse_bad += 1
         elif "/" in name:
             if not (ROOT / name).exists():
-                fail(f"README lists missing path: {name}")
+                fail(f"PROJECT_STRUCTURE.md lists missing path: {name}")
                 reverse_bad += 1
         elif name not in known_basenames:
-            fail(f"README lists unknown file: {name}")
+            fail(f"PROJECT_STRUCTURE.md lists unknown file: {name}")
             reverse_bad += 1
     if reverse_bad == 0:
-        ok("README tree entries all exist")
+        ok("PROJECT_STRUCTURE.md tree entries all exist")
 
 # 8. B5: every export from core/*.js must be used somewhere (no dead exports).
 # Dev-tree check only: the store zip excludes tests/, which exercise some
@@ -234,14 +288,15 @@ else:
 search_roots = [
     f
     for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs"))
-    if f.relative_to(ROOT).parts[0] not in ("docs", "hidden", "dist", "node_modules")
+    if not skipped(f.relative_to(ROOT))
+    and f.relative_to(ROOT).parts[0] not in ("docs", "hidden", "dist", "node_modules")
 ]
 if IS_ZIP:
     ok("dead-exports check skipped for extracted zip (tests/ not shipped)")
 else:
     core_exports = {}
     for f in sorted((ROOT / "core").glob("*.js")):
-        text = f.read_text()
+        text = f.read_text(encoding='utf-8')
         for m in re.finditer(
             r"export\s+(?:async\s+)?(?:function|const|let|var|class)\s+([A-Za-z_$][\w$]*)", text
         ):
@@ -255,7 +310,7 @@ else:
     for name, deffile in sorted(core_exports.items()):
         hits = 0
         for f in search_roots:
-            n = len(re.findall(r"\b" + re.escape(name) + r"\b", f.read_text()))
+            n = len(re.findall(r"\b" + re.escape(name) + r"\b", f.read_text(encoding='utf-8')))
             if f.name == deffile:
                 n = max(0, n - 1)  # the export declaration itself doesn't count
             hits += n
@@ -283,7 +338,7 @@ prod_js = [
 for rx, label in forbidden:
     hits = []
     for f in prod_js:
-        for i, line in enumerate(f.read_text().splitlines(), 1):
+        for i, line in enumerate(f.read_text(encoding='utf-8').splitlines(), 1):
             if rx.search(line):
                 hits.append(f"{f.relative_to(ROOT)}:{i}")
     for h in hits:
@@ -293,7 +348,7 @@ for rx, label in forbidden:
 
 # 9c. About page must carry the GPL section 5d notice (Appropriate Legal
 # Notices) and must not point at docs/ paths that are not shipped.
-about_html = (ROOT / "options" / "options.html").read_text()
+about_html = (ROOT / "options" / "options.html").read_text(encoding='utf-8')
 for snippet in [
     "ABSOLUTELY NO WARRANTY",
     "GNU General Public License v3 or later",
@@ -316,7 +371,7 @@ headerless = []
 for f in list(ROOT.rglob("*.js")) + list(ROOT.rglob("*.mjs")) + \
         list(ROOT.rglob("*.html")) + list(ROOT.rglob("*.css")):
     rel = f.relative_to(ROOT)
-    if rel.parts[0] in ("docs", "hidden", "dist", "node_modules"):
+    if skipped(rel) or rel.parts[0] in ("docs", "hidden", "dist", "node_modules"):
         continue
     head = f.read_text(encoding="utf-8", errors="replace")[:2000]
     if header_marker not in head:
@@ -326,11 +381,26 @@ for h in headerless:
 if not headerless:
     ok("all shipped JS/HTML/CSS files carry the licence header")
 
+# 9d. Every extension .html page must carry the GPL notice near the top
+# (same marker and 2000-char window as the licence-header check).
+html_bad = []
+for f in ROOT.rglob("*.html"):
+    rel = f.relative_to(ROOT)
+    if skipped(rel) or rel.parts[0] in ("docs", "hidden", "dist", "node_modules"):
+        continue
+    head = f.read_text(encoding="utf-8", errors="replace")[:2000]
+    if header_marker not in head:
+        html_bad.append(str(rel))
+for h in html_bad:
+    fail(f"missing GPL notice in extension HTML page: {h}")
+if not html_bad:
+    ok("all extension HTML pages carry the GPL notice")
+
 print()
 if failures:
     print(f"{len(failures)} FAILURE(S) in static checks")
     sys.exit(1)
-print("ALL STATIC CHECKS PASSED — running docs/claims linter...")
+print("ALL STATIC CHECKS PASSED, running docs/claims linter...")
 
 # 10. Docs/claims linter (final-round pattern check #9): README, CHANGELOG,
 # docs and the manifest must agree with each other and with reality.
@@ -345,7 +415,7 @@ if f"Version {manifest_version}" not in readme_text:
     fail(f"README does not state 'Version {manifest_version}' (manifest)")
 else:
     ok(f"README states Version {manifest_version}")
-changelog_text = (ROOT / "CHANGELOG.md").read_text()
+changelog_text = (ROOT / "CHANGELOG.md").read_text(encoding='utf-8')
 if manifest_version not in changelog_text:
     fail(f"CHANGELOG.md does not mention version {manifest_version}")
 else:
@@ -364,7 +434,7 @@ else:
     ok(f"README lists all {len(suggested)} manifest suggested shortcuts")
 
 # 10c. Permissions: docs/PERMISSIONS.md must justify every manifest permission.
-perms_doc = (ROOT / "docs" / "PERMISSIONS.md").read_text()
+perms_doc = (ROOT / "docs" / "PERMISSIONS.md").read_text(encoding='utf-8')
 missing_perms = [p for p in declared if p not in perms_doc]
 if missing_perms:
     fail(f"docs/PERMISSIONS.md does not mention permissions: {missing_perms}")
@@ -372,7 +442,7 @@ else:
     ok(f"docs/PERMISSIONS.md covers all {len(declared)} permissions")
 
 # 10d. Test counts: run every tests/test-*.mjs, parse "N passed", and require
-# the README tree comment for that file to state the same N.
+# the PROJECT_STRUCTURE.md tree comment for that file to state the same N.
 test_env = dict(os.environ)
 local_jsdom = Path.home() / "workspace" / "imgfetch-testdeps" / "node_modules"
 if local_jsdom.is_dir():
@@ -386,7 +456,7 @@ for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
     )
     out = (r.stdout or "") + (r.stderr or "")
     if "SKIPPED" in out:
-        ok(f"{tf.name}: skipped (optional dependency missing) — count check waived")
+        ok(f"{tf.name}: skipped (optional dependency missing), count check waived")
         continue
     m = re.search(r"(\d+)\s+passed,\s*(\d+)\s+failed", out)
     if not m or r.returncode != 0:
@@ -398,22 +468,22 @@ for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
         fail(f"{tf.name}: {failed} test(s) failed")
         count_fail += 1
         continue
-    # Find the README tree line for this file and its claimed count.
+    # Find the PROJECT_STRUCTURE.md tree line for this file and its claimed count.
     claimed = None
-    for line in readme_text.splitlines():
+    for line in struct_text.splitlines():
         if tf.name in line:
             cm = re.search(r"#\s*(\d+)", line)
             if cm:
                 claimed = int(cm.group(1))
             break
     if claimed is None:
-        fail(f"README tree has no count comment for {tf.name}")
+        fail(f"PROJECT_STRUCTURE.md tree has no count comment for {tf.name}")
         count_fail += 1
     elif claimed != passed:
-        fail(f"README claims {claimed} for {tf.name} but the run shows {passed}")
+        fail(f"PROJECT_STRUCTURE.md claims {claimed} for {tf.name} but the run shows {passed}")
         count_fail += 1
 if count_fail == 0:
-    ok("README test counts match real test runs")
+    ok("PROJECT_STRUCTURE.md test counts match real test runs")
 
 # F4: shortcuts must agree across manifest, README, USER_GUIDE, and welcome.
 # Welcome page uses chrome.commands.getAll() dynamically, so it must not
@@ -424,9 +494,9 @@ for name, cmd in manifest_cmds.items():
     sk = cmd.get('suggested_key', {})
     if sk.get('default'):
         expected[name] = sk['default']
-readme_text_full = (ROOT / "README.md").read_text()
-guide_text = (ROOT / "docs" / "USER_GUIDE.md").read_text()
-welcome_html = (ROOT / "pages" / "welcome.html").read_text()
+readme_text_full = (ROOT / "README.md").read_text(encoding='utf-8')
+guide_text = (ROOT / "docs" / "USER_GUIDE.md").read_text(encoding='utf-8')
+welcome_html = (ROOT / "pages" / "welcome.html").read_text(encoding='utf-8')
 for name, shortcut in expected.items():
     if shortcut not in readme_text_full:
         fail(f"README missing shortcut {shortcut} for {name}")
@@ -444,7 +514,7 @@ if not failures or all('shortcut' not in f.lower() and 'welcome' not in f.lower(
 # convertSource (per-format encoders: GIF/BMP/SVG have dedicated converters).
 # The old inline CONVERT_IMAGE call rejected gif/bmp/svg, which fell back to
 # the source URL saved as PNG ("Save as GIF" saved a PNG).
-sw_text = (ROOT / "background" / "service-worker.js").read_text()
+sw_text = (ROOT / "background" / "service-worker.js").read_text(encoding='utf-8')
 if 'convert-failed-internal' in sw_text:
     fail("service-worker still uses the inline CONVERT_IMAGE conversion path")
 else:

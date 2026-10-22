@@ -26,8 +26,8 @@ bash scripts/package.sh
 ```
 
 Produces (in `dist/`):
-- `imgfetch-chrome-1.0.0.zip`
-- `imgfetch-edge-1.0.0.zip`
+- `imgfetch-chrome-1.1.0.zip`
+- `imgfetch-edge-1.1.0.zip`
 
 The two zips contain identical files, Chrome and Edge both accept the same
 Manifest V3 package; separate names are for your own release bookkeeping.
@@ -42,12 +42,12 @@ store-assets/) stays in the repository only.
 ## 4. Publish
 
 **Chrome Web Store:** Developer Dashboard → New item → upload
-`imgfetch-chrome-1.0.0.zip` → fill the listing (the permission justifications in
+`imgfetch-chrome-1.1.0.zip` → fill the listing (the permission justifications in
 `docs/PERMISSIONS.md` map directly onto the store's disclosure questions) →
 submit for review.
 
 **Edge Add-ons:** Partner Center → New extension → upload
-`imgfetch-edge-1.0.0.zip` → same listing flow.
+`imgfetch-edge-1.1.0.zip` → same listing flow.
 
 ## 5. Versioning
 

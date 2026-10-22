@@ -1,6 +1,6 @@
 # ImgFetch, Testing report
 
-Date: 2026-10-02 · Version 1.0.0
+Date: 2026-10-02 · Version 1.1.0
 
 ## Automated
 
@@ -57,7 +57,7 @@ be walked through once on a real machine before store submission:
   covered by the manual plan above instead.
 - Screenshot pixel comparison is manual by nature.
 
-## Regression fixes verified by audit (v1.0.0)
+## Regression fixes verified by audit (v1.1.0)
 
 A line-by-line audit of every user flow (menu → queue, scan → bulk download,
 screenshots, info page, settings) found and fixed: bulk quality-mode default

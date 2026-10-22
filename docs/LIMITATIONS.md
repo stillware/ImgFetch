@@ -1,6 +1,6 @@
 # ImgFetch, Known limitations
 
-Honest edges of v1.0.0, things ImgFetch won't do, or does with caveats.
+Honest edges of v1.1.0, things ImgFetch won't do, or does with caveats.
 
 1. **No bypassing protections.** Images behind login walls, DRM or
    canvas-only renderers may not download. Page `blob:` URLs (e.g. GIF
@@ -29,22 +29,53 @@ Honest edges of v1.0.0, things ImgFetch won't do, or does with caveats.
    frames. **SVG:** a valid SVG document wrapping the best source’s raster
    (vector tracing is out of scope). **BMP:** real 24-bit encoding; alpha is
    flattened (no standard alpha channel).
-4. **Screenshots.** “Visible page” captures the current viewport.
-   **“Full page”** scrolls and stitches (up to 16 tiles, 12,000 CSS px tall);
-   sticky headers may repeat across tiles, pages that change height while
-   scrolling (infinite scroll) may stitch imperfectly, and your scroll
-   position is always restored afterward. Very large area selections are
-   capped (16,000 px per side).
-5. **Download progress is per-file, not per-byte.** The queue shows each
+4. **Screenshots.** “Visible page” captures whatever tab is active
+   right now: http/https sites, `chrome://`, `edge://`, `about:` and New Tab
+   pages, `chrome-extension://` pages (including ImgFetch's own Settings
+   page), `data:` URLs, and `file://` URLs when the user granted file access.
+   It never captures a different tab. This is a browser security rule:
+   `chrome.tabs.captureVisibleTab` needs the `activeTab` permission (granted
+   by your toolbar click, shortcut or context menu) and ImgFetch adds no host
+   permissions, so capturing only ever covers the page you asked about.
+
+5. **Full page, Select area and Capture element** need script injection, and
+   the browser forbids injection on `chrome://`, `edge://`, the Chrome Web
+   Store, Edge Add-ons, other extensions' pages, and `chrome-extension://`
+   pages (including ImgFetch's own Settings page). On pages where injection is
+   forbidden, ImgFetch falls back to a visible-area capture of the active
+   tab and says so: “{mode} is not available on this page. The visible part
+   was captured instead.” On the Chrome Web Store and Edge Add-ons pages even
+   visible capture is refused by the browser; there you get a clear error
+   (“The browser does not allow capturing this page.”) instead of a silent
+   failure. Pages that change height while scrolling (infinite scroll) may
+   stitch imperfectly, and your scroll position is always restored afterward,
+   even on failure. Very large area selections are capped (16,000 px per
+   side).
+
+6. **Very long pages** are captured whole at full device resolution and
+   split into numbered parts (Part 1 of N), because a single stitched image
+   is limited by what the browser's canvas can hold (max side 16,384 device
+   px, max area about 64 megapixels; these are browser limits, not ImgFetch
+   limits). A high sanity cap (48 parts) stops runaway pages, and ImgFetch
+   says so clearly instead of stopping silently. **Annotated screenshots**
+   save through the browser's message passing, which caps data-URL messages
+   at about 40 MB: an annotated part whose PNG does not compress under that
+   limit cannot be saved (known pre-existing issue, left as is).
+
+7. **Download progress is per-file, not per-byte.** The queue shows each
    file's state (pending → active → done/failed); byte-level progress lives in
    the browser's own download shelf.
-6. **English only.** The UI ships in English; no localization yet.
-7. **Chrome/Edge only.** Manifest V3 as implemented here targets
+8. **Languages.** The UI is localized in 19 languages (21 locales),
+   picked in Settings → General → Language (default Auto, which follows the
+   browser language, switchable at runtime without reload). Arabic uses a
+   right-to-left layout. Translations are AI-assisted and have not been
+   reviewed by native speakers; see docs/TRANSLATING.md.
+9. **Chrome/Edge only.** Manifest V3 as implemented here targets
    Chromium-based browsers. Firefox and Safari ports are deferred (different
    APIs for offscreen documents and screenshots).
-8. **Huge inline images.** Images embedded as data-URLs larger than ~500 KB
+10. **Huge inline images.** Images embedded as data-URLs larger than ~500 KB
    are skipped by the scanner to protect memory and storage quotas.
-9. **Google Lens.** Google Lens search depends on Google keeping its
+11. **Google Lens.** Google Lens search depends on Google keeping its
    upload-by-URL address working; if Google changes it, the menu item may
    stop working.
 
@@ -55,7 +86,6 @@ Honest edges of v1.0.0, things ImgFetch won't do, or does with caveats.
 - Video frame capture
 - Batch download from a pasted URL list
 - AI upscaling
-- Translations / RTL layouts
 - Firefox and Safari ports
 
 # Rejected (deliberately not built)

@@ -30,8 +30,12 @@ import {
   longestSide,
 } from '../core/filters.js';
 import { groupByDay } from '../core/history.js';
+import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
 
 const UI = window.ImgFetchUI;
+
+// B: runtime localization. No top-level await; handlers await i18nReady.
+const i18nReady = initI18n();
 const $ = (id) => document.getElementById(id);
 
 const state = {
@@ -140,7 +144,23 @@ async function resolveOneBlob({ key, src, full, tabId }) {
 
 document.addEventListener('DOMContentLoaded', init);
 
+/**
+ * Localize tooltips that live as plain title attributes in the HTML and
+ * therefore are not covered by data-i18n-attr.
+ */
+function applyDynamicTitles() {
+  const bulkBest = document.querySelector('#bulkBest');
+  const bulkBestTip = bulkBest && bulkBest.closest('label')
+    ? bulkBest.closest('label').querySelector('span')
+    : null;
+  if (bulkBestTip) bulkBestTip.title = t('popup_bulkBestTitle');
+}
+
 async function init() {
+  await i18nReady;
+  applyI18n();
+  applyDynamicTitles();
+  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); });
   try {
     const { settings } = await UI.send('GET_SETTINGS');
     state.settings = settings;
@@ -156,7 +176,7 @@ async function init() {
     const avifOpt = document.querySelector('#dlFormat option[value="avif"]');
     if (avifOpt && !state.avifOk) {
       avifOpt.disabled = true;
-      avifOpt.textContent = 'AVIF (not supported)';
+      avifOpt.textContent = t('popup_avifUnsupported');
     }
     // H1: results size filter starts from the user's scan setting.
     const chip = sizeChipForPreset(settings.minSizePreset);
@@ -246,16 +266,16 @@ function onRuntimeMessage(msg) {
 
 function friendlyNotice(code) {
   const map = {
-    queued: 'Added to the ImgFetch download queue.',
-    copied: 'Copied to clipboard.',
-    'copy-failed': 'Could not copy. Please try again.',
-    'disabled-site': 'ImgFetch is paused on this site.',
-    'convert-failed': 'Could not convert, the original was saved instead.',
-    'original-unknown': 'Original not found, best available version used.',
-    'lens-failed': 'Could not open Google Lens. Please try again.',
-    'lens-paste-manually': 'Lens is open, paste the image link (Ctrl+V) into its link box.',
+    queued: t('notice_queued'),
+    copied: t('notice_copied'),
+    'copy-failed': t('notice_copyFailed'),
+    'disabled-site': t('notice_disabledSite'),
+    'convert-failed': t('notice_convertFailed'),
+    'original-unknown': t('notice_originalUnknown'),
+    'lens-failed': t('notice_lensFailed'),
+    'lens-paste-manually': t('notice_lensPasteManually'),
   };
-  return map[code] || 'Done.';
+  return map[code] || t('notice_done');
 }
 
 /* ------------------------------------------------------------------ */
@@ -418,15 +438,15 @@ async function renderHomeStatus(snapshot) {
   if (snap && (snap.active > 0 || snap.pending > 0)) {
     const n = snap.active + snap.pending;
     box.append(homeStatusCard(
-      `${n} download${n === 1 ? '' : 's'} in progress`,
-      'View downloads',
+      t('home_downloadsInProgress', { count: n }),
+      t('home_viewDownloads'),
       () => navigate('home', 'queue'),
     ));
   } else if (state.scan && state.scan.images && state.scan.images.length) {
     const n = state.scan.images.length;
     box.append(homeStatusCard(
-      `${n} image${n === 1 ? '' : 's'} found on this page`,
-      'View results',
+      t('home_imagesFound', { count: n }),
+      t('home_viewResults'),
       () => navigate('home', 'results'),
     ));
   }
@@ -484,7 +504,7 @@ async function doScan() {
 function updateScanProgress(done, total) {
   const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
   $('scanBar').style.width = `${pct}%`;
-  $('scanStatus').textContent = total > 1 ? `Found ${done} so far…` : 'Looking for images';
+  $('scanStatus').textContent = total > 1 ? t('scan_foundSoFar', { count: done, done }) : t('popup_scanningStatus');
 }
 
 /* ------------------------------------------------------------------ */
@@ -553,15 +573,15 @@ function showScan(scan, selectAll) {
     scan.images.forEach((img) => state.selected.add(img.id));
   }
   const n = scan.images.length;
-  $('resTitle').textContent = `${n} image${n === 1 ? '' : 's'} found`;
+  $('resTitle').textContent = t('results_titleFound', { count: n });
   $('resSub').textContent = (scan.title || '').slice(0, 70);
   if (!scan.images.length) {
     navigate('home', 'idle');
     const dropped = Number(scan.droppedBySize) || 0;
     UI.toast(
       dropped > 0
-        ? `No images found, ${dropped} small image${dropped === 1 ? ' was' : 's were'} skipped by your size filter. Lower it in Settings → Scanning.`
-        : 'No images found on this page.',
+        ? t('results_noImagesFiltered', { count: dropped, dropped })
+        : t('results_noImages'),
     );
     return;
   }
@@ -613,7 +633,7 @@ function renderGrid() {
     const empty = UI.el('div', null, 'empty');
     empty.style.gridColumn = '1 / -1';
     empty.append(UI.el('div', '◫', 'glyph'));
-    empty.append(UI.el('p', 'No images match these filters.'));
+    empty.append(UI.el('p', t('results_noMatch')));
     grid.append(empty);
     return;
   }
@@ -639,7 +659,7 @@ function appendGridPage() {
     sentinel.style.padding = '12px';
     sentinel.style.color = 'var(--muted)';
     sentinel.style.fontSize = '12px';
-    sentinel.textContent = `Showing ${state.gridShown} of ${state.visible.length}, scroll for more`;
+    sentinel.textContent = t('popup_showingMore', { shown: state.gridShown, total: state.visible.length });
     grid.append(sentinel);
     gridSentinelObserver = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) {
@@ -730,10 +750,10 @@ function makeThumbBtn(img) {
     btn.className = 'thumb';
     btn.setAttribute('role', 'checkbox');
     btn.setAttribute('aria-checked', String(state.selected.has(img.id)));
-    btn.title = `${img.filename || 'image'}, ${UI.formatDims(img.width, img.height)}`;
+    btn.title = t('popup_thumbTitle', { name: img.filename || t('ui_fallbackName'), dims: UI.formatDims(img.width, img.height) });
     const thumb = document.createElement('img');
     thumb.loading = 'lazy';
-    thumb.alt = img.alt || img.filename || 'image';
+    thumb.alt = img.alt || img.filename || t('ui_fallbackName');
     // Thumbnails: never hand page HTML to the DOM as markup, src only.
     setThumbSource(thumb, img, false);
     thumb.referrerPolicy = 'no-referrer';
@@ -742,8 +762,8 @@ function makeThumbBtn(img) {
     const dims = UI.el('span', UI.formatDims(img.width, img.height), 'dims');
     const zoom = UI.el('button', null, 'zoom-btn');
     zoom.type = 'button';
-    zoom.setAttribute('aria-label', `Preview ${img.filename || 'image'}`);
-    zoom.title = 'Preview';
+    zoom.setAttribute('aria-label', t('preview_zoomAria', { name: img.filename || t('ui_fallbackName') }));
+    zoom.title = t('preview_zoomTitle');
     // Magnifier icon built via DOM (no innerHTML, project convention).
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
@@ -802,12 +822,12 @@ function paintSelection() {
 function updateFooter() {
   const n = state.selected.size;
   const total = state.scan ? state.scan.images.length : 0;
-  const deduped = state.scan && state.scan.deduped ? ` · ${state.scan.deduped} duplicate${state.scan.deduped === 1 ? '' : 's'} removed` : '';
-  const uiHidden = state.scan && state.scan.droppedByRelevance ? ` · ${state.scan.droppedByRelevance} interface asset${state.scan.droppedByRelevance === 1 ? '' : 's'} hidden` : '';
+  const deduped = state.scan && state.scan.deduped ? ` · ${t('results_duplicatesRemoved', { count: state.scan.deduped })}` : '';
+  const uiHidden = state.scan && state.scan.droppedByRelevance ? ` · ${t('results_assetsHidden', { count: state.scan.droppedByRelevance })}` : '';
   const hidden = total - state.visible.length;
-  const hiddenTxt = hidden > 0 ? ` · ${hidden} hidden by filters` : '';
-  $('resultCount').textContent = `${state.visible.length} shown · ${total} found${deduped}${uiHidden}${hiddenTxt}`;
-  $('btnDownload').textContent = n === 0 ? 'Download selected' : `Download ${n} image${n === 1 ? '' : 's'}`;
+  const hiddenTxt = hidden > 0 ? ` · ${t('results_hiddenByFilters', { count: hidden })}` : '';
+  $('resultCount').textContent = `${t('results_shownFound', { shown: state.visible.length, total })}${deduped}${uiHidden}${hiddenTxt}`;
+  $('btnDownload').textContent = n === 0 ? t('popup_download') : t('popup_downloadCount', { count: n });
   $('btnDownload').disabled = n === 0;
   $('btnZip').disabled = n === 0;
 }
@@ -866,26 +886,29 @@ function openPreview(img) {
   const backdrop = UI.el('div', null, 'modal-backdrop');
   const modal = UI.el('div', null, 'modal');
   modal.setAttribute('role', 'dialog');
-  modal.setAttribute('aria-label', 'Image preview');
+  modal.setAttribute('aria-label', t('preview_imageInfo'));
 
   const closeBtn = UI.el('button', '✕', 'icon-btn');
-  closeBtn.setAttribute('aria-label', 'Close preview');
-  closeBtn.style.cssText = 'float:right;';
-  const title = UI.el('h3', img.filename || 'Image preview', 'section-title');
-  title.style.cssText = 'margin:0 0 8px; padding-right:32px; word-break:break-all;';
+  closeBtn.setAttribute('aria-label', t('preview_close'));
+  closeBtn.style.cssText = 'float:inline-end;';
+  const title = UI.el('h3', null, 'section-title');
+  const titleName = document.createElement('bdi');
+  titleName.textContent = img.filename || t('preview_imagePreview');
+  title.append(titleName);
+  title.style.cssText = 'margin:0 0 8px; padding-inline-end:32px; word-break:break-all;';
 
   const preview = document.createElement('img');
   preview.className = 'preview';
   setThumbSource(preview, img, true);
-  preview.alt = img.alt || 'Image preview';
+  preview.alt = img.alt || t('preview_imagePreview');
   preview.referrerPolicy = 'no-referrer';
 
   const kv = document.createElement('dl');
   kv.className = 'kv';
   const rows = [
-    ['Size', UI.formatDims(img.width, img.height)],
-    ['Format', (img.format || 'unknown').toUpperCase()],
-    ['Source', img.isBackground ? 'Background image' : 'Page image'],
+    [t('kv_size'), UI.formatDims(img.width, img.height)],
+    [t('kv_format'), (img.format || t('kv_unknownFormat')).toUpperCase()],
+    [t('kv_source'), img.isBackground ? t('kv_sourceBackground') : t('kv_sourcePage')],
   ];
   for (const [k, v] of rows) {
     kv.append(UI.el('dt', k), UI.el('dd', v));
@@ -912,25 +935,25 @@ function openPreview(img) {
     }
   };
   actions.append(
-    mkBtn('Smart Download', true, single('smart')),
-    mkBtn('Save as PNG', false, single('smart', 'png')),
-    mkBtn('Save as JPEG', false, single('smart', 'jpg')),
-    mkBtn('Save as WebP', false, single('smart', 'webp')),
+    mkBtn(t('popup_qualitySmart'), true, single('smart')),
+    mkBtn(t('preview_savePng'), false, single('smart', 'png')),
+    mkBtn(t('preview_saveJpeg'), false, single('smart', 'jpg')),
+    mkBtn(t('preview_saveWebp'), false, single('smart', 'webp')),
     // M12: no AVIF button when the browser can't encode it.
-    ...(state.avifOk === false ? [] : [mkBtn('Save as AVIF', false, single('smart', 'avif'))]),
+    ...(state.avifOk === false ? [] : [mkBtn(t('preview_saveAvif'), false, single('smart', 'avif'))]),
   );
   const moreRow = UI.el('div', null, 'row');
   moreRow.style.marginTop = '8px';
-  const openBtn = mkBtn('Open original', false, async () => {
+  const openBtn = mkBtn(t('preview_openOriginal'), false, async () => {
     close();
     if (/^https?:\/\//i.test(img.src)) {
       chrome.tabs.create({ url: img.src });
     } else {
-      UI.toast('This image cannot be opened in a tab.');
+      UI.toast(t('info_cannotOpenTab'));
     }
   });
   openBtn.classList.add('btn-sm');
-  const infoBtn = mkBtn('Image info', false, () => {
+  const infoBtn = mkBtn(t('preview_imageInfo'), false, () => {
     close();
     const scan = state.scan || {};
     const qp = new URLSearchParams({
@@ -1005,33 +1028,47 @@ async function refreshQueue() {
   }
 }
 
+/** Localized label for a queue item state ('pending', 'active', ...). */
+function queueStateLabel(state) {
+  const key = {
+    pending: 'queue_statePending',
+    active: 'queue_stateActive',
+    done: 'queue_stateDone',
+    failed: 'queue_stateFailed',
+    cancelled: 'queue_stateCancelled',
+  }[state];
+  return key ? t(key) : state;
+}
+
 function renderQueue(snapshot) {
   const total = snapshot.total || 0;
   const done = snapshot.done || 0;
   const failed = snapshot.failed || 0;
   $('queueSummary').textContent =
-    total === 0 ? 'Queue is empty.' : `${done} of ${total} saved${failed ? ` · ${failed} failed` : ''}`;
+    total === 0
+      ? t('queue_empty')
+      : t('queue_summaryDone', { done, total }) + (failed ? ` · ${t('queue_summaryFailed', { failed })}` : '');
   $('queueBar').style.width = total ? `${Math.round((done / total) * 100)}%` : '0%';
 
   const list = $('queueList');
   list.textContent = '';
   if (!total) {
-    list.append(UI.el('p', 'Nothing here yet.', 'muted small'));
+    list.append(UI.el('p', t('history_emptyShort'), 'muted small'));
     return;
   }
   const frag = document.createDocumentFragment();
   for (const item of snapshot.items.slice(-30).reverse()) {
     const row = UI.el('div', null, 'q-item');
     const dot = UI.el('span', null, `q-dot q-${item.state}`);
-    const label = UI.el('span', item.label || 'image');
+    const label = UI.el('span', item.label || t('ui_fallbackName'));
     label.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
-    const status = UI.el('span', item.state, 'muted small');
+    const status = UI.el('span', queueStateLabel(item.state), 'muted small');
     row.append(dot, label, status);
     if (item.state === 'failed' && item.error) row.title = item.error;
     // B6: finished downloads can be revealed in the file manager.
     if (item.state === 'done' && Number.isInteger(item.chromeDownloadId)) {
-      const show = UI.el('button', 'Show in folder', 'btn btn-sm btn-ghost');
-      show.style.marginLeft = '8px';
+      const show = UI.el('button', t('queue_showInFolder'), 'btn btn-sm btn-ghost');
+      show.style.marginInlineStart = '8px';
       show.addEventListener('click', async (e) => {
         e.stopPropagation();
         try {
@@ -1054,16 +1091,16 @@ function renderQueue(snapshot) {
 function wireHistory() {
   $('btnClearHistory').addEventListener('click', async () => {
     const ok = await UI.confirmDialog({
-      title: 'Clear download history?',
-      message: 'This removes the list of files ImgFetch downloaded. The files themselves stay on your device.',
-      confirmLabel: 'Clear history',
+      title: t('history_clearTitle'),
+      message: t('history_clearMessage'),
+      confirmLabel: t('history_clearConfirm'),
       danger: true,
     });
     if (!ok) return;
     try {
       await UI.send('CLEAR_HISTORY');
       loadHistory();
-      UI.toast('History cleared.');
+      UI.toast(t('history_cleared'));
     } catch (err) {
       UI.toast(err.message);
     }
@@ -1082,17 +1119,17 @@ async function loadHistory() {
     if (!records || !records.length) {
       const empty = UI.el('div', null, 'empty');
       empty.append(UI.el('div', '◷', 'glyph'));
-      empty.append(UI.el('p', 'No downloads yet. Your saved images will appear here.'));
+      empty.append(UI.el('p', t('history_empty')));
       list.append(empty);
       return;
     }
     const frag = document.createDocumentFragment();
-    for (const group of groupByDay(records)) {
-      frag.append(UI.el('div', `${group.label} · ${group.count}`, 'hist-day'));
+    for (const group of groupByDay(records, t)) {
+      frag.append(UI.el('div', t('history_groupLine', { label: group.label, count: group.count }), 'hist-day'));
       for (const r of group.items) {
         const row = UI.el('div', null, 'hist-item');
         row.append(UI.el('span', (r.format || '').toUpperCase(), 'fmt'));
-        const name = UI.el('span', r.filename || 'image');
+        const name = UI.el('span', r.filename || t('ui_fallbackName'));
         name.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
         name.title = r.filename || '';
         const dims = UI.el('span', UI.formatHistorySize(r), 'muted small');

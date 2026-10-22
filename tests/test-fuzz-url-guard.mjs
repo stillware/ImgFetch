@@ -16,13 +16,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-fuzz-url-guard.mjs
+ * ImgFetch, tests/test-fuzz-url-guard.mjs
  * N3 + pattern check #5: fuzz the private-network URL guard over thousands
  * of IP spellings with a FIXED seed (deterministic). Every spelling of a
  * private IP must be blocked; every spelling of a public IP must stay
  * allowed. The WHATWG URL parser canonicalizes host spellings (hex/octal/
  * integer IPv4 -> dotted decimal, IPv6 -> lowercase groups), so the guard
- * only ever sees normalized forms — the fuzz proves no spelling slips
+ * only ever sees normalized forms, the fuzz proves no spelling slips
  * through that normalization.
  */
 import { isPrivateNetworkUrl } from '../core/urls.js';
@@ -37,7 +37,7 @@ function rng32(seed) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
-const rand = rng32(1337); // fixed seed — deterministic fuzz
+const rand = rng32(1337); // fixed seed, deterministic fuzz
 const pick = (arr) => arr[Math.floor(rand() * arr.length)];
 
 const PRIVATE_V4 = [[10, 1, 2, 3], [172, 20, 5, 6], [192, 168, 1, 1], [127, 0, 0, 1], [169, 254, 9, 9], [100, 70, 1, 2], [0, 0, 0, 0]];

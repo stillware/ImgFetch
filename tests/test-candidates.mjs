@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch candidate-discovery regression tests — plain Node, no dependencies:
+ * ImgFetch candidate-discovery regression tests, plain Node, no dependencies:
  *   node tests/test-candidates.mjs
  *
  * Regression for the missing-helper incident: candidatesForImg() and

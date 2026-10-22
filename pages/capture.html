@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ImgFetch, Screenshot preview</title>
+  <title data-i18n="capture_subtitle">ImgFetch, Screenshot preview</title>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
@@ -33,26 +33,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
     <div>
       <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub">Screenshot preview</div>
+      <div class="brand-sub" data-i18n="capture_subtitle">Screenshot preview</div>
     </div>
   </div>
 
   <div id="loading" class="empty">
-    <div class="spinner" role="status" aria-label="Loading"></div>
-    <p>Preparing your screenshot…</p>
+    <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
+    <p data-i18n="capture_loading">Preparing your screenshot…</p>
   </div>
 
   <div id="content" hidden>
     <div class="shot-frame">
-      <img id="shot" alt="Screenshot preview">
+      <img id="shot" data-i18n-attr="alt:capture_imgAlt" alt="Screenshot preview">
     </div>
     <p class="muted small" id="meta" style="margin:10px 2px 0;"></p>
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary">Save screenshot</button>
-      <button id="btnCopyShot" class="btn btn-ghost">Copy to clipboard</button>
-      <button id="btnRetakeVisible" class="btn btn-ghost">Retake visible page</button>
-      <button id="btnRetakeArea" class="btn btn-ghost">Retake area</button>
-      <button id="btnDiscard" class="btn btn-danger" style="margin-left:auto;">Discard</button>
+      <button id="btnSave" class="btn btn-primary" data-i18n="capture_save">Save screenshot</button>
+      <button id="btnCopyShot" class="btn btn-ghost" data-i18n="capture_copy">Copy to clipboard</button>
+      <button id="btnRetakeVisible" class="btn btn-ghost" data-i18n="capture_retakeVisible">Retake visible page</button>
+      <button id="btnRetakeArea" class="btn btn-ghost" data-i18n="capture_retakeArea">Retake area</button>
+      <button id="btnDiscard" class="btn btn-danger" style="margin-inline-start:auto;" data-i18n="capture_discard">Discard</button>
     </div>
   </div>
 

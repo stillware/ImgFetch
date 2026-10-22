@@ -42,11 +42,11 @@ mkdir -p "$DIST"
 # Store zip contents (I3): manifest, code folders, icons, licence and the
 # user-facing docs only. Excluded: assets/, docs/history, docs/tests,
 # docs/ARCHITECTURE.md, docs/BUILD.md, docs/PERFORMANCE.md,
-# docs/security-model.md, SECURITY.md, tests/, scripts/, store-assets/,
+# docs/SECURITY_MODEL.md, SECURITY.md, tests/, scripts/, store-assets/,
 # results JSON, dist/.
 INCLUDE=(
   manifest.json
-  background content core offscreen options pages popup shared icons
+  background content core offscreen options pages popup shared icons _locales
   LICENSE README.md PRIVACY.md TERMS.md CHANGELOG.md
   docs/USER_GUIDE.md docs/PERMISSIONS.md docs/LIMITATIONS.md
 )

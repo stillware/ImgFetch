@@ -48,6 +48,26 @@ finished**.
   image), or right-click the page → **ImgFetch → Screenshot**.
 - **Capture selected area**: drag a rectangle (Esc cancels), then preview and
   **Save screenshot** (PNG or JPEG per your settings).
+- **Where capture works**: **Visible page** captures whatever tab is active
+  right now, including browser pages (`chrome://`, `edge://`, the New Tab
+  page) and ImgFetch's own pages. **Full page**, **Select area** and **Capture
+  element** need script injection, which the browser forbids on some pages
+  (`chrome://`, `edge://`, other extensions' pages): there ImgFetch captures
+  the visible area of the active tab instead and tells you, never a
+  different tab. On pages no extension may capture at all (Chrome Web Store,
+  Edge Add-ons), you get a clear error. Scan This Page and Smart Download are
+  unchanged: they only work on normal http/https websites.
+- **Very long pages**: instead of truncating or downscaling, Full page
+  captures the whole page at full device resolution and splits it into
+  numbered parts (**Part 1 of N**, **Part 2 of N**, …). Each part opens in the
+  normal preview/annotate flow with its own **Save**, **Copy** and
+  **Discard**. Pages that fit in one image keep the single-image flow. If the
+  page scrolls inside an inner container (settings pages, many web apps),
+  Full page captures that container's content.
+- **Annotation editor**: Pen, Arrow, Rectangle, Circle, Text and Pixelate
+  tools, plus **Undo** and **Redo** (next to each other, shortcuts
+  **Ctrl+Y** and **Ctrl+Shift+Z**). Any new drawing clears the redo stack.
+  **Copy** always copies the current canvas after undo and redo.
 
 ## History
 

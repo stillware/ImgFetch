@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — content/scanner.js
+ * ImgFetch, content/scanner.js
  * Runs in the page (ISOLATED world). Exposes window.__imgfetch:
  *   scanPage(options)        -> { images:[...], pageTitle, pageHost, pageUrl }
  *   findBestSource(srcUrl)   -> { url, width, height, confidence, kind }
@@ -31,7 +31,7 @@
   if (window.__imgfetch && window.__imgfetch.__v === 1) return;
 
   // L12: scanner discovery cap for data: URLs (2 MB). Scan results travel
-  // through extension messaging — keep them small. The download path allows
+  // through extension messaging, keep them small. The download path allows
   // more (DATA_URL_DOWNLOAD_MAX in core/urls.js); the limits differ by path.
   const SCAN_DATA_URL_MAX = 2_000_000;
 
@@ -55,7 +55,7 @@
         return u.toString();
       }
       if (u.protocol === 'data:' && /^data:image\//i.test(value.slice(0, 64))) {
-        // L12: scanner discovery cap (2 MB) — see DATA_URL_DOWNLOAD_MAX in
+        // L12: scanner discovery cap (2 MB), see DATA_URL_DOWNLOAD_MAX in
         // core/urls.js for why the download path allows more.
         return value.length > SCAN_DATA_URL_MAX ? null : value;
       }
@@ -117,7 +117,7 @@
    * Returns [{ url, kind, hintW, hintH }]: the live currentSrc, the src
    * attribute, srcset entries ('w' descriptors carry genuine width
    * evidence as hintW), <picture>/<source> srcsets, and supported
-   * lazy-load attributes. Inline data: URLs are skipped as alternates —
+   * lazy-load attributes. Inline data: URLs are skipped as alternates,
    * the record's own src already carries the current one, and shipping
    * megabyte data URLs per candidate would blow up extension messaging.
    * Nothing is invented: no URL-pattern guessing, every candidate comes
@@ -134,7 +134,7 @@
         return;
       }
       if (!url || seen.has(url)) return;
-      // data: alternates are inline already — the record src covers them.
+      // data: alternates are inline already, the record src covers them.
       if (url.startsWith('data:')) return;
       seen.add(url);
       out.push({ url, kind, hintW: hintW || 0, hintH: hintH || 0 });
@@ -178,7 +178,7 @@
       /* ignore */
     }
 
-    // 4) lazy-load attributes — the real (often larger) URL hides here.
+    // 4) lazy-load attributes, the real (often larger) URL hides here.
     try {
       for (const attr of LAZY_ATTRS) {
         const v = img.getAttribute(attr);
@@ -194,9 +194,9 @@
 
   /**
    * Rank probed sources best-first by genuine measured area.
-   * measured: [{ url, width, height }] — only images that actually loaded
+   * measured: [{ url, width, height }], only images that actually loaded
    * (probe() returns null for failures/timeouts, so they never appear).
-   * normalized: the current source URL — preferred on exact ties so a
+   * normalized: the current source URL, preferred on exact ties so a
    * byte-identical alternate doesn't cause a pointless re-download.
    * Never invents dimensions, never upscales: unmeasured URLs are simply
    * absent, and callers fall back to the current source.
@@ -221,7 +221,7 @@
       if (b.url === normalized) return 1;
       return 0;
     });
-    // Format preservation (2026-10-12): a right-clicked GIF must stay a GIF —
+    // Format preservation (2026-10-12): a right-clicked GIF must stay a GIF,
     // Smart Download picks the best source IN THE CLICKED FORMAT, not a
     // "better" WebP. Same-format candidates keep their area order; other
     // formats follow as fallback when nothing same-format validated.
@@ -302,7 +302,7 @@
   /* ---------------------------------------------------------------- */
   /* Relevance scoring: separate real content images from website UI   */
   /* chrome (logos, nav icons, buttons, pixels, favicons, sprites).   */
-  /* Multi-signal — no single rule decides, nothing is site-specific, */
+  /* Multi-signal, no single rule decides, nothing is site-specific, */
   /* SVGs and small images are never excluded as whole categories.    */
   /* ---------------------------------------------------------------- */
 
@@ -353,7 +353,7 @@
 
     // --- hard excludes ---
     // A 0x0 box is only "invisible" when the image isn't a pending lazy
-    // load — dimension-less lazy <img> tags are "unknown size", not hidden.
+    // load, dimension-less lazy <img> tags are "unknown size", not hidden.
     if (c.el && longest <= 0 && !c.fromLazy) {
       return { score: -100, keep: false, reasons: ['invisible'] };
     }
@@ -379,7 +379,7 @@
     };
 
     // Suspicious URL ≠ verdict on its own (a blog post about "order
-    // tracking" is legit) — a strong penalty, not a hard exclude.
+    // tracking" is legit), a strong penalty, not a hard exclude.
     if (TRACKING_URL_RE.test(url)) add(-4, 'tracking-url');
 
     // --- size signals (bands, not a single cutoff) ---
@@ -395,7 +395,7 @@
     if (nLongest >= 600) add(2, 'natural>=600');
     else if (nLongest >= 300) add(1, 'natural>=300');
 
-    // Inline SVG: tiny ones are UI icons, large ones are legit artwork —
+    // Inline SVG: tiny ones are UI icons, large ones are legit artwork,
     // never exclude the whole category.
     if (c.kind === 'svg') {
       if (longest <= 48) add(-6, 'tiny-inline-svg');
@@ -431,7 +431,7 @@
 
   /** Load a URL as an image to measure it. Never throws. */
   const lastProbeByHost = new Map();
-  const PROBE_HOST_GAP_MS = 150; // M4: per-host throttle — don't hammer one server
+  const PROBE_HOST_GAP_MS = 150; // M4: per-host throttle, don't hammer one server
   function probe(url, timeoutMs) {
     return new Promise((resolve) => {
       let done = false;
@@ -499,7 +499,7 @@
     if (img) {
       candidates = candidatesForImg(img);
     } else {
-      // M4: no URL-pattern guessing without evidence — probe the
+      // M4: no URL-pattern guessing without evidence, probe the
       // current source only when the element itself wasn't found.
       candidates = [{ url: normalized, kind: 'current', hintW: 0, hintH: 0 }];
     }
@@ -559,7 +559,7 @@
   }
 
   /**
-   * Ranked, validated sources for a URL — the Smart Download engine's input.
+   * Ranked, validated sources for a URL, the Smart Download engine's input.
    * Returns [{ url, width, height }] best-first. Only genuinely loadable
    * images are returned; nothing is guessed from URL patterns alone.
    */
@@ -567,7 +567,7 @@
    * M4: ranked, validated sources. Accepts scan-time candidates (computed
    * in one in-page pass during scanPage) so downloads don't need a second
    * in-page discovery round-trip. Only evidence-based candidates are
-   * probed — never guessed URL patterns.
+   * probed, never guessed URL patterns.
    */
   async function findRankedSources(srcUrl, precomputed) {
     const normalized = absUrl(srcUrl);
@@ -591,7 +591,7 @@
       if (img) {
         candidates = candidatesForImg(img);
       } else {
-        // M4: no URL-pattern guessing without evidence — probe the
+        // M4: no URL-pattern guessing without evidence, probe the
         // current source only when the element itself wasn't found.
         candidates = [{ url: normalized, kind: 'current', hintW: 0, hintH: 0 }];
       }
@@ -722,7 +722,7 @@
         try {
           let src = absUrl(el.currentSrc || el.src);
           // Lazy-loaded images often have an empty/tiny placeholder src with
-          // the real URL in a data-* attribute — fall back to it so GIF
+          // the real URL in a data-* attribute, fall back to it so GIF
           // grids are found even before they scroll into view.
           let fromLazy = false;
           if (!src || isPlaceholderSrc(el, src)) {
@@ -742,7 +742,7 @@
           if (!src) continue;
           const r = el.getBoundingClientRect();
           // M4: evidence-based candidates (srcset, <picture>, data-* lazy
-          // attrs) computed once here, in the scan's single in-page pass —
+          // attrs) computed once here, in the scan's single in-page pass,
           // downloads reuse them instead of re-discovering per image.
           let scanCands = null;
           try {
@@ -774,7 +774,7 @@
       await yieldToUI();
     }
 
-    // 1b) <video> posters — GIF-heavy sites (Giphy, Tenor) serve animated
+    // 1b) <video> posters, GIF-heavy sites (Giphy, Tenor) serve animated
     // cards as <video>; the poster is the downloadable still/GIF preview.
     const videos = queryAllDeep('video');
     for (const el of videos) {
@@ -860,9 +860,9 @@
       }
     }
 
-    // 3) Extra sources (M5) — each cheap, clearly labeled, best-effort.
+    // 3) Extra sources (M5), each cheap, clearly labeled, best-effort.
     // 3a) Meta images: og:image / twitter:image (the page's own chosen
-    // representative image — meaningful) and favicons (UI chrome, filtered
+    // representative image, meaningful) and favicons (UI chrome, filtered
     // out by relevance scoring). Main frame only.
     if (window === window.top) {
       try {
@@ -903,7 +903,7 @@
       }
     }
 
-    // 3b) <input type="image"> — a graphical submit button (UI chrome).
+    // 3b) <input type="image">, a graphical submit button (UI chrome).
     for (const el of queryAllDeep('input[type="image"]')) {
       try {
         const url = absUrl(el.getAttribute('src'));
@@ -928,7 +928,7 @@
     }
 
     // 3c) Inline <svg>: serialize to a data URL so it can be saved/converted.
-    // Tiny ones are UI icons — relevance scoring drops them, large artwork stays.
+    // Tiny ones are UI icons, relevance scoring drops them, large artwork stays.
     for (const el of queryAllDeep('svg')) {
       try {
         const r = el.getBoundingClientRect();
@@ -1003,7 +1003,7 @@
     }
 
     // Phase 2: relevance scoring. The same asset stamped across the page
-    // (nav icons, logos) is UI chrome — count occurrences first so the
+    // (nav icons, logos) is UI chrome, count occurrences first so the
     // repetition signal sees the whole page.
     const occurrences = new Map();
     for (const c of raw) occurrences.set(c.key, (occurrences.get(c.key) || 0) + 1);
@@ -1045,6 +1045,11 @@
    * they don't repeat in every full-page tile. display:none on fixed
    * elements never reflows the page (they're out of flow), so tile math
    * stays valid. Restored after capture.
+   * FIX 4.5: position:sticky is hidden too. Sticky elements ARE in-flow,
+   * so display:none would reflow the page and invalidate tile math;
+   * visibility:hidden keeps layout exactly while removing them from the
+   * capture. Every change is recorded as [el, property, previousValue]
+   * and restored by setFixedHidden(false), even on failure.
    */
   let fixedHidden = [];
   function setFixedHidden(hide) {
@@ -1061,21 +1066,385 @@
           pos = '';
         }
         if (pos === 'fixed') {
-          fixedHidden.push([el, el.style.display]);
+          fixedHidden.push([el, 'display', el.style.display]);
           el.style.display = 'none';
+        } else if (pos === 'sticky') {
+          fixedHidden.push([el, 'visibility', el.style.visibility]);
+          el.style.visibility = 'hidden';
         }
       }
       return fixedHidden.length;
     }
-    for (const [el, disp] of fixedHidden) {
+    for (const [el, prop, prev] of fixedHidden) {
       try {
-        el.style.display = disp;
+        el.style[prop] = prev;
       } catch {
         /* element gone */
       }
     }
     fixedHidden = [];
     return 0;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* FIX 4.1: full-page capture targets. A page's scrollable content may  */
+  /* live in the document, in a large inner element, or in a same-origin  */
+  /* iframe. describeScrollContext() reports every candidate as plain    */
+  /* JSON; the worker picks the winner (pickScrollTarget in               */
+  /* core/fullpage-capture.js) and drives it through the helpers below.  */
+  /* Candidates are marked with data-imgfetch-scroll-candidate so later   */
+  /* calls can find them again; restoreCaptureTarget() removes the marks */
+  /* and any ancestor scroll changes.                                    */
+  /* ---------------------------------------------------------------- */
+
+  /** True when el can scroll its content (with a small tolerance). */
+  function isScrollableEl(el) {
+    try {
+      return el.scrollHeight > el.clientHeight + 4 || el.scrollWidth > el.clientWidth + 4;
+    } catch {
+      return false;
+    }
+  }
+
+  /** True when rect r is visible on screen (non-zero, intersects viewport). */
+  function isVisibleBox(r, vw, vh) {
+    return r.width > 0 && r.height > 0 && r.right > 0 && r.bottom > 0 && r.left < vw && r.top < vh;
+  }
+
+  /**
+   * Report the page's scrollable regions for full-page capture planning.
+   * Returns plain JSON: { dpr, viewportW, viewportH, doc, containers,
+   * frames, crossOriginClipped }.
+   */
+  function describeScrollContext() {
+    const de = document.documentElement;
+    const body = document.body;
+    const vw = window.innerWidth || 1;
+    const vh = window.innerHeight || 1;
+    const out = {
+      dpr: window.devicePixelRatio || 1,
+      viewportW: vw,
+      viewportH: vh,
+      doc: null,
+      containers: [],
+      frames: [],
+      crossOriginClipped: false,
+    };
+    // One pass over the DOM: every large, visible, scrollable element.
+    const scrollables = [];
+    const els = document.querySelectorAll('*');
+    const cap = Math.min(els.length, 20000);
+    for (let i = 0; i < cap; i++) {
+      const el = els[i];
+      if (el === de || el === body) continue;
+      if (el.hasAttribute && el.hasAttribute('data-imgfetch-toast')) continue;
+      if (!isScrollableEl(el)) continue;
+      let r;
+      try {
+        r = el.getBoundingClientRect();
+      } catch {
+        continue;
+      }
+      if (!isVisibleBox(r, vw, vh)) continue;
+      if (el.clientWidth < 200 || el.clientHeight < 200) continue; // "large" containers only
+      scrollables.push(el);
+    }
+    // A candidate "contains a nested scroller with hidden content" when a
+    // scrollable descendant hides more than one screenful of the root.
+    const nestedHiddenIn = (root, rootClientW, rootClientH) => {
+      for (const el of scrollables) {
+        if (el === root) continue;
+        try {
+          if (!root.contains(el)) continue;
+        } catch {
+          continue;
+        }
+        const hiddenY = el.scrollHeight - el.clientHeight;
+        const hiddenX = el.scrollWidth - el.clientWidth;
+        if (hiddenY > rootClientH || hiddenX > rootClientW) return true;
+      }
+      return false;
+    };
+    out.doc = {
+      scrollW: Math.max(de.scrollWidth || 0, body ? body.scrollWidth || 0 : 0),
+      scrollH: Math.max(de.scrollHeight || 0, body ? body.scrollHeight || 0 : 0),
+      clientW: de.clientWidth || vw,
+      clientH: de.clientHeight || vh,
+      nestedHidden: nestedHiddenIn(de, vw, vh),
+    };
+    scrollables.forEach((el, i) => {
+      const token = `c${i}`;
+      try {
+        el.dataset.imgfetchScrollCandidate = token;
+      } catch {
+        /* marking is best-effort; the worker falls back honestly */
+      }
+      out.containers.push({
+        token,
+        scrollW: el.scrollWidth,
+        scrollH: el.scrollHeight,
+        clientW: el.clientWidth,
+        clientH: el.clientHeight,
+        nestedHidden: nestedHiddenIn(el, el.clientWidth, el.clientHeight),
+      });
+    });
+    const iframes = document.querySelectorAll('iframe');
+    for (let i = 0; i < iframes.length; i++) {
+      const f = iframes[i];
+      let r;
+      try {
+        r = f.getBoundingClientRect();
+      } catch {
+        continue;
+      }
+      if (r.width < 50 || r.height < 50) continue;
+      const token = `f${i}`;
+      try {
+        f.dataset.imgfetchScrollCandidate = token;
+      } catch {
+        /* best-effort */
+      }
+      const entry = {
+        token,
+        sameOrigin: false,
+        scrollW: 0,
+        scrollH: 0,
+        clientW: Math.round(r.width),
+        clientH: Math.round(r.height),
+      };
+      try {
+        const fd = f.contentDocument;
+        const fde = fd && fd.documentElement;
+        if (fde) {
+          entry.sameOrigin = true;
+          entry.scrollW = Math.max(fde.scrollWidth || 0, fd.body ? fd.body.scrollWidth || 0 : 0);
+          entry.scrollH = Math.max(fde.scrollHeight || 0, fd.body ? fd.body.scrollHeight || 0 : 0);
+          entry.clientW = fde.clientWidth || entry.clientW;
+          entry.clientH = fde.clientHeight || entry.clientH;
+        }
+      } catch {
+        /* cross-origin: rect only */
+      }
+      if (!entry.sameOrigin) {
+        // Honest, verifiable signal only: a cross-origin iframe whose
+        // ELEMENT is itself an explicit scroller (non-visible CSS overflow)
+        // and covers a large part of the viewport may clip content that
+        // the capture cannot see.
+        let elScroller = false;
+        try {
+          const cs = getComputedStyle(f);
+          elScroller =
+            /auto|scroll/.test(cs.overflowX || '') || /auto|scroll/.test(cs.overflowY || '');
+        } catch {
+          elScroller = false;
+        }
+        if (elScroller && r.width * r.height > vw * vh * 0.4) out.crossOriginClipped = true;
+      }
+      out.frames.push(entry);
+    }
+    return out;
+  }
+
+  /** Find a marked capture candidate by its token. */
+  function findCandidate(token) {
+    if (!token) return null;
+    try {
+      return document.querySelector(`[data-imgfetch-scroll-candidate="${CSS.escape(String(token))}"]`);
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Scroll a capture target; returns the ACTUAL scroll position (CSS px).
+   * The worker derives exact integer device-px tile offsets from it, so
+   * even a browser that snaps fractional scrolls stitches without gaps.
+   */
+  function scrollCaptureTarget(target, x, y) {
+    const t = target || { kind: 'document' };
+    if (t.kind === 'frame') {
+      const f = findCandidate(t.token);
+      const w = f && f.contentWindow;
+      if (!w) throw new Error('no-frame-target');
+      w.scrollTo(x, y);
+      return { x: w.scrollX || 0, y: w.scrollY || 0 };
+    }
+    if (t.kind === 'container') {
+      const el = findCandidate(t.token);
+      if (!el) throw new Error('no-container-target');
+      el.scrollTo(x, y);
+      return { x: el.scrollLeft || 0, y: el.scrollTop || 0 };
+    }
+    window.scrollTo(x, y);
+    return { x: window.scrollX || 0, y: window.scrollY || 0 };
+  }
+
+  /** Read a capture target's scroll position without changing it. */
+  function readCaptureTargetScroll(target) {
+    const t = target || { kind: 'document' };
+    if (t.kind === 'frame') {
+      const f = findCandidate(t.token);
+      const w = f && f.contentWindow;
+      if (!w) throw new Error('no-frame-target');
+      return { x: w.scrollX || 0, y: w.scrollY || 0 };
+    }
+    if (t.kind === 'container') {
+      const el = findCandidate(t.token);
+      if (!el) throw new Error('no-container-target');
+      return { x: el.scrollLeft || 0, y: el.scrollTop || 0 };
+    }
+    return { x: window.scrollX || 0, y: window.scrollY || 0 };
+  }
+
+  /**
+   * Viewport-relative CSS px box of a container/frame target (for the
+   * tile crop). Null for the document (the whole viewport is captured).
+   */
+  function getCaptureTargetBox(target) {
+    const t = target || { kind: 'document' };
+    if (t.kind === 'document') return null;
+    const el = findCandidate(t.token);
+    if (!el) throw new Error('no-target');
+    const r = el.getBoundingClientRect();
+    let bl = 0;
+    let bt = 0;
+    try {
+      const cs = getComputedStyle(el);
+      bl = parseFloat(cs.borderLeftWidth) || 0;
+      bt = parseFloat(cs.borderTopWidth) || 0;
+    } catch {
+      /* borders unknown, crop to the border box */
+    }
+    return {
+      x: r.x,
+      y: r.y,
+      w: r.width,
+      h: r.height,
+      clientW: el.clientWidth || r.width,
+      clientH: el.clientHeight || r.height,
+      borderL: bl,
+      borderT: bt,
+    };
+  }
+
+  let savedAncestorScroll = [];
+  /**
+   * Bring a container/frame target fully into the viewport. Scrolls the
+   * top window when that suffices; falls back to scrollIntoView for
+   * targets nested inside other scrollers (their positions are
+   * snapshotted for restoreCaptureTarget). Returns the re-measured box.
+   */
+  function ensureTargetVisible(target) {
+    const el = findCandidate(target.token);
+    if (!el) throw new Error('no-target');
+    const vw = window.innerWidth || 1;
+    const vh = window.innerHeight || 1;
+    let box = getCaptureTargetBox(target);
+    const fullyVisible = (b) =>
+      !!b && b.x >= 0 && b.y >= 0 && b.x + b.w <= vw + 1 && b.y + b.h <= vh + 1;
+    if (!fullyVisible(box)) {
+      if (box.w <= vw && box.h <= vh) {
+        let dx = 0;
+        let dy = 0;
+        if (box.x < 0) dx = box.x;
+        else if (box.x + box.w > vw) dx = box.x + box.w - vw;
+        if (box.y < 0) dy = box.y;
+        else if (box.y + box.h > vh) dy = box.y + box.h - vh;
+        if (dx || dy) window.scrollBy(dx, dy);
+      } else {
+        // Larger than the viewport: align its top-left corner.
+        window.scrollBy(box.x, box.y);
+      }
+      box = getCaptureTargetBox(target);
+    }
+    if (!fullyVisible(box)) {
+      // Nested inside another scroller: scrollIntoView moves ancestors.
+      savedAncestorScroll = [];
+      let p = el.parentElement;
+      while (p && p !== document.documentElement) {
+        try {
+          if (p.scrollHeight > p.clientHeight + 4 || p.scrollWidth > p.clientWidth + 4) {
+            savedAncestorScroll.push([p, p.scrollLeft, p.scrollTop]);
+          }
+        } catch {
+          /* skip */
+        }
+        p = p.parentElement;
+      }
+      try {
+        el.scrollIntoView({ block: 'start', inline: 'start' });
+      } catch {
+        /* never break the capture */
+      }
+      box = getCaptureTargetBox(target);
+    }
+    return box;
+  }
+
+  /** Undo ensureTargetVisible's ancestor scrolls and remove all marks. */
+  function restoreCaptureTarget() {
+    for (const [el, x, y] of savedAncestorScroll) {
+      try {
+        el.scrollTo(x, y);
+      } catch {
+        /* element gone */
+      }
+    }
+    savedAncestorScroll = [];
+    try {
+      document.querySelectorAll('[data-imgfetch-scroll-candidate]').forEach((el) => {
+        try {
+          el.removeAttribute('data-imgfetch-scroll-candidate');
+        } catch {
+          /* element gone */
+        }
+      });
+    } catch {
+      /* never break restore */
+    }
+  }
+
+  /**
+   * FIX 4.5: viewport stability instead of a fixed delay. After each
+   * scroll, wait until every image intersecting the capture box has
+   * finished loading (img.complete, which also covers broken images),
+   * bounded by budgetMs. Resolves { stable, waitedMs }; never rejects,
+   * so a hostile page can delay but never hang the capture.
+   */
+  function waitForViewportStable(box, budgetMs) {
+    const t0 = Date.now();
+    const budget = Math.max(0, Math.min(10000, Number(budgetMs) || 0));
+    const b =
+      box && typeof box === 'object'
+        ? box
+        : { x: 0, y: 0, w: window.innerWidth || 1, h: window.innerHeight || 1 };
+    return new Promise((resolve) => {
+      const done = (stable) => resolve({ stable, waitedMs: Date.now() - t0 });
+      const check = () => {
+        let pending = 0;
+        try {
+          const imgs = document.images;
+          for (let i = 0; i < imgs.length; i++) {
+            const img = imgs[i];
+            if (img.complete) continue;
+            let r;
+            try {
+              r = img.getBoundingClientRect();
+            } catch {
+              continue;
+            }
+            if (r.right <= b.x || r.left >= b.x + b.w || r.bottom <= b.y || r.top >= b.y + b.h) continue;
+            pending += 1;
+          }
+        } catch {
+          done(true);
+          return;
+        }
+        if (pending === 0 || Date.now() - t0 >= budget) done(pending === 0);
+        else setTimeout(check, 120);
+      };
+      check();
+    });
   }
 
   window.__imgfetch = {
@@ -1086,6 +1455,13 @@
     getPageMetrics,
     getImageInfo,
     setFixedHidden,
+    describeScrollContext,
+    scrollCaptureTarget,
+    readCaptureTargetScroll,
+    getCaptureTargetBox,
+    ensureTargetVisible,
+    restoreCaptureTarget,
+    waitForViewportStable,
     relevanceOf, // exposed for unit tests (tests/test-scanner.mjs)
     candidatesForImg, // exposed for unit tests (tests/test-candidates.mjs)
     rankMeasured, // exposed for unit tests (tests/test-candidates.mjs)

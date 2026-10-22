@@ -18,7 +18,7 @@
 /**
  * ImgFetch, core/png-quantize.js
  * J2: makes the PNG quality slider real. The browser's PNG encoder is always
- * lossless, so below 100% we reduce the color count with median-cut first —
+ * lossless, so below 100% we reduce the color count with median-cut first,
  * fewer distinct colors compress much better, so the file gets smaller.
  * 100% returns the pixels untouched (byte-identical to the old output).
  * Pure functions, no chrome.* APIs. Alpha is preserved per pixel.

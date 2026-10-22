@@ -16,17 +16,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/dedupe.js
+ * ImgFetch, core/dedupe.js
  * Remove duplicate images from scan results. Pure, no DOM, no chrome.*.
  *
  * Two passes:
- *  1. Exact duplicates — same normalized URL → keep first.
- *  2. Same image, several sizes — URLs that match after stripping size/crop
+ *  1. Exact duplicates, same normalized URL → keep first.
+ *  2. Same image, several sizes, URLs that match after stripping size/crop
  *     query params (w, h, width, height, resize, fit, crop, q, quality, …)
  *     are grouped; only the largest (by pixel area) is kept.
  */
 
-/** Query params that only change size/crop/quality — safe to ignore. */
+/** Query params that only change size/crop/quality, safe to ignore. */
 const SIZE_PARAMS = new Set([
   'w', 'h', 'width', 'height', 'resize', 'fit', 'crop', 'q', 'quality',
   'auto', 'fm', 's', 'size', 'maxw', 'maxh', 'dpr',

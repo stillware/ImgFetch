@@ -16,12 +16,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — background/idb.js
+ * ImgFetch, background/idb.js
  * Minimal promise-based IndexedDB wrapper for the service worker.
  * M11: screenshots are large (a full-page capture can be tens of MB as a
  * data URL). Keeping them in worker memory risks eviction pressure and
  * bloats every worker restart snapshot; chrome.storage.session is capped
- * at ~10 MB. IndexedDB is the right home — it survives worker restarts
+ * at ~10 MB. IndexedDB is the right home, it survives worker restarts
  * and has a far larger quota. Zero dependencies, no build step.
  */
 

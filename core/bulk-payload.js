@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/bulk-payload.js
+ * ImgFetch, core/bulk-payload.js
  * Pure queue-payload builders for DOWNLOAD_IMAGE / DOWNLOAD_MANY.
  *
  * Scan-time candidates ({ u, k, w } as produced by scanPage) must survive
@@ -25,7 +25,7 @@
  * They are evidence-backed URLs (srcset, <picture>, lazy attrs) collected
  * in-page during the scan; the download engine re-validates them by
  * actually loading each one, so a stale/malicious entry can only fail
- * probing — it can never inject an unvalidated download source.
+ * probing, it can never inject an unvalidated download source.
  */
 
 const MAX_CANDIDATES = 8;

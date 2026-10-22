@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — offscreen/offscreen.js
+ * ImgFetch, offscreen/offscreen.js
  * Off-DOM image pipeline: format conversion, screenshot cropping and
  * clipboard writes. Receives only validated messages from the service
  * worker (runtime messages with target === 'offscreen').
@@ -28,7 +28,7 @@ import { sanitizeSvgDocument } from '../core/svg.js';
 import { quantizePngRgba } from '../core/png-quantize.js';
 // N2: chunked-ZIP accumulator with abort + 2-min TTL (no more leaked chunks).
 import { createZipAccumulator } from '../core/zip-accum.js';
-// N1: the stitch size rule lives in core/fullpage-capture.js — the planner
+// N1: the stitch size rule lives in core/fullpage-capture.js, the planner
 // and the stitcher share it, so they can never disagree again.
 import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
@@ -72,7 +72,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     canvas.height = Math.max(1, Math.round(sh));
     const ctx = canvas.getContext('2d');
     if (format === 'jpg' || format === 'jpeg') {
-      // JPEG has no alpha — paint white first to avoid black backgrounds.
+      // JPEG has no alpha, paint white first to avoid black backgrounds.
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
@@ -102,7 +102,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * M3/B4: sanitize a network SVG before saving. A saved .svg opened in a
-   * browser can run embedded scripts — the allowlist sanitizer in
+   * browser can run embedded scripts, the allowlist sanitizer in
    * core/svg.js keeps only known-safe elements/attributes, neutralizes
    * javascript: URLs (including tab/newline-obfuscated ones), strips
    * foreignObject/script/iframe/embed/object, href-retargeting SMIL, and
@@ -126,7 +126,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   }
 
   /**
-   * M3: createImageBitmap often can't decode SVG — fall back to
+   * M3: createImageBitmap often can't decode SVG, fall back to
    * rendering via an <img> element so SVG -> PNG/JPG works.
    */
   async function loadBitmapWithSvgFallback(src) {
@@ -170,7 +170,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * L9: re-encode the image in its own format. Decoding to a bitmap and
-   * re-encoding drops all EXIF (including GPS) — the clean copy has no
+   * re-encoding drops all EXIF (including GPS), the clean copy has no
    * metadata. Quality 1.0 to minimize generational loss.
    */
   async function stripMetadata(msg) {
@@ -189,7 +189,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * L11: sniff the real image type from the first bytes (Range request).
-   * A `.jpg` URL can serve WebP — the filename and history must reflect the
+   * A `.jpg` URL can serve WebP, the filename and history must reflect the
    * actual bytes, not the URL's claim.
    */
   async function sniffType(msg) {
@@ -240,7 +240,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     } catch (firstErr) {
       // The async Clipboard API rejects in the offscreen document when it
       // isn't focused ("NotAllowedError: Document is not focused"). The
-      // legacy execCommand path has no focus requirement — use it as backup.
+      // legacy execCommand path has no focus requirement, use it as backup.
       try {
         const ta = document.createElement('textarea');
         ta.value = text;
@@ -292,7 +292,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * H3: ZIP download that scales. Fetches with concurrency 4 and a 30 s
    * per-file timeout, detects the real image type (magic bytes, then
    * Content-Type, then URL) so entries are never mislabeled, and returns
-   * a blob: URL instead of a giant base64 data URL — the old path broke
+   * a blob: URL instead of a giant base64 data URL, the old path broke
    * past ~45 MB because of the runtime message size limit.
    * Returns { ok, url, count, skipped, bytes }. The worker revokes the
    * URL after the download completes (REVOKE_URL).
@@ -364,7 +364,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   function zipEntryName(r) {
     const ext = zipEntryExt(r.data, r.contentType, r.url);
     let stem = String(r.name || '');
-    // data: URLs make ugly names — use a clean numbered stem instead.
+    // data: URLs make ugly names, use a clean numbered stem instead.
     if (!stem || r.url.startsWith('data:')) {
       stem = `image-${String(r.index + 1).padStart(3, '0')}`;
     } else {
@@ -422,7 +422,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * Single-chunk calls behave as before.
    */
   // N2: accumulator releases a token's chunks on abort (ZIP_ABORT from the
-  // worker's catch/finally) or after a 2-minute TTL sweep — a failed or
+  // worker's catch/finally) or after a 2-minute TTL sweep, a failed or
   // cancelled multi-chunk ZIP no longer leaks memory until close.
   const zipAccums = createZipAccumulator();
   // N2: drop a failed/cancelled ZIP's accumulated chunks immediately.
@@ -456,7 +456,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     }
     zipAccums.take(token);
     if (!acc.entries.length) throw new Error('empty');
-    // B6: Blob built straight from the entry parts — no concatenated
+    // B6: Blob built straight from the entry parts, no concatenated
     // intermediate buffer (saves one full copy of the archive in memory).
     const { parts, size } = createZipParts(acc.entries);
     const blob = new Blob(parts, { type: 'application/zip' });
@@ -485,7 +485,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * Real 24-bit BMP encoding (headers + pixel data, no compression).
-   * Canvas cannot encode BMP, so it is written by hand — never faked.
+   * Canvas cannot encode BMP, so it is written by hand, never faked.
    */
   async function convertBmp(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
@@ -542,7 +542,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * Wrap the source raster in a genuine SVG document (base64-embedded).
-   * A real, valid .svg file — never a renamed raster.
+   * A real, valid .svg file, never a renamed raster.
    */
   async function convertSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
@@ -735,19 +735,33 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     return { ok: true };
   }
 
+  /**
+   * FIX 4: tiles are always drawn 1:1 (no resampling, no downscale). The
+   * worker passes exact integer device-px offsets (dx, dy). For inner
+   * scroll containers / iframes it also passes a source crop
+   * (sx, sy, sw, sh): the tile is the full viewport capture, only the
+   * target's visible box is stitched. The legacy {x, y} form draws the
+   * whole tile at (x, y).
+   */
   async function stitchTile(msg) {
     const s = stitchSession;
     if (!s) throw new Error('no-stitch-session');
     if (!allowedSource(msg.dataUrl, msg.pageUrl)) throw new Error('bad-source');
     const bitmap = await loadBitmap(msg.dataUrl);
     try {
-      s.ctx.drawImage(
-        bitmap,
-        Math.round(Number(msg.x) || 0),
-        Math.round(Number(msg.y) || 0),
-        Math.max(1, Math.round(bitmap.width * s.scale)),
-        Math.max(1, Math.round(bitmap.height * s.scale)),
-      );
+      const dx = Math.round(Number(msg.dx ?? msg.x) || 0);
+      const dy = Math.round(Number(msg.dy ?? msg.y) || 0);
+      const hasCrop = Number(msg.sw) > 0 && Number(msg.sh) > 0;
+      if (hasCrop) {
+        const sx = Math.max(0, Math.round(Number(msg.sx) || 0));
+        const sy = Math.max(0, Math.round(Number(msg.sy) || 0));
+        const sw = Math.min(Math.round(Number(msg.sw)), bitmap.width - sx);
+        const sh = Math.min(Math.round(Number(msg.sh)), bitmap.height - sy);
+        if (sw <= 0 || sh <= 0) throw new Error('bad-crop');
+        s.ctx.drawImage(bitmap, sx, sy, sw, sh, dx, dy, sw, sh);
+      } else {
+        s.ctx.drawImage(bitmap, dx, dy);
+      }
       s.tiles += 1;
     } finally {
       bitmap.close();
@@ -790,9 +804,23 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * STITCH_BEGIN / STITCH_TILE / STITCH_END session protocol above so a
    * long page never travels as one giant runtime message. */
 
+  /**
+   * FIX 4.3: report the offscreen document's JS heap so peak memory
+   * during stitching can be measured (used by the e2e suite).
+   */
+  function memorySample() {
+    const m =
+      typeof performance !== 'undefined' && performance.memory ? performance.memory : null;
+    return {
+      ok: true,
+      usedJSHeapSize: m ? Math.round(m.usedJSHeapSize) : 0,
+      totalJSHeapSize: m ? Math.round(m.totalJSHeapSize) : 0,
+    };
+  }
+
   async function supportsAvif() {
     try {
-      // Probe with a real encode (toBlob + MIME check), not just toDataURL —
+      // Probe with a real encode (toBlob + MIME check), not just toDataURL,
       // some browsers silently fall back to PNG for toDataURL.
       const canvas = document.createElement('canvas');
       canvas.width = 16;
@@ -877,6 +905,10 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
             break;
           case 'SUPPORTS_AVIF':
             result = await supportsAvif();
+            break;
+          case 'MEMORY_SAMPLE':
+            // FIX 4.3: heap sample for memory measurement (e2e + diagnostics).
+            result = memorySample();
             break;
           default:
             throw new Error('unknown');

@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/filenames.js
+ * ImgFetch, core/filenames.js
  * Filename safety: every user-visible filename is built through here.
  * Pure functions, no chrome.* dependencies (unit-testable in Node).
  */
@@ -58,7 +58,7 @@ export function sanitizeSegment(raw) {
   if (!s) return '';
   if (s.length > MAX_SEGMENT) s = s.slice(0, MAX_SEGMENT).trim();
   // L1: Windows reserved device names (CON, NUL, COM1…) are illegal as file
-  // names even with an extension — prefix with an underscore.
+  // names even with an extension, prefix with an underscore.
   const stem = s.split('.')[0];
   if (WIN_RESERVED.test(stem)) s = `_${s}`;
   return s;

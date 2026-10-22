@@ -16,11 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-contract-filename.mjs
- * Contract: buildFilename() (producer — scanner/popup side) -> the real
- * output fed into joinDownloadPath() (consumer — the chrome.downloads
+ * ImgFetch, tests/test-contract-filename.mjs
+ * Contract: buildFilename() (producer, scanner/popup side) -> the real
+ * output fed into joinDownloadPath() (consumer, the chrome.downloads
  * path). The joined path must never escape the Downloads folder, never be
- * absolute, and always keep a safe extension — over hostile names
+ * absolute, and always keep a safe extension, over hostile names
  * (Urdu, emoji, 200-char, ../, reserved names, control chars).
  */
 import { buildFilename, joinDownloadPath } from '../core/filenames.js';
@@ -30,7 +30,7 @@ let fail = 0;
 const failures = [];
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; if (failures.length < 12) failures.push(`${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; if (failures.length < 12) failures.push(`${name}${extra ? `, ${extra}` : ''}`); }
 }
 
 const hostileNames = [

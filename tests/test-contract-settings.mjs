@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-contract-settings.mjs
+ * ImgFetch, tests/test-contract-settings.mjs
  * Contract: the settings schema (core/settings.js) is the producer, the
  * options page and the worker are consumers. normalizeSettings() must:
  *  - round-trip DEFAULT_SETTINGS unchanged,
@@ -31,7 +31,7 @@ let pass = 0;
 let fail = 0;
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; console.log(`  FAIL ${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; console.log(`  FAIL ${name}${extra ? `, ${extra}` : ''}`); }
 }
 
 function rng32(seed) {

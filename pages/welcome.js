@@ -23,6 +23,28 @@
 (() => {
   'use strict';
   const UI = window.ImgFetchUI;
+
+  /* B: runtime localization. Classic script: no static imports, so the
+   * i18n module loads lazily; English defaults stay until it resolves. */
+  let __t = null;
+  (async () => {
+    try {
+      const { initI18n, t, applyI18n, onLanguageChange } = await import('../shared/i18n.js');
+      await initI18n();
+      __t = t;
+      applyI18n();
+      paint(); // re-render the dynamic Next/Start label in the new language
+      onLanguageChange(() => { applyI18n(); paint(); });
+    } catch { /* English defaults remain */ }
+  })();
+
+  /** Translate a key; falls back to the given English when i18n is unavailable. */
+  function tr(key, english, vars) {
+    if (__t) {
+      try { return __t(key, vars); } catch { /* fall through */ }
+    }
+    return english;
+  }
   let step = 0;
   let settings = null;
   let saveTimer = 0;
@@ -34,7 +56,7 @@
     steps().forEach((s, i) => s.classList.toggle('active', i === step));
     dots().forEach((d, i) => d.classList.toggle('on', i === step));
     document.getElementById('btnBack').hidden = step === 0;
-    document.getElementById('btnNext').textContent = step === steps().length - 1 ? 'Start using ImgFetch' : 'Next';
+    document.getElementById('btnNext').textContent = step === steps().length - 1 ? tr('welcome_start', 'Start using ImgFetch') : tr('welcome_next', 'Next');
   }
 
   document.getElementById('btnBack').addEventListener('click', () => {
@@ -52,7 +74,7 @@
     }
     // L7: the onboarded flag was written but never read, the welcome page
     // only opens on fresh install (see onInstalled), so the flag is dead state.
-    UI.toast('Enjoy ImgFetch!');
+    UI.toast(tr('welcome_enjoy', 'Enjoy ImgFetch!'));
     setTimeout(() => window.close(), 600);
   });
 
@@ -116,7 +138,7 @@
     if (!shortcut) {
       const s = document.createElement('span');
       s.className = 'muted';
-      s.textContent = 'Not set, assign in browser shortcut settings';
+      s.textContent = tr('welcome_shortcutNotSet', 'Not set, assign in browser shortcut settings');
       el.append(s);
       return;
     }

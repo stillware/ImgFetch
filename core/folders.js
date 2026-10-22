@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/folders.js
+ * ImgFetch, core/folders.js
  * Smart folder resolution. Pure functions (no chrome.*) so the toggle logic
  * is unit-testable.
  */

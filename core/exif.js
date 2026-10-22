@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/exif.js
+ * ImgFetch, core/exif.js
  * Minimal EXIF parser for JPEG files. Pure, no DOM, no chrome.*.
  * Reads: camera make/model, date taken, orientation, pixel dimensions,
  * and GPS coordinates when present. Returns null when there's no EXIF.

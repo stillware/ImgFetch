@@ -1,0 +1,2022 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: Trình tải ảnh thông minh. Lưu ảnh với chất lượng tốt nhất, quét toàn bộ trang, chụp ảnh màn hình.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch Trình Tải Ảnh Thông Minh",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Tiếng Việt",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Tự động (ngôn ngữ trình duyệt)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Hủy",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Xác nhận",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Đang tải",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Kích thước không xác định",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch đang khởi động, vui lòng thử lại sau giây lát.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "ảnh",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Trình Tải Ảnh Thông Minh",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "Điều hướng ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Trang chủ",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "Lịch sử tải xuống",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "Cài đặt ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Lấy ảnh từ mọi trang",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Quét trang, chọn những gì bạn muốn và lưu phiên bản tốt nhất có sẵn.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Quét trang này",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Ảnh chụp màn hình",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Chụp trang đang xem",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Đang xem",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Chụp vùng đã chọn",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Vùng",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Chụp phần tử",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Phần tử",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Chụp toàn bộ trang",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Toàn bộ trang",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Đang quét",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Đang quét trang…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Đang tìm ảnh",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "Đã tìm thấy {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Kết quả",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Tìm ảnh…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Bộ lọc kích thước",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Mọi kích thước",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px trở lên",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px trở lên",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Bộ lọc định dạng",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Mọi định dạng",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Bộ lọc hướng",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Mọi hướng",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Ngang",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Dọc",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Vuông",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Sắp xếp ảnh",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Thứ tự trang",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Lớn nhất trước",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Nhỏ nhất trước",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Chọn tất cả",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Bỏ chọn",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Đảo ngược",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Ảnh tìm được",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Chất lượng tải xuống",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Tải xuống thông minh",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Như hiển thị",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Định dạng tải xuống",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Định dạng gốc",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Thử chất lượng tốt nhất cho tải hàng loạt",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Tìm nguồn chất lượng cao hơn cho mỗi ảnh trước khi tải xuống. Chậm hơn, có thể kích hoạt giới hạn tốc độ trên một số trang web.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "Tải xuống mục đã chọn",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "Tải xuống {count} ảnh",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Tải xuống mục đã chọn dưới dạng ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Đóng gói các ảnh đã chọn vào một tệp .zip, đúng như hiển thị trên trang (không nâng chất lượng thông minh bên trong ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Quét lại",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "Tìm thấy {count} ảnh",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "Không tìm thấy ảnh nào trên trang này.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "Không tìm thấy ảnh nào, bộ lọc kích thước đã bỏ qua {dropped} ảnh nhỏ. Hạ xuống trong Cài đặt → Quét.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Không có ảnh nào khớp với các bộ lọc này.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "Hiển thị {shown} · tìm thấy {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "Đã xóa {count} ảnh trùng",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "Đã ẩn {count} phần tử giao diện",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} bị ẩn bởi bộ lọc",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "Đang hiển thị {shown} trên {total}, cuộn để xem thêm",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (không được hỗ trợ)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count} lượt tải đang diễn ra",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Xem các lượt tải",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "Tìm thấy {count} ảnh trên trang này",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Xem kết quả",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Xem trước ảnh",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Đóng xem trước",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Xem trước",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Xem trước {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Kích thước",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Định dạng",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Nguồn",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Ảnh nền",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Ảnh trang",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "không xác định",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Lưu dưới dạng PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Lưu dưới dạng JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Lưu dưới dạng WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Lưu dưới dạng AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Mở ảnh gốc",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Thông tin ảnh",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Không thể mở ảnh này trong tab.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Các lượt tải xuống",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Đang chuẩn bị…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Thử lại các mục thất bại",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Xóa các mục xong",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Quay lại kết quả",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Hàng đợi trống.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "Đã lưu {done} trên {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} thất bại",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "đang chờ",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "đang tải",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "hoàn tất",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "thất bại",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "đã hủy",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Hiển thị trong thư mục",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "Quá trình tải xuống đã bị gián đoạn.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "Lịch sử tải xuống",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Xóa",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Lịch sử",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Xóa lịch sử tải xuống?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Thao tác này xóa danh sách tệp mà ImgFetch đã tải. Bản thân các tệp vẫn nằm trên thiết bị của bạn.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Xóa lịch sử",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Đã xóa lịch sử.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Chưa có lượt tải nào. Ảnh bạn lưu sẽ hiện ở đây.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Chưa có gì ở đây.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Hôm nay",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Hôm qua",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Đã thêm vào hàng đợi tải xuống của ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Đã sao chép vào clipboard.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Sao chép thất bại. Hãy thử lại.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch đang tạm dừng trên trang này.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch đang tạm dừng trên trang này (xem Tùy chọn trang web).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Chuyển đổi thất bại, ảnh gốc đã được lưu.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Không tìm thấy ảnh gốc, đã dùng phiên bản tốt nhất có sẵn.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Không mở được Google Lens. Hãy thử lại.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens đã mở, hãy dán liên kết ảnh (Ctrl+V) vào ô liên kết của nó.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Xong.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Đã sao chép liên kết ảnh.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Hãy mở một trang web bình thường trước, rồi thử lại.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Liên kết ảnh này trông không an toàn, ImgFetch đã bỏ qua.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch không tìm thấy ảnh dùng được ở đây.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Trang web không cho phép lưu ảnh này.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch không thể chuyển đổi ảnh này. Ảnh gốc đã được lưu thay thế.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch không thể mã hóa ảnh này thành GIF. Không có gì được lưu.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "Mã hóa AVIF không khả dụng trên trình duyệt này (cần Chrome/Edge 130+, hãy cập nhật trình duyệt để bật). PNG đã được lưu thay thế.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Trang này quá lớn để chụp thành một ảnh.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch không thể xác định ảnh gốc một cách chắc chắn. Phiên bản tốt nhất có sẵn đã được dùng.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch không thể quét trang này. Tải lại trang và quét lại.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch không thể chụp trang này.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "Lượt tải không bắt đầu. Hãy thử lại.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Đã hủy.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Việc này mất quá lâu. Hãy thử lại.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch đã chặn yêu cầu đến địa chỉ mạng riêng (như localhost hoặc trang router) để bảo vệ mạng nội bộ của bạn.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch đang tạm dừng trên trang này. Bật lại trong Cài đặt → Tùy chọn trang web.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Đã xảy ra sự cố. Hãy thử lại.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Cài đặt",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Các mục cài đặt",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Chung",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Tải xuống",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Chất lượng",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Tên Tệp",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Quét",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Ảnh chụp màn hình",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Tùy chọn trang web",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Phím tắt",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Thư mục",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "Lịch sử Tải xuống",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Sao lưu và Đặt lại",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "Giới thiệu",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Quyền riêng tư",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "Cài đặt ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - Cài đặt ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Mục cài đặt",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Đang lưu…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Mọi thay đổi đã được lưu",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Lưu thất bại, thử lại",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Ngôn ngữ",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Đặt lại mọi cài đặt?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Mọi cài đặt ImgFetch sẽ trở về mặc định. Lịch sử tải xuống của bạn được giữ lại.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Đặt lại cài đặt",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Đã đặt lại cài đặt.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ImgFetch trông và hoạt động như thế nào.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Giao diện",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Hệ thống",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Sáng",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Tối",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "Sau khi tải xong",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Giữ im lặng",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Hiển thị thông báo",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Đóng bảng tải xuống khi xong",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "Chế độ xem tiến trình thu gọn về màn hình chính một lúc sau mỗi lượt tải xong.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Cách tệp được lưu vào thiết bị của bạn.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Hỏi nơi lưu mỗi tệp",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Hiển thị hộp thoại Lưu của trình duyệt mỗi lần tải.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Tự động thử lại các lượt tải thất bại",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Nếu lượt tải không bắt đầu, ImgFetch sẽ tự thử lại một lần.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Số lượt tải đồng thời:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Càng cao càng nhanh với nhiều ảnh, nhưng một số trang có thể giới hạn bạn.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch lưu nguồn gốc tốt nhất mà nó có thể xác minh. Không bao giờ phóng to ảnh.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Chọn chất lượng thông minh",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Tải xuống thông minh (khuyên dùng)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Kiểm tra mọi nguồn có sẵn và lưu phiên bản gốc tốt nhất mà nó có thể xác minh.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Ưu tiên nguồn chính xác",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Bỏ qua kiểm tra chất lượng bổ sung và lưu đúng ảnh mà trang hiển thị. Nhanh hơn và riêng tư hơn.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "Chất lượng JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "Chất lượng PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "Chất lượng WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Dùng khi chuyển sang JPG. Càng cao, tệp càng lớn.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% là không mất dữ liệu. Giá trị thấp hơn giảm màu để tệp nhỏ hơn.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Dùng khi chuyển sang WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Định dạng khác",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Chất lượng cao nhất, luôn 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Bảng màu cố định 256 màu (bộ mã hóa riêng của ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Không nén, luôn 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Lớp bao vector quanh ảnh.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch luôn làm cho tên tệp an toàn, không bao giờ có ký tự lạ.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Đặt tên",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Giữ tên gốc",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Dùng tên tệp của chính ảnh, đã làm sạch.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Trang web + ngày + số",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Ví dụ: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Mẫu tùy chỉnh",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Tạo mẫu của riêng bạn bên dưới.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Mẫu tùy chỉnh",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Các mã thông báo khả dụng",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Cho phép tôi đổi tên tệp trước khi tải",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Mở trang đổi tên nhỏ có xem trước trước các lượt tải đơn từ menu chuột phải.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Cách ImgFetch tìm ảnh trên trang.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Bỏ qua ảnh nhỏ hơn",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Không bỏ qua ảnh nào",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Trung bình (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Lớn (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Rất lớn (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Ẩn các biểu tượng nhỏ và khoảng trống khỏi kết quả. Bạn vẫn có thể thay đổi nó mỗi lần quét.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Bao gồm ảnh nền",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Cũng tìm ảnh dùng làm nền trang (chậm hơn trên các trang khổng lồ).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Độ sâu quét",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Trang đã tải",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Cuộn trang",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Trang đã tải: chỉ quét ảnh đã tải (nhanh nhất). Cuộn trang: cuộn qua trang một lúc trước để lộ ảnh tải lười, rồi khôi phục vị trí của bạn.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Xóa ảnh trùng lặp",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Khi cùng một ảnh xuất hiện ở nhiều kích thước, chỉ giữ lại ảnh lớn nhất và ẩn phần còn lại.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Mặc định cho việc chụp trang.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Định dạng mặc định",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Chất lượng:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Chụp ngay",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Vùng đang xem",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Chọn vùng",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Chụp phần tử",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Toàn bộ trang",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“Chọn vùng” mở lớp chọn thật trên trang hiện tại, kéo một hình chữ nhật, nhấn Esc để hủy. “Chụp phần tử” cho phép bạn nhấp vào bất kỳ phần tử nào để chụp đúng phần tử đó.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Mở trình chỉnh sửa chú thích sau khi chụp",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Vẽ mũi tên, thêm văn bản hoặc làm mờ các phần của ảnh chụp màn hình trước khi lưu.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Đã chụp vùng đang xem",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Đã chụp vùng",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Đã chụp phần tử",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Đã chụp toàn bộ trang",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, xem tab xem trước để lưu.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Cho các trang web cụ thể hành vi tải xuống riêng.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Tên miền trang web",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Dùng trang hiện tại",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Thêm",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Thông minh tìm nguồn gốc tốt nhất trên trang này · Như hiển thị lưu ảnh đúng như hiển thị · Tạm dừng tắt các lượt tải ImgFetch trên trang này.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Chưa có tùy chọn trang web nào.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Thông minh",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Như hiển thị",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Tạm dừng",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Xóa",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Hành vi cho {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Nhập tên miền trang web, ví dụ: example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "Đã thêm {host}.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Không đọc được trang hiện tại.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Trang hiện tại: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Các phím tắt hiện được gán cho ImgFetch.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Đang tải…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Quét trang này",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Quét trang này (thay thế)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Chọn phần tử",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Chụp vùng đã chọn",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Chụp phần tử",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Không có phím tắt nào được đăng ký.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Chưa đặt",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Sao chép liên kết trang phím tắt",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Để thay đổi phím tắt, mở chrome://extensions/shortcuts (hoặc edge://extensions/shortcuts trên Edge), tìm ImgFetch và đặt phím bạn muốn. Trên Mac, dùng ⌘ thay cho Ctrl. Nếu phím tắt hiển thị “Chưa đặt”, phím đề xuất đã xung đột với trình duyệt hoặc tiện ích khác, hãy đặt thủ công tại đây.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Không đọc được các phím tắt.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Đã sao chép liên kết trang phím tắt, dán vào thanh địa chỉ của bạn.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Tệp được lưu trong thư mục Tải xuống của trình duyệt. Các tùy chọn này sắp xếp chúng kỹ hơn.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Sắp xếp các lượt tải vào",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Một nơi (không thư mục thông minh)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Thư mục theo trang web",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Thư mục thông minh theo loại",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Thư mục theo ngày",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Thư mục thông minh tự sắp xếp: Ảnh, Ảnh chụp màn hình, GIF, Đồ họa. Ví dụ “Theo trang web”: Tải xuống / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Dùng thư mục con mặc định",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Khi bật, mọi thứ được lưu vào trong thư mục này trước, thêm vào cách sắp xếp ở trên.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Tên thư mục con",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "ví dụ: ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Ví dụ: Tải xuống / ImgFetch / example.com / photo.jpg. Bị bỏ qua khi công tắc tắt.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Danh sách đơn giản những gì bạn đã lưu, hiển thị trong popup.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Các lượt tải gần đây",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Giữ lịch sử tải xuống",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Lưu tên tệp, trang web, định dạng và kích thước của mỗi lượt tải.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Giữ lịch sử (ngày)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Các mục cũ hơn bị xóa tự động.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Xóa ngay",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Xóa lịch sử tải xuống",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Xóa ngay mọi mục lịch sử. Các tệp đã tải không bị ảnh hưởng.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Không xóa được lịch sử.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Mang cài đặt của bạn theo, hoặc bắt đầu lại.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Xuất cài đặt",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Tải tệp imgfetch-settings.json với mọi cài đặt của bạn.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Đã xuất cài đặt.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Nhập cài đặt",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "Tệp cài đặt để nhập",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Khôi phục cài đặt từ tệp xuất ImgFetch. Các tệp không hợp lệ bị từ chối an toàn.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Đã nhập cài đặt.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Tệp này không phải bản xuất cài đặt ImgFetch hợp lệ.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Đặt lại về mặc định",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Đặt lại tất cả",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Hỏi xác nhận trước, rồi khôi phục mọi mặc định của ImgFetch. Lịch sử được giữ trừ khi bạn xóa ở trên.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Phiên bản",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Giấy phép",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Quyền",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch có thể truy cập gì và tại sao:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Thêm các mục ImgFetch vào menu chuột phải.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Lưu tệp ảnh vào thư mục Tải xuống của bạn.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Nhớ cài đặt và lịch sử của bạn trên thiết bị này.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Quét các trang bạn yêu cầu để tìm ảnh.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Làm việc với tab đang mở.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Chuyển đổi ảnh giữa các định dạng trong nền.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Cho bạn biết khi lượt tải xong (chỉ khi bạn bật).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Sao chép liên kết ảnh vào clipboard giúp bạn.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Đọc ảnh trên các trang bạn ghé thăm, chỉ khi bạn quét trang hoặc bắt đầu lượt tải.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Tài liệu",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Tài liệu, chính sách quyền riêng tư và điều khoản sử dụng nằm trong kho công khai:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch không có máy chủ và không thu thập gì cả. Chỉ các ảnh bạn chọn tải mới được lấy, và Google Lens (chỉ khi bạn nhấp) mở Google với địa chỉ ảnh. Xem PRIVACY.md trong kho để biết tuyên bố đầy đủ.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch giữ mọi thứ trên thiết bị của bạn. Không tài khoản, không theo dõi, không phân tích.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ImgFetch lưu gì",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Cài đặt, tùy chọn trang web và lịch sử tải xuống của bạn nằm trong bộ nhớ cục bộ của trình duyệt, chỉ trên thiết bị này.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Ảnh đã tải đi thẳng vào thư mục Tải xuống của bạn. ImgFetch không tải chúng lên đâu cả.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Những gì ImgFetch không bao giờ làm",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Không tài khoản và không đăng nhập, không có nơi để đăng nhập.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Không phân tích, không đo từ xa, không báo cáo sự cố.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Không mã từ xa, mọi script đều nằm trong gói tiện ích.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Ảnh được lấy trực tiếp từ các trang bạn ghé thăm, bằng phiên trình duyệt bình thường của bạn. ImgFetch không thêm tham số theo dõi nào.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Lý do ImgFetch yêu cầu mỗi quyền được giải thích trong mục Giới thiệu, và tuyên bố đầy đủ nằm trong PRIVACY.md ở kho công khai.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Chú thích ảnh chụp màn hình",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Đang tải ảnh chụp màn hình…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Công cụ chú thích",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Bút",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Mũi tên",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Hình chữ nhật",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Hình tròn",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Văn bản",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Làm mờ điểm ảnh",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "Đỏ",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Cam",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Xanh lá",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Xanh dương",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Đen",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Trắng",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Mảnh",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Vừa",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Dày",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Hoàn tác",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Làm lại",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "Làm lại (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Xóa",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Nhập văn bản, nhấn Enter để đặt",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Hủy văn bản",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Lưu",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Bỏ",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Mẹo: kéo trên ảnh để vẽ. Công cụ văn bản: nhấp vào nơi văn bản cần đặt, nhập, nhấn Enter. Nhấp vào văn bản đã đặt để chọn, kéo để di chuyển, nhấn Delete hoặc Backspace để xóa. Làm mờ: kéo trên vùng cần ẩn.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Làm mờ điểm ảnh che chi tiết khỏi con mắt tò mò, nhưng đôi khi có thể đảo ngược, đừng dựa vào nó cho văn bản nhạy cảm.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Đã lưu ảnh chụp màn hình.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Lưu thất bại.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Liên kết trình chỉnh sửa này không hợp lệ.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Không tải được ảnh chụp màn hình.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "Xem trước ảnh chụp màn hình",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Đang chuẩn bị ảnh chụp màn hình của bạn…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Xem trước ảnh chụp màn hình",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Lưu ảnh chụp màn hình",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Sao chép vào clipboard",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Chụp lại trang đang xem",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Chụp lại vùng",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Bỏ",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Liên kết xem trước này không hợp lệ.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} pixel",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Ảnh chụp màn hình đã sẵn sàng",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "Đã lưu {filename}",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Đã sao chép ảnh chụp màn hình vào clipboard.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Không sao chép được ảnh chụp màn hình.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Thông tin ảnh",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Đang đọc chi tiết ảnh…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Liên kết trực tiếp",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Sao chép liên kết",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Lưu dưới dạng JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Chưa chỉ định ảnh.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Tên tệp",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Kích thước",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Hiển thị dưới dạng",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Văn bản thay thế",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Máy ảnh",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Chụp vào",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Kích thước đầy đủ",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Vị trí",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Chi tiết ảnh",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Ảnh này chứa tọa độ GPS. Chia sẻ tệp gốc sẽ chia sẻ vị trí chính xác nơi chụp. Hãy dùng “Lưu không có siêu dữ liệu” để có bản sạch.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Lưu không có siêu dữ liệu",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Đã lưu bản sao không có siêu dữ liệu.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Không xóa được siêu dữ liệu.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Sao chép liên kết đã chọn thủ công.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Đặt tên cho lượt tải của bạn",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Tên tệp",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Tải xuống",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Sẽ được lưu dưới dạng {format}. Phần mở rộng đúng được thêm tự động.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "định dạng gốc",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Chào mừng đến với ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Trình tải ảnh thông minh của bạn. Lưu mọi ảnh ở phiên bản tốt nhất có sẵn, quét toàn bộ trang cùng lúc và chụp ảnh màn hình, tất cả từ một menu gọn gàng.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Nhấp chuột phải vào bất kỳ ảnh nào",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Menu ImgFetch cho phép bạn tải ảnh như hiển thị, ở chất lượng tốt nhất, hoặc dưới dạng ảnh gốc, hoặc chuyển nó sang PNG, JPG hoặc WebP ngay tại chỗ.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Quét trang và chụp màn hình",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Nhấp nút ImgFetch trên thanh công cụ để quét toàn bộ trang tìm ảnh, hoặc chụp trang đang xem hoặc bất kỳ vùng nào bạn chọn.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "quét trang",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "chụp vùng",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Tùy biến cho riêng bạn",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Năm lựa chọn nhanh, mọi thứ còn lại đã có giá trị mặc định hợp lý. Bạn có thể thay đổi chúng bất cứ lúc nào trong Cài đặt.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Mở trình chỉnh sửa sau ảnh chụp màn hình",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Vẽ mũi tên, thêm văn bản hoặc làm mờ trước khi lưu.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Khi các lượt tải xong",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Thông báo cho tôi",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Lưu vào thư mục con",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Trống = thẳng vào Tải xuống.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Tên thư mục con",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Hỏi tên trước các lượt tải đơn",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Mở cài đặt đầy đủ →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Quay lại",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Tiếp",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "Bắt đầu dùng ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Chúc bạn dùng ImgFetch vui vẻ!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Chưa đặt, hãy đặt trong phím tắt trình duyệt",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Kéo để chọn: mũi tên di chuyển, Shift+mũi tên đổi kích thước, Enter xác nhận, Esc hủy",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Nhấp vào phần tử để chụp, Esc hủy",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Nhấp vào phần tử để xem ảnh của nó, Esc hủy",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Lưu thành...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (ảnh nhúng)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Sao chép Liên kết Ảnh",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Sao chép Ảnh",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Thông tin Ảnh",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Thêm...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Mở Ảnh Gốc",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Tìm Ảnh bằng Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Quét Trang Này",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Ảnh chụp màn hình",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Chụp Vùng Nhìn Thấy",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Chọn Vùng",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Toàn Bộ Trang",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Chụp Phần tử",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Thêm Tùy chọn Trang web",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Tắt trên Trang này",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Cài đặt",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "Đã lưu {filename}",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Chuyển đổi ảnh giữa các định dạng, cắt ảnh chụp màn hình và sao chép liên kết ảnh.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch đã khởi động lại, tiếp tục {resumed} lượt tải trong hàng đợi{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", {failed} thất bại",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Đang chuyển sang {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Lưu ý: ảnh động được lưu dưới dạng khung tĩnh.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Đang tải xuống…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "Đang tải xuống ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "Đang chuẩn bị ZIP ({count} ảnh{cappedNote}, như hiển thị)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (200 đầu tiên trong {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "Đã tải xuống ZIP ({count} ảnh).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "Đã tải xuống ZIP ({count} trên {total}, bỏ qua {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Đang tìm chất lượng tốt nhất…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch không thể dùng phiên bản chất lượng cao nhất. Đang thử nguồn khả dụng khác…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Đã tải xuống thành công.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Phần tử này cao hơn màn hình, chỉ phần nhìn thấy được chụp. Dùng Toàn bộ trang cho phần còn lại.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Trang này rất dài, {tileCount} ô đầu tiên (phần trên) đang được chụp. Dùng chụp vùng cho phần còn lại.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Trang này rất lớn, ảnh toàn trang đã thu nhỏ xuống {percent}% để vừa giới hạn bộ nhớ.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Đang chụp toàn bộ trang, ô {n} trên {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Đã chụp toàn bộ trang ({width} × {height} px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Không sao chép được chính ảnh, nên liên kết của nó đã được sao chép.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Không sao chép được liên kết ảnh.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "Đã thêm {host} vào tùy chọn trang web.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch đang tạm dừng trên {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch chỉ có thể quét các trang web thông thường, các trang trình duyệt như chrome://, edge:// hoặc cửa hàng web không được hỗ trợ.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch chỉ có thể chọn phần tử trên các trang web thông thường, các trang trình duyệt như chrome://, edge:// hoặc cửa hàng web không được hỗ trợ.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "Không tìm thấy hình ảnh nào trong phần tử đã chọn.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Sao chép",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Sao chép ảnh chụp màn hình đã chỉnh sửa vào clipboard",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Đã sao chép ảnh chụp màn hình vào clipboard.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Đã sao chép ảnh chụp màn hình vào clipboard, thu nhỏ xuống {width} x {height} cho vừa.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Không sao chép được ảnh chụp màn hình. Hãy thử lưu thay thế.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Sao chép hiện không khả dụng.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} không khả dụng trên trang này. Phần hiển thị đã được chụp thay thế.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Trình duyệt không cho phép chụp trang này.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "Phần {count} / {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "Trang này rất dài. Đang chụp thành {count} phần ở độ phân giải đầy đủ.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "Trang này cực kỳ dài. Chỉ {count} phần đầu tiên được chụp.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Đã chụp vùng nội dung có thể cuộn của trang này.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Phần cuộn riêng biệt của trang này đã được chụp như đang hiển thị.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Nội dung nhúng từ trang web khác chỉ có thể được chụp như đang hiển thị.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

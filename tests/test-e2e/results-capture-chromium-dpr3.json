@@ -1,0 +1,52 @@
+{
+  "dpr": 3,
+  "headed": true,
+  "browser": "chromium",
+  "phases": [
+    {
+      "name": "P0 worker alive + offscreen up",
+      "ok": true,
+      "evidence": {
+        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+      }
+    },
+    {
+      "name": "C3 seam-free stitching at DPR 3",
+      "ok": true,
+      "evidence": {
+        "ms": 12018,
+        "planTiles": 25,
+        "parts": 5,
+        "seq": "part1: rows=48 bad=0 [0..47] | part2: rows=48 bad=0 [48..95] | part3: rows=48 bad=0 [96..143] | part4: rows=48 bad=0 [144..191] | part5: rows=8 bad=0 [192..199]",
+        "refGoodRows": "129/200",
+        "refDiff": "part1: diff=0/54648000 (0.000%) | part2: diff=0/54648000 (0.000%) | part3: diff=345345/37570500 (0.919%) skipped=17077500 | part4: diff=0/0 (0.000%) skipped=54648000 | part5: diff=0/0 (0.000%) skipped=9108000",
+        "maxDiffPct": 0.919,
+        "meanAbs": 0.3,
+        "refSkippedPx": 80833500,
+        "wholePageCovered": true,
+        "note": "5 parts, 25 tiles, seq bad=0/200, maxDiff=0.919%"
+      }
+    },
+    {
+      "name": "C9 area crop exact at DPR 3, PNG quality ignored",
+      "ok": true,
+      "evidence": {
+        "rect": "{\"x\":300,\"y\":300,\"width\":1200,\"height\":900}",
+        "dim": "1200x900",
+        "qualityIgnored": true,
+        "refDiffPixels": 0,
+        "groundTruth": "exact",
+        "note": "rect {\"x\":300,\"y\":300,\"width\":1200,\"height\":900} -> 1200x900, qualityIgnored=true, diffPixels=0"
+      }
+    },
+    {
+      "name": "no console errors / pageerrors anywhere",
+      "ok": true,
+      "evidence": {
+        "note": "0 errors, 0 total entries",
+        "first": []
+      }
+    }
+  ],
+  "errors": []
+}

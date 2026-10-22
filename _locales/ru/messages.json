@@ -1,0 +1,2214 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: умный загрузчик изображений. Сохраняйте изображения в лучшем качестве, сканируйте целые страницы, делайте скриншоты.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch, умный загрузчик изображений",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Русский",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Авто (язык браузера)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Отмена",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Подтвердить",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Загрузка",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Неизвестный размер",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch запускается, попробуйте ещё раз через мгновение.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Что-то пошло не так. Попробуйте ещё раз.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "изображение",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Умный загрузчик изображений",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "Навигация ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Главная",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "История загрузок",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "Настройки ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Забирайте изображения с любой страницы",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Просканируйте страницу, выберите нужное и сохраните лучшую доступную версию.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Сканировать эту страницу",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Скриншот",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Снять видимую часть страницы",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Видимое",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Снять выбранную область",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Область",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Снять элемент",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Элемент",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Снять всю страницу",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Вся страница",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Сканирование",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Сканирование страницы…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Поиск изображений",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar_one": {
+    "message": "Найдено: {done}…",
+    "description": "Scan progress. Singular: one image found so far."
+  },
+  "scan_foundSoFar_few": {
+    "message": "Найдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_many": {
+    "message": "Найдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_other": {
+    "message": "Найдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Результаты",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Поиск изображений…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Фильтр размера",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Любой размер",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 пкс",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 пкс и больше",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 пкс и больше",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Фильтр формата",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Все форматы",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Фильтр ориентации",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Любая ориентация",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Альбомная",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Портретная",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Квадратная",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Сортировка изображений",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Порядок на странице",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Сначала крупные",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Сначала мелкие",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Выбрать все",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Снять выбор",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Инвертировать",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Найденные изображения",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Качество загрузки",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Умная загрузка",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Как показано",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Формат загрузки",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Исходный формат",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Пробовать лучшее качество при массовой загрузке",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Перед скачиванием ищет для каждого изображения источник в лучшем качестве. Медленнее, на некоторых сайтах может вызвать ограничение частоты запросов.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "Скачать выбранное",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount_one": {
+    "message": "Скачать {count} изображение",
+    "description": "Download button. Singular: one image selected."
+  },
+  "popup_downloadCount_few": {
+    "message": "Скачать {count} изображения",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_many": {
+    "message": "Скачать {count} изображений",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_other": {
+    "message": "Скачать {count} изображения",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Скачать выбранное как ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Упаковывает выбранные изображения в один .zip-файл ровно так, как они показаны на странице (без умного улучшения качества внутри ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Сканировать снова",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound_one": {
+    "message": "Найдено {count} изображение",
+    "description": "Results heading. Singular."
+  },
+  "results_titleFound_few": {
+    "message": "Найдено {count} изображения",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_many": {
+    "message": "Найдено {count} изображений",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_other": {
+    "message": "Найдено {count} изображения",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "На этой странице изображений не найдено.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered_one": {
+    "message": "Изображений не найдено: {dropped} маленькое изображение пропущено вашим фильтром размера. Уменьшите его в Настройки → Сканирование.",
+    "description": "Toast when only the size filter removed images. Singular."
+  },
+  "results_noImagesFiltered_few": {
+    "message": "Изображений не найдено: {dropped} маленьких изображения пропущены вашим фильтром размера. Уменьшите его в Настройки → Сканирование.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_many": {
+    "message": "Изображений не найдено: {dropped} маленьких изображений пропущено вашим фильтром размера. Уменьшите его в Настройки → Сканирование.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_other": {
+    "message": "Изображений не найдено: {dropped} маленьких изображения пропущены вашим фильтром размера. Уменьшите его в Настройки → Сканирование.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Под эти фильтры не подходит ни одно изображение.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "Показано {shown} · найдено {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved_one": {
+    "message": "удалён {count} дубликат",
+    "description": "Status line fragment. Singular."
+  },
+  "results_duplicatesRemoved_few": {
+    "message": "удалено {count} дубликата",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_many": {
+    "message": "удалено {count} дубликатов",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_other": {
+    "message": "удалено {count} дубликата",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_one": {
+    "message": "скрыт {count} элемент интерфейса",
+    "description": "Status line fragment. Singular."
+  },
+  "results_assetsHidden_few": {
+    "message": "скрыто {count} элемента интерфейса",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_many": {
+    "message": "скрыто {count} элементов интерфейса",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_other": {
+    "message": "скрыто {count} элемента интерфейса",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_one": {
+    "message": "{count} скрыто фильтрами",
+    "description": "Status line fragment. Singular."
+  },
+  "results_hiddenByFilters_few": {
+    "message": "{count} скрыто фильтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_many": {
+    "message": "{count} скрыто фильтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_other": {
+    "message": "{count} скрыто фильтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "Показано {shown} из {total}, прокрутите для остальных",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (не поддерживается)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress_one": {
+    "message": "Выполняется {count} загрузка",
+    "description": "Home status card. Singular."
+  },
+  "home_downloadsInProgress_few": {
+    "message": "Выполняются {count} загрузки",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_many": {
+    "message": "Выполняется {count} загрузок",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_other": {
+    "message": "Выполняются {count} загрузки",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Смотреть загрузки",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound_one": {
+    "message": "На этой странице найдено {count} изображение",
+    "description": "Home status card for a stored scan. Singular."
+  },
+  "home_imagesFound_few": {
+    "message": "На этой странице найдено {count} изображения",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_many": {
+    "message": "На этой странице найдено {count} изображений",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_other": {
+    "message": "На этой странице найдено {count} изображения",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Смотреть результаты",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Предпросмотр изображения",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Закрыть предпросмотр",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Предпросмотр",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Предпросмотр: {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Размер",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Формат",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Источник",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Фоновое изображение",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Изображение страницы",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "неизвестный",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Сохранить как PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Сохранить как JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Сохранить как WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Сохранить как AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Открыть оригинал",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Информация об изображении",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Это изображение нельзя открыть во вкладке.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Загрузки",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Подготовка…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Повторить неудавшиеся",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Очистить завершённые",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Назад к результатам",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Очередь пуста.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "Сохранено {done} из {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "не удалось: {failed}",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "ожидание",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "выполняется",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "готово",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "ошибка",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "отменено",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Показать в папке",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "Скачивание было прервано.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "История загрузок",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Очистить",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "История",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Очистить историю загрузок?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Это удалит список файлов, загруженных ImgFetch. Сами файлы останутся на вашем устройстве.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Очистить историю",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "История очищена.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Загрузок пока нет. Ваши сохранённые изображения появятся здесь.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Здесь пока ничего нет.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Сегодня",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Вчера",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Добавлено в очередь загрузок ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Скопировано в буфер обмена.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Не удалось скопировать. Попробуйте ещё раз.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch приостановлен на этом сайте.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch приостановлен на этом сайте (см. Настройки сайтов).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Не удалось преобразовать, сохранён оригинал.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Оригинал не найден, использована лучшая доступная версия.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Не удалось открыть Google Lens. Попробуйте ещё раз.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens открыт, вставьте ссылку на изображение (Ctrl+V) в его поле ссылки.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Готово.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Ссылка на изображение скопирована.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Сначала откройте обычную веб-страницу, затем попробуйте снова.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Эта ссылка на изображение выглядит небезопасно, ImgFetch пропустил её.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch не нашёл здесь пригодного изображения.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Веб-сайт не разрешил сохранить это изображение.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch не смог преобразовать это изображение. Вместо него сохранён оригинал.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch не смог закодировать это изображение как GIF. Ничего не сохранено.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "Кодирование AVIF недоступно в этом браузере (нужен Chrome/Edge 130+, обновите браузер, чтобы включить). Вместо него сохранён PNG.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Эта страница слишком велика для захвата одним изображением.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch не смог уверенно найти оригинал. Использована лучшая доступная версия.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch не смог просканировать эту страницу. Перезагрузите страницу и попробуйте снова.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch не смог захватить эту страницу.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "Загрузка не началась. Попробуйте ещё раз.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Отменено.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Это заняло слишком много времени. Попробуйте ещё раз.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch заблокировал запрос к адресу частной сети (например, localhost или странице роутера), чтобы защитить вашу локальную сеть.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch приостановлен на этом сайте. Включите его в Настройки → Настройки сайтов.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Что-то пошло не так. Попробуйте ещё раз.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Настройки",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Разделы настроек",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Общие",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Загрузки",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Качество",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Имена файлов",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Сканирование",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Скриншоты",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Настройки сайтов",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Горячие клавиши",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Папки",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "История загрузок",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Резервная копия и сброс",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "О программе",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Конфиденциальность",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "Настройки ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - Настройки ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Раздел настроек",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Сохранение…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Все изменения сохранены",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Не удалось сохранить, попробуйте снова",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Язык",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Сбросить все настройки?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Каждая настройка ImgFetch вернётся к значению по умолчанию. История загрузок сохранится.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Сбросить настройки",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Настройки сброшены.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "Как выглядит и ведёт себя ImgFetch.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Внешний вид",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Системная",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Светлая",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Тёмная",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "После завершения загрузки",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Молчать",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Показывать уведомление",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Закрывать панель загрузок по завершении",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "Представление прогресса сворачивается на главный экран вскоре после завершения каждой загрузки.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Как файлы сохраняются на вашем устройстве.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Спрашивать, куда сохранять каждый файл",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Показывает диалог сохранения браузера при каждой загрузке.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Автоматически повторять неудачные загрузки",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Если загрузка не началась, ImgFetch попробует ещё раз самостоятельно.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Одновременных загрузок:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Чем выше значение, тем быстрее при множестве изображений, но некоторые сайты могут вас ограничить.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch сохраняет лучший подлинный источник, который может проверить. Он никогда не увеличивает изображение.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Умный выбор качества",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Умная загрузка (рекомендуется)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Проверяет каждый доступный источник и сохраняет лучшую подлинную версию, которую может проверить.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Предпочитать точный источник",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Пропускает дополнительную проверку качества и сохраняет точное изображение, показанное страницей. Быстрее и приватнее.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "Качество JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "Качество PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "Качество WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Используется при преобразовании в JPG. Чем выше, тем больше файлы.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100%: без потерь. Меньшие значения уменьшают число цветов для меньших файлов.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Используется при преобразовании в WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Другие форматы",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Наивысшее качество, всегда 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Фиксированная палитра 256 цветов (собственный кодировщик ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Без сжатия, всегда 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Векторная обёртка вокруг изображения.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch всегда делает имена файлов безопасными, никаких странных символов, никогда.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Именование",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Сохранять исходное имя",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Использует собственное очищенное имя файла изображения.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Сайт + дата + номер",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Пример: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Свой шаблон",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Составьте свой шаблон ниже.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Свой шаблон",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Доступные токены",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Позволять переименовывать файлы перед загрузкой",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Открывает небольшой лист переименования с предпросмотром перед одиночными загрузками из контекстного меню.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Как ImgFetch находит изображения на странице.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Пропускать изображения меньше",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Не пропускать никакие",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Средние (400 пкс)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Крупные (1200 пкс)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Очень крупные (2000 пкс)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Скрывает крошечные иконки и распорки из результатов. Это можно менять при каждом сканировании.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Включать фоновые изображения",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Также находит изображения, используемые как фон страницы (медленнее на огромных страницах).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Глубина сканирования",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Загруженная страница",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Прокрутить страницу",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Загруженная страница: сканирует только уже загруженные изображения (быстрее всего). Прокрутить страницу: сначала ненадолго прокручивает страницу, чтобы показать лениво загружаемые изображения, затем возвращает вашу позицию.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Удалять дубликаты изображений",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Когда одно изображение встречается в нескольких размерах, оставляет только самое крупное, а остальные скрывает.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Значения по умолчанию для захватов страницы.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Формат по умолчанию",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Качество:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Снять сейчас",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Видимая область",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Выбрать область",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Снять элемент",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Вся страница",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "«Выбрать область» открывает настоящий оверлей выбора на текущей странице: перетащите прямоугольник, Esc отменяет. «Снять элемент» позволяет кликнуть любой элемент, чтобы снять именно его.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Открывать редактор аннотаций после захвата",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Рисуйте стрелки, добавляйте текст или скрывайте части скриншота перед сохранением.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Видимая область захвачена",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Область захвачена",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Элемент захвачен",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Вся страница захвачена",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, проверьте вкладку предпросмотра, чтобы сохранить.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Задайте отдельным сайтам собственное поведение загрузки.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Домен веб-сайта",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Использовать текущий сайт",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Добавить",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Умный находит лучший подлинный источник на этом сайте · Как показано сохраняет изображения ровно как отображается · Приостановлен отключает загрузки ImgFetch на этом сайте.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Настроек сайтов пока нет.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Умный",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Как показано",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Приостановлен",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Удалить",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Поведение для {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Введите домен сайта, например example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} добавлен.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Не удалось прочитать текущий сайт.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Текущий сайт: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Горячие клавиши, назначенные ImgFetch в данный момент.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Загрузка…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Сканировать эту страницу",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Сканировать эту страницу (альтернатива)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Выбрать элемент",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Снять выбранную область",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Снять элемент",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Горячие клавиши не зарегистрированы.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Не задано",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Скопировать ссылку на страницу горячих клавиш",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Чтобы изменить горячую клавишу, откройте chrome://extensions/shortcuts (или edge://extensions/shortcuts в Edge), найдите ImgFetch и задайте нужные клавиши. На Mac используйте ⌘ вместо Ctrl. Если клавиша показывает «Не задано», предложенная клавиша конфликтовала с браузером или другим расширением, задайте её вручную здесь.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Не удалось прочитать горячие клавиши.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Ссылка на страницу горячих клавиш скопирована, вставьте её в адресную строку.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Файлы сохраняются в папке «Загрузки» вашего браузера. Эти параметры организуют их лучше.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Организовывать загрузки в",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Одно место (без умных папок)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Папки по сайтам",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Умные папки по типам",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Папки по датам",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Умные папки сортируют сами: Фото, Скриншоты, GIF, Графика. Пример «По сайтам»: Загрузки / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Использовать подпапку по умолчанию",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Когда включено, всё сначала сохраняется в эту папку, поверх организации выше.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Имя подпапки",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "напр. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Пример: Загрузки / ImgFetch / example.com / photo.jpg. Игнорируется, пока переключатель выключен.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Простой список сохранённого, показанный во всплывающем окне.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Недавние загрузки",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Хранить историю загрузок",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Хранит имя файла, сайт, формат и размер каждой загрузки.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Хранить историю (дней)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Записи старше этого удаляются автоматически.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Очистить сейчас",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Очистить историю загрузок",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Немедленно удаляет все записи истории. Загруженные файлы не затрагиваются.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Не удалось очистить историю.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Заберите настройки с собой или начните с чистого листа.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Экспортировать настройки",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Скачивает файл imgfetch-settings.json со всеми вашими настройками.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Настройки экспортированы.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Импортировать настройки",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "Файл настроек для импорта",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Восстанавливает настройки из файла экспорта ImgFetch. Неверные файлы безопасно отклоняются.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Настройки импортированы.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Этот файл не является корректным экспортом настроек ImgFetch.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Сбросить к значениям по умолчанию",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Сбросить всё",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Сначала спросит подтверждение, затем восстановит все значения ImgFetch по умолчанию. История сохранится, если вы не очистите её выше.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Версия",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Лицензия",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Разрешения",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "К чему имеет доступ ImgFetch и зачем:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Добавлять пункты ImgFetch в контекстное меню.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Сохранять файлы изображений в вашу папку «Загрузки».",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Запоминать ваши настройки и историю на этом устройстве.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Сканировать страницы по вашей просьбе в поисках изображений.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Работать с открытой в данный момент вкладкой.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Преобразовывать изображения между форматами в фоне.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Сообщать о завершении загрузки (только если вы включите).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Копировать ссылки на изображения в ваш буфер обмена.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Читать изображения на посещаемых вами сайтах, только когда вы сканируете страницу или начинаете загрузку.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Документация",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Документация, политика конфиденциальности и условия использования находятся в публичном репозитории:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "У ImgFetch нет сервера, он ничего не собирает. Загружаются только выбранные вами изображения, а Google Lens (только если вы кликнете) открывает Google с адресом изображения. Полное заявление см. в PRIVACY.md в репозитории.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch хранит всё на вашем устройстве. Никаких аккаунтов, слежки и аналитики.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "Что хранит ImgFetch",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Ваши настройки, настройки сайтов и история загрузок живут в локальном хранилище браузера, только на этом устройстве.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Загруженные изображения идут прямо в вашу папку «Загрузки». ImgFetch никуда их не отправляет.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Чего ImgFetch никогда не делает",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Никаких аккаунтов и входа: входить некуда.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Никакой аналитики, телеметрии и отчётов о сбоях.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Никакого удалённого кода: каждый скрипт внутри пакета расширения.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Изображения получаются напрямую с посещаемых вами сайтов, с вашей обычной сессией браузера. ImgFetch не добавляет трекинговых параметров.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Зачем ImgFetch каждое разрешение, объяснено в разделе «О программе», а полное заявление см. в PRIVACY.md в публичном репозитории.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Аннотировать скриншот",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Загрузка скриншота…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Инструменты аннотаций",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Карандаш",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Стрелка",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Прямоугольник",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Круг",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Текст",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Пикселизация",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "Красный",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Оранжевый",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Зелёный",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Синий",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Чёрный",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Белый",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Тонкая",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Средняя",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Толстая",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Отменить",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Вернуть",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "Вернуть (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Очистить",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Введите текст, нажмите Enter, чтобы разместить",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Отменить текст",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Сохранить",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Отбросить",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Совет: перетаскивайте по изображению, чтобы рисовать. Инструмент «Текст»: кликните, где должен быть текст, введите его, нажмите Enter. Кликните размещённый текст, чтобы выбрать, перетащите, чтобы переместить, нажмите Delete или Backspace, чтобы удалить. Размытие: перетащите по скрываемой области.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Пикселизация скрывает детали от любопытных глаз, но иногда её можно обратить, поэтому не полагайтесь на неё для чувствительного текста.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Скриншот сохранён.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Не удалось сохранить.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Эта ссылка редактора недействительна.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Не удалось загрузить скриншот.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "Предпросмотр скриншота",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Подготовка вашего скриншота…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Предпросмотр скриншота",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Сохранить скриншот",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Копировать в буфер обмена",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Переснять видимую часть",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Переснять область",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Отбросить",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Эта ссылка предпросмотра недействительна.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} пкс",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Скриншот готов",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} сохранён",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Скриншот скопирован в буфер обмена.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Не удалось скопировать скриншот.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Информация об изображении",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Чтение сведений об изображении…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Прямая ссылка",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Копировать ссылку",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Сохранить как JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Изображение не указано.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Имя файла",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Размеры",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Показано как",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} пкс",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Альтернативный текст",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Камера",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Снято",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Полный размер",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Местоположение",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Сведения о фото",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Это фото содержит GPS-координаты. Передача исходного файла раскрывает точное место съёмки. Используйте «Сохранить без метаданных» для чистой копии.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Сохранить без метаданных",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Копия без метаданных сохранена.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Не удалось удалить метаданные.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Скопируйте выделенную ссылку вручную.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Назовите вашу загрузку",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Имя файла",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Скачать",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Будет сохранено как {format}. Правильное расширение добавится автоматически.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "исходный формат",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Добро пожаловать в ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Ваш умный загрузчик изображений. Сохраняйте любое изображение в лучшей доступной версии, сканируйте целые страницы разом и делайте скриншоты, всё из одного аккуратного меню.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Кликните правой кнопкой по любому изображению",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Меню ImgFetch позволяет скачать изображение как показано, в лучшем качестве или как оригинал, либо преобразовать его в PNG, JPG или WebP на лету.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Сканируйте страницы и делайте скриншоты",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Нажмите кнопку ImgFetch на панели инструментов, чтобы просканировать целую страницу в поисках изображений, или снимите видимую часть страницы либо выбранную область.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "сканировать страницу",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "снять область",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Настройте под себя",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Пять быстрых выборов, всё остальное уже имеет разумные значения. Их можно менять в любой момент в Настройках.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Открывать редактор после скриншотов",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Рисуйте стрелки, добавляйте текст или скрывайте перед сохранением.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Когда загрузки завершаются",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Уведомлять меня",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Сохранять в подпапку",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Пусто = прямо в Загрузки.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Имя подпапки",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Спрашивать имя файла перед одиночными загрузками",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Открыть полные настройки →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Назад",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Далее",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "Начать использовать ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Приятного использования ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Не задано, задайте в настройках горячих клавиш браузера",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Перетащите для выбора: стрелки двигают, Shift+стрелки меняют размер, Enter подтверждает, Esc отменяет",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Кликните элемент, чтобы снять его. Esc отменяет.",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Кликните элемент, чтобы осмотреть его изображение. Esc отменяет.",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Сохранить как...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (встроенное изображение)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Копировать ссылку на изображение",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Копировать изображение",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Информация об изображении",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Ещё...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Открыть оригинал",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Найти изображение через Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Сканировать эту страницу",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Скриншот",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Снять видимую область",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Выбрать область",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Вся страница",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Снять элемент",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Добавить настройку сайта",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Отключить на этом сайте",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Настройки",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} сохранён",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Преобразует изображения между форматами, обрезает скриншоты и копирует ссылки на изображения.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted_one": {
+    "message": "ImgFetch перезапущен, возобновлена {resumed} загрузка в очереди{failedPart}.",
+    "description": "Notice after restart. Singular."
+  },
+  "sw_restarted_few": {
+    "message": "ImgFetch перезапущен, возобновлены {resumed} загрузки в очереди{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_many": {
+    "message": "ImgFetch перезапущен, возобновлено {resumed} загрузок в очереди{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_other": {
+    "message": "ImgFetch перезапущен, возобновлены {resumed} загрузки в очереди{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", не удалось: {failed}",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Преобразование в {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Примечание: анимированные изображения сохраняются как неподвижный кадр.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Загрузка…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "Загрузка ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip_one": {
+    "message": "Подготовка ZIP ({count} изображение{cappedNote}, как показано)…",
+    "description": "Queue label. Singular."
+  },
+  "sw_preparingZip_few": {
+    "message": "Подготовка ZIP ({count} изображения{cappedNote}, как показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_many": {
+    "message": "Подготовка ZIP ({count} изображений{cappedNote}, как показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_other": {
+    "message": "Подготовка ZIP ({count} изображения{cappedNote}, как показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (первые 200 из {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull_one": {
+    "message": "ZIP загружен ({count} изображение).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDoneFull_few": {
+    "message": "ZIP загружен ({count} изображения).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_many": {
+    "message": "ZIP загружен ({count} изображений).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_other": {
+    "message": "ZIP загружен ({count} изображения).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_one": {
+    "message": "ZIP загружен ({count} из {total} изображение, пропущено: {skipped}).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDonePartial_few": {
+    "message": "ZIP загружен ({count} из {total} изображения, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_many": {
+    "message": "ZIP загружен ({count} из {total} изображений, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_other": {
+    "message": "ZIP загружен ({count} из {total} изображения, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Поиск лучшего качества…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch не смог использовать версию наивысшего качества. Пробую другой доступный источник…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Успешно загружено.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Этот элемент выше экрана, захвачена только видимая часть. Используйте «Вся страница» для остального.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Эта страница очень длинная, захватываются первые {tileCount} фрагментов (верхняя часть). Для остального используйте захват области.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Эта страница очень велика, изображение всей страницы уменьшено до {percent}%, чтобы уложиться в лимиты памяти.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Захват всей страницы, фрагмент {n} из {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Вся страница захвачена ({width} × {height} пкс).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Само изображение скопировать не удалось, поэтому скопирована его ссылка.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Не удалось скопировать ссылку на изображение.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} добавлен в настройки сайтов.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch приостановлен на {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch может сканировать только обычные веб-страницы, служебные страницы браузера вроде chrome://, edge:// или интернет-магазина недоступны.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch может выбирать элементы только на обычных веб-страницах, служебные страницы браузера вроде chrome://, edge:// или интернет-магазина недоступны.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "В выбранном элементе изображение не найдено.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Копировать",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Копировать отредактированный скриншот в буфер обмена",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Скриншот скопирован в буфер обмена.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Скриншот скопирован в буфер обмена, уменьшен до {width} x {height}, чтобы поместиться.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Не удалось скопировать скриншот. Попробуйте сохранить его.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Копирование сейчас недоступно.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} недоступен на этой странице. Вместо этого захвачена видимая часть.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Браузер не разрешает захват этой страницы.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title_one": {
+    "message": "Часть {count} из {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_few": {
+    "message": "Части {count} из {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_many": {
+    "message": "Частей {count} из {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_other": {
+    "message": "Часть {count} из {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting_one": {
+    "message": "Эта страница очень длинная. Захват в {count} часть в полном разрешении.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_few": {
+    "message": "Эта страница очень длинная. Захват в {count} части в полном разрешении.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_many": {
+    "message": "Эта страница очень длинная. Захват в {count} частей в полном разрешении.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_other": {
+    "message": "Эта страница очень длинная. Захват в {count} часть в полном разрешении.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped_one": {
+    "message": "Эта страница чрезвычайно длинная. Захвачена только первая {count} часть.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_few": {
+    "message": "Эта страница чрезвычайно длинная. Захвачены только первые {count} части.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_many": {
+    "message": "Эта страница чрезвычайно длинная. Захвачены только первые {count} частей.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_other": {
+    "message": "Эта страница чрезвычайно длинная. Захвачена только первая {count} часть.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Захвачена прокручиваемая область содержимого этой страницы.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Отдельно прокручиваемый раздел этой страницы захвачен в том виде, в котором он был виден.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Встроенное содержимое с другого сайта удалось захватить только в видимом виде.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

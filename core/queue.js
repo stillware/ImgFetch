@@ -16,9 +16,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/queue.js
+ * ImgFetch, core/queue.js
  * Controlled download queue: concurrency, progress, retry, cancel.
- * Pure logic — the actual download starter is injected, so this is
+ * Pure logic, the actual download starter is injected, so this is
  * unit-testable without chrome.*.
  *
  * Item: { id, label }
@@ -144,7 +144,7 @@ export class DownloadQueue {
 
   /**
    * H5: rebuild the queue from serialized state after a worker restart.
-   * B1 fix: `adoptedIds` are downloads still running in the browser — they
+   * B1 fix: `adoptedIds` are downloads still running in the browser, they
    * enter directly as ACTIVE with their chromeDownloadId and the starter
    * is NEVER called for them (no duplicate download). Entries triaged as
    * failed stay failed; everything else becomes pending. One pump at the

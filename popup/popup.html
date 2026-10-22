@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ImgFetch</title>
+  <title data-i18n="appName">ImgFetch</title>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     html, body { width: 400px; }
@@ -99,45 +99,45 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
       <div>
         <div class="brand-name">ImgFetch</div>
-        <div class="brand-sub">Smart Image Downloader</div>
+        <div class="brand-sub" data-i18n="appTagline">Smart Image Downloader</div>
       </div>
     </div>
-    <nav class="row" aria-label="ImgFetch navigation">
-      <button id="navHome" class="icon-btn" title="Home" aria-label="Home" aria-pressed="true">
+    <nav class="row" data-i18n-attr="aria-label:popup_navAria" aria-label="ImgFetch navigation">
+      <button id="navHome" class="icon-btn" data-i18n-attr="title:popup_home;aria-label:popup_home" title="Home" aria-label="Home" aria-pressed="true">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
       </button>
-      <button id="navHistory" class="icon-btn" title="Download history" aria-label="Download history">
+      <button id="navHistory" class="icon-btn" data-i18n-attr="title:popup_history;aria-label:popup_history" title="Download history" aria-label="Download history">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
       </button>
-      <button id="navSettings" class="icon-btn" title="ImgFetch settings" aria-label="ImgFetch settings">
+      <button id="navSettings" class="icon-btn" data-i18n-attr="title:popup_settings;aria-label:popup_settings" title="ImgFetch settings" aria-label="ImgFetch settings">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.01a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h.01a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.01a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
       </button>
     </nav>
   </header>
 
-  <main class="pane-anim" id="viewHome" aria-label="Home">
+  <main class="pane-anim" id="viewHome" data-i18n-attr="aria-label:popup_home" aria-label="Home">
     <section class="pane-anim" id="paneIdle">
       <div class="hero">
         <img class="glyph" src="../icons/icon-128.png" alt="" aria-hidden="true">
-        <h1>Grab images from any page</h1>
-        <p>Scan the page, pick what you want, and save the best available version.</p>
-        <button id="btnScan" class="btn btn-primary btn-block">Scan this page</button>
-        <div class="shot-row" role="group" aria-label="Screenshot">
-          <button id="btnShotVisible" class="shot-btn" title="Capture visible page" aria-label="Capture visible page">
+        <h1 data-i18n="popup_heroTitle">Grab images from any page</h1>
+        <p data-i18n="popup_heroDesc">Scan the page, pick what you want, and save the best available version.</p>
+        <button id="btnScan" class="btn btn-primary btn-block" data-i18n="popup_scanButton">Scan this page</button>
+        <div class="shot-row" role="group" data-i18n-attr="aria-label:popup_screenshotGroup" aria-label="Screenshot">
+          <button id="btnShotVisible" class="shot-btn" data-i18n-attr="title:popup_shotVisible;aria-label:popup_shotVisible" title="Capture visible page" aria-label="Capture visible page">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            <span>Visible</span>
+            <span data-i18n="popup_shotVisibleLabel">Visible</span>
           </button>
-          <button id="btnShotArea" class="shot-btn" title="Capture selected area" aria-label="Capture selected area">
+          <button id="btnShotArea" class="shot-btn" data-i18n-attr="title:popup_shotArea;aria-label:popup_shotArea" title="Capture selected area" aria-label="Capture selected area">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
-            <span>Area</span>
+            <span data-i18n="popup_shotAreaLabel">Area</span>
           </button>
-          <button id="btnShotElement" class="shot-btn" title="Capture element" aria-label="Capture element">
+          <button id="btnShotElement" class="shot-btn" data-i18n-attr="title:popup_shotElement;aria-label:popup_shotElement" title="Capture element" aria-label="Capture element">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-            <span>Element</span>
+            <span data-i18n="popup_shotElementLabel">Element</span>
           </button>
-          <button id="btnShotFull" class="shot-btn" title="Capture full page" aria-label="Capture full page">
+          <button id="btnShotFull" class="shot-btn" data-i18n-attr="title:popup_shotFull;aria-label:popup_shotFull" title="Capture full page" aria-label="Capture full page">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></svg>
-            <span>Full page</span>
+            <span data-i18n="popup_shotFullLabel">Full page</span>
           </button>
         </div>
         <div id="homeStatus" hidden></div>
@@ -146,9 +146,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     <section class="pane-anim" id="paneScanning" hidden>
       <div class="empty">
-        <div class="spinner" role="status" aria-label="Scanning"></div>
-        <p><strong>Scanning page…</strong></p>
-        <p class="small" id="scanStatus" role="status" aria-live="polite">Looking for images</p>
+        <div class="spinner" role="status" data-i18n-attr="aria-label:popup_scanningAria" aria-label="Scanning"></div>
+        <p><strong data-i18n="popup_scanningTitle">Scanning page…</strong></p>
+        <p class="small" id="scanStatus" role="status" aria-live="polite" data-i18n="popup_scanningStatus">Looking for images</p>
         <div class="progress" style="max-width: 240px; margin: 12px auto 0;"><i id="scanBar"></i></div>
       </div>
     </section>
@@ -156,57 +156,57 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     <section class="pane-anim" id="paneResults" hidden>
       <div class="spread" style="margin-bottom:10px;">
         <div>
-          <div class="section-title" id="resTitle" style="margin:0;">Results</div>
+          <div class="section-title" id="resTitle" style="margin:0;" data-i18n="popup_resultsTitle">Results</div>
           <div class="small muted" id="resSub"></div>
         </div>
       </div>
       <div class="toolbar">
         <div class="row">
-          <input type="text" id="search" placeholder="Search images…" aria-label="Search images" style="flex:1;">
+          <input type="text" id="search" data-i18n-attr="placeholder:popup_searchPlaceholder;aria-label:popup_searchPlaceholder" placeholder="Search images…" aria-label="Search images" style="flex:1;">
         </div>
-        <div class="row" role="group" aria-label="Size filter">
-          <button class="chip" data-size="any" aria-pressed="true">Any size</button>
-          <button class="chip" data-size="small" aria-pressed="false">&lt; 400px</button>
-          <button class="chip" data-size="medium" aria-pressed="false">400px+</button>
-          <button class="chip" data-size="large" aria-pressed="false">1200px+</button>
+        <div class="row" role="group" data-i18n-attr="aria-label:popup_sizeFilterAria" aria-label="Size filter">
+          <button class="chip" data-size="any" aria-pressed="true" data-i18n="popup_sizeAny">Any size</button>
+          <button class="chip" data-size="small" aria-pressed="false" data-i18n="popup_sizeSmall">&lt; 400px</button>
+          <button class="chip" data-size="medium" aria-pressed="false" data-i18n="popup_sizeMedium">400px+</button>
+          <button class="chip" data-size="large" aria-pressed="false" data-i18n="popup_sizeLarge">1200px+</button>
         </div>
         <div class="row">
-          <select id="filterFormat" class="inline" aria-label="Format filter">
-            <option value="">All formats</option>
+          <select id="filterFormat" class="inline" data-i18n-attr="aria-label:popup_formatFilterAria" aria-label="Format filter">
+            <option value="" data-i18n="popup_formatAll">All formats</option>
             <option value="jpg">JPG</option>
             <option value="png">PNG</option>
             <option value="webp">WebP</option>
             <option value="gif">GIF</option>
             <option value="avif">AVIF</option>
           </select>
-          <select id="filterOrient" class="inline" aria-label="Orientation filter">
-            <option value="">Any orientation</option>
-            <option value="landscape">Landscape</option>
-            <option value="portrait">Portrait</option>
-            <option value="square">Square</option>
+          <select id="filterOrient" class="inline" data-i18n-attr="aria-label:popup_orientFilterAria" aria-label="Orientation filter">
+            <option value="" data-i18n="popup_orientAny">Any orientation</option>
+            <option value="landscape" data-i18n="popup_orientLandscape">Landscape</option>
+            <option value="portrait" data-i18n="popup_orientPortrait">Portrait</option>
+            <option value="square" data-i18n="popup_orientSquare">Square</option>
           </select>
-          <select id="sortMode" class="inline" aria-label="Sort images">
-            <option value="order">Page order</option>
-            <option value="largest">Largest first</option>
-            <option value="smallest">Smallest first</option>
+          <select id="sortMode" class="inline" data-i18n-attr="aria-label:popup_sortAria" aria-label="Sort images">
+            <option value="order" data-i18n="popup_sortOrder">Page order</option>
+            <option value="largest" data-i18n="popup_sortLargest">Largest first</option>
+            <option value="smallest" data-i18n="popup_sortSmallest">Smallest first</option>
           </select>
         </div>
         <div class="row small">
-          <button id="selAll" class="btn btn-sm btn-ghost">Select all</button>
-          <button id="selNone" class="btn btn-sm btn-ghost">Select none</button>
-          <button id="selInvert" class="btn btn-sm btn-ghost">Invert</button>
-          <span class="muted" id="resultCount" style="margin-left:auto;"></span>
+          <button id="selAll" class="btn btn-sm btn-ghost" data-i18n="popup_selAll">Select all</button>
+          <button id="selNone" class="btn btn-sm btn-ghost" data-i18n="popup_selNone">Select none</button>
+          <button id="selInvert" class="btn btn-sm btn-ghost" data-i18n="popup_selInvert">Invert</button>
+          <span class="muted" id="resultCount" style="margin-inline-start:auto;"></span>
         </div>
       </div>
-      <div id="grid" class="grid grid-wrap" role="group" aria-label="Found images"></div>
+      <div id="grid" class="grid grid-wrap" role="group" data-i18n-attr="aria-label:popup_gridAria" aria-label="Found images"></div>
       <div class="footerbar">
         <div class="row">
-          <div class="segmented" role="group" aria-label="Download quality">
-            <button id="qSmart" aria-pressed="true">Smart Download</button>
-            <button id="qNormal" aria-pressed="false">As shown</button>
+          <div class="segmented" role="group" data-i18n-attr="aria-label:popup_qualityAria" aria-label="Download quality">
+            <button id="qSmart" aria-pressed="true" data-i18n="popup_qualitySmart">Smart Download</button>
+            <button id="qNormal" aria-pressed="false" data-i18n="popup_qualityNormal">As shown</button>
           </div>
-          <select id="dlFormat" class="inline" aria-label="Download format" style="margin-left:auto;">
-            <option value="as-is">Original format</option>
+          <select id="dlFormat" class="inline" data-i18n-attr="aria-label:popup_dlFormatAria" aria-label="Download format" style="margin-inline-start:auto;">
+            <option value="as-is" data-i18n="popup_formatOriginal">Original format</option>
             <option value="png">PNG</option>
             <option value="jpg">JPG</option>
             <option value="webp">WebP</option>
@@ -216,33 +216,33 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         <div class="row">
           <label class="small" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input type="checkbox" id="bulkBest">
-            <span title="Probe each image for a higher-quality source before downloading. Slower, can trigger rate limits on some sites.">Try best quality for bulk download</span>
+            <span data-i18n="popup_bulkBest" title="Probe each image for a higher-quality source before downloading. Slower, can trigger rate limits on some sites.">Try best quality for bulk download</span>
           </label>
         </div>
-        <button id="btnDownload" class="btn btn-primary btn-block">Download selected</button>
-        <button id="btnZip" class="btn btn-ghost btn-block" title="Pack the selected images into one .zip file, exactly as shown on the page (no Smart quality upgrade inside ZIPs)">Download selected as ZIP</button>
-        <button id="btnRescan" class="btn btn-ghost btn-block">Scan again</button>
+        <button id="btnDownload" class="btn btn-primary btn-block" data-i18n="popup_download">Download selected</button>
+        <button id="btnZip" class="btn btn-ghost btn-block" data-i18n-attr="title:popup_downloadZipTitle" title="Pack the selected images into one .zip file, exactly as shown on the page (no Smart quality upgrade inside ZIPs)" data-i18n="popup_downloadZip">Download selected as ZIP</button>
+        <button id="btnRescan" class="btn btn-ghost btn-block" data-i18n="popup_rescan">Scan again</button>
       </div>
     </section>
 
     <section class="pane-anim" id="paneQueue" hidden>
-      <h2 class="section-title">Downloads</h2>
-      <p class="section-desc" id="queueSummary" role="status" aria-live="polite">Preparing…</p>
+      <h2 class="section-title" data-i18n="popup_queueTitle">Downloads</h2>
+      <p class="section-desc" id="queueSummary" role="status" aria-live="polite" data-i18n="popup_queuePreparing">Preparing…</p>
       <div class="progress" style="margin-bottom:12px;"><i id="queueBar"></i></div>
       <div id="queueList"></div>
       <div class="row" style="margin-top:12px;">
-        <button id="btnQueueRetry" class="btn btn-sm btn-ghost">Retry failed</button>
-        <button id="btnQueueCancel" class="btn btn-sm btn-danger">Cancel</button>
-        <button id="btnQueueClear" class="btn btn-sm btn-ghost" style="margin-left:auto;">Clear finished</button>
+        <button id="btnQueueRetry" class="btn btn-sm btn-ghost" data-i18n="popup_queueRetry">Retry failed</button>
+        <button id="btnQueueCancel" class="btn btn-sm btn-danger" data-i18n="ui_cancel">Cancel</button>
+        <button id="btnQueueClear" class="btn btn-sm btn-ghost" style="margin-inline-start:auto;" data-i18n="popup_queueClear">Clear finished</button>
       </div>
-      <button id="btnBack" class="btn btn-ghost btn-block" style="margin-top:12px;">Back to results</button>
+      <button id="btnBack" class="btn btn-ghost btn-block" style="margin-top:12px;" data-i18n="popup_backResults">Back to results</button>
     </section>
   </main>
 
-  <main class="pane-anim" id="viewHistory" hidden aria-label="History">
+  <main class="pane-anim" id="viewHistory" hidden data-i18n-attr="aria-label:popup_historyAria" aria-label="History">
     <div class="spread">
-      <h2 class="section-title" style="margin:0;">Download history</h2>
-      <button id="btnClearHistory" class="btn btn-sm btn-danger">Clear</button>
+      <h2 class="section-title" style="margin:0;" data-i18n="popup_historyTitle">Download history</h2>
+      <button id="btnClearHistory" class="btn btn-sm btn-danger" data-i18n="popup_historyClear">Clear</button>
     </div>
     <div id="historyList"></div>
   </main>

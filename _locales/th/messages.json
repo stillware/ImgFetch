@@ -1,0 +1,2022 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: ตัวดาวน์โหลดรูปภาพอัจฉริยะ บันทึกรูปภาพด้วยคุณภาพที่ดีที่สุด สแกนทั้งหน้า และจับภาพหน้าจอ",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch ตัวดาวน์โหลดรูปภาพอัจฉริยะ",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "ไทย",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "อัตโนมัติ (ภาษาของเบราว์เซอร์)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "ยกเลิก",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "ยืนยัน",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "กำลังโหลด",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "ขนาดไม่ทราบ",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch กำลังเริ่มต้น โปรดลองอีกครั้งในอีกสักครู่",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "รูปภาพ",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "ตัวดาวน์โหลดรูปภาพอัจฉริยะ",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "การนำทาง ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "หน้าแรก",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "ประวัติการดาวน์โหลด",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "การตั้งค่า ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "ดึงรูปภาพจากหน้าใดก็ได้",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "สแกนหน้า เลือกสิ่งที่ต้องการ และบันทึกเวอร์ชันที่ดีที่สุดที่มี",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "สแกนหน้านี้",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "ภาพหน้าจอ",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "จับภาพหน้าที่เห็น",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "ที่เห็น",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "จับภาพพื้นที่ที่เลือก",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "พื้นที่",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "จับภาพองค์ประกอบ",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "องค์ประกอบ",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "จับภาพทั้งหน้า",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "ทั้งหน้า",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "กำลังสแกน",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "กำลังสแกนหน้า…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "กำลังค้นหารูปภาพ",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "พบแล้ว {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "ผลลัพธ์",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "ค้นหารูปภาพ…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "ตัวกรองขนาด",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "ทุกขนาด",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px ขึ้นไป",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px ขึ้นไป",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "ตัวกรองรูปแบบ",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "ทุกรูปแบบ",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "ตัวกรองทิศทาง",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "ทุกทิศทาง",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "แนวนอน",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "แนวตั้ง",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "จัตุรัส",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "เรียงรูปภาพ",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "ลำดับในหน้า",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "ใหญ่สุดก่อน",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "เล็กสุดก่อน",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "เลือกทั้งหมด",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "ยกเลิกการเลือก",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "กลับด้าน",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "รูปภาพที่พบ",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "คุณภาพการดาวน์โหลด",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "ดาวน์โหลดอัจฉริยะ",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "ตามที่แสดง",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "รูปแบบการดาวน์โหลด",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "รูปแบบต้นฉบับ",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "ลองคุณภาพที่ดีที่สุดสำหรับการดาวน์โหลดจำนวนมาก",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "ค้นหาแหล่งภาพคุณภาพสูงกว่าสำหรับแต่ละภาพก่อนดาวน์โหลด ช้ากว่า อาจทำให้บางเว็บไซต์จำกัดอัตราคำขอ",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_download": {
+    "message": "ดาวน์โหลดที่เลือก",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "ดาวน์โหลด {count} รูป",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "ดาวน์โหลดที่เลือกเป็น ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "รวมรูปภาพที่เลือกเป็นไฟล์ .zip เดียว ตรงตามที่แสดงในหน้า (ไม่มีการอัปเกรดคุณภาพอัจฉริยะภายใน ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "สแกนอีกครั้ง",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "พบ {count} รูป",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "ไม่พบรูปภาพในหน้านี้",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "ไม่พบรูปภาพ ตัวกรองขนาดข้ามรูปเล็ก {dropped} รูป ลดค่าลงในการตั้งค่า → การสแกน",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "ไม่มีรูปภาพตรงกับตัวกรองเหล่านี้",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "แสดง {shown} · พบ {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "ลบรูปซ้ำ {count} รูปแล้ว",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "ซ่อนองค์ประกอบ UI {count} รายการแล้ว",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} รายการถูกซ่อนโดยตัวกรอง",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "กำลังแสดง {shown} จาก {total} เลื่อนเพื่อดูเพิ่ม",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (ไม่รองรับ)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "กำลังดาวน์โหลด {count} รายการ",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "ดูการดาวน์โหลด",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "พบ {count} รูปในหน้านี้",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "ดูผลลัพธ์",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "ตัวอย่างรูปภาพ",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "ปิดตัวอย่าง",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "ตัวอย่าง",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "ตัวอย่าง {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "ขนาด",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "รูปแบบ",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "แหล่งที่มา",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "รูปพื้นหลัง",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "รูปในหน้า",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "ไม่ทราบ",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "บันทึกเป็น PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "บันทึกเป็น JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "บันทึกเป็น WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "บันทึกเป็น AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "เปิดต้นฉบับ",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "ข้อมูลรูปภาพ",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "ไม่สามารถเปิดรูปภาพนี้ในแท็บได้",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "การดาวน์โหลด",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "กำลังเตรียม…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "ลองใหม่รายการที่ล้มเหลว",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "ล้างรายการที่เสร็จ",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "กลับไปผลลัพธ์",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "คิวว่าง",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "บันทึกแล้ว {done} จาก {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "ล้มเหลว: {failed}",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "รอดำเนินการ",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "กำลังดำเนินการ",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "เสร็จสิ้น",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "ล้มเหลว",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "ยกเลิกแล้ว",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "แสดงในโฟลเดอร์",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "การดาวน์โหลดถูกขัดจังหวะ",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "ประวัติการดาวน์โหลด",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "ล้าง",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "ประวัติ",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "ล้างประวัติการดาวน์โหลด?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "การดำเนินการนี้จะลบรายการไฟล์ที่ ImgFetch ดาวน์โหลด ไฟล์จริงยังคงอยู่ในอุปกรณ์ของคุณ",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "ล้างประวัติ",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "ล้างประวัติแล้ว",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "ยังไม่มีการดาวน์โหลด รูปภาพที่คุณบันทึกจะปรากฏที่นี่",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "ยังไม่มีอะไรที่นี่",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "วันนี้",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "เมื่อวาน",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "เพิ่มเข้าคิวการดาวน์โหลด ImgFetch แล้ว",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "คัดลอกไปยังคลิปบอร์ดแล้ว",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "คัดลอกล้มเหลว ลองอีกครั้ง",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch หยุดชั่วคราวบนเว็บไซต์นี้",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch หยุดชั่วคราวบนเว็บไซต์นี้ (ดูค่ากำหนดเว็บไซต์)",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "แปลงล้มเหลว บันทึกต้นฉบับแล้ว",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "ไม่พบต้นฉบับ ใช้เวอร์ชันที่ดีที่สุดที่มี",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "ไม่สามารถเปิด Google Lens ลองอีกครั้ง",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens เปิดอยู่ วางลิงก์รูปภาพ (Ctrl+V) ในช่องลิงก์",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "เสร็จแล้ว",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "คัดลอกลิงก์รูปภาพแล้ว",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "เปิดหน้าเว็บปกติก่อน แล้วลองอีกครั้ง",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "ลิงก์รูปภาพนี้ดูไม่ปลอดภัย ImgFetch จึงข้ามไป",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch ไม่พบรูปภาพที่ใช้ได้ที่นี่",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "เว็บไซต์ไม่อนุญาตให้บันทึกรูปภาพนี้",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch ไม่สามารถแปลงรูปภาพนี้ได้ บันทึกต้นฉบับแทน",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch ไม่สามารถเข้ารหัสรูปภาพนี้เป็น GIF ไม่ได้บันทึกอะไรเลย",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "การเข้ารหัส AVIF ไม่พร้อมใช้งานในเบราว์เซอร์นี้ (ต้องใช้ Chrome/Edge 130+ อัปเดตเบราว์เซอร์เพื่อเปิดใช้) บันทึก PNG แทน",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "หน้านี้ใหญ่เกินไปที่จะจับภาพเป็นรูปเดียว",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch ไม่สามารถหาต้นฉบับได้อย่างมั่นใจ ใช้เวอร์ชันที่ดีที่สุดที่มี",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch ไม่สามารถสแกนหน้านี้ได้ โหลดหน้าซ้ำแล้วสแกนอีกครั้ง",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch ไม่สามารถจับภาพหน้านี้ได้",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "การดาวน์โหลดไม่เริ่ม ลองอีกครั้ง",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "ยกเลิกแล้ว",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "ใช้เวลานานเกินไป ลองอีกครั้ง",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch บล็อกคำขอไปยังที่อยู่เครือข่ายส่วนตัว (เช่น localhost หรือหน้าของเราเตอร์) เพื่อปกป้องเครือข่ายภายในของคุณ",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch หยุดชั่วคราวบนเว็บไซต์นี้ เปิดใช้อีกครั้งในการตั้งค่า → ค่ากำหนดเว็บไซต์",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "เกิดข้อผิดพลาด ลองอีกครั้ง",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "การตั้งค่า",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "ส่วนการตั้งค่า",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "ทั่วไป",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "การดาวน์โหลด",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "คุณภาพ",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "ชื่อไฟล์",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "การสแกน",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "ภาพหน้าจอ",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "ค่ากำหนดเว็บไซต์",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "แป้นพิมพ์ลัด",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "โฟลเดอร์",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "ประวัติการดาวน์โหลด",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "สำรองข้อมูลและรีเซ็ต",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "เกี่ยวกับ",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "ความเป็นส่วนตัว",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "การตั้งค่า ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - การตั้งค่า ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "ส่วนการตั้งค่า",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "กำลังบันทึก…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "บันทึกการเปลี่ยนแปลงทั้งหมดแล้ว",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "บันทึกไม่สำเร็จ ลองอีกครั้ง",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "ภาษา",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "รีเซ็ตการตั้งค่าทั้งหมด?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "การตั้งค่า ImgFetch ทุกอย่างจะกลับเป็นค่าเริ่มต้น ประวัติการดาวน์โหลดของคุณจะยังคงอยู่",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "รีเซ็ตการตั้งค่า",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "รีเซ็ตการตั้งค่าแล้ว",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ลักษณะและพฤติกรรมของ ImgFetch",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "ลักษณะ",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "ระบบ",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "สว่าง",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "มืด",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "หลังจากดาวน์โหลดเสร็จ",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "เงียบไว้",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "แสดงการแจ้งเตือน",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "ปิดแผงการดาวน์โหลดเมื่อเสร็จ",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "มุมมองความคืบหน้าจะยุบกลับสู่หน้าหลักหลังจากดาวน์โหลดแต่ละรายการเสร็จสักพัก",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "วิธีบันทึกไฟล์ลงในอุปกรณ์ของคุณ",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "ถามว่าจะบันทึกแต่ละไฟล์ที่ไหน",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "แสดงกล่องโต้ตอบบันทึกของเบราว์เซอร์ทุกครั้งที่ดาวน์โหลด",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "ลองใหม่การดาวน์โหลดที่ล้มเหลวโดยอัตโนมัติ",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "หากการดาวน์โหลดไม่เริ่ม ImgFetch จะลองเองอีกครั้ง",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "การดาวน์โหลดพร้อมกัน:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "ยิ่งมากยิ่งเร็วสำหรับรูปจำนวนมาก แต่บางเว็บไซต์อาจจำกัดคุณ",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch บันทึกแหล่งที่มาจริงที่ดีที่สุดที่สามารถตรวจสอบได้ ไม่ขยายรูปภาพเด็ดขาด",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "การเลือกคุณภาพอัจฉริยะ",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "ดาวน์โหลดอัจฉริยะ (แนะนำ)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "ตรวจสอบทุกแหล่งที่มาที่มีและบันทึกเวอร์ชันจริงที่ดีที่สุดที่สามารถตรวจสอบได้",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "ใช้แหล่งที่มาที่แน่นอนก่อน",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "ข้ามการตรวจสอบคุณภาพเพิ่มเติมและบันทึกรูปภาพตรงตามที่หน้าแสดง เร็วขึ้นและเป็นส่วนตัวกว่า",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "คุณภาพ JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "คุณภาพ PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "คุณภาพ WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "ใช้เมื่อแปลงเป็น JPG ยิ่งสูงไฟล์ยิ่งใหญ่",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% ไม่สูญเสีย ค่าที่ต่ำกว่าจะลดสีเพื่อให้ไฟล์เล็กลง",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "ใช้เมื่อแปลงเป็น WebP",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "รูปแบบอื่น",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "คุณภาพสูงสุด เสมอ 100%",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "จานสีคงที่ 256 สี (ตัวเข้ารหัสของ ImgFetch เอง)",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "ไม่บีบอัด เสมอ 100%",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "ตัวห่อเวกเตอร์รอบรูปภาพ",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch ทำให้ชื่อไฟล์ปลอดภัยเสมอ ไม่มีอักขระแปลกๆ เด็ดขาด",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "การตั้งชื่อ",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "คงชื่อเดิมไว้",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "ใช้ชื่อไฟล์ที่ทำความสะอาดแล้วของรูปภาพเอง",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "เว็บไซต์ + วันที่ + หมายเลข",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "ตัวอย่าง: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "เทมเพลตกำหนดเอง",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "สร้างรูปแบบของคุณเองด้านล่าง",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "เทมเพลตกำหนดเอง",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "โทเค็นที่ใช้ได้",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "ให้ฉันเปลี่ยนชื่อไฟล์ก่อนดาวน์โหลด",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "เปิดแผ่นเปลี่ยนชื่อเล็กๆ พร้อมตัวอย่างก่อนการดาวน์โหลดเดี่ยวจากเมนูคลิกขวา",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "วิธีที่ ImgFetch ค้นหารูปภาพในหน้า",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "ข้ามรูปภาพที่เล็กกว่า",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "ไม่ข้ามอะไรเลย",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "กลาง (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "ใหญ่ (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "ใหญ่มาก (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "ซ่อนไอคอนเล็กๆ และตัวเว้นวรรคจากผลลัพธ์ คุณยังเปลี่ยนได้ทุกครั้งที่สแกน",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "รวมรูปพื้นหลัง",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "ค้นหารูปที่ใช้เป็นพื้นหลังหน้าด้วย (ช้าลงในหน้ายักษ์)",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "ความลึกของการสแกน",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "หน้าที่โหลดแล้ว",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "เลื่อนหน้า",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "หน้าที่โหลดแล้ว: สแกนเฉพาะรูปที่โหลดแล้ว (เร็วสุด) เลื่อนหน้า: เลื่อนหน้าสั้นๆ ก่อนเพื่อเผยรูปที่โหลดช้า แล้วคืนตำแหน่งของคุณ",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "ลบรูปภาพซ้ำ",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "เมื่อรูปเดียวกันปรากฏหลายขนาด จะเก็บเฉพาะรูปที่ใหญ่สุดและซ่อนที่เหลือ",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "ค่าเริ่มต้นสำหรับการจับภาพหน้า",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "รูปแบบเริ่มต้น",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "คุณภาพ:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "จับภาพเลย",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "พื้นที่ที่เห็น",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "เลือกพื้นที่",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "จับภาพองค์ประกอบ",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "ทั้งหน้า",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“เลือกพื้นที่” จะเปิดเลเยอร์การเลือกจริงบนหน้าปัจจุบัน ลากสี่เหลี่ยม กด Esc เพื่อยกเลิก “จับภาพองค์ประกอบ” ให้คุณคลิกองค์ประกอบใดก็ได้เพื่อจับภาพองค์ประกอบนั้นพอดี",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "เปิดตัวแก้ไขคำอธิบายหลังจับภาพ",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "วาดลูกศร เพิ่มข้อความ หรือเบลอส่วนของภาพหน้าจอก่อนบันทึก",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "จับภาพพื้นที่ที่เห็นแล้ว",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "จับภาพพื้นที่แล้ว",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "จับภาพองค์ประกอบแล้ว",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "จับภาพทั้งหน้าแล้ว",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label} ดูแท็บตัวอย่างเพื่อบันทึก",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "ให้เว็บไซต์เฉพาะมีพฤติกรรมการดาวน์โหลดของตัวเอง",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "โดเมนเว็บไซต์",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "ใช้เว็บไซต์ปัจจุบัน",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "เพิ่ม",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "อัจฉริยะค้นหาแหล่งที่มาจริงที่ดีที่สุดบนเว็บไซต์นี้ · ตามที่แสดงบันทึกรูปตรงตามที่แสดง · หยุดชั่วคราวปิดการดาวน์โหลด ImgFetch บนเว็บไซต์นี้",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "ยังไม่มีค่ากำหนดเว็บไซต์",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "อัจฉริยะ",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "ตามที่แสดง",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "หยุดชั่วคราว",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "ลบ",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "พฤติกรรมสำหรับ {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "พิมพ์โดเมนเว็บไซต์ เช่น example.com",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "เพิ่ม {host} แล้ว",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "ไม่สามารถอ่านเว็บไซต์ปัจจุบันได้",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "เว็บไซต์ปัจจุบัน: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "แป้นพิมพ์ลัดที่กำหนดให้ ImgFetch ในปัจจุบัน",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "กำลังโหลด…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "สแกนหน้านี้",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "สแกนหน้านี้ (สำรอง)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "เลือกองค์ประกอบ",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "จับภาพพื้นที่ที่เลือก",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "จับภาพองค์ประกอบ",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "ไม่มีแป้นลัดที่ลงทะเบียน",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "ไม่ได้ตั้งค่า",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "คัดลอกลิงก์หน้าแป้นลัด",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "หากต้องการเปลี่ยนแป้นลัด เปิด chrome://extensions/shortcuts (หรือ edge://extensions/shortcuts ใน Edge) ค้นหา ImgFetch และตั้งค่าปุ่มที่ต้องการ บน Mac ใช้ ⌘ แทน Ctrl หากแป้นลัดแสดง “ไม่ได้ตั้งค่า” แสดงว่าปุ่มที่แนะนำชนกับเบราว์เซอร์หรือส่วนขยายอื่น ตั้งค่าด้วยตนเองที่นี่",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "ไม่สามารถอ่านแป้นลัดได้",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "คัดลอกลิงก์หน้าแป้นลัดแล้ว วางในแถบที่อยู่ของคุณ",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "ไฟล์จะบันทึกในโฟลเดอร์ดาวน์โหลดของเบราว์เซอร์ ตัวเลือกเหล่านี้จัดระเบียบยิ่งขึ้น",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "จัดระเบียบการดาวน์โหลดลงใน",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "ที่เดียว (ไม่มีโฟลเดอร์อัจฉริยะ)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "โฟลเดอร์ตามเว็บไซต์",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "โฟลเดอร์อัจฉริยะตามประเภท",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "โฟลเดอร์ตามวันที่",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "โฟลเดอร์อัจฉริยะจัดเรียงอัตโนมัติ: รูปถ่าย ภาพหน้าจอ GIF กราฟิก ตัวอย่าง “ตามเว็บไซต์”: ดาวน์โหลด / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "ใช้โฟลเดอร์ย่อยเริ่มต้น",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "เมื่อเปิด ทุกอย่างจะบันทึกในโฟลเดอร์นี้ก่อน แล้วจัดตามด้านบน",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "ชื่อโฟลเดอร์ย่อย",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "เช่น ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "ตัวอย่าง: ดาวน์โหลด / ImgFetch / example.com / photo.jpg จะถูกละเว้นขณะที่สวิตช์ปิด",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "รายการง่ายๆ ของสิ่งที่คุณบันทึก แสดงในป๊อปอัป",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "การดาวน์โหลดล่าสุด",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "เก็บประวัติการดาวน์โหลด",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "เก็บชื่อไฟล์ เว็บไซต์ รูปแบบ และขนาดของแต่ละการดาวน์โหลด",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "เก็บประวัติ (วัน)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "รายการเก่ากว่าจะถูกลบอัตโนมัติ",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "ล้างเลย",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "ล้างประวัติการดาวน์โหลด",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "ลบรายการประวัติทั้งหมดทันที ไฟล์ที่ดาวน์โหลดไม่ได้รับผลกระทบ",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "ไม่สามารถล้างประวัติได้",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "พกการตั้งค่าของคุณไปด้วย หรือเริ่มใหม่",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "ส่งออกการตั้งค่า",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "ดาวน์โหลดไฟล์ imgfetch-settings.json พร้อมการตั้งค่าทั้งหมดของคุณ",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "ส่งออกการตั้งค่าแล้ว",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "นำเข้าการตั้งค่า",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "ไฟล์การตั้งค่าที่จะนำเข้า",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "กู้คืนการตั้งค่าจากไฟล์ส่งออก ImgFetch ไฟล์ที่ไม่ถูกต้องจะถูกปฏิเสธอย่างปลอดภัย",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "นำเข้าการตั้งค่าแล้ว",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "ไฟล์นี้ไม่ใช่ไฟล์ส่งออกการตั้งค่า ImgFetch ที่ถูกต้อง",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "รีเซ็ตเป็นค่าเริ่มต้น",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "รีเซ็ตทั้งหมด",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "ขอการยืนยันก่อน แล้วคืนค่าเริ่มต้น ImgFetch ทั้งหมด ประวัติจะยังคงอยู่เว้นแต่คุณล้างด้านบน",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "เวอร์ชัน",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "สัญญาอนุญาต",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "สิทธิ์",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch เข้าถึงอะไรได้บ้างและทำไม:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "เพิ่มรายการ ImgFetch ในเมนูคลิกขวา",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "บันทึกรูปภาพลงในโฟลเดอร์ดาวน์โหลดของคุณ",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "จำการตั้งค่าและประวัติของคุณบนอุปกรณ์นี้",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "สแกนหน้าที่คุณขอเพื่อค้นหารูปภาพ",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "ทำงานกับแท็บที่เปิดอยู่ปัจจุบัน",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "แปลงรูปภาพระหว่างรูปแบบในเบื้องหลัง",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "แจ้งเมื่อดาวน์โหลดเสร็จ (เฉพาะเมื่อคุณเปิด)",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "คัดลอกลิงก์รูปภาพไปยังคลิปบอร์ดของคุณแทนคุณ",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "อ่านรูปภาพบนเว็บไซต์ที่คุณเยี่ยมชม เฉพาะเมื่อคุณสแกนหน้าหรือเริ่มดาวน์โหลด",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "เอกสาร",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "เอกสาร นโยบายความเป็นส่วนตัว และข้อกำหนดการใช้งานอยู่ในที่เก็บสาธารณะ:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch ไม่มีเซิร์ฟเวอร์และไม่เก็บอะไรเลย จะดึงเฉพาะรูปภาพที่คุณเลือกดาวน์โหลด และ Google Lens (เฉพาะเมื่อคุณคลิก) จะเปิด Google พร้อมที่อยู่รูปภาพ ดู PRIVACY.md ในที่เก็บสำหรับคำชี้แจงฉบับเต็ม",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch เก็บทุกอย่างไว้ในอุปกรณ์ของคุณ ไม่มีบัญชี ไม่ติดตาม ไม่วิเคราะห์",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "สิ่งที่ ImgFetch เก็บ",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "การตั้งค่า ค่ากำหนดเว็บไซต์ และประวัติการดาวน์โหลดของคุณอยู่ในที่เก็บข้อมูลภายในของเบราว์เซอร์ เฉพาะบนอุปกรณ์นี้",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "รูปที่ดาวน์โหลดจะเข้าตรงโฟลเดอร์ดาวน์โหลดของคุณ ImgFetch ไม่อัปโหลดไปที่ใดเลย",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "สิ่งที่ ImgFetch ไม่ทำเด็ดขาด",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "ไม่มีบัญชีและไม่มีการเข้าสู่ระบบ ไม่มีที่ให้เข้าสู่ระบบ",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "ไม่มีการวิเคราะห์ ไม่มีการวัดระยะไกล ไม่มีรายงานข้อขัดข้อง",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "ไม่มีโค้ดระยะไกล สคริปต์ทุกตัวอยู่ในแพ็กเกจส่วนขยาย",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "รูปภาพถูกดึงตรงจากเว็บไซต์ที่คุณเยี่ยมชม ด้วยเซสชันเบราว์เซอร์ปกติของคุณ ImgFetch ไม่เพิ่มพารามิเตอร์ติดตาม",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "เหตุผลที่ ImgFetch ขอแต่ละสิทธิ์อธิบายไว้ในส่วนเกี่ยวกับ และคำชี้แจงฉบับเต็มอยู่ใน PRIVACY.md ในที่เก็บสาธารณะ",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "ใส่คำอธิบายภาพหน้าจอ",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "กำลังโหลดภาพหน้าจอ…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "เครื่องมือคำอธิบาย",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "ปากกา",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "ลูกศร",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "สี่เหลี่ยม",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "วงกลม",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "ข้อความ",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "ทำพิกเซล",
+    "description": "Annotate tool: pixelate."
+  },
+  "color_red": {
+    "message": "แดง",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "ส้ม",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "เขียว",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "น้ำเงิน",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "ดำ",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "ขาว",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "บาง",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "กลาง",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "หนา",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "เลิกทำ",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "ทำซ้ำ",
+    "description": "Annotate: redo button."
+  },
+  "redo_title": {
+    "message": "ทำซ้ำ (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "ล้าง",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "พิมพ์ข้อความ กด Enter เพื่อวาง",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "ยกเลิกข้อความ",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "บันทึก",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "ทิ้ง",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "เคล็ดลับ: ลากบนรูปเพื่อวาด เครื่องมือข้อความ: คลิกตรงที่ข้อความควรอยู่ พิมพ์ กด Enter คลิกข้อความที่วางเพื่อเลือก ลากเพื่อย้าย กด Delete หรือ Backspace เพื่อลบ เบลอ: ลากบนพื้นที่ที่ซ่อน",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "การทำพิกเซลซ่อนรายละเอียดจากสายตาอยากรู้ แต่บางครั้งย้อนกลับได้ อย่าพึ่งพาสำหรับข้อความที่ละเอียดอ่อน",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "บันทึกภาพหน้าจอแล้ว",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "บันทึกไม่สำเร็จ",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "ลิงก์ตัวแก้ไขนี้ไม่ถูกต้อง",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "ไม่สามารถโหลดภาพหน้าจอได้",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "capture_subtitle": {
+    "message": "ตัวอย่างภาพหน้าจอ",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "กำลังเตรียมภาพหน้าจอของคุณ…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "ตัวอย่างภาพหน้าจอ",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "บันทึกภาพหน้าจอ",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "คัดลอกไปยังคลิปบอร์ด",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "จับภาพหน้าที่เห็นอีกครั้ง",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "จับภาพพื้นที่อีกครั้ง",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "ทิ้ง",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "ลิงก์ตัวอย่างนี้ไม่ถูกต้อง",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} พิกเซล",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "ภาพหน้าจอพร้อมแล้ว",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "บันทึก {filename} แล้ว",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "ไม่สามารถคัดลอกภาพหน้าจอได้",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "ข้อมูลรูปภาพ",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "กำลังอ่านรายละเอียดรูปภาพ…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "ลิงก์ตรง",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "คัดลอกลิงก์",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "บันทึกเป็น JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "ไม่ได้ระบุรูปภาพ",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "ชื่อไฟล์",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "ขนาด",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "แสดงเป็น",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "ข้อความทางเลือก",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "กล้อง",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "ถ่ายเมื่อ",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "ขนาดเต็ม",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "สถานที่",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "รายละเอียดรูปถ่าย",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "รูปถ่ายนี้มีพิกัด GPS การแชร์ไฟล์ต้นฉบับจะแชร์สถานที่ที่ถ่ายอย่างแม่นยำ ใช้ “บันทึกโดยไม่มีข้อมูลเมตา” สำหรับสำเนาที่สะอาด",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "บันทึกโดยไม่มีข้อมูลเมตา",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "บันทึกสำเนาโดยไม่มีข้อมูลเมตาแล้ว",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "ไม่สามารถลบข้อมูลเมตาได้",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "คัดลอกลิงก์ที่เลือกด้วยตนเอง",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "ตั้งชื่อการดาวน์โหลดของคุณ",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "ชื่อไฟล์",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "ดาวน์โหลด",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "จะบันทึกเป็น {format} นามสกุลที่ถูกต้องจะถูกเพิ่มโดยอัตโนมัติ",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "รูปแบบต้นฉบับ",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "ยินดีต้อนรับสู่ ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "ตัวดาวน์โหลดรูปภาพอัจฉริยะของคุณ บันทึกรูปภาพใดๆ ในเวอร์ชันที่ดีที่สุดที่มี สแกนทั้งหน้าพร้อมกัน และจับภาพหน้าจอ ทั้งหมดจากเมนูเรียบร้อยเมนูเดียว",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "คลิกขวารูปภาพใดก็ได้",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "เมนู ImgFetch ให้คุณดาวน์โหลดรูปตามที่แสดง คุณภาพดีที่สุด หรือเป็นต้นฉบับ หรือแปลงเป็น PNG JPG หรือ WebP ได้ทันที",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "สแกนหน้าและจับภาพหน้าจอ",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "คลิกปุ่ม ImgFetch บนแถบเครื่องมือเพื่อสแกนทั้งหน้าค้นหารูปภาพ หรือจับภาพหน้าที่เห็นหรือพื้นที่ใดก็ได้ที่คุณเลือก",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "สแกนหน้า",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "จับภาพพื้นที่",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "ทำให้เป็นของคุณ",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "ห้าตัวเลือกด่วน ที่เหลือมีค่าเริ่มต้นที่เหมาะสมแล้ว คุณสามารถเปลี่ยนได้ทุกเมื่อในการตั้งค่า",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "เปิดตัวแก้ไขหลังภาพหน้าจอ",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "วาดลูกศร เพิ่มข้อความ หรือเบลอก่อนบันทึก",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "เมื่อดาวน์โหลดเสร็จ",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "แจ้งฉัน",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "บันทึกในโฟลเดอร์ย่อย",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "ว่าง = ตรงไปดาวน์โหลด",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "ชื่อโฟลเดอร์ย่อย",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "ถามชื่อก่อนดาวน์โหลดเดี่ยว",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "เปิดการตั้งค่าทั้งหมด →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "กลับ",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "ถัดไป",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "เริ่มใช้ ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "ขอให้สนุกกับ ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "ไม่ได้ตั้งค่า ตั้งค่าในแป้นลัดเบราว์เซอร์",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "ลากเพื่อเลือก: ลูกศรเคลื่อนที่ Shift+ลูกศรปรับขนาด Enter ยืนยัน Esc ยกเลิก",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "คลิกองค์ประกอบเพื่อจับภาพ กด Esc เพื่อยกเลิก",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "คลิกองค์ประกอบเพื่อตรวจสอบรูปภาพ กด Esc เพื่อยกเลิก",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "บันทึกเป็น...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (รูปฝัง)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "คัดลอกลิงก์รูปภาพ",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "คัดลอกรูปภาพ",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "ข้อมูลรูปภาพ",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "เพิ่มเติม...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "เปิดต้นฉบับ",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "ค้นหารูปภาพด้วย Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "สแกนหน้านี้",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "ภาพหน้าจอ",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "จับภาพพื้นที่ที่เห็น",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "เลือกพื้นที่",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "ทั้งหน้า",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "จับภาพองค์ประกอบ",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "เพิ่มค่ากำหนดเว็บไซต์",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "ปิดใช้บนเว็บไซต์นี้",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "การตั้งค่า",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "บันทึก {filename} แล้ว",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "แปลงรูปภาพระหว่างรูปแบบ ครอบตัดภาพหน้าจอ และคัดลอกลิงก์รูปภาพ",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch เริ่มใหม่แล้ว ดำเนินการดาวน์โหลดในคิว {resumed} รายการต่อ{failedPart}",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": " ล้มเหลว {failed} รายการ",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "กำลังแปลงเป็น {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "หมายเหตุ: รูปเคลื่อนไหวจะบันทึกเป็นเฟรมนิ่ง",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "กำลังดาวน์โหลด…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "กำลังดาวน์โหลด ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "กำลังเตรียม ZIP ({count} รูป{cappedNote} ตามที่แสดง)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (200 แรกจาก {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ดาวน์โหลด ZIP แล้ว ({count} รูป)",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ดาวน์โหลด ZIP แล้ว ({count} จาก {total} ข้าม {skipped})",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "กำลังค้นหาคุณภาพที่ดีที่สุด…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch ไม่สามารถใช้เวอร์ชันคุณภาพสูงสุดได้ กำลังลองแหล่งที่มาอื่นที่มี…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "ดาวน์โหลดสำเร็จ",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "องค์ประกอบนี้สูงกว่าหน้าจอ จับภาพเฉพาะส่วนที่เห็น ใช้ทั้งหน้าสำหรับส่วนที่เหลือ",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "หน้านี้ยาวมาก กำลังจับภาพ {tileCount} ไทล์แรก (ส่วนบน) ใช้การจับภาพพื้นที่สำหรับส่วนที่เหลือ",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "หน้านี้ใหญ่มาก รูปทั้งหน้าถูกย่อเหลือ {percent}% เพื่อให้อยู่ในขีดจำกัดหน่วยความจำ",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "กำลังจับภาพทั้งหน้า ไทล์ {n} จาก {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "จับภาพทั้งหน้าแล้ว ({width} × {height} px)",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "ไม่สามารถคัดลอกรูปภาพเองได้ จึงคัดลอกลิงก์แทน",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "ไม่สามารถคัดลอกลิงก์รูปภาพได้",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "เพิ่ม {host} ในค่ากำหนดเว็บไซต์แล้ว",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch หยุดชั่วคราวบน {host}",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch สแกนได้เฉพาะหน้าเว็บทั่วไปเท่านั้น หน้าของเบราว์เซอร์อย่าง chrome://, edge:// หรือเว็บสโตร์อยู่นอกขอบเขต",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch เลือกองค์ประกอบได้เฉพาะบนหน้าเว็บทั่วไปเท่านั้น หน้าของเบราว์เซอร์อย่าง chrome://, edge:// หรือเว็บสโตร์อยู่นอกขอบเขต",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "ไม่พบรูปภาพในองค์ประกอบที่เลือก",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "คัดลอก",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "คัดลอกภาพหน้าจอที่แก้ไขไปยังคลิปบอร์ด",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว ย่อเหลือ {width} x {height} เพื่อให้พอดี",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "ไม่สามารถคัดลอกภาพหน้าจอได้ ลองบันทึกแทน",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "การคัดลอกไม่พร้อมใช้งานในขณะนี้",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "ไม่สามารถใช้ {mode} ในหน้านี้ได้ ระบบได้จับภาพเฉพาะส่วนที่มองเห็นแทน",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "เบราว์เซอร์ไม่อนุญาตให้จับภาพหน้านี้",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "ส่วนที่ {count} จาก {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "หน้านี้มีความยาวมาก กำลังจับภาพเป็น {count} ส่วนที่ความละเอียดเต็ม",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "หน้านี้มีความยาวมากเป็นพิเศษ จับภาพเฉพาะ {count} ส่วนแรกเท่านั้น",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "จับภาพพื้นที่เนื้อหาที่เลื่อนได้ของหน้านี้แล้ว",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "ส่วนที่เลื่อนแยกต่างหากของหน้านี้ถูกจับภาพตามที่มองเห็นในขณะนี้",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "เนื้อหาที่ฝังจากเว็บไซต์อื่นสามารถจับภาพได้เฉพาะตามที่มองเห็นเท่านั้น",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  }
+}

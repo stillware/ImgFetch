@@ -24,6 +24,27 @@
 'use strict';
 const UI = window.ImgFetchUI;
 
+/* B: runtime localization. Classic script: no static imports, so the
+ * i18n module loads lazily; English defaults stay until it resolves. */
+let __t = null;
+(async () => {
+  try {
+    const { initI18n, t, applyI18n, onLanguageChange } = await import('../shared/i18n.js');
+    await initI18n();
+    __t = t;
+    applyI18n();
+    onLanguageChange(() => applyI18n());
+  } catch { /* English defaults remain */ }
+})();
+
+/** Translate a key; falls back to the given English when i18n is unavailable. */
+function tr(key, english, vars) {
+  if (__t) {
+    try { return __t(key, vars); } catch { /* fall through */ }
+  }
+  return english;
+}
+
 const $ = (id) => document.getElementById(id);
 const id = location.hash.replace('#', '');
 UI.applyTheme('system');
@@ -36,6 +57,8 @@ const state = {
   drawing: null,
   selected: -1,  // index of the selected text stroke (-1 = none)
   dragText: null, // {dx, dy} while dragging a selected text stroke
+  moveSnapshot: null, // pre-drag stroke list, committed on pointerup if moved
+  textMoved: false,   // set while a text drag actually moves the stroke
 };
 
 let baseCanvas = null;   // original screenshot (full res)
@@ -137,11 +160,12 @@ function hitText(x, y) {
 
 function deleteSelectedText() {
   if (state.selected < 0 || state.selected >= state.strokes.length) return;
+  commitStrokes();
   state.strokes.splice(state.selected, 1);
   state.selected = -1;
   state.dragText = null;
   render();
-  $('btnUndo').disabled = state.strokes.length === 0;
+  updateHistoryButtons();
 }
 
 function paintStroke(ctx, s) {
@@ -234,6 +258,9 @@ editor.addEventListener('pointerdown', (e) => {
       state.selected = hit;
       const s = state.strokes[hit];
       state.dragText = { dx: x - s.at[0], dy: y - s.at[1] };
+      // Snapshot before the drag so undo can restore the pre-move position.
+      state.moveSnapshot = window.ImgFetchUndoRedo.cloneState(state.strokes);
+      state.textMoved = false;
       editor.setPointerCapture(e.pointerId);
       render();
       return;
@@ -258,6 +285,7 @@ editor.addEventListener('pointermove', (e) => {
     if (s && s.kind === 'text') {
       const [x, y] = canvasPos(e);
       s.at = [x - state.dragText.dx, y - state.dragText.dy];
+      state.textMoved = true;
       scheduleDragRender(); // B6: rAF-throttled preview, no full repaint
     }
     return;
@@ -286,6 +314,13 @@ editor.addEventListener('pointerup', (e) => {
       cancelAnimationFrame(dragRaf);
       dragRaf = 0;
     }
+    if (state.textMoved && state.moveSnapshot) {
+      // A real move is a change: record it so undo/redo covers moved text.
+      undoHistory.commit(state.moveSnapshot);
+      updateHistoryButtons();
+    }
+    state.moveSnapshot = null;
+    state.textMoved = false;
     render();
     return;
   }
@@ -294,9 +329,12 @@ editor.addEventListener('pointerup', (e) => {
   state.drawing = null;
   const [x, y] = canvasPos(e);
   const stroke = finalizeStroke(d, x, y);
-  if (stroke) state.strokes.push(stroke);
+  if (stroke) {
+    commitStrokes();
+    state.strokes.push(stroke);
+  }
   render();
-  $('btnUndo').disabled = state.strokes.length === 0;
+  updateHistoryButtons();
 });
 
 function previewStroke(d) {
@@ -352,11 +390,12 @@ function placeText(e) {
   input.focus();
   input.onkeydown = (ev) => {
     if (ev.key === 'Enter' && input.value.trim()) {
+      commitStrokes();
       state.strokes.push({ kind: 'text', text: input.value.trim().slice(0, 120), at: [x, y], color: state.color, width: state.width });
       state.selected = state.strokes.length - 1; // select it so it can be dragged right away
       hideTextBox();
       render();
-      $('btnUndo').disabled = false;
+      updateHistoryButtons();
     } else if (ev.key === 'Escape') {
       hideTextBox();
     }
@@ -369,6 +408,50 @@ $('textClose').addEventListener('click', (ev) => {
   hideTextBox();
 });
 
+/* ---------------- undo / redo ---------------- */
+// Pure stack logic lives in shared/undo-redo.js; the editor snapshots its
+// stroke list around every mutating action.
+const undoHistory = new window.ImgFetchUndoRedo.UndoRedoStack();
+
+/** Keep the Undo/Redo disabled states mirroring their stacks. */
+function updateHistoryButtons() {
+  $('btnUndo').disabled = !undoHistory.canUndo;
+  $('btnRedo').disabled = !undoHistory.canRedo;
+}
+
+/**
+ * Snapshot the stroke list BEFORE a mutating action. Any new drawing
+ * action clears the redo stack.
+ */
+function commitStrokes() {
+  undoHistory.commit(state.strokes);
+  updateHistoryButtons();
+}
+
+function doUndo() {
+  const prev = undoHistory.undo(state.strokes);
+  if (!prev) return;
+  state.strokes = prev;
+  if (state.selected >= state.strokes.length) state.selected = -1;
+  state.dragText = null;
+  state.moveSnapshot = null;
+  state.textMoved = false;
+  render();
+  updateHistoryButtons();
+}
+
+function doRedo() {
+  const next = undoHistory.redo(state.strokes);
+  if (!next) return;
+  state.strokes = next;
+  if (state.selected >= state.strokes.length) state.selected = -1;
+  state.dragText = null;
+  state.moveSnapshot = null;
+  state.textMoved = false;
+  render();
+  updateHistoryButtons();
+}
+
 // Toolbar wiring
 document.querySelectorAll('.tool[data-tool]').forEach((b) => {
   b.addEventListener('click', () => {
@@ -380,7 +463,7 @@ document.querySelectorAll('.tool[data-tool]').forEach((b) => {
     // L8: pixelation is weak redaction, warn once per session.
     if (state.tool === 'pixelate' && !state.pixelateWarned) {
       state.pixelateWarned = true;
-      UI.toast('Pixelation hides details from casual viewing, but it can sometimes be reversed, don’t rely on it for sensitive text.', 5000);
+      UI.toast(tr('annotate_pixelateWarning', 'Pixelation hides details from casual viewing, but it can sometimes be reversed, don’t rely on it for sensitive text.'), 5000);
     }
     document.querySelectorAll('.tool[data-tool]').forEach((x) =>
       x.setAttribute('aria-pressed', String(x === b)));
@@ -400,25 +483,35 @@ document.querySelectorAll('.tool[data-width]').forEach((b) => {
       x.setAttribute('aria-pressed', String(x === b)));
   });
 });
-$('btnUndo').addEventListener('click', () => {
-  state.strokes.pop();
-  if (state.selected >= state.strokes.length) state.selected = -1;
-  render();
-  $('btnUndo').disabled = state.strokes.length === 0;
-});
-$('btnUndo').disabled = true;
+$('btnUndo').addEventListener('click', doUndo);
+$('btnRedo').addEventListener('click', doRedo);
+updateHistoryButtons(); // both disabled on an empty canvas
 $('btnClear').addEventListener('click', () => {
+  // Clear resets the canvas; history is discarded (undo was already a
+  // no-op after Clear before redo existed).
+  undoHistory.reset();
   state.strokes = [];
   state.selected = -1;
   state.dragText = null;
+  state.moveSnapshot = null;
+  state.textMoved = false;
   render();
-  $('btnUndo').disabled = true;
+  updateHistoryButtons();
 });
 
 // Delete / Escape for the selected text (ignored while typing in the box).
 document.addEventListener('keydown', (e) => {
   const t = e.target;
   if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+  // Redo shortcuts. (The editor has no page-level Undo shortcut; unchanged.)
+  if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+    const k = (e.key || '').toLowerCase();
+    if (k === 'y' || (e.shiftKey && k === 'z')) {
+      e.preventDefault();
+      doRedo();
+      return;
+    }
+  }
   if ((e.key === 'Delete' || e.key === 'Backspace') && state.selected >= 0) {
     e.preventDefault();
     deleteSelectedText();
@@ -428,16 +521,34 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// Feature A: Copy button. The module is lazy-loaded so a load failure can
+// never break the editor; getEditor() calls redraw() first so the copied
+// image is the current flattened canvas (no selection chrome, no previews).
+(async () => {
+  const btn = $('btnCopy');
+  if (!btn) return;
+  try {
+    const mod = await import('../shared/copy-shot.js');
+    mod.initCopyButton(btn, () => { redraw(); return editor; });
+  } catch {
+    btn.disabled = true;
+    try {
+      const { t } = await import('../shared/i18n.js');
+      btn.title = t('copyUnavailable');
+    } catch { btn.title = 'Copy is unavailable right now.'; }
+  }
+})();
+
 $('btnSave').addEventListener('click', async () => {
   $('btnSave').disabled = true;
   try {
     redraw();
     const dataUrl = editor.toDataURL('image/png');
     await UI.send('SAVE_ANNOTATED', { id, dataUrl });
-    UI.toast('Screenshot saved.');
+    UI.toast(tr('annotate_saved', 'Screenshot saved.'));
     setTimeout(() => window.close(), 800);
   } catch (err) {
-    UI.toast(err.message || 'Save failed.');
+    UI.toast(err.message || tr('annotate_saveFailed', 'Save failed.'));
     $('btnSave').disabled = false;
   }
 });
@@ -452,7 +563,7 @@ async function init() {
     UI.applyTheme('system');
   }
   if (!id) {
-    fail('This editor link is invalid.');
+    fail(tr('annotate_invalidLink', 'This editor link is invalid.'));
     return;
   }
   let cap;
@@ -481,7 +592,7 @@ async function init() {
     $('loading').hidden = true;
     $('content').hidden = false;
   };
-  img.onerror = () => fail('Could not load the screenshot.');
+  img.onerror = () => fail(tr('annotate_loadFailed', 'Could not load the screenshot.'));
   img.src = cap.dataUrl;
 }
 

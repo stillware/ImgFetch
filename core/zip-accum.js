@@ -16,19 +16,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/zip-accum.js
+ * ImgFetch, core/zip-accum.js
  * Pure accumulator for chunked offscreen ZIP builds (N2).
  *
  * B6 splits huge BUILD_ZIP payloads into small runtime messages; the
  * offscreen side accumulates per zipToken until the final chunk
  * (more:false) builds the zip. the pre-release code kept those entries (up to 300 MB)
- * forever when a chunk failed, threw, or the user cancelled — only a
+ * forever when a chunk failed, threw, or the user cancelled, only a
  * successful final build deleted them.
  *
  * N2 fixes that two ways:
- *  1. abort(token) — the worker sends ZIP_ABORT in its catch/finally, so a
+ *  1. abort(token), the worker sends ZIP_ABORT in its catch/finally, so a
  *     failed or cancelled build releases its chunks immediately.
- *  2. sweep(now) — a 2-minute TTL deletes tokens that went stale (e.g. the
+ *  2. sweep(now), a 2-minute TTL deletes tokens that went stale (e.g. the
  *     worker died mid-build). The offscreen sweeps on every BUILD_ZIP.
  */
 export const ZIP_ACCUM_TTL_MS = 120_000;
