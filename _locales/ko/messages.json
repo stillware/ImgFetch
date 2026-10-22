@@ -247,6 +247,18 @@
     "message": "다운로드 전에 각 이미지의 더 높은 품질 원본을 찾습니다. 느려지며 일부 사이트에서는 요청 제한이 발생할 수 있습니다.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "전체 페이지 캡처 진행 상황",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "중지",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "중지 중…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "선택 다운로드",
     "description": "Download button with nothing selected yet."
@@ -1427,6 +1439,10 @@
     "message": "모자이크",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "자르기",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "빨간색",
     "description": "Annotate color: red."
@@ -1470,6 +1486,10 @@
   "redo_redo": {
     "message": "다시 실행",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "실행 취소 (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "다시 실행 (Ctrl+Y)",
@@ -1518,6 +1538,58 @@
   "annotate_loadFailed": {
     "message": "스크린샷을 로드하지 못했습니다.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "자르기 (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "적용",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "자르기 선택 영역",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "자르기 크기: {width} x {height} 픽셀",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "이미지를 불러올 수 없어 자르기를 사용할 수 없습니다.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "왼쪽 위 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "위쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "오른쪽 위 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "오른쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "오른쪽 아래 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "아래쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "왼쪽 아래 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "왼쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "스크린샷 미리보기",
@@ -2018,5 +2090,97 @@
   "scroll_crossOriginClipped": {
     "message": "다른 사이트의 삽입된 콘텐츠는 보이는 상태로만 캡처할 수 있었습니다.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "캡처가 중지되었습니다. 전체 {total}개 중 {count}개 부분이 저장되었습니다.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "이 이미지가 사용 가능한 메모리에 비해 너무 커서 캡처가 더 작은 부분으로 계속되었습니다.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "안전 한계에 도달하여 캡처가 중지되었습니다. 지금까지 캡처한 부분이 저장되었습니다.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "전체 페이지를 캡처하는 중, 부분 {part}/{partTotal}, 타일 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "스크린샷 파트",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "모두 저장",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "모두 삭제",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "저장",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "편집",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "남은 파트가 없습니다. 이 탭을 닫아도 됩니다.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "모든 파트가 저장되었습니다. 이 탭을 닫아도 됩니다.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "{total}개 중 {current}번째 파트 저장 중…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "전체 {total}개 중 {count}번째 파트 미리보기",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "전체 페이지 스크린샷의 파트 목록",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 편집",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 저장",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 복사",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 삭제",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height}픽셀 · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "참고: 전체 페이지와 같은 큰 스크린샷은 올바르게 복사되지만 Windows 클립보드 기록(Win+V)에는 나타나지 않습니다. 이는 복사의 문제가 아니라 Windows의 제한입니다. Ctrl+V를 눌러 필요한 곳에 이미지를 붙여 넣으세요.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "복사되었습니다. Ctrl+V를 눌러 붙여 넣으세요. Windows 클립보드 기록(Win+V)에는 큰 이미지가 표시되지 않습니다.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "이미지 {count}개 · 각 {width} × {height}px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "이미지 {count}개 · 크기가 서로 다름",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

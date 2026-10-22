@@ -39,9 +39,18 @@
  * that snaps fractional scrolls still stitches without gaps.
  */
 
-export const PART_MAX_SIDE = 16384; // device px, longest side of one part
-export const PART_MAX_AREA = 64_000_000; // device px^2, area of one part
+export const PART_MAX_SIDE = 32767; // device px, longest side of one part
+export const PART_MAX_AREA = 100_000_000; // device px^2, area of one part
 export const PART_MAX_COUNT = 48; // sanity cap against runaway (e.g. infinite-scroll) pages
+export const PART_PROVEN_AREA = 64_000_000; // device px^2, area already proven by the round-3 e2e (C10)
+// Round 4: the 100 MP area above was re-proven in this environment before
+// it was adopted: a 10000x10000 offscreen canvas allocation plus a
+// lossless PNG toBlob encode plus a decode at the same dimensions all
+// succeed in the project's Chromium (see capture-e2e C12, which stitches
+// a real 100 MP part through the offscreen document). Chrome's own
+// canvas side ceiling is 32767 device px, hence PART_MAX_SIDE.
+export const CAPTURE_MAX_DURATION_MS = 600_000; // 10 min hard cap per full-page capture
+export const CAPTURE_AREA_FLOOR = 4_000_000; // lowest area budget the allocation fallback will try
 
 /**
  * Single source of truth for the stitcher's acceptance rule. BOTH the
@@ -49,16 +58,63 @@ export const PART_MAX_COUNT = 48; // sanity cap against runaway (e.g. infinite-s
  * stitcher (which enforces it before allocating the canvas) use this
  * predicate, so the two can never disagree.
  */
-export function isStitchSizeAccepted(width, height) {
+export function isStitchSizeAccepted(width, height, limits = null) {
   const w = Math.round(Number(width) || 0);
   const h = Math.round(Number(height) || 0);
+  const maxSide = limits && Number(limits.maxSide) > 0 ? Number(limits.maxSide) : PART_MAX_SIDE;
+  const maxArea = limits && Number(limits.maxArea) > 0 ? Number(limits.maxArea) : PART_MAX_AREA;
   return (
     w > 0 &&
     h > 0 &&
-    w <= PART_MAX_SIDE &&
-    h <= PART_MAX_SIDE &&
-    w * h <= PART_MAX_AREA
+    w <= maxSide &&
+    h <= maxSide &&
+    w * h <= maxArea
   );
+}
+
+/**
+ * Tiles covering one part region, on the page's global tile grid.
+ * xs/ys are the global tile offsets (tileOffsets of the whole page), so
+ * a tile's scroll position and its offset inside the part are exact
+ * integers in device px. Used by the planner itself and by the worker
+ * when a growing page extends a part that is already planned.
+ */
+export function tilesCoveringRegion(region, devW, devH, tileW, tileH, dpr) {
+  const ratio = Number(dpr) > 0 ? Number(dpr) : 1;
+  const xs = tileOffsets(devW, tileW);
+  const ys = tileOffsets(devH, tileH);
+  const tiles = [];
+  for (let r = 0; r < ys.length; r += 1) {
+    if (ys[r] < region.y0 || ys[r] >= region.y0 + region.h) continue;
+    for (let c = 0; c < xs.length; c += 1) {
+      if (xs[c] < region.x0 || xs[c] >= region.x0 + region.w) continue;
+      tiles.push({
+        sx: xs[c] / ratio,
+        sy: ys[r] / ratio,
+        dx: xs[c] - region.x0,
+        dy: ys[r] - region.y0,
+      });
+    }
+  }
+  return tiles;
+}
+
+/**
+ * Shift a list of planned parts down by dyDev device px (the parts came
+ * from planning a sub-region, e.g. the not-yet-captured remainder of a
+ * page after an allocation fallback, or the newly grown tail of a page).
+ * Tile dy values are part-relative and stay; tile sy scroll positions
+ * and part y0 move. Returns new part objects; inputs are not mutated.
+ */
+export function shiftPlanParts(parts, dyDev, dpr) {
+  const ratio = Number(dpr) > 0 ? Number(dpr) : 1;
+  const dyCss = dyDev / ratio;
+  return (parts || []).map((p) => ({
+    ...p,
+    y0: p.y0 + dyDev,
+    cssY: p.cssY + dyCss,
+    tiles: (p.tiles || []).map((t) => ({ ...t, sy: t.sy + dyCss })),
+  }));
 }
 
 /**
@@ -94,10 +150,17 @@ export function tileOffsets(total, tile) {
  *   totalTiles, sanityCapped, devW, devH, tileW, tileH, dpr,
  * }
  * Parts tile the page exactly: no gaps, no overlaps between parts.
+ * Optional opts.maxSide / opts.maxArea tighten the limits (the
+ * allocation-failure fallback replans with a smaller area budget).
+ * When several bands are needed their heights are balanced as evenly
+ * as tile-row boundaries allow.
  * sanityCapped is true when PART_MAX_COUNT cut a runaway page; only the
  * first PART_MAX_COUNT parts (top of the page) are emitted.
  */
-export function planFullPageCapture({ fullW, fullH, viewportW, viewportH, dpr }) {
+export function planFullPageCapture(opts) {
+  const { fullW, fullH, viewportW, viewportH, dpr } = opts || {};
+  const effSide = Number(opts && opts.maxSide) > 0 ? Math.round(Number(opts.maxSide)) : PART_MAX_SIDE;
+  const effArea = Number(opts && opts.maxArea) > 0 ? Math.round(Number(opts.maxArea)) : PART_MAX_AREA;
   const W = Math.max(1, Math.round(fullW || 0));
   const H = Math.max(1, Math.round(fullH || 0));
   const vw = Math.max(1, Math.round(viewportW || 0));
@@ -116,23 +179,47 @@ export function planFullPageCapture({ fullW, fullH, viewportW, viewportH, dpr })
   // page, but every tile bitmap is tileH tall; the part canvas clips it).
   const rowH = (r) => (r + 1 < ys.length ? ys[r + 1] : devH) - ys[r];
 
-  // 1) Group tile rows into bands: each band fits the side limit and the
-  //    area limit at full page width.
+  // 1) Group tile rows into bands. The band count is the minimum that
+  //    fits the side and area limits at full page width; the rows are
+  //    then distributed so band heights are as equal as the tile grid
+  //    allows (balanced parts: no giant part followed by a tiny sliver).
+  //    Cuts always land on tile-row boundaries.
+  const maxRowH = ys.length ? Math.max(...ys.map((_, r) => rowH(r))) : 0;
+  const maxBandH = Math.max(maxRowH, Math.min(effSide, Math.floor(effArea / devW)));
   const bands = [];
-  let r0 = 0;
-  while (r0 < ys.length) {
-    let bandH = rowH(r0);
-    let r1 = r0 + 1;
-    while (
-      r1 < ys.length &&
-      bandH + rowH(r1) <= PART_MAX_SIDE &&
-      devW * (bandH + rowH(r1)) <= PART_MAX_AREA
-    ) {
-      bandH += rowH(r1);
-      r1 += 1;
+  if (ys.length) {
+    // Minimum band count, by greedy maximal packing.
+    let minBands = 1;
+    let acc = rowH(0);
+    for (let r = 1; r < ys.length; r += 1) {
+      if (acc + rowH(r) > maxBandH) { minBands += 1; acc = rowH(r); }
+      else acc += rowH(r);
     }
-    bands.push({ r0, r1 });
-    r0 = r1;
+    // Prefix heights at row boundaries, for near-equal splits.
+    const pref = [0];
+    for (let r = 0; r < ys.length; r += 1) pref.push(pref[r] + rowH(r));
+    let rStart = 0;
+    for (let b = 0; b < minBands; b += 1) {
+      const bandsLeft = minBands - b;
+      if (b === minBands - 1 || rStart >= ys.length) {
+        bands.push({ r0: rStart, r1: ys.length });
+        rStart = ys.length;
+        break;
+      }
+      const target = (pref[ys.length] - pref[rStart]) / bandsLeft;
+      let best = -1;
+      let bestScore = Infinity;
+      for (let e = rStart + 1; e <= ys.length - (bandsLeft - 1); e += 1) {
+        const seg = pref[e] - pref[rStart];
+        if (seg > maxBandH) break;
+        if (pref[ys.length] - pref[e] > (bandsLeft - 1) * maxBandH) continue;
+        const score = Math.abs(seg - target);
+        if (score < bestScore) { bestScore = score; best = e; }
+      }
+      if (best < 0) best = rStart + 1; // a single row taller than the band cap: progress anyway
+      bands.push({ r0: rStart, r1: best });
+      rStart = best;
+    }
   }
 
   // 2) Split wide bands into column blocks at tile boundaries so every
@@ -149,17 +236,14 @@ export function planFullPageCapture({ fullW, fullH, viewportW, viewportH, dpr })
       let blockW = (c1 < xs.length ? xs[c1] : devW) - x0;
       while (
         c1 < xs.length &&
-        blockW <= PART_MAX_SIDE &&
-        blockW * bandH <= PART_MAX_AREA
+        blockW <= effSide &&
+        blockW * bandH <= effArea
       ) {
         const nextW = (c1 + 1 < xs.length ? xs[c1 + 1] : devW) - x0;
-        if (nextW > PART_MAX_SIDE || nextW * bandH > PART_MAX_AREA) break;
+        if (nextW > effSide || nextW * bandH > effArea) break;
         c1 += 1;
         blockW = nextW;
       }
-      // A single tile column wider than the side limit cannot happen
-      // (tileW <= PART_MAX_SIDE is enforced below), but never emit a
-      // zero-width part if it somehow does.
       const x1 = c1 < xs.length ? xs[c1] : devW;
       if (x1 > x0 && bandH > 0) {
         parts.push({ x0, y0, w: x1 - x0, h: bandH, r0: band.r0, r1: band.r1, c0, c1 });
@@ -177,45 +261,34 @@ export function planFullPageCapture({ fullW, fullH, viewportW, viewportH, dpr })
   }
 
   const total = kept.length;
-  const out = kept.map((p, i) => {
-    const tiles = [];
-    for (let r = p.r0; r < p.r1; r += 1) {
-      for (let c = p.c0; c < p.c1; c += 1) {
-        // Device-aligned scroll: sx * dpr === xs[c] exactly (integers).
-        // The worker reads back the real scroll position and re-derives
-        // integer offsets from it, so snapping browsers stay exact too.
-        tiles.push({
-          sx: xs[c] / ratio,
-          sy: ys[r] / ratio,
-          dx: xs[c] - p.x0,
-          dy: ys[r] - p.y0,
-        });
-      }
-    }
-    return {
-      index: i + 1,
-      total,
-      x0: p.x0,
-      y0: p.y0,
-      w: p.w,
-      h: p.h,
-      cssX: p.x0 / ratio,
-      cssY: p.y0 / ratio,
-      cssW: p.w / ratio,
-      cssH: p.h / ratio,
-      tiles,
-    };
-  });
+  const out = kept.map((p2, i) => ({
+    index: i + 1,
+    total,
+    x0: p2.x0,
+    y0: p2.y0,
+    w: p2.w,
+    h: p2.h,
+    cssX: p2.x0 / ratio,
+    cssY: p2.y0 / ratio,
+    cssW: p2.w / ratio,
+    cssH: p2.h / ratio,
+    // Device-aligned scroll: sx * dpr === xs[c] exactly (integers). The
+    // worker reads back the real scroll position and re-derives integer
+    // offsets from it, so snapping browsers stay exact too.
+    tiles: tilesCoveringRegion(p2, devW, devH, tileW, tileH, ratio),
+  }));
 
   return {
     parts: out,
-    totalTiles: out.reduce((n, p) => n + p.tiles.length, 0),
+    totalTiles: out.reduce((n, pt) => n + pt.tiles.length, 0),
     sanityCapped,
     devW,
     devH,
     tileW,
     tileH,
     dpr: ratio,
+    maxSide: effSide,
+    maxArea: effArea,
   };
 }
 

@@ -1,0 +1,487 @@
+{
+  "tool": "perf-e2e",
+  "dpr": 2,
+  "headed": true,
+  "browser": "chromium",
+  "proj": "~/workspace/imgfetch/r8/work/ImgFetch",
+  "cropPath": "worker",
+  "earlyOpen": true,
+  "startedAt": "2026-10-22T02:51:39.262Z",
+  "configs": {
+    "area-realistic-dpr2": {
+      "runs": 10,
+      "medianMs": 2293,
+      "worstMs": 2559,
+      "bestMs": 2129,
+      "stepMedians": {
+        "shotMs": 1212,
+        "cropMs": 546,
+        "storeMs": 194,
+        "openMs": 128,
+        "drawMs": 191
+      },
+      "samples": [
+        {
+          "shotMs": 1267,
+          "cropMs": 665,
+          "storeMs": 238,
+          "openMs": 214,
+          "drawMs": 175,
+          "totalMs": 2559
+        },
+        {
+          "shotMs": 1230,
+          "cropMs": 560,
+          "storeMs": 277,
+          "openMs": 126,
+          "drawMs": 244,
+          "totalMs": 2437
+        },
+        {
+          "shotMs": 1220,
+          "cropMs": 607,
+          "storeMs": 194,
+          "openMs": 117,
+          "drawMs": 155,
+          "totalMs": 2293
+        },
+        {
+          "shotMs": 1200,
+          "cropMs": 539,
+          "storeMs": 193,
+          "openMs": 128,
+          "drawMs": 198,
+          "totalMs": 2258
+        },
+        {
+          "shotMs": 1192,
+          "cropMs": 538,
+          "storeMs": 232,
+          "openMs": 144,
+          "drawMs": 221,
+          "totalMs": 2327
+        },
+        {
+          "shotMs": 1198,
+          "cropMs": 546,
+          "storeMs": 147,
+          "openMs": 100,
+          "drawMs": 191,
+          "totalMs": 2182
+        },
+        {
+          "shotMs": 1233,
+          "cropMs": 509,
+          "storeMs": 144,
+          "openMs": 91,
+          "drawMs": 152,
+          "totalMs": 2129
+        },
+        {
+          "shotMs": 1173,
+          "cropMs": 572,
+          "storeMs": 191,
+          "openMs": 121,
+          "drawMs": 197,
+          "totalMs": 2254
+        },
+        {
+          "shotMs": 1212,
+          "cropMs": 545,
+          "storeMs": 170,
+          "openMs": 176,
+          "drawMs": 184,
+          "totalMs": 2287
+        },
+        {
+          "shotMs": 1203,
+          "cropMs": 502,
+          "storeMs": 410,
+          "openMs": 140,
+          "drawMs": 70,
+          "totalMs": 2325
+        }
+      ]
+    },
+    "element-realistic-dpr2": {
+      "runs": 10,
+      "medianMs": 1737,
+      "worstMs": 1849,
+      "bestMs": 1663,
+      "stepMedians": {
+        "shotMs": 1191,
+        "cropMs": 331,
+        "storeMs": 24,
+        "openMs": 123,
+        "drawMs": 47
+      },
+      "samples": [
+        {
+          "shotMs": 1175,
+          "cropMs": 330,
+          "storeMs": 22,
+          "openMs": 105,
+          "drawMs": 56,
+          "totalMs": 1688
+        },
+        {
+          "shotMs": 1164,
+          "cropMs": 326,
+          "storeMs": 29,
+          "openMs": 100,
+          "drawMs": 44,
+          "totalMs": 1663
+        },
+        {
+          "shotMs": 1220,
+          "cropMs": 330,
+          "storeMs": 27,
+          "openMs": 159,
+          "drawMs": 46,
+          "totalMs": 1782
+        },
+        {
+          "shotMs": 1173,
+          "cropMs": 318,
+          "storeMs": 22,
+          "openMs": 127,
+          "drawMs": 51,
+          "totalMs": 1691
+        },
+        {
+          "shotMs": 1165,
+          "cropMs": 322,
+          "storeMs": 54,
+          "openMs": 123,
+          "drawMs": 35,
+          "totalMs": 1699
+        },
+        {
+          "shotMs": 1231,
+          "cropMs": 341,
+          "storeMs": 23,
+          "openMs": 121,
+          "drawMs": 47,
+          "totalMs": 1763
+        },
+        {
+          "shotMs": 1218,
+          "cropMs": 331,
+          "storeMs": 22,
+          "openMs": 118,
+          "drawMs": 48,
+          "totalMs": 1737
+        },
+        {
+          "shotMs": 1191,
+          "cropMs": 389,
+          "storeMs": 35,
+          "openMs": 187,
+          "drawMs": 47,
+          "totalMs": 1849
+        },
+        {
+          "shotMs": 1193,
+          "cropMs": 355,
+          "storeMs": 24,
+          "openMs": 119,
+          "drawMs": 77,
+          "totalMs": 1768
+        },
+        {
+          "shotMs": 1169,
+          "cropMs": 343,
+          "storeMs": 24,
+          "openMs": 124,
+          "drawMs": 47,
+          "totalMs": 1707
+        }
+      ]
+    },
+    "area-large-dpr2": {
+      "runs": 10,
+      "medianMs": 4605,
+      "worstMs": 5920,
+      "bestMs": 4404,
+      "stepMedians": {
+        "shotMs": 2328,
+        "cropMs": 1146,
+        "storeMs": 417,
+        "openMs": 227,
+        "drawMs": 518
+      },
+      "samples": [
+        {
+          "shotMs": 2238,
+          "cropMs": 1076,
+          "storeMs": 413,
+          "openMs": 159,
+          "drawMs": 518,
+          "totalMs": 4404
+        },
+        {
+          "shotMs": 2292,
+          "cropMs": 1127,
+          "storeMs": 411,
+          "openMs": 227,
+          "drawMs": 543,
+          "totalMs": 4600
+        },
+        {
+          "shotMs": 2328,
+          "cropMs": 1199,
+          "storeMs": 417,
+          "openMs": 246,
+          "drawMs": 712,
+          "totalMs": 4902
+        },
+        {
+          "shotMs": 2337,
+          "cropMs": 1146,
+          "storeMs": 417,
+          "openMs": 103,
+          "drawMs": 456,
+          "totalMs": 4459
+        },
+        {
+          "shotMs": 2241,
+          "cropMs": 1128,
+          "storeMs": 467,
+          "openMs": 142,
+          "drawMs": 461,
+          "totalMs": 4439
+        },
+        {
+          "shotMs": 2455,
+          "cropMs": 2203,
+          "storeMs": 386,
+          "openMs": 352,
+          "drawMs": 524,
+          "totalMs": 5920
+        },
+        {
+          "shotMs": 2598,
+          "cropMs": 1367,
+          "storeMs": 467,
+          "openMs": 622,
+          "drawMs": 487,
+          "totalMs": 5541
+        },
+        {
+          "shotMs": 2272,
+          "cropMs": 1045,
+          "storeMs": 740,
+          "openMs": 206,
+          "drawMs": 233,
+          "totalMs": 4496
+        },
+        {
+          "shotMs": 2334,
+          "cropMs": 1210,
+          "storeMs": 400,
+          "openMs": 157,
+          "drawMs": 504,
+          "totalMs": 4605
+        },
+        {
+          "shotMs": 2250,
+          "cropMs": 1140,
+          "storeMs": 405,
+          "openMs": 315,
+          "drawMs": 581,
+          "totalMs": 4691
+        }
+      ]
+    },
+    "element-large-dpr2": {
+      "runs": 10,
+      "medianMs": 3209,
+      "worstMs": 3589,
+      "bestMs": 2938,
+      "stepMedians": {
+        "shotMs": 2266,
+        "cropMs": 562,
+        "storeMs": 33,
+        "openMs": 166,
+        "drawMs": 73
+      },
+      "samples": [
+        {
+          "shotMs": 2580,
+          "cropMs": 531,
+          "storeMs": 23,
+          "openMs": 242,
+          "drawMs": 39,
+          "totalMs": 3415
+        },
+        {
+          "shotMs": 2400,
+          "cropMs": 528,
+          "storeMs": 23,
+          "openMs": 218,
+          "drawMs": 40,
+          "totalMs": 3209
+        },
+        {
+          "shotMs": 2344,
+          "cropMs": 562,
+          "storeMs": 118,
+          "openMs": 178,
+          "drawMs": 91,
+          "totalMs": 3293
+        },
+        {
+          "shotMs": 2306,
+          "cropMs": 872,
+          "storeMs": 41,
+          "openMs": 253,
+          "drawMs": 117,
+          "totalMs": 3589
+        },
+        {
+          "shotMs": 2217,
+          "cropMs": 695,
+          "storeMs": 150,
+          "openMs": 163,
+          "drawMs": 95,
+          "totalMs": 3320
+        },
+        {
+          "shotMs": 2266,
+          "cropMs": 573,
+          "storeMs": 33,
+          "openMs": 89,
+          "drawMs": 44,
+          "totalMs": 3005
+        },
+        {
+          "shotMs": 2227,
+          "cropMs": 508,
+          "storeMs": 42,
+          "openMs": 135,
+          "drawMs": 26,
+          "totalMs": 2938
+        },
+        {
+          "shotMs": 2216,
+          "cropMs": 599,
+          "storeMs": 23,
+          "openMs": 117,
+          "drawMs": 46,
+          "totalMs": 3001
+        },
+        {
+          "shotMs": 2249,
+          "cropMs": 541,
+          "storeMs": 27,
+          "openMs": 143,
+          "drawMs": 80,
+          "totalMs": 3040
+        },
+        {
+          "shotMs": 2264,
+          "cropMs": 521,
+          "storeMs": 29,
+          "openMs": 166,
+          "drawMs": 73,
+          "totalMs": 3053
+        }
+      ]
+    },
+    "visible-realistic-dpr2": {
+      "runs": 5,
+      "medianMs": 1824,
+      "worstMs": 1964,
+      "bestMs": 1761,
+      "stepMedians": {
+        "shotMs": 1191,
+        "cropMs": 0,
+        "storeMs": 144,
+        "openMs": 105,
+        "drawMs": 380
+      },
+      "samples": [
+        {
+          "shotMs": 1191,
+          "cropMs": 0,
+          "storeMs": 155,
+          "openMs": 103,
+          "drawMs": 397,
+          "totalMs": 1846
+        },
+        {
+          "shotMs": 1191,
+          "cropMs": 0,
+          "storeMs": 123,
+          "openMs": 105,
+          "drawMs": 405,
+          "totalMs": 1824
+        },
+        {
+          "shotMs": 1181,
+          "cropMs": 0,
+          "storeMs": 144,
+          "openMs": 77,
+          "drawMs": 376,
+          "totalMs": 1778
+        },
+        {
+          "shotMs": 1166,
+          "cropMs": 0,
+          "storeMs": 141,
+          "openMs": 112,
+          "drawMs": 342,
+          "totalMs": 1761
+        },
+        {
+          "shotMs": 1292,
+          "cropMs": 0,
+          "storeMs": 164,
+          "openMs": 128,
+          "drawMs": 380,
+          "totalMs": 1964
+        }
+      ]
+    },
+    "fullpage-tail-realistic-dpr2": {
+      "runs": 3,
+      "medianMs": 9870,
+      "worstMs": 11486,
+      "bestMs": 9806,
+      "stepMedians": {
+        "shotMs": 7101,
+        "cropMs": 0,
+        "storeMs": 993,
+        "openMs": 325,
+        "drawMs": 1600
+      },
+      "samples": [
+        {
+          "shotMs": 7101,
+          "cropMs": 0,
+          "storeMs": 993,
+          "openMs": 325,
+          "drawMs": 1451,
+          "totalMs": 9870
+        },
+        {
+          "shotMs": 6981,
+          "cropMs": 0,
+          "storeMs": 944,
+          "openMs": 281,
+          "drawMs": 1600,
+          "totalMs": 9806
+        },
+        {
+          "shotMs": 7985,
+          "cropMs": 0,
+          "storeMs": 1188,
+          "openMs": 460,
+          "drawMs": 1853,
+          "totalMs": 11486
+        }
+      ]
+    }
+  },
+  "errors": []
+}

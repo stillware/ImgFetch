@@ -259,6 +259,18 @@
     "message": "Перед завантаженням шукає для кожного зображення джерело в кращій якості. Повільніше, на деяких сайтах може спричинити обмеження частоти запитів.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Перебіг захоплення всієї сторінки",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Зупинити",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Зупинення…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Завантажити вибране",
     "description": "Download button with nothing selected yet."
@@ -1535,6 +1547,10 @@
     "message": "Пікселізація",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Обрізати",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Червоний",
     "description": "Annotate color: red."
@@ -1578,6 +1594,10 @@
   "redo_redo": {
     "message": "Повернути",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Скасувати (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Повернути (Ctrl+Y)",
@@ -1626,6 +1646,58 @@
   "annotate_loadFailed": {
     "message": "Не вдалося завантажити скриншот.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Обрізати (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Застосувати",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Область обрізання",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Розмір обрізання: {width} на {height} пікселів",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Обрізання недоступне, оскільки зображення не вдалося завантажити.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Маркер зміни розміру у верхньому лівому куті",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Верхній маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Маркер зміни розміру у верхньому правому куті",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Правий маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Маркер зміни розміру у нижньому правому куті",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Нижній маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Маркер зміни розміру у нижньому лівому куті",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Лівий маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Перегляд скриншоту",
@@ -2210,5 +2282,133 @@
   "scroll_crossOriginClipped": {
     "message": "Вбудований вміст з іншого сайту вдалося захопити лише у видимому вигляді.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Зйомку зупинено. Збережено {count} частину з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_few": {
+    "message": "Зйомку зупинено. Збережено {count} частини з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_many": {
+    "message": "Зйомку зупинено. Збережено {count} частин з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Зйомку зупинено. Збережено частин: {count} з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Це зображення завелике для доступної пам'яті, тому зйомка продовжилася меншими частинами.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Зйомку зупинено на межі безпеки. Уже зняті частини збережено.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Зйомка всієї сторінки, частина {part} з {partTotal}, кадр {n} з {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Частини знімка екрана",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Зберегти все",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Відкинути все",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Зберегти",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Редагувати",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Частин не залишилося. Цю вкладку можна закрити.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Усі частини збережено. Цю вкладку можна закрити.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Збереження частини {current} з {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Попередній перегляд частини {count} з {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Частини знімка всієї сторінки",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Редагувати частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Зберегти частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Копіювати частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Відкинути частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} пікселів · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Примітка: великі знімки, наприклад цілі сторінки, копіюються правильно, але не з'являються в історії буфера обміну Windows (Win+V). Це обмеження Windows, а не проблема копіювання. Натисніть Ctrl+V, щоб вставити зображення в потрібне місце.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Скопійовано. Натисніть Ctrl+V, щоб вставити. Історія буфера обміну Windows (Win+V) не показує великі зображення.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} зображення · {width} × {height} пкс",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_few": {
+    "message": "{count} зображення · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_many": {
+    "message": "{count} зображень · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} зображення · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_few": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_many": {
+    "message": "{count} зображень · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

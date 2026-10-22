@@ -1,0 +1,88 @@
+name: Bug report
+description: Report a problem with ImgFetch so it can be reproduced and fixed.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Fill in every field you can.
+        For a security vulnerability, do not use this form. Use the
+        Security tab and choose "Report a vulnerability" instead.
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: The browser where the problem happened.
+      options:
+        - Google Chrome
+        - Microsoft Edge
+    validations:
+      required: true
+  - type: input
+    id: browser_version
+    attributes:
+      label: Browser version
+      description: Find it on the browser About page, for example chrome://version or edge://version.
+      placeholder: "For example: 141.0.0.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Your operating system and its version.
+      placeholder: "For example: Windows 11, macOS 15, Ubuntu 24.04"
+    validations:
+      required: true
+  - type: input
+    id: extension_version
+    attributes:
+      label: ImgFetch version
+      description: Shown in Settings, About, and on the extensions page.
+      placeholder: "For example: 1.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps, starting from opening the page.
+      placeholder: |
+        1. Open this page: ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected ImgFetch to do.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What ImgFetch did instead. Include any error message shown, word for word.
+    validations:
+      required: true
+  - type: dropdown
+    id: restricted_page
+    attributes:
+      label: Was the page restricted?
+      description: Browsers block extensions on internal pages and on store pages. ImgFetch cannot scan or capture those pages.
+      options:
+        - "No"
+        - "Yes (browser internal or store page)"
+        - "Not sure"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else that may help, such as the page address if you can share it, screenshots, or whether the problem happens every time.
+    validations:
+      required: false

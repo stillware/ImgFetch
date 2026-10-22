@@ -251,6 +251,18 @@
     "message": "Recherche pour chaque image une source de meilleure qualité avant le téléchargement. Plus lent, peut déclencher des limites de requêtes sur certains sites.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Progression de la capture de la page entière",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Arrêter",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Arrêt en cours…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Télécharger la sélection",
     "description": "Download button with nothing selected yet."
@@ -1463,6 +1475,10 @@
     "message": "Pixelliser",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Recadrer",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Rouge",
     "description": "Annotate color: red."
@@ -1506,6 +1522,10 @@
   "redo_redo": {
     "message": "Rétablir",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Annuler (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Rétablir (Ctrl+Y)",
@@ -1554,6 +1574,58 @@
   "annotate_loadFailed": {
     "message": "Chargement de la capture impossible.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Recadrer (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Appliquer",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Sélection de recadrage",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Taille du recadrage : {width} sur {height} pixels",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Le recadrage est indisponible car l'image n'a pas pu être chargée.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Poignée de redimensionnement en haut à gauche",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Poignée de redimensionnement du haut",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Poignée de redimensionnement en haut à droite",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Poignée de redimensionnement de droite",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Poignée de redimensionnement en bas à droite",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Poignée de redimensionnement du bas",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Poignée de redimensionnement en bas à gauche",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Poignée de redimensionnement de gauche",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Aperçu de la capture",
@@ -2082,5 +2154,109 @@
   "scroll_crossOriginClipped": {
     "message": "Le contenu intégré provenant d'un autre site n'a pu être capturé que tel qu'il était visible.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Capture arrêtée. {count} partie sur {total} a été enregistrée.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Capture arrêtée. {count} parties sur {total} ont été enregistrées.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Cette image était trop grande pour la mémoire disponible, la capture a donc continué en parties plus petites.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "La capture s'est arrêtée à la limite de sécurité. Les parties capturées jusque-là ont été enregistrées.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Capture de la page entière, partie {part} sur {partTotal}, vignette {n} sur {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Parties de la capture",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Tout enregistrer",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Tout supprimer",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Enregistrer",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Modifier",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Il ne reste aucune partie. Vous pouvez fermer cet onglet.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Toutes les parties ont été enregistrées. Vous pouvez fermer cet onglet.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Enregistrement de la partie {current} sur {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Aperçu de la partie {count} sur {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Parties de la capture de page entière",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Modifier la partie {count} sur {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Enregistrer la partie {count} sur {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Copier la partie {count} sur {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Supprimer la partie {count} sur {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} px · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Remarque : les grandes captures, comme les pages entières, se copient correctement mais n'apparaissent pas dans l'historique du presse-papiers de Windows (Win+V). C'est une limite de Windows, pas un problème de copie. Appuyez sur Ctrl+V pour coller l'image où vous en avez besoin.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Copié. Appuyez sur Ctrl+V pour coller. L'historique du presse-papiers de Windows (Win+V) n'affiche pas les grandes images.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} image · taille {width} × {height} px",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} images · {width} × {height} px chacune",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} image · tailles différentes",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} images · tailles différentes",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

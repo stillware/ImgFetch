@@ -1,0 +1,487 @@
+{
+  "tool": "perf-e2e",
+  "dpr": 1,
+  "headed": true,
+  "browser": "chromium",
+  "proj": "~/workspace/imgfetch/r8/work/ImgFetch",
+  "cropPath": "worker",
+  "earlyOpen": true,
+  "startedAt": "2026-10-22T02:43:33.320Z",
+  "configs": {
+    "area-realistic-dpr1": {
+      "runs": 10,
+      "medianMs": 836,
+      "worstMs": 899,
+      "bestMs": 785,
+      "stepMedians": {
+        "shotMs": 361,
+        "cropMs": 233,
+        "storeMs": 57,
+        "openMs": 91,
+        "drawMs": 71
+      },
+      "samples": [
+        {
+          "shotMs": 364,
+          "cropMs": 249,
+          "storeMs": 51,
+          "openMs": 90,
+          "drawMs": 120,
+          "totalMs": 874
+        },
+        {
+          "shotMs": 354,
+          "cropMs": 225,
+          "storeMs": 49,
+          "openMs": 132,
+          "drawMs": 67,
+          "totalMs": 827
+        },
+        {
+          "shotMs": 360,
+          "cropMs": 230,
+          "storeMs": 55,
+          "openMs": 82,
+          "drawMs": 118,
+          "totalMs": 845
+        },
+        {
+          "shotMs": 362,
+          "cropMs": 233,
+          "storeMs": 60,
+          "openMs": 93,
+          "drawMs": 64,
+          "totalMs": 812
+        },
+        {
+          "shotMs": 367,
+          "cropMs": 242,
+          "storeMs": 57,
+          "openMs": 82,
+          "drawMs": 68,
+          "totalMs": 816
+        },
+        {
+          "shotMs": 372,
+          "cropMs": 195,
+          "storeMs": 100,
+          "openMs": 87,
+          "drawMs": 31,
+          "totalMs": 785
+        },
+        {
+          "shotMs": 353,
+          "cropMs": 292,
+          "storeMs": 53,
+          "openMs": 91,
+          "drawMs": 110,
+          "totalMs": 899
+        },
+        {
+          "shotMs": 359,
+          "cropMs": 228,
+          "storeMs": 90,
+          "openMs": 94,
+          "drawMs": 21,
+          "totalMs": 792
+        },
+        {
+          "shotMs": 346,
+          "cropMs": 239,
+          "storeMs": 49,
+          "openMs": 131,
+          "drawMs": 71,
+          "totalMs": 836
+        },
+        {
+          "shotMs": 361,
+          "cropMs": 224,
+          "storeMs": 65,
+          "openMs": 79,
+          "drawMs": 144,
+          "totalMs": 873
+        }
+      ]
+    },
+    "element-realistic-dpr1": {
+      "runs": 10,
+      "medianMs": 701,
+      "worstMs": 765,
+      "bestMs": 636,
+      "stepMedians": {
+        "shotMs": 367,
+        "cropMs": 177,
+        "storeMs": 15,
+        "openMs": 86,
+        "drawMs": 47
+      },
+      "samples": [
+        {
+          "shotMs": 360,
+          "cropMs": 176,
+          "storeMs": 10,
+          "openMs": 78,
+          "drawMs": 55,
+          "totalMs": 679
+        },
+        {
+          "shotMs": 348,
+          "cropMs": 181,
+          "storeMs": 28,
+          "openMs": 86,
+          "drawMs": 24,
+          "totalMs": 667
+        },
+        {
+          "shotMs": 356,
+          "cropMs": 161,
+          "storeMs": 19,
+          "openMs": 91,
+          "drawMs": 97,
+          "totalMs": 724
+        },
+        {
+          "shotMs": 375,
+          "cropMs": 169,
+          "storeMs": 12,
+          "openMs": 88,
+          "drawMs": 47,
+          "totalMs": 691
+        },
+        {
+          "shotMs": 402,
+          "cropMs": 208,
+          "storeMs": 12,
+          "openMs": 114,
+          "drawMs": 29,
+          "totalMs": 765
+        },
+        {
+          "shotMs": 352,
+          "cropMs": 173,
+          "storeMs": 11,
+          "openMs": 69,
+          "drawMs": 31,
+          "totalMs": 636
+        },
+        {
+          "shotMs": 354,
+          "cropMs": 217,
+          "storeMs": 15,
+          "openMs": 76,
+          "drawMs": 27,
+          "totalMs": 689
+        },
+        {
+          "shotMs": 367,
+          "cropMs": 177,
+          "storeMs": 20,
+          "openMs": 82,
+          "drawMs": 55,
+          "totalMs": 701
+        },
+        {
+          "shotMs": 401,
+          "cropMs": 156,
+          "storeMs": 15,
+          "openMs": 94,
+          "drawMs": 59,
+          "totalMs": 725
+        },
+        {
+          "shotMs": 370,
+          "cropMs": 236,
+          "storeMs": 28,
+          "openMs": 77,
+          "drawMs": 42,
+          "totalMs": 753
+        }
+      ]
+    },
+    "area-large-dpr1": {
+      "runs": 10,
+      "medianMs": 1468,
+      "worstMs": 1675,
+      "bestMs": 1342,
+      "stepMedians": {
+        "shotMs": 673,
+        "cropMs": 380,
+        "storeMs": 157,
+        "openMs": 106,
+        "drawMs": 123
+      },
+      "samples": [
+        {
+          "shotMs": 663,
+          "cropMs": 349,
+          "storeMs": 109,
+          "openMs": 106,
+          "drawMs": 115,
+          "totalMs": 1342
+        },
+        {
+          "shotMs": 650,
+          "cropMs": 413,
+          "storeMs": 224,
+          "openMs": 105,
+          "drawMs": 48,
+          "totalMs": 1440
+        },
+        {
+          "shotMs": 681,
+          "cropMs": 366,
+          "storeMs": 105,
+          "openMs": 180,
+          "drawMs": 136,
+          "totalMs": 1468
+        },
+        {
+          "shotMs": 691,
+          "cropMs": 381,
+          "storeMs": 111,
+          "openMs": 91,
+          "drawMs": 140,
+          "totalMs": 1414
+        },
+        {
+          "shotMs": 683,
+          "cropMs": 338,
+          "storeMs": 253,
+          "openMs": 155,
+          "drawMs": 61,
+          "totalMs": 1490
+        },
+        {
+          "shotMs": 673,
+          "cropMs": 379,
+          "storeMs": 157,
+          "openMs": 120,
+          "drawMs": 159,
+          "totalMs": 1488
+        },
+        {
+          "shotMs": 660,
+          "cropMs": 386,
+          "storeMs": 162,
+          "openMs": 139,
+          "drawMs": 144,
+          "totalMs": 1491
+        },
+        {
+          "shotMs": 663,
+          "cropMs": 371,
+          "storeMs": 153,
+          "openMs": 91,
+          "drawMs": 123,
+          "totalMs": 1401
+        },
+        {
+          "shotMs": 657,
+          "cropMs": 380,
+          "storeMs": 156,
+          "openMs": 81,
+          "drawMs": 122,
+          "totalMs": 1396
+        },
+        {
+          "shotMs": 712,
+          "cropMs": 572,
+          "storeMs": 255,
+          "openMs": 103,
+          "drawMs": 33,
+          "totalMs": 1675
+        }
+      ]
+    },
+    "element-large-dpr1": {
+      "runs": 10,
+      "medianMs": 1057,
+      "worstMs": 1164,
+      "bestMs": 1004,
+      "stepMedians": {
+        "shotMs": 687,
+        "cropMs": 220,
+        "storeMs": 14,
+        "openMs": 88,
+        "drawMs": 31
+      },
+      "samples": [
+        {
+          "shotMs": 700,
+          "cropMs": 207,
+          "storeMs": 10,
+          "openMs": 91,
+          "drawMs": 18,
+          "totalMs": 1026
+        },
+        {
+          "shotMs": 700,
+          "cropMs": 220,
+          "storeMs": 10,
+          "openMs": 92,
+          "drawMs": 22,
+          "totalMs": 1044
+        },
+        {
+          "shotMs": 775,
+          "cropMs": 262,
+          "storeMs": 13,
+          "openMs": 78,
+          "drawMs": 36,
+          "totalMs": 1164
+        },
+        {
+          "shotMs": 682,
+          "cropMs": 210,
+          "storeMs": 14,
+          "openMs": 121,
+          "drawMs": 54,
+          "totalMs": 1081
+        },
+        {
+          "shotMs": 663,
+          "cropMs": 348,
+          "storeMs": 13,
+          "openMs": 73,
+          "drawMs": 24,
+          "totalMs": 1121
+        },
+        {
+          "shotMs": 688,
+          "cropMs": 269,
+          "storeMs": 29,
+          "openMs": 74,
+          "drawMs": 31,
+          "totalMs": 1091
+        },
+        {
+          "shotMs": 674,
+          "cropMs": 220,
+          "storeMs": 15,
+          "openMs": 88,
+          "drawMs": 59,
+          "totalMs": 1056
+        },
+        {
+          "shotMs": 666,
+          "cropMs": 266,
+          "storeMs": 10,
+          "openMs": 84,
+          "drawMs": 31,
+          "totalMs": 1057
+        },
+        {
+          "shotMs": 657,
+          "cropMs": 214,
+          "storeMs": 23,
+          "openMs": 85,
+          "drawMs": 25,
+          "totalMs": 1004
+        },
+        {
+          "shotMs": 687,
+          "cropMs": 204,
+          "storeMs": 14,
+          "openMs": 107,
+          "drawMs": 27,
+          "totalMs": 1039
+        }
+      ]
+    },
+    "visible-realistic-dpr1": {
+      "runs": 5,
+      "medianMs": 753,
+      "worstMs": 833,
+      "bestMs": 735,
+      "stepMedians": {
+        "shotMs": 385,
+        "cropMs": 0,
+        "storeMs": 52,
+        "openMs": 93,
+        "drawMs": 216
+      },
+      "samples": [
+        {
+          "shotMs": 385,
+          "cropMs": 0,
+          "storeMs": 51,
+          "openMs": 93,
+          "drawMs": 216,
+          "totalMs": 745
+        },
+        {
+          "shotMs": 377,
+          "cropMs": 0,
+          "storeMs": 91,
+          "openMs": 158,
+          "drawMs": 204,
+          "totalMs": 830
+        },
+        {
+          "shotMs": 376,
+          "cropMs": 0,
+          "storeMs": 57,
+          "openMs": 85,
+          "drawMs": 217,
+          "totalMs": 735
+        },
+        {
+          "shotMs": 424,
+          "cropMs": 0,
+          "storeMs": 52,
+          "openMs": 80,
+          "drawMs": 277,
+          "totalMs": 833
+        },
+        {
+          "shotMs": 391,
+          "cropMs": 0,
+          "storeMs": 51,
+          "openMs": 100,
+          "drawMs": 211,
+          "totalMs": 753
+        }
+      ]
+    },
+    "fullpage-tail-realistic-dpr1": {
+      "runs": 3,
+      "medianMs": 3085,
+      "worstMs": 3291,
+      "bestMs": 3000,
+      "stepMedians": {
+        "shotMs": 2155,
+        "cropMs": 0,
+        "storeMs": 311,
+        "openMs": 141,
+        "drawMs": 511
+      },
+      "samples": [
+        {
+          "shotMs": 2162,
+          "cropMs": 0,
+          "storeMs": 271,
+          "openMs": 141,
+          "drawMs": 511,
+          "totalMs": 3085
+        },
+        {
+          "shotMs": 2105,
+          "cropMs": 0,
+          "storeMs": 311,
+          "openMs": 97,
+          "drawMs": 487,
+          "totalMs": 3000
+        },
+        {
+          "shotMs": 2155,
+          "cropMs": 0,
+          "storeMs": 355,
+          "openMs": 148,
+          "drawMs": 633,
+          "totalMs": 3291
+        }
+      ]
+    }
+  },
+  "errors": []
+}

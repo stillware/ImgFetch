@@ -259,6 +259,18 @@
     "message": "Перед скачиванием ищет для каждого изображения источник в лучшем качестве. Медленнее, на некоторых сайтах может вызвать ограничение частоты запросов.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Ход захвата всей страницы",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Остановить",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Остановка…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Скачать выбранное",
     "description": "Download button with nothing selected yet."
@@ -1535,6 +1547,10 @@
     "message": "Пикселизация",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Обрезать",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Красный",
     "description": "Annotate color: red."
@@ -1578,6 +1594,10 @@
   "redo_redo": {
     "message": "Вернуть",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Отменить (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Вернуть (Ctrl+Y)",
@@ -1626,6 +1646,58 @@
   "annotate_loadFailed": {
     "message": "Не удалось загрузить скриншот.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Обрезать (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Применить",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Область обрезки",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Размер обрезки: {width} на {height} пикселей",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Обрезка недоступна, так как изображение не удалось загрузить.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Маркер изменения размера в левом верхнем углу",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Верхний маркер изменения размера",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Маркер изменения размера в правом верхнем углу",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Правый маркер изменения размера",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Маркер изменения размера в правом нижнем углу",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Нижний маркер изменения размера",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Маркер изменения размера в левом нижнем углу",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Левый маркер изменения размера",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Предпросмотр скриншота",
@@ -2210,5 +2282,133 @@
   "scroll_crossOriginClipped": {
     "message": "Встроенное содержимое с другого сайта удалось захватить только в видимом виде.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Съемка остановлена. Сохранена {count} часть из {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_few": {
+    "message": "Съемка остановлена. Сохранены {count} части из {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_many": {
+    "message": "Съемка остановлена. Сохранено {count} частей из {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Съемка остановлена. Сохранено частей: {count} из {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Это изображение слишком велико для доступной памяти, поэтому съемка продолжилась более мелкими частями.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Съемка остановлена на пределе безопасности. Уже снятые части сохранены.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Съемка всей страницы, часть {part} из {partTotal}, кадр {n} из {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Части снимка экрана",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Сохранить все",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Удалить все",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Сохранить",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Изменить",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Частей не осталось. Эту вкладку можно закрыть.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Все части сохранены. Эту вкладку можно закрыть.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Сохранение части {current} из {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Предпросмотр части {count} из {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Части снимка всей страницы",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Изменить часть {count} из {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Сохранить часть {count} из {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Копировать часть {count} из {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Удалить часть {count} из {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} пикселей · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Примечание: большие снимки, например целые страницы, копируются правильно, но не появляются в истории буфера обмена Windows (Win+V). Это ограничение Windows, а не проблема копирования. Нажмите Ctrl+V, чтобы вставить изображение в нужное место.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Скопировано. Нажмите Ctrl+V, чтобы вставить. История буфера обмена Windows (Win+V) не показывает большие изображения.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} изображение · {width} × {height} пкс",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_few": {
+    "message": "{count} изображения · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_many": {
+    "message": "{count} изображений · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} изображения · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} изображение · размеры различаются",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_few": {
+    "message": "{count} изображения · размеры различаются",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_many": {
+    "message": "{count} изображений · размеры различаются",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} изображения · размеры различаются",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

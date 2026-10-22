@@ -1,6 +1,6 @@
 # Manual test checklist
 
-After installing the zips, check these 6 items. Each takes about a minute.
+After installing the zips, check these 7 items. Each takes about a minute.
 
 1. **Tall page** - Open a 20,000px tall article, set browser zoom to 200%
    (simulates DPR 2), take a Full Page screenshot. **Pass:** the file is

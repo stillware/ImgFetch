@@ -267,6 +267,18 @@
     "message": "يبحث في كل صورة عن مصدر بجودة أعلى قبل التنزيل. أبطأ، وقد يؤدي إلى حدود معدل الطلبات في بعض المواقع.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "تقدم التقاط الصفحة الكاملة",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "إيقاف",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "جارٍ الإيقاف…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "تنزيل المحدد",
     "description": "Download button with nothing selected yet."
@@ -1607,6 +1619,10 @@
     "message": "بكسلة",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "قص",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "أحمر",
     "description": "Annotate color: red."
@@ -1650,6 +1666,10 @@
   "redo_redo": {
     "message": "إعادة",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "تراجع (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "إعادة (Ctrl+Y)",
@@ -1698,6 +1718,58 @@
   "annotate_loadFailed": {
     "message": "تعذّر تحميل لقطة الشاشة.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "قص (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "تطبيق",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "تحديد القص",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "حجم القص: {width} في {height} بكسل",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "القص غير متاح لأنه تعذر تحميل الصورة.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "مقبض تغيير الحجم العلوي الأيسر",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "مقبض تغيير الحجم العلوي",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "مقبض تغيير الحجم العلوي الأيمن",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "مقبض تغيير الحجم الأيمن",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "مقبض تغيير الحجم السفلي الأيمن",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "مقبض تغيير الحجم السفلي",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "مقبض تغيير الحجم السفلي الأيسر",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "مقبض تغيير الحجم الأيسر",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "معاينة لقطة الشاشة",
@@ -2338,5 +2410,157 @@
   "scroll_crossOriginClipped": {
     "message": "تعذر التقاط المحتوى المضمن من موقع آخر إلا كما كان ظاهرًا.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_zero": {
+    "message": "توقف الالتقاط. لم يُحفظ أي جزء بعد، العدد {count} من {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_one": {
+    "message": "توقف الالتقاط. تم حفظ جزء واحد ({count}) من أصل {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_two": {
+    "message": "توقف الالتقاط. تم حفظ جزأين ({count}) من أصل {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_few": {
+    "message": "توقف الالتقاط. تم حفظ {count} أجزاء من أصل {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_many": {
+    "message": "توقف الالتقاط. تم حفظ {count} جزءًا من أصل {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "توقف الالتقاط. تم حفظ {count} جزء من أصل {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "كانت هذه الصورة كبيرة جدًا بالنسبة للذاكرة المتاحة، لذا استمر الالتقاط في أجزاء أصغر.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "توقف الالتقاط عند حد الأمان. تم حفظ الأجزاء التي تم التقاطها حتى الآن.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "جارٍ التقاط الصفحة الكاملة، الجزء {part} من {partTotal}، البلاطة {n} من {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "أجزاء لقطة الشاشة",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "حفظ الكل",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "تجاهل الكل",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "حفظ",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "تحرير",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "لم يتبق أي جزء. يمكنك إغلاق علامة التبويب هذه.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "تم حفظ جميع الأجزاء. يمكنك إغلاق علامة التبويب هذه.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "جار حفظ الجزء {current} من {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "معاينة الجزء {count} من {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "أجزاء لقطة الصفحة الكاملة",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "تحرير الجزء {count} من {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "حفظ الجزء {count} من {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "نسخ الجزء {count} من {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "تجاهل الجزء {count} من {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} بكسل · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "ملاحظة: لقطات الشاشة الكبيرة، مثل الصفحات الكاملة، تُنسخ بشكل صحيح لكنها لا تظهر في سجل حافظة Windows (Win+V). هذا حد من حدود Windows وليس مشكلة في النسخ. اضغط على Ctrl+V للصق الصورة حيث تحتاجها.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "تم النسخ. اضغط على Ctrl+V للصق. سجل حافظة Windows (Win+V) لا يعرض الصور الكبيرة.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_zero": {
+    "message": "{count} صورة · {width} × {height} بكسل لكل منها",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} صورة · {width} × {height} بكسل",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_two": {
+    "message": "{count} صورتان · {width} × {height} بكسل لكل منهما",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_few": {
+    "message": "{count} صور · {width} × {height} بكسل لكل منها",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_many": {
+    "message": "{count} صورة · {width} × {height} بكسل لكل منها",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} صورة · {width} × {height} بكسل لكل منها",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_zero": {
+    "message": "{count} صورة · أحجام مختلفة",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} صورة · أحجام مختلفة",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_two": {
+    "message": "{count} صورتان · أحجام مختلفة",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_few": {
+    "message": "{count} صور · أحجام مختلفة",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_many": {
+    "message": "{count} صورة · أحجام مختلفة",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} صورة · أحجام مختلفة",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

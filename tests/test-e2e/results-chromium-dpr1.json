@@ -7,7 +7,7 @@
       "name": "P0 worker alive",
       "ok": true,
       "evidence": {
-        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
       }
     },
     {
@@ -43,25 +43,18 @@
       "ok": true,
       "evidence": {
         "plan": {
-          "parts": 2,
+          "parts": 1,
           "tiles": 28,
           "partDims": [
-            "1280x15840",
-            "1280x4160"
+            "1280x20000"
           ]
         },
         "parts": [
           {
             "part": 1,
-            "dims": "1280x15840",
-            "expect": "1280x15840",
-            "size": 697454
-          },
-          {
-            "part": 2,
-            "dims": "1280x4160",
-            "expect": "1280x4160",
-            "size": 186953
+            "dims": "1280x20000",
+            "expect": "1280x20000",
+            "size": 884298
           }
         ],
         "wholePageCovered": true
@@ -115,10 +108,10 @@
         "offscreenFound": true,
         "probe": {
           "ok": true,
-          "ms": 354,
+          "ms": 364,
           "px": 4
         },
-        "note": "100MP canvas: allocated in 354ms"
+        "note": "100MP canvas: allocated in 364ms"
       }
     },
     {

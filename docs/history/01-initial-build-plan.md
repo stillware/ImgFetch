@@ -1,6 +1,6 @@
 # Initial build plan
 
-> Historical document. This is the first build plan. The shipped product differs (shortcuts, permissions and settings have changed). See README.md and docs/USER_GUIDE.md for the current behaviour.
+> Historical document. This is the first build plan. The shipped product differs (shortcuts, permissions and settings have changed). See README.md and docs/user-guide.md for the current behaviour.
 
 
 ## Feature matrix
@@ -84,4 +84,4 @@ No `tabs`, no `<all_urls>` (scheme-scoped instead), no remote code, no analytics
 - Message type allowlist + payload size cap + sender classification.
 - Offscreen fetch restricted to validated URLs; data URLs length-capped.
 - No eval/new Function, no innerHTML with page data (textContent + escaping).
-- Host permissions documented in PERMISSIONS.md.
+- Host permissions documented in permissions.md.

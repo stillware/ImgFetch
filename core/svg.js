@@ -103,12 +103,82 @@ const ALLOWED_ATTRS = new Set([
 ]);
 
 /**
+ * Remove DOCTYPE declarations (including internal subsets) from SVG text
+ * before parsing, and drop references to the entities they defined.
+ *
+ * Why: an internal subset can define entities (<!ENTITY xxe ...>), and
+ * billion-laughs style entity expansion turns a tiny download into a
+ * parser hang. Simply deleting the declaration is not enough: the entity
+ * references (&b;) would become undefined, which is a fatal XML error,
+ * and the download would fall back to the raw unsanitized file. So when a
+ * removed declaration defined entities, their references are dropped too
+ * (the five predefined XML entities and numeric character references are
+ * always kept). DOCTYPE is optional in SVG and internal entities are all
+ * but unheard of in legitimate files, so this changes nothing for them.
+ * Files without entity definitions are returned untouched.
+ */
+export function stripSvgDoctype(text) {
+  let s = String(text || '');
+  let removedEntities = false;
+  // Loop: a second DOCTYPE is a parse error in XML anyway, drop them all.
+  // Every pass strictly shortens the string, so this always terminates.
+  for (;;) {
+    const m = /<!doctype/i.exec(s);
+    if (!m) break;
+    const start = m.index;
+    let i = start + m[0].length;
+    let depth = 0; // '[' ... ']' internal-subset nesting
+    let quote = '';
+    let cut = -1;
+    for (; i < s.length; i += 1) {
+      const c = s[i];
+      if (quote) {
+        if (c === quote) quote = '';
+      } else if (c === '"' || c === "'") {
+        quote = c;
+      } else if (c === '[') {
+        depth += 1;
+      } else if (c === ']') {
+        if (depth > 0) depth -= 1;
+      } else if (c === '>' && depth === 0) {
+        cut = i + 1;
+        break;
+      }
+    }
+    const decl = cut === -1 ? s.slice(start) : s.slice(start, cut);
+    if (/<!entity/i.test(decl)) removedEntities = true;
+    // Unterminated: drop the marker and everything after (fail closed).
+    s = cut === -1 ? s.slice(0, start) : s.slice(0, start) + s.slice(cut);
+  }
+  if (removedEntities) {
+    // Drop references to the removed entities. Predefined XML entities
+    // (amp, lt, gt, quot, apos) and numeric references are always valid,
+    // keep them.
+    s = s.replace(
+      /&(?!(?:amp|lt|gt|quot|apos);|#[0-9]+;|#x[0-9a-fA-F]+;)[a-zA-Z_][a-zA-Z0-9_.-]*;/g,
+      '',
+    );
+  }
+  return s;
+}
+
+/**
  * Browsers strip ASCII whitespace/control chars inside URLs, so
  * "java\tscript:alert(1)" IS a working javascript: URL. Normalize first,
  * then check the scheme.
  */
 function normalizeUrlValue(v) {
   return String(v == null ? '' : v).replace(/[^ -~]+/g, '').trim();
+}
+
+/** Decode a base64 data-URL payload for sniffing, '' when not decodable. */
+function tryBase64Decode(text) {
+  try {
+    if (typeof atob !== 'function') return '';
+    return atob(String(text).replace(/\s+/g, ''));
+  } catch {
+    return '';
+  }
 }
 
 /**
@@ -123,14 +193,21 @@ export function isSafeSvgUrl(value) {
   if (/^https?:\/\//i.test(v)) return true;
   if (/^data:image\//i.test(v)) {
     const comma = v.indexOf(',');
+    const meta = comma === -1 ? '' : v.slice(0, comma);
     const payload = comma === -1 ? '' : v.slice(comma + 1);
-    let text = payload;
+    const candidates = [payload];
     try {
-      text = decodeURIComponent(payload);
+      candidates.push(decodeURIComponent(payload));
     } catch {
       /* keep the raw payload for the sniff */
     }
-    if (/<script[\s>]/i.test(text) || /javascript:/i.test(text)) return false;
+    // A base64-encoded SVG can hide "<script>" from the raw sniff above;
+    // decode it and sniff the bytes too.
+    if (/;base64/i.test(meta)) {
+      const decoded = tryBase64Decode(candidates[candidates.length - 1]);
+      if (decoded) candidates.push(decoded);
+    }
+    if (candidates.some((t) => /<script[\s>]/i.test(t) || /javascript:/i.test(t))) return false;
     return true;
   }
   return false;

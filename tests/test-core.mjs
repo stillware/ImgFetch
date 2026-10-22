@@ -197,16 +197,16 @@ await test('FIX4: page within limits is one part at full resolution', () => {
   assert.equal(p.sanityCapped, false);
 });
 
-await test('FIX4: 20000px page at DPR 1 splits only by the side limit, no downscale', () => {
+await test('FIX4: 40000px page at DPR 1 splits only by the side limit, no downscale', () => {
   const p = capture.planFullPageCapture({
-    fullW: 1600, fullH: 20000, viewportW: 1600, viewportH: 900, dpr: 1,
+    fullW: 1600, fullH: 40000, viewportW: 1600, viewportH: 900, dpr: 1,
   });
-  // 20000px side > 16384: two parts, each at full device resolution.
+  // 40000px side > 32767: two balanced parts, each at full device resolution.
   assert.equal(p.parts.length, 2);
   for (const part of p.parts) {
     assert.ok(capture.isStitchSizeAccepted(part.w, part.h));
   }
-  assert.equal(p.parts[0].h + p.parts[1].h, 20000, 'no truncation, no downscale');
+  assert.equal(p.parts[0].h + p.parts[1].h, 40000, 'no truncation, no downscale');
 });
 
 await test('FIX4: 20000px page at DPR 2 splits into full-resolution parts, whole page covered', () => {
@@ -247,7 +247,7 @@ await test('FIX4: normal page is one untouched part', () => {
 
 await test('FIX4: runaway page hits the sanity cap, never silently', () => {
   const p = capture.planFullPageCapture({
-    fullW: 1280, fullH: 1000000, viewportW: 1280, viewportH: 800, dpr: 1,
+    fullW: 1280, fullH: 2000000, viewportW: 1280, viewportH: 800, dpr: 1,
   });
   assert.equal(p.parts.length, capture.PART_MAX_COUNT);
   assert.equal(p.sanityCapped, true);

@@ -34,7 +34,7 @@ zero console errors in worker/popup/options, message routing verified.
 | M3 | SVG safety | FIXED | Network SVGs sanitized on save; `<img>` fallback for rasterization; label "SVG (embedded image)" |
 | M4 | URL-pattern probing | FIXED | Guessing removed; evidence-only candidates; per-host 150 ms throttle; bulk defaults "as shown" + opt-in checkbox |
 | M5 | Scanner coverage | FIXED | allFrames + per-frame merge; og/icons, input[type=image], inline svg, canvas, object/embed, pseudo backgrounds; slimmer records |
-| M8 | Permissions/privacy | FIXED | PERMISSIONS.md justifies every permission; optional_host_permissions evaluated and rejected (documented); PRIVACY.md discloses Lens, thumbnails, history |
+| M8 | Permissions/privacy | FIXED | permissions.md justifies every permission; optional_host_permissions evaluated and rejected (documented); PRIVACY.md discloses Lens, thumbnails, history |
 | M9 | Docs/version drift | FIXED | README structure regenerated; CHANGELOG 1.0.0; version bumped |
 | M12 | AVIF shown when unsupported | FIXED | Menu item hidden; popup button hidden; dlFormat option disabled with "(not supported)" |
 

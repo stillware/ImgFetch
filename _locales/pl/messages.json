@@ -259,6 +259,18 @@
     "message": "Przed pobraniem wyszukuje dla każdego obrazu źródło w wyższej jakości. Wolniejsze, na niektórych stronach może wywołać limity zapytań.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Postęp przechwytywania całej strony",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Zatrzymaj",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Zatrzymywanie…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Pobierz zaznaczone",
     "description": "Download button with nothing selected yet."
@@ -1535,6 +1547,10 @@
     "message": "Pikseluj",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Przytnij",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Czerwony",
     "description": "Annotate color: red."
@@ -1578,6 +1594,10 @@
   "redo_redo": {
     "message": "Ponów",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Cofnij (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Ponów (Ctrl+Y)",
@@ -1626,6 +1646,58 @@
   "annotate_loadFailed": {
     "message": "Nie udało się wczytać zrzutu.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Przytnij (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Zastosuj",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Zaznaczenie kadrowania",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Rozmiar kadrowania: {width} na {height} pikseli",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Kadrowanie jest niedostępne, ponieważ nie udało się wczytać obrazu.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Uchwyt zmiany rozmiaru w lewym górnym rogu",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Górny uchwyt zmiany rozmiaru",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Uchwyt zmiany rozmiaru w prawym górnym rogu",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Prawy uchwyt zmiany rozmiaru",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Uchwyt zmiany rozmiaru w prawym dolnym rogu",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Dolny uchwyt zmiany rozmiaru",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Uchwyt zmiany rozmiaru w lewym dolnym rogu",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Lewy uchwyt zmiany rozmiaru",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Podgląd zrzutu ekranu",
@@ -2210,5 +2282,133 @@
   "scroll_crossOriginClipped": {
     "message": "Osadzone treści z innej witryny mogły zostać przechwycone tylko w widocznej postaci.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Przechwytywanie zatrzymane. Zapisano {count} część z {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_few": {
+    "message": "Przechwytywanie zatrzymane. Zapisano {count} części z {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_many": {
+    "message": "Przechwytywanie zatrzymane. Zapisano {count} części z łącznej liczby {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Przechwytywanie zatrzymane. Zapisano łącznie {count} części z {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Ten obraz był zbyt duży jak na dostępną pamięć, dlatego przechwytywanie kontynuowano w mniejszych częściach.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Przechwytywanie zatrzymano na limicie bezpieczeństwa. Dotychczas przechwycone części zostały zapisane.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Przechwytywanie całej strony, część {part} z {partTotal}, kafelek {n} z {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Części zrzutu ekranu",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Zapisz wszystko",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Odrzuć wszystko",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Zapisz",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Edytuj",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Nie ma już żadnych części. Możesz zamknąć tę kartę.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Wszystkie części zostały zapisane. Możesz zamknąć tę kartę.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Zapisywanie części {current} z {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Podgląd części {count} z {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Części zrzutu całej strony",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Edytuj część {count} z {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Zapisz część {count} z {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Kopiuj część {count} z {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Odrzuć część {count} z {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} pikseli · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Uwaga: duże zrzuty ekranu, takie jak całe strony, kopiują się poprawnie, ale nie pojawiają się w historii schowka Windows (Win+V). To ograniczenie systemu Windows, a nie problem z kopiowaniem. Naciśnij Ctrl+V, aby wkleić obraz w odpowiednim miejscu.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Skopiowano. Naciśnij Ctrl+V, aby wkleić. Historia schowka Windows (Win+V) nie pokazuje dużych obrazów.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} obraz · {width} × {height} px",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_few": {
+    "message": "{count} obrazy · po {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_many": {
+    "message": "{count} obrazów · po {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} obrazu · {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} obraz · różne rozmiary",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_few": {
+    "message": "{count} obrazy · różne rozmiary",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_many": {
+    "message": "{count} obrazów · różne rozmiary",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} obrazu · różne rozmiary",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

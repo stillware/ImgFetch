@@ -45,8 +45,16 @@ for t in tests/test-*.mjs; do
   case "$t" in
     tests/test-e2e*) continue ;;
   esac
-  if [ -d "$HOME/workspace/imgfetch-testdeps/node_modules" ]; then
-    OUT="$(NODE_PATH="$HOME/workspace/imgfetch-testdeps/node_modules${NODE_PATH:+:$NODE_PATH}" node "$t" 2>&1)" || { echo "FAIL: $t"; echo "$OUT"; exit 1; }
+  # Optional IMGFETCH_TESTDEPS: folder whose node_modules holds the dev-only
+  # test dependencies (jsdom). Unset: the jsdom suite self-skips.
+  if [ -n "${IMGFETCH_TESTDEPS:-}" ]; then
+    if [ -d "$IMGFETCH_TESTDEPS/node_modules" ]; then
+      OUT="$(NODE_PATH="$IMGFETCH_TESTDEPS/node_modules${NODE_PATH:+:$NODE_PATH}" node "$t" 2>&1)" || { echo "FAIL: $t"; echo "$OUT"; exit 1; }
+    else
+      echo "ERROR: IMGFETCH_TESTDEPS is set but '$IMGFETCH_TESTDEPS/node_modules' does not exist." >&2
+      echo "Unset IMGFETCH_TESTDEPS (the jsdom suite then self-skips) or point it at the right folder." >&2
+      exit 1
+    fi
   else
     OUT="$(node "$t" 2>&1)" || { echo "FAIL: $t"; echo "$OUT"; exit 1; }
   fi

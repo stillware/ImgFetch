@@ -7,34 +7,37 @@
       "name": "P0 worker alive + offscreen up",
       "ok": true,
       "evidence": {
-        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
       }
     },
     {
       "name": "C3 seam-free stitching at DPR 2",
       "ok": true,
       "evidence": {
-        "ms": 7416,
+        "ms": 7834,
         "planTiles": 25,
-        "parts": 3,
-        "seq": "part1: rows=80 bad=0 [0..79] | part2: rows=80 bad=0 [80..159] | part3: rows=40 bad=0 [160..199]",
-        "refDiff": "part1: diff=0/40480000 (0.000%) | part2: diff=0/40480000 (0.000%) | part3: diff=0/20240000 (0.000%)",
+        "parts": 2,
+        "seq": "part1: rows=96 bad=0 [0..95] | part2: rows=104 bad=0 [96..199]",
+        "refGoodRows": "200/200",
+        "refDiff": "part1: diff=0/48576000 (0.000%) | part2: diff=0/52624000 (0.000%)",
         "maxDiffPct": 0,
         "meanAbs": 0,
+        "refSkippedPx": 0,
         "wholePageCovered": true,
-        "note": "3 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
+        "note": "2 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
       }
     },
     {
-      "name": "C9 area crop exact at DPR 2, PNG quality ignored",
+      "name": "C9 area crop byte-exact at DPR 2",
       "ok": true,
       "evidence": {
-        "rect": "{\"x\":200,\"y\":200,\"width\":800,\"height\":600}",
-        "dim": "800x600",
-        "qualityIgnored": true,
-        "refDiffPixels": 0,
-        "groundTruth": "exact",
-        "note": "rect {\"x\":200,\"y\":200,\"width\":800,\"height\":600} -> 800x600, qualityIgnored=true, diffPixels=0"
+        "cropPath": "worker/core/crop-image.js",
+        "rect": "{\"x\":120,\"y\":80,\"width\":2400,\"height\":1480}",
+        "dim": "2400x1480",
+        "diffPixels": 0,
+        "srcColors": 491389,
+        "outColors": 491389,
+        "note": "rect {\"x\":120,\"y\":80,\"width\":2400,\"height\":1480} -> 2400x1480 via worker/core/crop-image.js, diffPixels=0, colors 491389/491389"
       }
     },
     {

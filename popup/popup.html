@@ -54,6 +54,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .shot-btn:active { transform: translateY(1px); }
     .shot-btn:focus-visible { outline: none; box-shadow: var(--focus); }
     .shot-btn svg { color: var(--muted); }
+    .shot-btn:disabled { opacity: 0.55; cursor: default; }
     .shot-btn:hover svg { color: var(--primary); }
     @media (prefers-reduced-motion: reduce) {
       .shot-btn { transition: none; }
@@ -76,6 +77,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .icon-btn[aria-pressed="true"] { background: var(--surface-2); color: var(--primary); }
     #homeStatus { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
     #homeStatus[hidden] { display: none; }
+    /* Round 5: live full-page capture progress, one row under the
+       shot buttons (never stacked toasts covering them). */
+    #captureProgress { margin-top: 14px; text-align: start; }
+    #captureProgress[hidden] { display: none; }
+    .cp-row { display: flex; align-items: center; gap: 10px; }
+    .cp-text { flex: 1; font-size: 13px; overflow-wrap: break-word; }
+    .cp-bar { margin-top: 8px; height: 6px; }
     .status-card {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
       padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
@@ -139,6 +147,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></svg>
             <span data-i18n="popup_shotFullLabel">Full page</span>
           </button>
+        </div>
+        <div id="captureProgress" hidden>
+          <div class="cp-row">
+            <span id="captureProgressText" class="cp-text" role="status" aria-live="polite"></span>
+            <button id="btnCaptureStop" class="btn btn-sm btn-danger" data-i18n="popup_captureStop">Stop</button>
+          </div>
+          <div class="progress cp-bar" id="captureProgressBarWrap" role="progressbar" data-i18n-attr="aria-label:popup_captureProgressAria" aria-label="Full-page capture progress" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i id="captureProgressBar"></i></div>
         </div>
         <div id="homeStatus" hidden></div>
       </div>

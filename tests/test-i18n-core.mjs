@@ -136,6 +136,19 @@ eq(LOCALE_INFO.es_419.englishName, 'Latin American Spanish', 'es_419 englishName
 eq(LOCALE_INFO.pt_BR.englishName, 'Brazilian Portuguese', 'pt_BR englishName');
 eq(LOCALE_INFO.zh_CN.englishName, 'Simplified Chinese', 'zh_CN englishName');
 
+// ---- nativeName matches the packaged languageName (Phase C) --------------------
+// options/options.js builds the language picker from LOCALE_INFO.nativeName
+// instead of fetching 21 messages.json files; this pins the static copy to
+// the locale files so the visible labels can never drift.
+for (const code of LOCALES) {
+  const p2 = join(dirname(fileURLToPath(import.meta.url)), '..', '_locales', code, 'messages.json');
+  const json = JSON.parse(readFileSync(p2, 'utf8'));
+  const want = json && json.languageName && json.languageName.message;
+  eq(typeof LOCALE_INFO[code].nativeName, 'string', `${code} has a nativeName`);
+  eq(LOCALE_INFO[code].nativeName, want, `${code} nativeName matches languageName`);
+  assert(LOCALE_INFO[code].nativeName.length > 0, `${code} nativeName non-empty`);
+}
+
 // ---- en/messages.json from disk ----------------------------------------------
 const enPath = join(dirname(fileURLToPath(import.meta.url)), '..', '_locales', 'en', 'messages.json');
 const enJson = JSON.parse(readFileSync(enPath, 'utf8'));

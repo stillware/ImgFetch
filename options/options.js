@@ -51,7 +51,7 @@ async function init() {
   }
   UI.applyTheme(settings.theme);
   UI.watchSystemTheme(() => settings.theme);
-  await buildLanguageOptions();
+  buildLanguageOptions();
   paintAll();
   wireAll();
   $('aboutVersion').textContent = chrome.runtime.getManifest().version;
@@ -262,32 +262,22 @@ function wireAll() {
 /* ---------------- language ---------------- */
 
 /**
- * B: language picker. Option labels come from each locale's own
- * messages.json (languageName), read directly from the packaged files;
- * when a file cannot be read the English name is used instead. The
- * first option ("auto") is translated via data-i18n; locale names are
- * never translated, so they carry no data-i18n attributes.
+ * B: language picker. Option labels use each locale's native name from
+ * shared/i18n.js LOCALE_INFO (nativeName): the same strings messages.json
+ * carries as languageName, but available without fetching 21 locale files,
+ * so the page opens faster. The first option ("auto") is translated via
+ * data-i18n; locale names are never translated, so they carry no
+ * data-i18n attributes.
  */
-async function buildLanguageOptions() {
+function buildLanguageOptions() {
   const select = $('language');
   if (!select) return;
-  const native = {};
-  await Promise.all(LOCALES.map(async (code) => {
-    try {
-      const url = chrome.runtime.getURL(`_locales/${code}/messages.json`);
-      const res = await fetch(url);
-      if (res && res.ok) {
-        const json = await res.json();
-        const name = json && json.languageName && json.languageName.message;
-        if (name) native[code] = name;
-      }
-    } catch { /* fall back to the English name below */ }
-  }));
   for (const code of LOCALES) {
     const opt = document.createElement('option');
     opt.value = code;
-    const label = native[code] || LOCALE_INFO[code].englishName;
-    opt.textContent = `${label} (${LOCALE_INFO[code].englishName})`;
+    const info = LOCALE_INFO[code] || {};
+    const label = info.nativeName || info.englishName || code;
+    opt.textContent = `${label} (${info.englishName || code})`;
     select.append(opt);
   }
 }

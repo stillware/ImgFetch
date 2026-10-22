@@ -247,6 +247,18 @@
     "message": "İndirmeden önce her görsel için daha yüksek kaliteli bir kaynak arar. Daha yavaştır, bazı sitelerde hız sınırlarını tetikleyebilir.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Tam sayfa yakalama ilerlemesi",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Durdur",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Durduruluyor…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Seçileni indir",
     "description": "Download button with nothing selected yet."
@@ -1427,6 +1439,10 @@
     "message": "Pikselleştir",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Kırp",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Kırmızı",
     "description": "Annotate color: red."
@@ -1470,6 +1486,10 @@
   "redo_redo": {
     "message": "Yinele",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Geri al (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Yinele (Ctrl+Y)",
@@ -1518,6 +1538,58 @@
   "annotate_loadFailed": {
     "message": "Ekran görüntüsü yüklenemedi.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Kırp (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Uygula",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Kırpma seçimi",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Kırpma boyutu: {width} x {height} piksel",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Görüntü yüklenemediği için kırpma kullanılamıyor.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Sol üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Sağ üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Sağ yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Sağ alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Sol alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Sol yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Ekran görüntüsü önizlemesi",
@@ -2018,5 +2090,97 @@
   "scroll_crossOriginClipped": {
     "message": "Başka bir siteden gömülü içerik yalnızca görünür haliyle yakalanabildi.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "Yakalama durduruldu. {total} parçadan {count} tanesi kaydedildi.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Bu görüntü kullanılabilir bellek için çok büyüktü, bu yüzden yakalama daha küçük parçalarla devam etti.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Yakalama güvenlik sınırında durduruldu. Şu ana kadar yakalanan parçalar kaydedildi.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Tam sayfa yakalanıyor, parça {part} / {partTotal}, karo {n} / {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Ekran görüntüsü parçaları",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Tümünü kaydet",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Tümünü sil",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Kaydet",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Düzenle",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Hiç parça kalmadı. Bu sekmeyi kapatabilirsiniz.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Tüm parçalar kaydedildi. Bu sekmeyi kapatabilirsiniz.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "{total} parçadan {current}. parça kaydediliyor…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "{total} parçadan {count}. parçanın önizlemesi",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Tam sayfa ekran görüntüsünün parçaları",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "{total} parçadan {count}. parçayı düzenle",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "{total} parçadan {count}. parçayı kaydet",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "{total} parçadan {count}. parçayı kopyala",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "{total} parçadan {count}. parçayı sil",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} piksel · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Not: Tam sayfalar gibi büyük ekran görüntüleri doğru şekilde kopyalanır ancak Windows pano geçmişinde (Win+V) görünmez. Bu, Windows'un bir sınırıdır, kopyalama sorunu değildir. Görüntüyü istediğiniz yere yapıştırmak için Ctrl+V tuşlarına basın.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Kopyalandı. Yapıştırmak için Ctrl+V tuşlarına basın. Windows pano geçmişi (Win+V) büyük görüntüleri göstermez.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "{count} görüntü · her biri {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "{count} görüntü · farklı boyutlar",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

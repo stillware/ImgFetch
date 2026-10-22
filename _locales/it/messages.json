@@ -251,6 +251,18 @@
     "message": "Cerca per ogni immagine una fonte di qualità superiore prima di scaricare. Più lento, su alcuni siti può far scattare i limiti di richieste.",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "Avanzamento dell’acquisizione della pagina intera",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Interrompi",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Interruzione…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "Scarica selezionate",
     "description": "Download button with nothing selected yet."
@@ -1463,6 +1475,10 @@
     "message": "Pixella",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "Ritaglia",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "Rosso",
     "description": "Annotate color: red."
@@ -1506,6 +1522,10 @@
   "redo_redo": {
     "message": "Ripeti",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Annulla (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "Ripeti (Ctrl+Y)",
@@ -1554,6 +1574,58 @@
   "annotate_loadFailed": {
     "message": "Impossibile caricare lo screenshot.",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Ritaglia (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Applica",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Selezione di ritaglio",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Dimensioni del ritaglio: {width} per {height} pixel",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Il ritaglio non è disponibile perché non è stato possibile caricare l'immagine.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Maniglia di ridimensionamento in alto a sinistra",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Maniglia di ridimensionamento in alto",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Maniglia di ridimensionamento in alto a destra",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Maniglia di ridimensionamento a destra",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Maniglia di ridimensionamento in basso a destra",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Maniglia di ridimensionamento in basso",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Maniglia di ridimensionamento in basso a sinistra",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Maniglia di ridimensionamento a sinistra",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "Anteprima screenshot",
@@ -2082,5 +2154,109 @@
   "scroll_crossOriginClipped": {
     "message": "Il contenuto incorporato di un altro sito è stato acquisito solo nella forma visibile.",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Acquisizione interrotta. È stata salvata {count} parte su {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Acquisizione interrotta. Sono state salvate {count} parti su {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Questa immagine era troppo grande per la memoria disponibile, quindi l'acquisizione è continuata in parti più piccole.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "L'acquisizione si è fermata al limite di sicurezza. Le parti acquisite finora sono state salvate.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Acquisizione pagina intera, parte {part} di {partTotal}, riquadro {n} di {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Parti dello screenshot",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Salva tutto",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Scarta tutto",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Salva",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Modifica",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Non resta nessuna parte. Puoi chiudere questa scheda.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Tutte le parti sono state salvate. Puoi chiudere questa scheda.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Salvataggio della parte {current} di {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Anteprima della parte {count} di {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Parti dello screenshot a pagina intera",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Modifica la parte {count} di {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Salva la parte {count} di {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Copia la parte {count} di {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Scarta la parte {count} di {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} pixel · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Nota: gli screenshot grandi, come le pagine intere, vengono copiati correttamente ma non compaiono nella cronologia degli appunti di Windows (Win+V). È un limite di Windows, non un problema della copia. Premi Ctrl+V per incollare l'immagine dove ti serve.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Copiato. Premi Ctrl+V per incollare. La cronologia degli appunti di Windows (Win+V) non mostra le immagini grandi.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} immagine · {width} × {height} px",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} immagini · {width} × {height} px ciascuna",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} immagine · dimensioni diverse",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} immagini · dimensioni diverse",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

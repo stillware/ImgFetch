@@ -59,8 +59,9 @@
  *      a simulated mid-capture failure.
  *  C8  FIX 4: a 40,000px page is split into parts, every part at full
  *      resolution, the whole page covered (no truncation).
- *  C9  FIX 4: area crop exact at DPR 1, 1.25, 1.5, 2 and 3; the PNG
- *      quality argument has no effect (lossless).
+ *  C9  Area crop byte-exact at DPR 1, 1.25, 1.5, 2 and 3 on the
+ *      realistic fixture (gradients, text, photo noise): 0 diff pixels
+ *      and equal unique colour counts. Fails on the pre-fix tree.
  *  C10 FIX 4: peak JS heap measured during a 64 MP stitch.
  *  C11 FIX 4: the annotate editor with an 8000x8000 image: drawing speed,
  *      Undo, Redo, Save, Copy, Discard, zero page errors.
@@ -91,13 +92,17 @@ import { startFixtureServer, makePng } from './fixture-server.mjs';
 import { planFullPageCapture, pickScrollTarget } from '../../core/fullpage-capture.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const PROJ = path.resolve(HERE, '..', '..');
+const DEFAULT_PROJ = path.resolve(HERE, '..', '..');
 const args = Object.fromEntries(process.argv.slice(2).map((a) => {
   const m = a.match(/^--([^=]+)=(.*)$/);
   return m ? [m[1], m[2]] : [a.replace(/^--/, ''), true];
 }));
+const PROJ = path.resolve(String(args.proj || DEFAULT_PROJ)); // --proj= measures another tree (fail-on-old proof)
 const DPR = Number(args.dpr || '1');
 const FULL = DPR === 1; // DPR 1 runs every phase; others run C3/C9 only
+// New tree crops in the worker (core/crop-image.js); the old tree has no
+// such module, C9 then drives the old offscreen CROP_IMAGE path instead.
+const HAS_WORKER_CROP = fs.existsSync(path.join(PROJ, 'core', 'crop-image.js'));
 const HEADED = args.headed !== undefined ? !!args.headed : true;
 const BROWSER = (args.browser || 'chromium').toLowerCase();
 const EDGE_PATH = '/usr/bin/microsoft-edge-stable';
@@ -111,6 +116,26 @@ function phase(name, ok, evidence = {}) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const pngMagic = (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47;
 const ihdrDims = (b) => ({ w: b.readUInt32BE(16), h: b.readUInt32BE(20) });
+
+/**
+ * Count unique RGB colors in a decoded-PNG region. Sort-based (not a Set)
+ * so multi-megapixel regions stay fast and lean.
+ */
+function uniqueColors(img, x0, y0, w, h) {
+  const n = w * h;
+  const arr = new Uint32Array(n);
+  let k = 0;
+  for (let y = 0; y < h; y += 1) {
+    let o = ((y0 + y) * img.w + x0) * 4;
+    for (let x = 0; x < w; x += 1, o += 4) {
+      arr[k++] = (img.data[o] << 16) | (img.data[o + 1] << 8) | img.data[o + 2];
+    }
+  }
+  arr.sort();
+  let uniq = n > 0 ? 1 : 0;
+  for (let i = 1; i < n; i += 1) if (arr[i] !== arr[i - 1]) uniq += 1;
+  return uniq;
+}
 
 /** Unique solid color of fixture row i (mirrors fixture-server.mjs). */
 const rowColor = (i) => [(i * 67) % 256, (i * 131) % 256, (i * 197) % 256];
@@ -613,13 +638,29 @@ if (FULL) {
     // remains the strict, complete verification everywhere.
     const refShot = await shot(H);
     const ref = decodePng(refShot);
+    // Reference self-check: a row counts as trustworthy only if the
+    // reference is that row's exact colour across a grid of samples
+    // (several heights within the row, across the full width). A
+    // single centre sample is not enough: at DPR 3 the CDP renderer
+    // corrupts row 128 over ~30% of its area while its centre pixel
+    // still matches, which once hid inside a large part's average and,
+    // with balanced parts, can dominate a small compared region. The
+    // strict verification of OUR output stays the row-sequence check
+    // above; this grid only decides which reference rows may be used.
     let refGoodRows = 0;
     for (let i = 0; i < 200; i += 1) {
-      const devY = Math.round((i * 100 + 50) * DPR);
-      if (devY >= ref.h) break;
-      const o = (devY * ref.w + 10) * 4;
       const [er, eg, eb] = rowColor(i);
-      if (ref.data[o] !== er || ref.data[o + 1] !== eg || ref.data[o + 2] !== eb) break;
+      let rowOk = true;
+      for (const yFrac of [20, 50, 80]) {
+        const devY = Math.round((i * 100 + yFrac) * DPR);
+        if (devY >= ref.h) { rowOk = false; break; }
+        for (let x = 5; x < ref.w; x += 379) {
+          const o = (devY * ref.w + x) * 4;
+          if (ref.data[o] !== er || ref.data[o + 1] !== eg || ref.data[o + 2] !== eb) { rowOk = false; break; }
+        }
+        if (!rowOk) break;
+      }
+      if (!rowOk) break;
       refGoodRows = i + 1;
     }
     ev.refGoodRows = `${refGoodRows}/200`;
@@ -888,54 +929,97 @@ if (FULL) {
   }
 }
 
-// ---- C9: area crop exact at every DPR; PNG quality ignored ----
+// ---- C9: area crop byte-exact at every DPR, realistic fixture ----
 {
   const ev = {};
   try {
     const pg = await ctx.newPage();
     const shot = await armDpr(pg);
     watchErrors(pg, `crop-dpr${DPR}`);
-    await pg.goto(`${BASE}/rows?h=2000`);
+    await pg.goto(`${BASE}/realistic`);
     await pg.bringToFront();
-    await sleep(500);
+    await sleep(800); // let the seeded noise canvas paint
     const srcShot = await shot();
     const srcDims = ihdrDims(srcShot);
-    // Device-px rect, like the overlay reports (FIX 4.6).
+    // Device-px rect, like the overlay reports (FIX 4.6). Built from the
+    // real layout so it always covers the gradient hero, anti-aliased
+    // text cards and the photo-noise canvas: hundreds of thousands of
+    // unique colors, where the old 0.92 median-cut could not hide.
+    const box = await pg.evaluate(() => {
+      const pr = document.querySelector('.photorow').getBoundingClientRect();
+      return {
+        top: 40, left: 60, width: 1200,
+        bottom: Math.min(pr.bottom + 24, window.innerHeight - 20),
+      };
+    });
+    const rx = Math.round(box.left * DPR);
+    const ry = Math.round(box.top * DPR);
     const rect = {
-      x: Math.round(100 * DPR), y: Math.round(100 * DPR),
-      width: Math.round(400 * DPR), height: Math.round(300 * DPR),
+      x: rx,
+      y: ry,
+      width: Math.min(Math.round(box.width * DPR), srcDims.w - rx),
+      height: Math.min(Math.round((box.bottom - box.top) * DPR), srcDims.h - ry),
     };
+    if (!(rect.width > 0 && rect.height > 0)) throw new Error('bad test rect');
     const srcUrl = `data:image/png;base64,${srcShot.toString('base64')}`;
-    const crop1 = await sendOff({ type: 'CROP_IMAGE', dataUrl: srcUrl, rect, format: 'png', quality: 0.92, pageUrl: pg.url() });
-    const crop2 = await sendOff({ type: 'CROP_IMAGE', dataUrl: srcUrl, rect, format: 'png', pageUrl: pg.url() });
-    if (!crop1 || !crop1.ok || !crop1.dataUrl) throw new Error(`CROP_IMAGE failed: ${JSON.stringify(crop1)}`);
-    const b1 = Buffer.from(crop1.dataUrl.split(',')[1], 'base64');
-    const b2 = Buffer.from((crop2 && crop2.dataUrl ? crop2.dataUrl : '').split(',')[1] || '', 'base64');
-    const d1 = ihdrDims(b1);
+    // Each tree's REAL production crop. New tree: the lossless in-worker
+    // crop (core/crop-image.js): the exact module the worker imports,
+    // driven here from the control page, because Playwright cannot dynamic
+    // import() inside the worker scope. The pixel pipeline (decode, 1:1
+    // drawImage, PNG encode) is identical. Old tree: no such module, so
+    // drive its real production call, the offscreen CROP_IMAGE with the
+    // hard-coded quality 0.92.
+    let cropDataUrl;
+    if (HAS_WORKER_CROP) {
+      ev.cropPath = 'worker/core/crop-image.js';
+      const r = await ctrl.evaluate(async ({ dataUrl, rc }) => {
+        const m = await import(chrome.runtime.getURL('core/crop-image.js'));
+        return m.cropPngDataUrl(dataUrl, rc);
+      }, { dataUrl: srcUrl, rc: rect });
+      if (!r || !r.dataUrl) throw new Error('worker crop failed');
+      cropDataUrl = r.dataUrl;
+    } else {
+      ev.cropPath = 'offscreen/CROP_IMAGE@0.92';
+      const r = await sendOff({
+        type: 'CROP_IMAGE', dataUrl: srcUrl, rect, format: 'png', quality: 0.92, pageUrl: pg.url(),
+      });
+      if (!r || !r.ok || !r.dataUrl) throw new Error(`CROP_IMAGE failed: ${JSON.stringify(r)}`);
+      cropDataUrl = r.dataUrl;
+    }
+    const b = Buffer.from(cropDataUrl.split(',')[1], 'base64');
+    if (!pngMagic(b)) throw new Error('crop is not a PNG');
+    const d = ihdrDims(b);
     ev.rect = JSON.stringify(rect);
-    ev.dim = `${d1.w}x${d1.h}`;
-    ev.qualityIgnored = b1.equals(b2);
-    // Ground truth: the crop must equal the source region pixel-exactly.
+    ev.dim = `${d.w}x${d.h}`;
+    if (d.w !== rect.width || d.h !== rect.height) {
+      throw new Error(`crop dims ${d.w}x${d.h} != rect ${rect.width}x${rect.height}`);
+    }
+    // Ground truth: cropped pixels must equal the source region, byte for byte.
     const src = decodePng(srcShot);
-    const out = decodePng(b1);
+    const out = decodePng(b);
     let diffPixels = 0;
     for (let y = 0; y < out.h; y += 1) {
       for (let x = 0; x < out.w; x += 1) {
         const so = ((rect.y + y) * src.w + (rect.x + x)) * 4;
         const oo = (y * out.w + x) * 4;
-        if (src.data[so] !== out.data[oo] || src.data[so + 1] !== out.data[oo + 1] || src.data[so + 2] !== out.data[oo + 2]) {
+        if (src.data[so] !== out.data[oo] || src.data[so + 1] !== out.data[oo + 1]
+            || src.data[so + 2] !== out.data[oo + 2] || src.data[so + 3] !== out.data[oo + 3]) {
           diffPixels += 1;
         }
       }
     }
-    ev.refDiffPixels = diffPixels;
-    ev.groundTruth = diffPixels === 0 ? 'exact' : 'MISMATCH';
-    ev.note = `rect ${ev.rect} -> ${ev.dim}, qualityIgnored=${ev.qualityIgnored}, diffPixels=${diffPixels}`;
-    const ok = d1.w === rect.width && d1.h === rect.height && ev.qualityIgnored && diffPixels === 0 && pngMagic(b1);
-    phase(`C9 area crop exact at DPR ${DPR}, PNG quality ignored`, ok, ev);
+    // Unique colour counts must match too: lossy reduction changes them.
+    const srcColors = uniqueColors(src, rect.x, rect.y, rect.width, rect.height);
+    const outColors = uniqueColors(out, 0, 0, out.w, out.h);
+    ev.diffPixels = diffPixels;
+    ev.srcColors = srcColors;
+    ev.outColors = outColors;
+    ev.note = `rect ${ev.rect} -> ${ev.dim} via ${ev.cropPath}, diffPixels=${diffPixels}, colors ${outColors}/${srcColors}`;
+    const ok = diffPixels === 0 && outColors === srcColors;
+    phase(`C9 area crop byte-exact at DPR ${DPR}`, ok, ev);
     await pg.close().catch(() => {});
   } catch (e) {
-    phase(`C9 area crop exact at DPR ${DPR}, PNG quality ignored`, false, { note: `threw: ${e.message.slice(0, 200)}` });
+    phase(`C9 area crop byte-exact at DPR ${DPR}`, false, { note: `threw: ${e.message.slice(0, 200)}` });
   }
 }
 
@@ -977,6 +1061,178 @@ if (FULL) {
     phase('C10 64MP stitch peak memory measured', ok, ev);
   } catch (e) {
     phase('C10 64MP stitch peak memory measured', false, { note: `threw: ${e.message.slice(0, 200)}` });
+  }
+}
+
+// ---- C12: 100 MP part allocation + blob encode + IndexedDB store ----
+if (FULL) {
+  const ev = {};
+  try {
+    const begin = await sendOff({ type: 'STITCH_BEGIN', width: 10000, height: 10000 });
+    if (!begin || !begin.ok) throw new Error(`STITCH_BEGIN 10000x10000 rejected: ${JSON.stringify(begin)}`);
+    const tilePng = makePng(1000, 1000, [90, 120, 150]);
+    const tileUrl = `data:image/png;base64,${tilePng.toString('base64')}`;
+    // Corner + centre tiles only: the point is the 100 MP canvas, the
+    // encode and the Blob store, not painting every pixel.
+    const spots = [[0, 0], [9000, 0], [0, 9000], [9000, 9000], [4500, 4500]];
+    for (const [dx, dy] of spots) {
+      const res = await sendOff({
+        type: 'STITCH_TILE', dataUrl: tileUrl, dx, dy, pageUrl: `${BASE}/rows?h=2000`,
+      });
+      if (!res || !res.ok) throw new Error(`tile ${dx},${dy} failed`);
+    }
+    const t0 = Date.now();
+    const end = await sendOff({
+      type: 'STITCH_END_BLOB', format: 'png',
+      record: { id: 'e2e-c12', partIndex: 1, partTotal: 1, groupId: 'e2e-c12-group', groupOpen: true, at: Date.now() },
+    });
+    ev.encodeMs = Date.now() - t0;
+    if (!end || !end.ok || !end.id) throw new Error(`STITCH_END_BLOB failed: ${JSON.stringify(end)}`);
+    ev.bytes = end.bytes;
+    // Read the record back from IndexedDB in the control page: the
+    // Blob must be there, sized as reported, a real PNG at 10000x10000,
+    // and decodable to a bitmap of the planned dimensions.
+    const back = await ctrl.evaluate(async () => {
+      const rec = await new Promise((resolve) => {
+        try {
+          const req = indexedDB.open('imgfetch', 1);
+          req.onsuccess = () => {
+            try {
+              const rq = req.result.transaction('captures', 'readonly').objectStore('captures').get('e2e-c12');
+              rq.onsuccess = () => resolve(rq.result || null);
+              rq.onerror = () => resolve(null);
+            } catch { resolve(null); }
+          };
+          req.onerror = () => resolve(null);
+        } catch { resolve(null); }
+      });
+      if (!rec || !rec.blob) return { found: false };
+      const head = new Uint8Array(await rec.blob.slice(0, 24).arrayBuffer());
+      const dv = new DataView(head.buffer, head.byteOffset, head.byteLength);
+      const dims = { w: dv.getUint32(16), h: dv.getUint32(20) };
+      const bmp = await createImageBitmap(rec.blob);
+      const bitmapOk = bmp.width === 10000 && bmp.height === 10000;
+      bmp.close();
+      return {
+        found: true, size: rec.blob.size, dims, bitmapOk,
+        width: rec.width, height: rec.height, groupId: rec.groupId,
+      };
+    });
+    ev.back = back;
+    const ok = back.found && back.size === end.bytes && back.dims.w === 10000 && back.dims.h === 10000
+      && back.bitmapOk && back.width === 10000 && back.height === 10000;
+    ev.note = `10000x10000 blob=${end.bytes}B encode=${ev.encodeMs}ms bitmapOk=${back.bitmapOk}`;
+    phase('C12 100MP part: allocation, blob encode and IDB store', ok, ev);
+  } catch (e) {
+    phase('C12 100MP part: allocation, blob encode and IDB store', false, { note: `threw: ${e.message.slice(0, 200)}` });
+  }
+}
+
+// ---- C13: realistic fixture across several parts, pixel-exact ----
+if (FULL) {
+  const ev = {};
+  try {
+    const pg = await ctx.newPage();
+    const shot = await armDpr(pg);
+    watchErrors(pg, 'realistic-parts');
+    await pg.goto(`${BASE}/realistic?h=4320`);
+    await pg.bringToFront();
+    await sleep(800); // seeded noise canvases paint
+    await injectScanner(pg);
+    const desc = await pg.evaluate(() => window.__imgfetch.describeScrollContext());
+    const dpr13 = Number(desc.dpr) > 0 ? Number(desc.dpr) : 1;
+    // Force several parts with a tight (test-only) area budget through
+    // the REAL planner option; the stitcher limits are the defaults.
+    const plan = planFullPageCapture({
+      fullW: desc.doc.scrollW, fullH: desc.doc.scrollH,
+      viewportW: desc.viewportW, viewportH: desc.viewportH, dpr: dpr13,
+      maxArea: 4_000_000,
+    });
+    ev.parts = plan.parts.length;
+    if (plan.parts.length < 2) throw new Error(`expected several parts, planned ${plan.parts.length}`);
+    const target = { kind: 'document' };
+    const origScroll = await pg.evaluate(() => ({ x: window.scrollX || 0, y: window.scrollY || 0 }));
+    let tileNo = 0;
+    let totalDiff = 0;
+    const notes = [];
+    try {
+      for (const part of plan.parts) {
+        const begin = await sendOff({ type: 'STITCH_BEGIN', width: part.w, height: part.h });
+        if (!begin || !begin.ok) throw new Error(`STITCH_BEGIN part ${part.index} rejected`);
+        // Expected composition: white canvas + the source tiles blitted
+        // at their exact planned offsets (what a lossless stitch is).
+        const expected = Buffer.alloc(part.w * part.h * 4, 255);
+        let partDone = false;
+        try {
+          for (const tile of part.tiles) {
+            const actual = await pg.evaluate(
+              ([t, x, y]) => window.__imgfetch.scrollCaptureTarget(t, x, y),
+              [target, tile.sx, tile.sy],
+            );
+            if (!actual) throw new Error('scrollCaptureTarget failed');
+            const ax = Math.round((actual.x || 0) * dpr13);
+            const ay = Math.round((actual.y || 0) * dpr13);
+            if (tileNo === 1) await pg.evaluate(() => window.__imgfetch.setFixedHidden(true));
+            await pg.evaluate(
+              ([b, ms]) => window.__imgfetch.waitForViewportStable(b, ms),
+              [{ x: 0, y: 0, w: desc.viewportW, h: desc.viewportH }, 2500],
+            ).catch(() => null);
+            const tileBuf = await shot();
+            tileNo += 1;
+            const dx = ax - part.x0;
+            const dy = ay - part.y0;
+            const res = await sendOff({
+              type: 'STITCH_TILE',
+              dataUrl: `data:image/png;base64,${tileBuf.toString('base64')}`,
+              dx, dy, pageUrl: pg.url(),
+            });
+            if (!res || !res.ok) throw new Error(`STITCH_TILE part ${part.index} failed`);
+            const tileImg = decodePng(tileBuf);
+            for (let y = 0; y < tileImg.h && dy + y < part.h; y += 1) {
+              for (let x = 0; x < tileImg.w && dx + x < part.w; x += 1) {
+                const so = (y * tileImg.w + x) * 4;
+                const oo = ((dy + y) * part.w + (dx + x)) * 4;
+                expected[oo] = tileImg.data[so];
+                expected[oo + 1] = tileImg.data[so + 1];
+                expected[oo + 2] = tileImg.data[so + 2];
+                expected[oo + 3] = tileImg.data[so + 3];
+              }
+            }
+          }
+          partDone = true;
+        } finally {
+          if (!partDone) await sendOff({ type: 'STITCH_ABORT' }).catch(() => null);
+        }
+        const end = await sendOff({ type: 'STITCH_END', format: 'png' });
+        if (!end || !end.ok || !end.dataUrl) throw new Error(`STITCH_END part ${part.index} failed`);
+        const out = decodePng(Buffer.from(end.dataUrl.split(',')[1], 'base64'));
+        if (out.w !== part.w || out.h !== part.h) throw new Error(`part ${part.index} dims ${out.w}x${out.h} != ${part.w}x${part.h}`);
+        let diff = 0;
+        for (let i = 0; i < expected.length; i += 4) {
+          if (expected[i] !== out.data[i] || expected[i + 1] !== out.data[i + 1]
+            || expected[i + 2] !== out.data[i + 2] || expected[i + 3] !== out.data[i + 3]) diff += 1;
+        }
+        totalDiff += diff;
+        const expColors = uniqueColors({ w: part.w, h: part.h, data: expected }, 0, 0, part.w, part.h);
+        const outColors = uniqueColors(out, 0, 0, out.w, out.h);
+        notes.push(`part${part.index}: diff=${diff} colors=${outColors}/${expColors}`);
+        if (diff !== 0 || expColors !== outColors) {
+          throw new Error(`part ${part.index} not pixel-exact: diff=${diff} colors ${outColors}/${expColors}`);
+        }
+      }
+    } finally {
+      await pg.evaluate(() => window.__imgfetch.restoreCaptureTarget()).catch(() => {});
+      await pg.evaluate(([x, y]) => window.scrollTo(x, y), [origScroll.x, origScroll.y]).catch(() => {});
+      await pg.evaluate(() => window.__imgfetch.setFixedHidden(false)).catch(() => {});
+    }
+    ev.notes = notes.join(' | ');
+    ev.totalDiff = totalDiff;
+    ev.tiles = tileNo;
+    ev.note = `${plan.parts.length} parts, ${tileNo} tiles, total diff=${totalDiff}; ${notes.join(' | ')}`;
+    phase('C13 realistic fixture across parts is pixel-exact per part', totalDiff === 0, ev);
+    await pg.close().catch(() => {});
+  } catch (e) {
+    phase('C13 realistic fixture across parts is pixel-exact per part', false, { note: `threw: ${e.message.slice(0, 200)}` });
   }
 }
 

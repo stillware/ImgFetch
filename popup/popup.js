@@ -25,9 +25,6 @@ import {
   matchesQuery,
   sortImages,
   sizeChipForPreset,
-  orientationOf,
-  formatGroup,
-  longestSide,
 } from '../core/filters.js';
 import { groupByDay } from '../core/history.js';
 import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
@@ -160,7 +157,7 @@ async function init() {
   await i18nReady;
   applyI18n();
   applyDynamicTitles();
-  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); });
+  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); renderCaptureProgress(); });
   try {
     const { settings } = await UI.send('GET_SETTINGS');
     state.settings = settings;
@@ -231,9 +228,17 @@ async function init() {
       navigate('home', 'queue');
     }
   } catch { /* queue unavailable; stay on dashboard */ }
+  // Round 5: reopened mid-capture, show the live progress at once.
+  try {
+    const { progress } = await UI.send('GET_CAPTURE_PROGRESS');
+    if (progress && progress.phase === 'capturing') showCaptureProgress(progress);
+  } catch { /* no capture running: stay idle */ }
 }
 
-function onRuntimeMessage(msg) {
+function onRuntimeMessage(msg, sender) {
+  // F4: the popup only acts on broadcasts from our own extension (the
+  // service worker). A foreign sender must never drive popup state.
+  if (!sender || sender.id !== chrome.runtime.id) return;
   if (!msg || typeof msg.type !== 'string') return;
   switch (msg.type) {
     case 'SCAN_PROGRESS':
@@ -254,6 +259,9 @@ function onRuntimeMessage(msg) {
       break;
     case 'NOTICE_TEXT':
       UI.toast(msg.text);
+      break;
+    case 'CAPTURE_PROGRESS':
+      onCaptureProgressMessage(msg);
       break;
     case 'NOTICE':
       if (msg.detail) UI.toast(msg.detail);
@@ -454,6 +462,101 @@ async function renderHomeStatus(snapshot) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Full-page capture progress (round 5): one live status row under     */
+/* the shot buttons, fed by CAPTURE_PROGRESS broadcasts, never a       */
+/* stack of per-tile toasts.                                           */
+/* ------------------------------------------------------------------ */
+
+const captureUi = {
+  active: false,
+  stopping: false,
+  progress: null, // last CAPTURE_PROGRESS payload, phase 'capturing'
+  watchdog: 0,
+};
+
+const SHOT_BUTTON_IDS = ['btnShotVisible', 'btnShotArea', 'btnShotElement', 'btnShotFull'];
+const CAPTURE_WATCHDOG_MS = 30000;
+
+function setShotButtonsLocked(locked) {
+  for (const id of SHOT_BUTTON_IDS) {
+    const b = $(id);
+    if (b) b.disabled = locked;
+  }
+}
+
+function renderCaptureProgress() {
+  const p = captureUi.progress;
+  if (!p || !$('captureProgress')) return;
+  $('captureProgressText').textContent = p.partTotal > 1
+    ? t('parts_tileProgress', { part: p.part, partTotal: p.partTotal, n: p.tile, tileCount: p.tileCount })
+    : t('sw_capturingTile', { n: p.tile, tileCount: p.tileCount });
+  const wrap = $('captureProgressBarWrap');
+  wrap.setAttribute('aria-valuemax', String(p.tileCount));
+  wrap.setAttribute('aria-valuenow', String(p.tile));
+  $('captureProgressBar').style.width = p.tileCount > 0
+    ? `${Math.round((p.tile / p.tileCount) * 100)}%`
+    : '0%';
+}
+
+function armCaptureWatchdog() {
+  clearTimeout(captureUi.watchdog);
+  captureUi.watchdog = setTimeout(async () => {
+    // No progress and no end signal for a long stretch: ask the
+    // worker for the truth instead of staying locked forever.
+    try {
+      const { progress } = await UI.send('GET_CAPTURE_PROGRESS');
+      if (progress && progress.phase === 'capturing') {
+        showCaptureProgress(progress);
+        return;
+      }
+    } catch { /* worker unreachable: unlock below */ }
+    endCaptureProgress();
+  }, CAPTURE_WATCHDOG_MS);
+}
+
+function showCaptureProgress(p) {
+  captureUi.active = true;
+  captureUi.progress = p;
+  $('captureProgress').hidden = false;
+  setShotButtonsLocked(true);
+  renderCaptureProgress();
+  armCaptureWatchdog();
+}
+
+function endCaptureProgress() {
+  captureUi.active = false;
+  captureUi.stopping = false;
+  captureUi.progress = null;
+  clearTimeout(captureUi.watchdog);
+  const box = $('captureProgress');
+  if (box) box.hidden = true;
+  const wrap = $('captureProgressBarWrap');
+  if (wrap) {
+    wrap.setAttribute('aria-valuemax', '0');
+    wrap.setAttribute('aria-valuenow', '0');
+  }
+  const bar = $('captureProgressBar');
+  if (bar) bar.style.width = '0%';
+  const stop = $('btnCaptureStop');
+  if (stop) {
+    stop.disabled = false;
+    stop.textContent = t('popup_captureStop');
+  }
+  setShotButtonsLocked(false);
+}
+
+function onCaptureProgressMessage(msg) {
+  const n = (v) => (Number.isInteger(v) && v >= 0 ? v : 0);
+  if (msg.phase === 'capturing') {
+    showCaptureProgress({
+      part: n(msg.part), partTotal: n(msg.partTotal),
+      tile: n(msg.tile), tileCount: n(msg.tileCount),
+    });
+  } else {
+    endCaptureProgress();
+  }
+}
+/* ------------------------------------------------------------------ */
 /* Home: scan + screenshots                                            */
 /* ------------------------------------------------------------------ */
 
@@ -479,12 +582,30 @@ function wireHome() {
     window.close();
   });
   $('btnShotFull').addEventListener('click', async () => {
+    // Round 5: lock the shot buttons at once; CAPTURE_PROGRESS
+    // broadcasts drive the status row from here, and the end signal
+    // (or the watchdog) unlocks again.
+    captureUi.active = true;
+    setShotButtonsLocked(true);
+    armCaptureWatchdog();
     try {
       await UI.send('CAPTURE_FULL');
       window.close();
     } catch (err) {
+      endCaptureProgress();
       UI.toast(err.message);
     }
+  });
+  $('btnCaptureStop').addEventListener('click', async () => {
+    if (!captureUi.active || captureUi.stopping) return;
+    captureUi.stopping = true;
+    const stop = $('btnCaptureStop');
+    stop.disabled = true;
+    stop.textContent = t('popup_captureStopping');
+    // The worker keeps the finished parts and opens the Parts
+    // overview; the CAPTURE_PROGRESS 'stopped' end signal resets
+    // this button and unlocks the shot buttons.
+    try { await UI.send('CANCEL_CAPTURE'); } catch { /* the end signal still unlocks */ }
   });
 }
 

@@ -247,6 +247,18 @@
     "message": "下载前为每张图片寻找更高质量的来源。速度较慢，在某些网站上可能触发请求频率限制。",
     "description": "Tooltip for the bulk download best-quality checkbox."
   },
+  "popup_captureProgressAria": {
+    "message": "整页捕获进度",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "停止",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "正在停止…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
   "popup_download": {
     "message": "下载所选",
     "description": "Download button with nothing selected yet."
@@ -1427,6 +1439,10 @@
     "message": "马赛克",
     "description": "Annotate tool: pixelate."
   },
+  "tool_crop": {
+    "message": "裁剪",
+    "description": "Annotate tool: crop."
+  },
   "color_red": {
     "message": "红色",
     "description": "Annotate color: red."
@@ -1470,6 +1486,10 @@
   "redo_redo": {
     "message": "重做",
     "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "撤销 (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
   },
   "redo_title": {
     "message": "重做 (Ctrl+Y)",
@@ -1518,6 +1538,58 @@
   "annotate_loadFailed": {
     "message": "无法加载截图。",
     "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "裁剪 (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "应用",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "裁剪选区",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "裁剪尺寸: {width} x {height} 像素",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "由于无法加载图片，裁剪功能不可用。",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "左上角缩放手柄",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "顶部缩放手柄",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "右上角缩放手柄",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "右侧缩放手柄",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "右下角缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "底部缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "左下角缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "左侧缩放手柄",
+    "description": "Annotate crop: accessibility label of the left resize handle."
   },
   "capture_subtitle": {
     "message": "截图预览",
@@ -2018,5 +2090,97 @@
   "scroll_crossOriginClipped": {
     "message": "来自其他网站的嵌入内容只能按可见状态截取。",
     "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "捕获已停止。已保存 {total} 个部分中的 {count} 个。",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "此图像对于可用内存来说太大，因此捕获以较小的部分继续。",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "捕获已在安全限制处停止。已保存到目前为止捕获的部分。",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "正在捕获整页，第 {part} 部分（共 {partTotal} 部分），图块 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "截图分片",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "全部保存",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "全部丢弃",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "保存",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "编辑",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "所有分片都已处理完毕。可以关闭此标签页。",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "所有分片均已保存。可以关闭此标签页。",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "正在保存第 {current} 个分片，共 {total} 个…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "第 {count} 个分片的预览，共 {total} 个",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "整页截图的分片列表",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "编辑第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "保存第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "复制第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "丢弃第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} 像素 · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "注意：大型截图（例如整页截图）可以正确复制，但不会出现在 Windows 剪贴板历史记录（Win+V）中。这是 Windows 的限制，不是复制出了问题。按 Ctrl+V 即可将图像粘贴到需要的位置。",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "已复制。按 Ctrl+V 粘贴。Windows 剪贴板历史记录（Win+V）不会显示大型图像。",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "{count} 张图像 · 每张 {width} × {height} 像素",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "{count} 张图像 · 尺寸各不相同",
+    "description": "Parts overview summary. Plural: parts have different sizes."
   }
 }

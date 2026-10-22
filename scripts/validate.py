@@ -27,13 +27,30 @@ ROOT = Path(__file__).resolve().parent.parent
 ZIP_EXCLUDED = {
     'assets/brand/', 'assets/brand/imgfetch-mark-exact.svg',
     'assets/brand/imgfetch-mark-master.png',
+    'assets/readme/', 'assets/readme/editor-crop.png',
+    'assets/readme/editor-tools-copy-save.png',
+    'assets/readme/fullpage-parts-overview.png',
+    'assets/readme/hero-scan-and-save.png',
+    'assets/readme/languages-and-settings.png',
+    'assets/readme/privacy-no-tracking.png',
+    'assets/readme/quality-and-formats.png', 'assets/readme/rtl-arabic.png',
+    'assets/readme/scan-select-download.png',
+    'assets/readme/screenshot-modes.png',
+    'assets/readme/social-preview-1280x640.png',
     'store-assets/', 'store-assets/promo-tile-440x280.png',
+    'store-assets/promo-marquee-1400x560.png',
+    'store-assets/store/', 'store-assets/store/editor-crop.png',
+    'store-assets/store/fullpage-parts-overview.png',
+    'store-assets/store/hero-scan-and-save.png',
+    'store-assets/store/quality-and-formats.png',
+    'store-assets/store/scan-select-download.png',
+    'store-assets/store/screenshot-modes.png',
     'MANUAL_MATRIX_CHECKLIST.md',
 }
 if len(sys.argv) > 1:
     ROOT = Path(sys.argv[1]).resolve()
 # IS_ZIP: validating an extracted store zip (not the dev tree).
-# docs/PROJECT_STRUCTURE.md documents the repo tree; the zip holds a subset,
+# docs/project-structure.md documents the repo tree; the zip holds a subset,
 # so the reverse tree check (every tree entry exists on disk) is skipped for
 # zips.
 IS_ZIP = len(sys.argv) > 1
@@ -199,16 +216,16 @@ elif brand_name == "__MSG_appName__":
 else:
     ok("manifest name is ImgFetch")
 
-# 7. B5: docs/PROJECT_STRUCTURE.md documents the real file tree.
+# 7. B5: docs/project-structure.md documents the real file tree.
 # The tree lists basenames under each directory, so match on basenames
 # (they are unique in this project, enforced below).
 readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
-struct_path = ROOT / "docs" / "PROJECT_STRUCTURE.md"
+struct_path = ROOT / "docs" / "project-structure.md"
 try:
     struct_text = struct_path.read_text(encoding="utf-8")
-    ok("docs/PROJECT_STRUCTURE.md is readable")
+    ok("docs/project-structure.md is readable")
 except Exception as e:
-    fail(f"docs/PROJECT_STRUCTURE.md is unreadable: {e}")
+    fail(f"docs/project-structure.md is unreadable: {e}")
     struct_text = ""
 tree_files = []
 for f in sorted(ROOT.rglob("*")):
@@ -226,9 +243,14 @@ for f in sorted(ROOT.rglob("*")):
 # _locales/**/messages.json shares one basename across 21 locale folders by
 # design, so it is ignored in the uniqueness check. README.md is
 # conventional in subdirectories; allow it to repeat.
+# README images (assets/readme/, 1600x1000) and store screenshots
+# (store-assets/store/, 1280x800) are size variants of the same
+# compositions, so six basenames appear in both folders by design.
 dupes_scope = [
     p for p in tree_files
     if not (p.startswith("_locales/") and Path(p).name == "messages.json")
+    and not p.startswith("assets/readme/")
+    and not p.startswith("store-assets/store/")
 ]
 basenames = [Path(p).name for p in dupes_scope]
 dupes = {b for b in basenames if b != 'README.md' and basenames.count(b) > 1}
@@ -236,9 +258,9 @@ if dupes:
     fail(f"basename check needs unique names, duplicates: {sorted(dupes)}")
 missing_from_tree = [p for p in tree_files if Path(p).name not in struct_text]
 for p in missing_from_tree:
-    fail(f"PROJECT_STRUCTURE.md does not mention real project file: {p}")
+    fail(f"project-structure.md does not mention real project file: {p}")
 if not missing_from_tree and not dupes:
-    ok(f"PROJECT_STRUCTURE.md mentions all {len(tree_files)} project files")
+    ok(f"project-structure.md mentions all {len(tree_files)} project files")
 # Reverse direction: names listed in the tree block must exist.
 # Skipped for extracted store zips (the tree documents the full repo).
 listed_names = set()
@@ -250,7 +272,7 @@ known_basenames = {Path(p).name for p in tree_files}
 reverse_bad = 0
 zip_excluded_basenames = {Path(p.rstrip('/')).name for p in ZIP_EXCLUDED}
 if IS_ZIP:
-    ok("PROJECT_STRUCTURE.md tree reverse check skipped for extracted zip")
+    ok("project-structure.md tree reverse check skipped for extracted zip")
 else:
     for name in sorted(listed_names):
         # Project-only files (brand assets, store graphics, manual matrix) are
@@ -270,17 +292,17 @@ else:
                 for p in [Path('.'), Path('tests'), Path('scripts'), Path('docs')]
             ) or (ROOT / stripped).is_dir()
             if not found:
-                fail(f"PROJECT_STRUCTURE.md lists unknown directory: {name}")
+                fail(f"project-structure.md lists unknown directory: {name}")
                 reverse_bad += 1
         elif "/" in name:
             if not (ROOT / name).exists():
-                fail(f"PROJECT_STRUCTURE.md lists missing path: {name}")
+                fail(f"project-structure.md lists missing path: {name}")
                 reverse_bad += 1
         elif name not in known_basenames:
-            fail(f"PROJECT_STRUCTURE.md lists unknown file: {name}")
+            fail(f"project-structure.md lists unknown file: {name}")
             reverse_bad += 1
     if reverse_bad == 0:
-        ok("PROJECT_STRUCTURE.md tree entries all exist")
+        ok("project-structure.md tree entries all exist")
 
 # 8. B5: every export from core/*.js must be used somewhere (no dead exports).
 # Dev-tree check only: the store zip excludes tests/, which exercise some
@@ -433,19 +455,25 @@ if missing_keys:
 else:
     ok(f"README lists all {len(suggested)} manifest suggested shortcuts")
 
-# 10c. Permissions: docs/PERMISSIONS.md must justify every manifest permission.
-perms_doc = (ROOT / "docs" / "PERMISSIONS.md").read_text(encoding='utf-8')
+# 10c. Permissions: docs/permissions.md must justify every manifest permission.
+perms_doc = (ROOT / "docs" / "permissions.md").read_text(encoding='utf-8')
 missing_perms = [p for p in declared if p not in perms_doc]
 if missing_perms:
-    fail(f"docs/PERMISSIONS.md does not mention permissions: {missing_perms}")
+    fail(f"docs/permissions.md does not mention permissions: {missing_perms}")
 else:
-    ok(f"docs/PERMISSIONS.md covers all {len(declared)} permissions")
+    ok(f"docs/permissions.md covers all {len(declared)} permissions")
 
 # 10d. Test counts: run every tests/test-*.mjs, parse "N passed", and require
-# the PROJECT_STRUCTURE.md tree comment for that file to state the same N.
+# the project-structure.md tree comment for that file to state the same N.
 test_env = dict(os.environ)
-local_jsdom = Path.home() / "workspace" / "imgfetch-testdeps" / "node_modules"
-if local_jsdom.is_dir():
+# Dev-only test dependencies (jsdom) live outside the repo. Point
+# IMGFETCH_TESTDEPS at the folder holding them; unset, the jsdom suite
+# self-skips and its count check is waived.
+testdeps = os.environ.get("IMGFETCH_TESTDEPS")
+local_jsdom = Path(testdeps) / "node_modules" if testdeps else None
+if local_jsdom is not None and not local_jsdom.is_dir():
+    fail(f"IMGFETCH_TESTDEPS is set but '{local_jsdom}' does not exist")
+elif local_jsdom is not None:
     test_env["NODE_PATH"] = str(local_jsdom) + (
         ":" + test_env["NODE_PATH"] if test_env.get("NODE_PATH") else ""
     )
@@ -468,7 +496,7 @@ for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
         fail(f"{tf.name}: {failed} test(s) failed")
         count_fail += 1
         continue
-    # Find the PROJECT_STRUCTURE.md tree line for this file and its claimed count.
+    # Find the project-structure.md tree line for this file and its claimed count.
     claimed = None
     for line in struct_text.splitlines():
         if tf.name in line:
@@ -477,15 +505,15 @@ for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
                 claimed = int(cm.group(1))
             break
     if claimed is None:
-        fail(f"PROJECT_STRUCTURE.md tree has no count comment for {tf.name}")
+        fail(f"project-structure.md tree has no count comment for {tf.name}")
         count_fail += 1
     elif claimed != passed:
-        fail(f"PROJECT_STRUCTURE.md claims {claimed} for {tf.name} but the run shows {passed}")
+        fail(f"project-structure.md claims {claimed} for {tf.name} but the run shows {passed}")
         count_fail += 1
 if count_fail == 0:
-    ok("PROJECT_STRUCTURE.md test counts match real test runs")
+    ok("project-structure.md test counts match real test runs")
 
-# F4: shortcuts must agree across manifest, README, USER_GUIDE, and welcome.
+# F4: shortcuts must agree across manifest, README, user-guide, and welcome.
 # Welcome page uses chrome.commands.getAll() dynamically, so it must not
 # hardcode shortcut strings.
 manifest_cmds = manifest.get('commands', {})
@@ -495,20 +523,20 @@ for name, cmd in manifest_cmds.items():
     if sk.get('default'):
         expected[name] = sk['default']
 readme_text_full = (ROOT / "README.md").read_text(encoding='utf-8')
-guide_text = (ROOT / "docs" / "USER_GUIDE.md").read_text(encoding='utf-8')
+guide_text = (ROOT / "docs" / "user-guide.md").read_text(encoding='utf-8')
 welcome_html = (ROOT / "pages" / "welcome.html").read_text(encoding='utf-8')
 for name, shortcut in expected.items():
     if shortcut not in readme_text_full:
         fail(f"README missing shortcut {shortcut} for {name}")
     if shortcut not in guide_text:
-        fail(f"USER_GUIDE missing shortcut {shortcut} for {name}")
+        fail(f"user-guide missing shortcut {shortcut} for {name}")
 # Welcome must not hardcode (it reads live via getAll); Ctrl+Shift+C was wrong.
 if 'Ctrl+Shift+C' in welcome_html:
     fail("welcome.html still contains the wrong Ctrl+Shift+C")
 if re.search(r'Ctrl\+Shift\+[SXE]', welcome_html):
     fail("welcome.html hardcodes shortcuts; use chrome.commands.getAll()")
 if not failures or all('shortcut' not in f.lower() and 'welcome' not in f.lower() for f in failures):
-    ok("shortcuts agree across manifest, README, USER_GUIDE; welcome is dynamic")
+    ok("shortcuts agree across manifest, README, user-guide; welcome is dynamic")
 
 # Format conversion in the single-download path must route through
 # convertSource (per-format encoders: GIF/BMP/SVG have dedicated converters).
@@ -523,6 +551,26 @@ if 'convertSource(finalUrl, want, settings, pageUrl)' not in sw_text:
     fail("single-download conversion does not route through convertSource")
 else:
     ok("single-download conversion routes through convertSource")
+
+# 11. Round 7: docs link check. Every relative link and anchor between the
+# markdown files must resolve (scripts/check-docs-links.mjs, offline).
+# Skipped for extracted store zips: a zip ships only a subset of the docs,
+# so links to unshipped documents cannot resolve there.
+link_checker = ROOT / "scripts" / "check-docs-links.mjs"
+if IS_ZIP:
+    ok("docs link check skipped for extracted zip (docs subset)")
+elif not link_checker.exists():
+    fail("scripts/check-docs-links.mjs is missing")
+else:
+    r = subprocess.run(
+        ["node", str(link_checker)], capture_output=True, text=True
+    )
+    link_out = ((r.stdout or "") + (r.stderr or "")).strip()
+    if r.returncode != 0:
+        fail(f"docs link check failed: {link_out[:500]}")
+    else:
+        last = link_out.splitlines()[-1] if link_out else ""
+        ok(f"docs link check passed ({last})")
 
 print()
 if failures:

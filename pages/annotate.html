@@ -28,6 +28,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .tool svg { width: 16px; height: 16px; flex: none; }
     .tool[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
     .tool:disabled { opacity: 0.45; cursor: default; }
+    .crop-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+    .crop-box { position: absolute; box-sizing: border-box; border: 1.5px solid #fff; outline: 1px solid rgba(15,20,28,.5); box-shadow: 0 0 0 9999px rgba(12,16,24,.55); pointer-events: auto; cursor: move; touch-action: none; }
+    .crop-thirds-v { position: absolute; top: 0; bottom: 0; left: 33.333%; right: 33.333%; border-left: 1px solid rgba(255,255,255,.5); border-right: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+    .crop-thirds-h { position: absolute; left: 0; right: 0; top: 33.333%; bottom: 33.333%; border-top: 1px solid rgba(255,255,255,.5); border-bottom: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+    .crop-size { position: absolute; left: -2px; top: -30px; direction: ltr; background: rgba(12,16,24,.88); color: #fff; font-size: 12px; line-height: 1.5; padding: 2px 8px; border-radius: 6px; white-space: nowrap; pointer-events: none; }
+    .crop-size.is-inside { top: 4px; }
+    .crop-handle { position: absolute; box-sizing: border-box; width: 13px; height: 13px; margin: -7px 0 0 -7px; padding: 0; background: #fff; border: 1.5px solid rgba(15,20,28,.6); border-radius: 3px; pointer-events: auto; touch-action: none; z-index: 2; }
+    .crop-handle[data-handle="nw"] { left: 0; top: 0; cursor: nwse-resize; }
+    .crop-handle[data-handle="n"] { left: 50%; top: 0; cursor: ns-resize; }
+    .crop-handle[data-handle="ne"] { left: 100%; top: 0; cursor: nesw-resize; }
+    .crop-handle[data-handle="e"] { left: 100%; top: 50%; cursor: ew-resize; }
+    .crop-handle[data-handle="se"] { left: 100%; top: 100%; cursor: nwse-resize; }
+    .crop-handle[data-handle="s"] { left: 50%; top: 100%; cursor: ns-resize; }
+    .crop-handle[data-handle="sw"] { left: 0; top: 100%; cursor: nesw-resize; }
+    .crop-handle[data-handle="w"] { left: 0; top: 50%; cursor: ew-resize; }
+    .crop-actions { position: absolute; top: calc(100% + 8px); inset-inline-end: 0; display: flex; gap: 8px; pointer-events: auto; }
+    .crop-box.actions-inside .crop-actions { top: auto; bottom: 6px; inset-inline-end: 6px; }
+    .crop-box.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 0; }
+    .crop-box.actions-inside.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 6px; }
+    .crop-size.is-end { left: auto; right: -2px; }
     .swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; }
     .swatch[aria-pressed="true"] { border-color: var(--text); }
     .stage { position: relative; display: inline-block; max-width: 100%; border-radius: 8px; overflow: hidden; background: var(--surface-2); }
@@ -62,6 +82,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <button class="tool" data-tool="circle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg><span data-i18n="tool_circle">Circle</span></button>
       <button class="tool" data-tool="text" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg><span data-i18n="tool_text">Text</span></button>
       <button class="tool" data-tool="pixelate" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span data-i18n="tool_pixelate">Pixelate</span></button>
+      <button class="tool" data-tool="crop" aria-pressed="false" data-i18n-attr="title:crop_title;aria-label:crop_title" title="Crop (C)" aria-label="Crop (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg><span data-i18n="tool_crop">Crop</span></button>
       <span style="width:8px"></span>
       <button class="swatch" data-color="#e5484d" style="background:#e5484d" aria-pressed="true" data-i18n-attr="aria-label:color_red" aria-label="Red"></button>
       <button class="swatch" data-color="#e8930c" style="background:#e8930c" aria-pressed="false" data-i18n-attr="aria-label:color_orange" aria-label="Orange"></button>
@@ -74,7 +95,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <button class="tool" data-width="6" aria-pressed="true" data-i18n="width_medium">Medium</button>
       <button class="tool" data-width="12" aria-pressed="false" data-i18n="width_thick">Thick</button>
       <span style="width:8px"></span>
-      <button class="tool" id="btnUndo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg><span data-i18n="annotate_undo">Undo</span></button>
+      <button class="tool" id="btnUndo" data-i18n-attr="title:undo_title;aria-label:undo_title" title="Undo (Ctrl+Z)" aria-label="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg><span data-i18n="annotate_undo">Undo</span></button>
       <button class="tool" id="btnRedo" data-i18n-attr="title:redo_title;aria-label:redo_title" title="Redo (Ctrl+Y)" aria-label="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="translate(24 0) scale(-1 1)"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></g></svg><span data-i18n="redo_redo">Redo</span></button>
       <button class="tool" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span data-i18n="annotate_clear">Clear</span></button>
     </div>
@@ -85,6 +106,25 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         <input id="textInput" type="text" data-i18n-attr="placeholder:annotate_textPlaceholder" placeholder="Type text, Enter to place" maxlength="120">
         <button id="textClose" type="button" data-i18n-attr="aria-label:annotate_cancelText" aria-label="Cancel text">✕</button>
       </div>
+      <div class="crop-overlay" id="cropOverlay" hidden>
+        <div class="crop-box" id="cropBox" role="group" data-i18n-attr="aria-label:crop_regionAria" aria-label="Crop selection">
+          <div class="crop-thirds-v" aria-hidden="true"></div>
+          <div class="crop-thirds-h" aria-hidden="true"></div>
+          <div class="crop-size" id="cropSize" role="status"></div>
+          <button type="button" class="crop-handle" data-handle="nw" data-i18n-attr="aria-label:crop_handleNw" aria-label="Top-left resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="n" data-i18n-attr="aria-label:crop_handleN" aria-label="Top resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="ne" data-i18n-attr="aria-label:crop_handleNe" aria-label="Top-right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="e" data-i18n-attr="aria-label:crop_handleE" aria-label="Right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="se" data-i18n-attr="aria-label:crop_handleSe" aria-label="Bottom-right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="s" data-i18n-attr="aria-label:crop_handleS" aria-label="Bottom resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="sw" data-i18n-attr="aria-label:crop_handleSw" aria-label="Bottom-left resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="w" data-i18n-attr="aria-label:crop_handleW" aria-label="Left resize handle"></button>
+          <div class="crop-actions" id="cropActions">
+            <button type="button" class="btn btn-primary" id="cropApply" data-i18n="crop_apply">Apply</button>
+            <button type="button" class="btn" id="cropCancel" data-i18n="ui_cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="actions">
@@ -93,6 +133,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <button id="btnCancel" class="btn btn-ghost" data-i18n="annotate_discard">Discard</button>
     </div>
     <p class="kbd-hint" data-i18n="annotate_kbdHint">Tip: drag on the image to draw. Text tool: click where the text should go, type, press Enter. Click placed text to select it, drag to move, press Delete or Backspace to remove. Blur: drag over the area to hide.</p>
+    <p class="kbd-hint" id="windowsNote" data-i18n="copy_windowsNote" hidden>Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.</p>
   </div>
 
   <script src="../shared/ui.js"></script>

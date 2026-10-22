@@ -26,10 +26,14 @@ import {
   planFullPageCapture,
   isStitchSizeAccepted,
   tileOffsets,
+  tilesCoveringRegion,
+  shiftPlanParts,
   pickScrollTarget,
   PART_MAX_SIDE,
   PART_MAX_AREA,
   PART_MAX_COUNT,
+  CAPTURE_MAX_DURATION_MS,
+  CAPTURE_AREA_FLOOR,
 } from '../core/fullpage-capture.js';
 
 let pass = 0;
@@ -73,14 +77,18 @@ function tilesCoverPart(part, tileW, tileH) {
 }
 
 // --- the limit rule itself ---
-check('16384 side accepted', isStitchSizeAccepted(16384, 3906) === true);
-check('16385 side rejected', isStitchSizeAccepted(16385, 100) === false);
-check('64MP area accepted', isStitchSizeAccepted(8000, 8000) === true); // exactly 64,000,000
-check('over 64MP rejected', isStitchSizeAccepted(8000, 8001) === false);
+check('32767 side accepted', isStitchSizeAccepted(32767, 100) === true);
+check('32768 side rejected', isStitchSizeAccepted(32768, 100) === false);
+check('100MP area accepted', isStitchSizeAccepted(10000, 10000) === true); // exactly 100,000,000
+check('over 100MP rejected', isStitchSizeAccepted(10000, 10001) === false);
 check('zero rejected', isStitchSizeAccepted(0, 100) === false);
-check('PART_MAX_SIDE is 16384', PART_MAX_SIDE === 16384);
-check('PART_MAX_AREA is 64MP', PART_MAX_AREA === 64_000_000);
+check('PART_MAX_SIDE is 32767', PART_MAX_SIDE === 32767);
+check('PART_MAX_AREA is 100MP', PART_MAX_AREA === 100_000_000);
 check('PART_MAX_COUNT is 48', PART_MAX_COUNT === 48);
+check('capture duration cap is 10 minutes', CAPTURE_MAX_DURATION_MS === 600_000);
+check('allocation floor is positive and below the area cap', CAPTURE_AREA_FLOOR > 0 && CAPTURE_AREA_FLOOR < PART_MAX_AREA);
+check('custom tighter limits are honored', isStitchSizeAccepted(5000, 5000, { maxArea: 25_000_000 }) === true
+  && isStitchSizeAccepted(5000, 5001, { maxArea: 25_000_000 }) === false);
 
 // --- tileOffsets: exact, last tile at total - tile ---
 check('offsets [0,1000,1500]', JSON.stringify(tileOffsets(2500, 1000)) === '[0,1000,1500]');
@@ -160,7 +168,7 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
 
 // --- runaway page: sanity cap, first N parts, said clearly ---
 {
-  const p = planFullPageCapture({ fullW: 1280, fullH: 1000000, viewportW: 1280, viewportH: 800, dpr: 1 });
+  const p = planFullPageCapture({ fullW: 1280, fullH: 2000000, viewportW: 1280, viewportH: 800, dpr: 1 });
   check('runaway: capped at PART_MAX_COUNT', p.parts.length === PART_MAX_COUNT, `parts=${p.parts.length}`);
   check('runaway: sanityCapped is true', p.sanityCapped === true);
   check('runaway: every kept part accepted', allAccepted(p));
@@ -172,6 +180,67 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
   const p = planFullPageCapture({ fullW: 0, fullH: 0, viewportW: 0, viewportH: 0, dpr: 0 });
   check('degenerate: one part', p.parts.length === 1);
   check('degenerate: part accepted', allAccepted(p));
+}
+
+// --- Round 4: balanced parts (no giant part + tiny remainder) ---
+{
+  const p = planFullPageCapture({ fullW: 1280, fullH: 48000, viewportW: 1280, viewportH: 800, dpr: 1 });
+  check('balanced: 48000px page splits into 2 parts', p.parts.length === 2, `parts=${p.parts.length}`);
+  check('balanced: parts are exactly equal here', p.parts[0].h === 24000 && p.parts[1].h === 24000,
+    p.parts.map((pt) => pt.h).join(','));
+  check('balanced: cuts land on tile boundaries', p.parts.every((pt) => pt.y0 % p.tileH === 0 || pt.y0 === 0));
+  const q = planFullPageCapture({ fullW: 1600, fullH: 60000, viewportW: 1600, viewportH: 900, dpr: 2 });
+  const hs = q.parts.map((pt) => pt.h);
+  check('balanced: heights differ by at most one tile row',
+    Math.max(...hs) - Math.min(...hs) <= q.tileH, hs.join(','));
+  check('balanced: whole page still covered at dpr 2', partsTileExactly(q));
+}
+
+// --- Round 4: allocation-fallback budgets (maxArea option) ---
+{
+  const p = planFullPageCapture({
+    fullW: 1280, fullH: 48000, viewportW: 1280, viewportH: 800, dpr: 1, maxArea: 25_000_000,
+  });
+  check('fallback budget: more parts at half-ish area', p.parts.length >= 3, `parts=${p.parts.length}`);
+  check('fallback budget: every part within the tighter budget',
+    p.parts.every((pt) => isStitchSizeAccepted(pt.w, pt.h, { maxArea: 25_000_000 })));
+  check('fallback budget: whole page covered', partsTileExactly(p));
+}
+
+// --- Round 4: tilesCoveringRegion + shiftPlanParts (growth/replan helpers) ---
+{
+  const sub = planFullPageCapture({ fullW: 1280, fullH: 5000, viewportW: 1280, viewportH: 800, dpr: 1 });
+  const shifted = shiftPlanParts(sub.parts, 1600, 1);
+  check('shift: y0 moved', shifted[0].y0 === sub.parts[0].y0 + 1600);
+  check('shift: tile sy moved, dy unchanged',
+    shifted[0].tiles[0].sy === sub.parts[0].tiles[0].sy + 1600
+    && shifted[0].tiles[0].dy === sub.parts[0].tiles[0].dy);
+  check('shift: input not mutated', sub.parts[0].y0 !== shifted[0].y0 || sub.parts[0].y0 === 0);
+  const tiles = tilesCoveringRegion({ x0: 0, y0: 1600, w: 1280, h: 2400 }, 1280, 20000, 1280, 800, 1);
+  check('region tiles: starts at the region top', tiles.length > 0 && tiles[0].dy === 0 && tiles[0].sy === 1600);
+  check('region tiles: all inside the region', tiles.every((t) => t.dy >= 0 && t.dy < 2400));
+}
+
+// --- Round 4: property sweep, thousands of size/DPR combinations ---
+{
+  let combos = 0;
+  let badCombo = '';
+  for (const dpr of [1, 1.25, 1.5, 2, 3]) {
+    for (let fullH = 700; fullH <= 26000; fullH += 317) {
+      for (const [vw, vh] of [[1280, 800], [1920, 900], [390, 844], [800, 600]]) {
+        combos += 1;
+        const plan = planFullPageCapture({ fullW: vw, fullH, viewportW: vw, viewportH: vh, dpr });
+        const areaSum = plan.parts.reduce((n, pt) => n + pt.w * pt.h, 0);
+        const okParts = plan.parts.every((pt) => isStitchSizeAccepted(pt.w, pt.h));
+        const okTiles = plan.parts.every((pt) => tilesCoverPart(pt, plan.tileW, plan.tileH) === '');
+        if (!okParts || !okTiles || areaSum !== plan.devW * plan.devH || !partsTileExactly(plan)) {
+          badCombo = `${vw}x${fullH}@${dpr} accepted=${okParts} tiles=${okTiles} area=${areaSum}/${plan.devW * plan.devH}`;
+        }
+      }
+    }
+  }
+  check(`property sweep: ${combos} combos tile exactly and stay within limits`, badCombo === '', badCombo);
+  check('property sweep: really thousands of combos', combos >= 1000, `combos=${combos}`);
 }
 
 // --- pickScrollTarget: FIX 4.1 capture-target choice (pure) ---

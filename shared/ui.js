@@ -88,9 +88,19 @@
       stack.setAttribute('aria-live', 'polite');
       document.body.appendChild(stack);
     }
+    // Round 5: a repeated identical text replaces the visible toast
+    // (and restarts its timer) instead of stacking a copy of it.
+    for (const child of [...stack.children]) {
+      if (child.textContent === message) {
+        clearTimeout(child._toastTimer);
+        child._toastTimer = setTimeout(() => child.remove(), ms || 2600);
+        stack.appendChild(child);
+        return;
+      }
+    }
     const t = el('div', message, 'toast');
     stack.appendChild(t);
-    setTimeout(() => t.remove(), ms || 2600);
+    t._toastTimer = setTimeout(() => t.remove(), ms || 2600);
     while (stack.children.length > 3) stack.firstChild.remove();
   }
 

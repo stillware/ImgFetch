@@ -116,17 +116,6 @@ function findTag(doc, tag) {
   return doc.querySelectorAll('*').filter((e) => e.tagName.toLowerCase() === tag.toLowerCase());
 }
 
-function htmlOf(doc) {
-  // crude serializer for assertions
-  const ser = (node) => {
-    if (typeof node === 'string') return node;
-    const attrs = node.attributes.map((a) => ` ${a.name}="${a.value}"`).join('');
-    const kids = node.childNodes.map(ser).join('');
-    return `<${node.tagName}${attrs}>${kids}</${node.tagName}>`;
-  };
-  return doc.querySelectorAll('*').map(ser).join('');
-}
-
 // ---------------------------------------------------------------- harness
 
 let passed = 0;

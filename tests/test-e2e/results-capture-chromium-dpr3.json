@@ -7,36 +7,37 @@
       "name": "P0 worker alive + offscreen up",
       "ok": true,
       "evidence": {
-        "extId": "djhpppkmmgobllhnjbgfjlaffacgmjoe"
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
       }
     },
     {
       "name": "C3 seam-free stitching at DPR 3",
       "ok": true,
       "evidence": {
-        "ms": 12018,
+        "ms": 12640,
         "planTiles": 25,
-        "parts": 5,
-        "seq": "part1: rows=48 bad=0 [0..47] | part2: rows=48 bad=0 [48..95] | part3: rows=48 bad=0 [96..143] | part4: rows=48 bad=0 [144..191] | part5: rows=8 bad=0 [192..199]",
-        "refGoodRows": "129/200",
-        "refDiff": "part1: diff=0/54648000 (0.000%) | part2: diff=0/54648000 (0.000%) | part3: diff=345345/37570500 (0.919%) skipped=17077500 | part4: diff=0/0 (0.000%) skipped=54648000 | part5: diff=0/0 (0.000%) skipped=9108000",
-        "maxDiffPct": 0.919,
-        "meanAbs": 0.3,
-        "refSkippedPx": 80833500,
+        "parts": 3,
+        "seq": "part1: rows=64 bad=0 [0..63] | part2: rows=64 bad=0 [64..127] | part3: rows=72 bad=0 [128..199]",
+        "refGoodRows": "128/200",
+        "refDiff": "part1: diff=0/72864000 (0.000%) | part2: diff=0/72864000 (0.000%) | part3: diff=0/0 (0.000%) skipped=81972000",
+        "maxDiffPct": 0,
+        "meanAbs": 0,
+        "refSkippedPx": 81972000,
         "wholePageCovered": true,
-        "note": "5 parts, 25 tiles, seq bad=0/200, maxDiff=0.919%"
+        "note": "3 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
       }
     },
     {
-      "name": "C9 area crop exact at DPR 3, PNG quality ignored",
+      "name": "C9 area crop byte-exact at DPR 3",
       "ok": true,
       "evidence": {
-        "rect": "{\"x\":300,\"y\":300,\"width\":1200,\"height\":900}",
-        "dim": "1200x900",
-        "qualityIgnored": true,
-        "refDiffPixels": 0,
-        "groundTruth": "exact",
-        "note": "rect {\"x\":300,\"y\":300,\"width\":1200,\"height\":900} -> 1200x900, qualityIgnored=true, diffPixels=0"
+        "cropPath": "worker/core/crop-image.js",
+        "rect": "{\"x\":180,\"y\":120,\"width\":3600,\"height\":2220}",
+        "dim": "3600x2220",
+        "diffPixels": 0,
+        "srcColors": 797607,
+        "outColors": 797607,
+        "note": "rect {\"x\":180,\"y\":120,\"width\":3600,\"height\":2220} -> 3600x2220 via worker/core/crop-image.js, diffPixels=0, colors 797607/797607"
       }
     },
     {

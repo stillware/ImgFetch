@@ -45,9 +45,12 @@ export const MESSAGE_TYPES = new Set([
   'CAPTURE_FULL',
   'CANCEL_CAPTURE',
   'SAVE_CAPTURE',
+  'DISCARD_CAPTURE',
+  'DISCARD_CAPTURE_GROUP',
   'SAVE_ANNOTATED',
   'SUGGEST_FILENAME',
   'GET_CAPTURE',
+  'GET_CAPTURE_PROGRESS',
   'GET_IMAGE_INFO',
   'OPEN_OPTIONS',
   'GET_FORMAT_SUPPORT',
@@ -62,6 +65,7 @@ export const MESSAGE_TYPES = new Set([
   'SCAN_DONE',
   'NOTICE',
   'NOTICE_TEXT',
+  'CAPTURE_PROGRESS',
 ]);
 
 const STRING_FIELDS = {
@@ -72,13 +76,17 @@ const STRING_FIELDS = {
   GET_SCAN_STATE: [],
   SAVE_SETTINGS: [],
   GET_CAPTURE: ['id'],
+  GET_CAPTURE_PROGRESS: [],
   GET_IMAGE_INFO: ['srcUrl', 'tabId'],
   CAPTURE_AREA: [],
+  CAPTURE_PROGRESS: ['phase'],
   CAPTURE_VISIBLE: [],
   CAPTURE_ELEMENT: [],
   CAPTURE_FULL: [],
   CANCEL_CAPTURE: [],
   SAVE_CAPTURE: ['id'],
+  DISCARD_CAPTURE: ['id', 'groupId'],
+  DISCARD_CAPTURE_GROUP: ['groupId'],
   SAVE_ANNOTATED: ['id', 'dataUrl'],
   SUGGEST_FILENAME: ['srcUrl', 'format', 'pageUrl'],
   DOWNLOAD_ZIP: [],
@@ -107,6 +115,10 @@ export function isValidMessage(msg) {
   for (const f of fields) {
     if (f in msg && typeof msg[f] !== 'string') return false;
   }
+  // Round 5: CAPTURE_PROGRESS carries only machine-made counts, but
+  // validate them anyway: the type is routable, so a malformed or
+  // forged payload must fail closed like every other message.
+  if (msg.type === 'CAPTURE_PROGRESS' && !isValidCaptureProgress(msg)) return false;
   // Reject oversized payloads (abuse / memory protection). Image data URLs
   // (annotated screenshots) legitimately exceed the default cap.
   const maxLen = msg.type === 'SAVE_ANNOTATED' ? 45_000_000 : 1_000_000;
@@ -116,6 +128,22 @@ export function isValidMessage(msg) {
     return false;
   }
   return true;
+}
+
+/** Phases a CAPTURE_PROGRESS broadcast may report. */
+const CAPTURE_PROGRESS_PHASES = new Set(['capturing', 'done', 'stopped', 'error']);
+
+/**
+ * Round 5: numeric shape of a CAPTURE_PROGRESS payload. All four
+ * counts are integers within sane bounds, totals are at least 1,
+ * and a counter never exceeds its total.
+ */
+function isValidCaptureProgress(msg) {
+  if (!CAPTURE_PROGRESS_PHASES.has(msg.phase)) return false;
+  const counts = [msg.part, msg.partTotal, msg.tile, msg.tileCount];
+  if (counts.some((v) => !Number.isInteger(v) || v < 0 || v > 1_000_000)) return false;
+  return msg.partTotal >= 1 && msg.tileCount >= 1
+    && msg.part <= msg.partTotal && msg.tile <= msg.tileCount;
 }
 
 /**
@@ -160,15 +188,34 @@ export const SENDER_RULES = {
   CAPTURE_FULL: ['extension'],
   CANCEL_CAPTURE: ['extension'],
   SAVE_CAPTURE: ['extension'],
+  DISCARD_CAPTURE: ['extension'],
+  DISCARD_CAPTURE_GROUP: ['extension'],
   SAVE_ANNOTATED: ['extension'],
   SUGGEST_FILENAME: ['extension'],
   GET_CAPTURE: ['extension'],
+  GET_CAPTURE_PROGRESS: ['extension'],
+  CAPTURE_PROGRESS: ['extension'],
   GET_IMAGE_INFO: ['extension'],
   OPEN_OPTIONS: ['extension'],
   GET_FORMAT_SUPPORT: ['extension'],
   RESOLVE_BLOB: ['extension'],
   SHOW_DOWNLOAD: ['extension'],
 };
+
+/**
+ * Capture record ids are minted by the worker as
+ * `cap-<epochMs>-<random below 1e6>` (makeCaptureId) and group ids as
+ * `grp-<epochMs>-<random below 1e6>`. Anything else is not an id this
+ * extension issued and must never reach the storage layer.
+ */
+export function isValidCaptureId(v) {
+  return typeof v === 'string' && /^cap-\d{10,16}-\d{1,6}$/.test(v);
+}
+
+/** Group-id counterpart of isValidCaptureId (same minting shape). */
+export function isValidCaptureGroupId(v) {
+  return typeof v === 'string' && /^grp-\d{10,16}-\d{1,6}$/.test(v);
+}
 
 /** True when v is 'auto' or one of the 21 supported locale codes. */
 export function isValidLanguage(v) {

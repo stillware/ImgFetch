@@ -23,7 +23,9 @@
  * from core/svg.js, and asserts the serialized output is inert.
  *
  * Requires jsdom: npm i jsdom   (kept out of the shipped zip)
- * Usage: NODE_PATH=~/workspace/imgfetch-testdeps/node_modules node tests/test-svg-real-dom.mjs
+ * Usage: NODE_PATH=$IMGFETCH_TESTDEPS/node_modules node tests/test-svg-real-dom.mjs
+ * IMGFETCH_TESTDEPS is the folder holding the dev-only test dependencies;
+ * the file self-skips when jsdom cannot be required.
  */
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);

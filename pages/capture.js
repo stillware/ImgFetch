@@ -71,8 +71,17 @@
       return;
     }
     try {
-      const cap = await UI.send('GET_CAPTURE', { id });
-      $('shot').src = cap.dataUrl;
+      // Fast path: read the capture straight from IndexedDB (same extension
+      // origin) instead of a multi-MB worker round trip; retries briefly
+      // while the worker finishes storing, then falls back to the worker.
+      const { loadCaptureRecord, captureRecordObjectUrl } = await import('../shared/capture-io.js');
+      const cap = await loadCaptureRecord(id, (t, pl) => UI.send(t, pl));
+      // Blob records (stitched parts) display through an object URL;
+      // legacy dataUrl records pass straight through. The object URL
+      // is revoked when the page goes away.
+      const source = captureRecordObjectUrl(cap);
+      window.addEventListener('unload', () => source.revoke());
+      $('shot').src = source.url;
       // FIX 4.2: parts of a split full-page capture show their
       // "Part i of N" title in the subtitle and the tab title.
       if (cap.partTotal > 1 && cap.partIndex > 0) {
@@ -103,8 +112,13 @@
     // B6: copy the screenshot bitmap to the clipboard (user gesture).
     $('btnCopyShot').addEventListener('click', async () => {
       try {
-        const cap = await UI.send('GET_CAPTURE', { id });
-        const blob = await (await fetch(cap.dataUrl)).blob();
+        const { loadCaptureRecord, captureRecordBlob } = await import('../shared/capture-io.js');
+        const cap = await loadCaptureRecord(id, (t, pl) => UI.send(t, pl));
+        let blob = captureRecordBlob(cap);
+        if (!blob) {
+          const { dataUrlToBlob } = await import('../core/data-url.js');
+          blob = dataUrlToBlob(cap.dataUrl);
+        }
         await navigator.clipboard.write([new ClipboardItem({ [blob.type || 'image/png']: blob })]);
         UI.toast(tr('capture_copied', 'Screenshot copied to clipboard.'));
       } catch (err) {

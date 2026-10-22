@@ -30,8 +30,14 @@
  *  - /img/404.png, /img/429.png status codes
  *  - /img/slow.png              8 s delay then PNG
  *  - /img/big.png               ~30 MB PNG
+ *  - /img/redirect-private.png  302 to the same image on "localhost"
+ *                    (a different private host name: F1 redirect tests)
+ *  - /img/redirect-same.png     302 to an image on this same host
+ *  - /svg/ok.svg, /svg/redirect-private.svg   SVG counterparts
  *  - /img/named/<name>.png      filename edge cases (Urdu, emoji, 200 chars)
  *  - /rows?h=N               N-px page, unique solid color per 100px row
+ *  - /growing?start&step&max  rows page that APPENDS rows when scrolled
+ *                            near the bottom, until max px (round 4)
  *                            (seam/duplicate detection, no sticky/fixed)
  *  - /scrollbox              non-scrolling document + tall inner scroll div
  *  - /stickytest             tall page, solid sticky header + fixed banner
@@ -145,6 +151,47 @@ function rowsHtml(h, rowH = 100) {
   }
   return `<!DOCTYPE html><html><head><title>rows</title></head><body style="margin:0">${rows}</body></html>`;
 }
+/**
+ * Round 4 growing page: starts at `start` px of unique-colour rows and
+ * appends `step` more px whenever the reader scrolls near the bottom,
+ * until `max` px. Growth is asynchronous (a short timer, like a real
+ * infinite-scroll feed) and stops for good at max, so a correct
+ * capture covers exactly the final height and then settles.
+ */
+function growingHtml(start, step, max) {
+  return `<!DOCTYPE html><html><head><title>growing</title></head><body style="margin:0">
+<div id="rows"></div>
+<script>
+  const rowColor = (i) => [(i * 67) % 256, (i * 131) % 256, (i * 197) % 256];
+  let current = 0;
+  const maxH = ${max};
+  const stepH = ${step};
+  const box = document.getElementById('rows');
+  function appendRows(toH) {
+    const frag = document.createDocumentFragment();
+    for (let y = current; y < toH; y += 100) {
+      const i = y / 100;
+      const [r, g, b] = rowColor(i);
+      const d = document.createElement('div');
+      d.setAttribute('data-row', String(i));
+      d.style.cssText = 'height:100px;background:rgb(' + r + ',' + g + ',' + b + ')';
+      frag.appendChild(d);
+    }
+    box.appendChild(frag);
+    current = toH;
+    window.__growState = { currentH: current, maxH, appends: (window.__growState ? window.__growState.appends : 0) + 1 };
+  }
+  let pending = false;
+  window.addEventListener('scroll', () => {
+    if (pending || current >= maxH) return;
+    if ((window.scrollY || 0) + window.innerHeight > document.documentElement.scrollHeight - 600) {
+      pending = true;
+      setTimeout(() => { pending = false; appendRows(Math.min(maxH, current + stepH)); }, 60);
+    }
+  }, { passive: true });
+  appendRows(${start});
+</` + `script></body></html>`;
+}
 function scrollboxHtml() {
   // The document itself does not scroll (100vh, overflow hidden); the
   // #box div (70vh) holds 6000px of colored rows.
@@ -211,6 +258,73 @@ ${sections}
 </body></html>`;
 }
 
+/**
+ * Realistic screenshot fixture: multi-stop gradients, anti-aliased text in
+ * many sizes/weights/colors, and a photo-like noise canvas (seeded, so
+ * screenshots are deterministic). Thousands of unique colors, unlike the
+ * flat /rows fixture, so lossy color reduction cannot hide.
+ */
+function realisticHtml(h) {
+  const blocks = [];
+  const n = Math.max(1, Math.min(8, Math.round(h / 1080)));
+  for (let b = 0; b < n; b += 1) {
+    blocks.push(`
+    <div class="hero"><h1>ImgFetch realistic fixture ${b + 1}</h1>
+      <p>The quick brown fox jumps over the lazy dog. 0123456789. Pack my box with five dozen liquor jugs.</p></div>
+    <div class="cols">
+      <div class="card dark"><h2>Dark card</h2><p>Small text renders with subpixel anti-aliasing on dark backgrounds, producing thousands of edge colors.</p><button>Action</button></div>
+      <div class="card light"><h2>Light card</h2><p>Body copy at 14px, 16px and 20px. <strong>Bold</strong>, <em>italic</em>, <u>underlined</u> and <code>monospace</code> runs.</p></div>
+      <div class="card tint"><h2>Tinted</h2><p>Radial gradients behind text stress both the gradient and the glyph edges at once.</p></div>
+    </div>
+    <div class="photorow"><canvas class="noise" width="560" height="315"></canvas>
+      <div class="swatches"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>`);
+  }
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>realistic</title><style>
+    html,body{margin:0;padding:0}
+    body{width:1920px;min-height:${h}px;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f4f5f7;color:#1a1d29}
+    .hero{padding:44px 96px 36px;color:#fff;background:linear-gradient(135deg,#0f2027 0%,#203a43 22%,#2c5364 45%,#3f6d8c 63%,#5b93b5 80%,#8fc1e3 100%)}
+    .hero h1{font-size:54px;font-weight:800;letter-spacing:-1px;margin:0 0 12px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+    .hero p{font-size:20px;font-weight:300;max-width:900px;line-height:1.5;opacity:.92;margin:0}
+    .cols{display:flex;gap:32px;padding:36px 96px}
+    .card{flex:1;border-radius:16px;padding:24px 28px;box-shadow:0 8px 30px rgba(10,20,40,.12)}
+    .card h2{font-size:24px;margin:0 0 10px}
+    .card p{font-size:15px;line-height:1.6;margin:0 0 14px}
+    .card.dark{background:linear-gradient(160deg,#141726,#232842);color:#eef0ff}
+    .card.light{background:#ffffff}
+    .card.tint{background:radial-gradient(circle at 20% 15%,#ffe9c9,#ffd3a3 35%,#f7b267 60%,#e88b4a 100%);color:#4a2c12}
+    .card button{font-size:15px;font-weight:600;padding:10px 22px;border:0;border-radius:999px;background:#6c63ff;color:#fff}
+    .card code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:rgba(0,0,0,.08);padding:2px 6px;border-radius:4px}
+    .photorow{display:flex;gap:32px;padding:0 96px 36px;align-items:center}
+    canvas.noise{width:560px;height:315px;border-radius:12px;box-shadow:0 8px 30px rgba(10,20,40,.18);image-rendering:auto}
+    .swatches{display:flex;gap:12px}
+    .swatches i{width:72px;height:72px;border-radius:12px;display:block}
+    .swatches i:nth-child(1){background:#e5484d}.swatches i:nth-child(2){background:#f76b15}
+    .swatches i:nth-child(3){background:#ffd60a}.swatches i:nth-child(4){background:#46a758}
+    .swatches i:nth-child(5){background:#3e63dd}.swatches i:nth-child(6){background:#8e4ec6}
+  </style></head><body>${blocks.join('')}
+  <script>
+    // Seeded photo-like noise: deterministic across runs, thousands of colors.
+    let seed = 20261019;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    document.querySelectorAll('canvas.noise').forEach((cv) => {
+      const cx = cv.getContext('2d');
+      const img = cx.createImageData(cv.width, cv.height);
+      const d = img.data;
+      for (let y = 0; y < cv.height; y += 1) {
+        for (let x = 0; x < cv.width; x += 1) {
+          const i = (y * cv.width + x) * 4;
+          const nse = (rnd() - 0.5) * 110;
+          d[i] = Math.max(0, Math.min(255, 90 + (x / cv.width) * 120 + nse));
+          d[i + 1] = Math.max(0, Math.min(255, 110 + (y / cv.height) * 90 + nse * 0.8));
+          d[i + 2] = Math.max(0, Math.min(255, 130 - (x / cv.width) * 60 + nse * 0.6));
+          d[i + 3] = 255;
+        }
+      }
+      cx.putImageData(img, 0, 0);
+    });
+  </script></body></html>`;
+}
+
 export function startFixtureServer(port = 0) {
   const server = http.createServer((req, res) => {
     const url = new URL(req.url, 'http://x');
@@ -235,6 +349,16 @@ export function startFixtureServer(port = 0) {
       const h = Math.min(120000, Math.max(500, parseInt(url.searchParams.get('h') || '20000', 10) || 20000));
       return send(200, 'text/html', rowsHtml(h));
     }
+    if (p === '/realistic') {
+      const h = Math.min(12000, Math.max(1080, parseInt(url.searchParams.get('h') || '1080', 10) || 1080));
+      return send(200, 'text/html', realisticHtml(h));
+    }
+    if (p === '/growing') {
+      const start = Math.min(60000, Math.max(500, parseInt(url.searchParams.get('start') || '3000', 10) || 3000));
+      const step = Math.min(30000, Math.max(500, parseInt(url.searchParams.get('step') || '3000', 10) || 3000));
+      const max = Math.min(120000, Math.max(start, parseInt(url.searchParams.get('max') || '15000', 10) || 15000));
+      return send(200, 'text/html', growingHtml(start, step, max));
+    }
     if (p === '/scrollbox') return send(200, 'text/html', scrollboxHtml());
     if (p === '/stickytest') return send(200, 'text/html', stickytestHtml());
     if (p === '/lazyrows') return send(200, 'text/html', lazyrowsHtml());
@@ -244,6 +368,25 @@ export function startFixtureServer(port = 0) {
     if (p === '/img/needs-referer.png') {
       if (!req.headers.referer) return send(403, 'text/plain', 'referer required');
       return send(200, 'image/png', makePng(64, 64, [0, 255, 0]));
+    }
+    if (p === '/img/redirect-private.png') {
+      // F1 (round 4): a URL on this host that redirects to a DIFFERENT
+      // private host name (localhost, which resolves to this same
+      // server). The original URL passes a same-host check; only a
+      // re-check of the final URL after the redirect can refuse it.
+      const port = server.address().port;
+      return send(302, 'text/plain', 'redirect', { location: `http://localhost:${port}/img/64/64/ff0000.png` });
+    }
+    if (p === '/img/redirect-same.png') {
+      // F1 control: a redirect that stays on the same host must work.
+      return send(302, 'text/plain', 'redirect', { location: '/img/64/64/00ff00.png' });
+    }
+    if (p === '/svg/ok.svg') {
+      return send(200, 'image/svg+xml', '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="green"/></svg>');
+    }
+    if (p === '/svg/redirect-private.svg') {
+      const port = server.address().port;
+      return send(302, 'text/plain', 'redirect', { location: `http://localhost:${port}/svg/ok.svg` });
     }
     if (p === '/img/404.png') return send(404, 'text/plain', 'nope');
     if (p === '/img/429.png') return send(429, 'text/plain', 'slow down', { 'retry-after': '1' });

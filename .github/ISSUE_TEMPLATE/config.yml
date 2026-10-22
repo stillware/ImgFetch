@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/umr-x/ImgFetch/tree/main/docs
+    about: Read the ImgFetch documentation before opening an issue.
+  - name: Microsoft Edge Add-ons listing
+    url: https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea
+    about: ImgFetch on Microsoft Edge Add-ons. The live listing currently serves 1.0.0; the 1.1.0 update goes live when Microsoft approves it.
+  - name: Security policy
+    url: https://github.com/umr-x/ImgFetch/security/policy
+    about: Report a security vulnerability privately. Do not open a public issue for one.

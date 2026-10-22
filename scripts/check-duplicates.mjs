@@ -61,11 +61,13 @@ function jsFiles(dir, out = []) {
 
 // { name, canonical (relative), literals: [source spellings that may appear] }
 const LIMITS = [
-  // FIX 4: one stitched part is capped at 16384px side / 64MP area (the old
-  // 32767px / 100MP downscale rule and the 24-tile truncation are gone).
-  { name: 'PART_MAX_SIDE', canonical: 'core/fullpage-capture.js', literals: ['16384'] },
-  { name: 'PART_MAX_AREA', canonical: 'core/fullpage-capture.js', literals: ['64_000_000', '64000000'],
-    allowSameValue: ['offscreen/offscreen.js /* GIF frame budget: distinct animated-GIF memory rule */'] },
+  // FIX 4 / Round 4: one stitched part is capped at 32767px side /
+  // 100MP area (allocation + lossless encode of a 100 MP canvas were
+  // re-proven in the project browser before the raise; see
+  // core/fullpage-capture.js).
+  { name: 'PART_MAX_SIDE', canonical: 'core/fullpage-capture.js', literals: ['32767'] },
+  { name: 'PART_MAX_AREA', canonical: 'core/fullpage-capture.js', literals: ['100_000_000', '100000000'],
+    allowSameValue: ['offscreen/offscreen.js /* GIF_PROBE_MAX_BYTES: distinct 100 MB GIF probe byte budget */'] },
   { name: 'ZIP_ACCUM_TTL_MS', canonical: 'core/zip-accum.js', literals: ['120_000', '120000'],
     allowSameValue: ['core/scan-state.js /* SCAN_STATE_STALE_MS: distinct 2-min scan staleness */'] },
   { name: 'QUEUE_SESSION_KEY', canonical: 'core/queue-persist.js', literals: ["'imgfetch.queue'", '"imgfetch.queue"'] },

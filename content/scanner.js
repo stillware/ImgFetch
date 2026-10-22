@@ -1279,6 +1279,47 @@
     return { x: window.scrollX || 0, y: window.scrollY || 0 };
   }
 
+  /**
+   * Read a capture target's CURRENT content size (CSS px). The worker
+   * re-reads this during a full-page capture to detect growing pages
+   * (rows appended as the capture scrolls near the bottom): when the
+   * content grew, the plan is extended instead of truncating the page.
+   * No marking, no scrolling, no state changes.
+   */
+  function readCaptureTargetSize(target) {
+    const t = target || { kind: 'document' };
+    if (t.kind === 'frame') {
+      const f = findCandidate(t.token);
+      const fd = f && f.contentDocument;
+      const fde = fd && fd.documentElement;
+      if (!fde) throw new Error('no-frame-target');
+      return {
+        scrollW: Math.max(fde.scrollWidth || 0, fd.body ? fd.body.scrollWidth || 0 : 0),
+        scrollH: Math.max(fde.scrollHeight || 0, fd.body ? fd.body.scrollHeight || 0 : 0),
+        clientW: fde.clientWidth || 0,
+        clientH: fde.clientHeight || 0,
+      };
+    }
+    if (t.kind === 'container') {
+      const el = findCandidate(t.token);
+      if (!el) throw new Error('no-container-target');
+      return {
+        scrollW: el.scrollWidth || 0,
+        scrollH: el.scrollHeight || 0,
+        clientW: el.clientWidth || 0,
+        clientH: el.clientHeight || 0,
+      };
+    }
+    const de = document.documentElement;
+    const body = document.body;
+    return {
+      scrollW: Math.max(de.scrollWidth || 0, body ? body.scrollWidth || 0 : 0),
+      scrollH: Math.max(de.scrollHeight || 0, body ? body.scrollHeight || 0 : 0),
+      clientW: de.clientWidth || window.innerWidth || 0,
+      clientH: de.clientHeight || window.innerHeight || 0,
+    };
+  }
+
   /** Read a capture target's scroll position without changing it. */
   function readCaptureTargetScroll(target) {
     const t = target || { kind: 'document' };
@@ -1381,8 +1422,38 @@
     return box;
   }
 
+  /**
+   * Round 4: freeze page motion for the duration of a capture. CSS
+   * animations, transitions and smooth scrolling keep changing pixels
+   * (and the page height) between tiles, which would seam the stitch;
+   * a single injected style sheet disables them all, and removing the
+   * sheet restores the page exactly. The sheet carries a marker
+   * attribute and restoreCaptureTarget() removes it too, so no failure
+   * path can leave a page frozen.
+   */
+  const CAPTURE_STYLE_ID = 'imgfetch-capture-style-lock';
+  function setCaptureStyleLock(lock) {
+    try {
+      const existing = document.getElementById(CAPTURE_STYLE_ID);
+      if (!lock) {
+        if (existing) existing.remove();
+        return 0;
+      }
+      if (existing) return 1;
+      const style = document.createElement('style');
+      style.id = CAPTURE_STYLE_ID;
+      style.setAttribute('data-imgfetch-capture-style', '1');
+      style.textContent = '*{animation:none!important;transition:none!important;scroll-behavior:auto!important}';
+      (document.head || document.documentElement).appendChild(style);
+      return 1;
+    } catch {
+      return 0;
+    }
+  }
+
   /** Undo ensureTargetVisible's ancestor scrolls and remove all marks. */
   function restoreCaptureTarget() {
+    setCaptureStyleLock(false);
     for (const [el, x, y] of savedAncestorScroll) {
       try {
         el.scrollTo(x, y);
@@ -1420,6 +1491,42 @@
         : { x: 0, y: 0, w: window.innerWidth || 1, h: window.innerHeight || 1 };
     return new Promise((resolve) => {
       const done = (stable) => resolve({ stable, waitedMs: Date.now() - t0 });
+      // Round 5 (stale first tile): the image verdict alone is not
+      // enough. Right after a programmatic scroll, the compositor
+      // can still present the PRE-scroll frame while every read-back
+      // already reports the new position, and the first tile is the
+      // exposed one because the rate-limit gap has not run yet. So
+      // before resolving, wait for two painted frames: two
+      // requestAnimationFrame callbacks mean the frame current at
+      // call time and the next one were both produced after the
+      // scroll. A ~250 ms safety timeout keeps throttled or
+      // background frames from ever hanging the capture, and a
+      // ~120 ms floor measured from t0 guarantees a minimum wait
+      // before the first screenshot. Later tiles do not slow down:
+      // the worker's 520 ms rate-limit gap runs after this wait and
+      // absorbs it.
+      const paintWait = (stable) => {
+        let settled = false;
+        const finish = () => {
+          if (settled) return;
+          settled = true;
+          const rest = 120 - (Date.now() - t0);
+          if (rest > 0) setTimeout(() => done(stable), rest);
+          else done(stable);
+        };
+        try {
+          let frames = 0;
+          const onFrame = () => {
+            frames += 1;
+            if (frames >= 2) finish();
+            else requestAnimationFrame(onFrame);
+          };
+          requestAnimationFrame(onFrame);
+          setTimeout(finish, 250);
+        } catch {
+          finish();
+        }
+      };
       const check = () => {
         let pending = 0;
         try {
@@ -1437,10 +1544,10 @@
             pending += 1;
           }
         } catch {
-          done(true);
+          paintWait(true);
           return;
         }
-        if (pending === 0 || Date.now() - t0 >= budget) done(pending === 0);
+        if (pending === 0 || Date.now() - t0 >= budget) paintWait(pending === 0);
         else setTimeout(check, 120);
       };
       check();
@@ -1457,10 +1564,12 @@
     setFixedHidden,
     describeScrollContext,
     scrollCaptureTarget,
+    readCaptureTargetSize,
     readCaptureTargetScroll,
     getCaptureTargetBox,
     ensureTargetVisible,
     restoreCaptureTarget,
+    setCaptureStyleLock,
     waitForViewportStable,
     relevanceOf, // exposed for unit tests (tests/test-scanner.mjs)
     candidatesForImg, // exposed for unit tests (tests/test-candidates.mjs)

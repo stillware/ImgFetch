@@ -36,10 +36,16 @@
  *      exactly planCopy()'s dims, toast reports the downscale
  *  C3  failure path: clipboard.write throws, error toast appears, the copy
  *      is retried once, no exception escapes, the screenshot stays intact
+ *  C4  editor Windows clipboard note (Phase C3): shown for a large image
+ *      and for a capture part under a Windows platform override, hidden
+ *      for a small image and on the real (non-Windows) platform
+ *  C5  large-copy toast (Phase C3): a multi-MB PNG copy on Windows shows
+ *      the long Ctrl+V toast and outlives the normal toast duration;
+ *      the same copy on non-Windows keeps the short success toast
  *
  * Fails the run on ANY console.error / pageerror in the annotate pages.
  * This test was written carefully but could not be executed here (no
- * Chromium in this environment); run it per RUN.md before trusting it.
+ * Chromium in this environment); run it per README.md before trusting it.
  */
 import { createRequire } from 'node:module';
 const _require = createRequire(import.meta.url);
@@ -53,6 +59,7 @@ try {
   if (!pwPath) throw new Error('playwright not resolvable: set PLAYWRIGHT_PACKAGE to the installed package path');
   ({ chromium } = _require(pwPath));
 }
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -75,6 +82,13 @@ function phase(name, ok, evidence = {}) {
   if (!ok) results.errors.push(name);
 }
 const pngMagic = (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47;
+
+function msg(lang, key) {
+  const file = path.join(PROJ, '_locales', lang, 'messages.json');
+  const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (!json[key] || typeof json[key].message !== 'string') throw new Error(`missing key ${key} in ${lang}`);
+  return json[key].message;
+}
 
 /* ---------------- pure-Node flat PNG writer ---------------- */
 
@@ -129,6 +143,32 @@ function flatPng(w, h, r, g, b) {
   return body;
 }
 
+/**
+ * Noise PNG (crypto-random pixels): incompressible, so a modest pixel
+ * size still produces a multi-MB file, which the Phase C3 large-copy
+ * toast rule keys on (the written PNG's byte size, not its area). A
+ * simple LCG will NOT do here: its byte stream is linear, so deflate
+ * crushes it to a few percent of the raw size.
+ */
+function noisePng(w, h) {
+  const stride = w * 3;
+  const raw = crypto.randomBytes((1 + stride) * h);
+  for (let y = 0; y < h; y += 1) raw[y * (1 + stride)] = 0; // filter: none
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(w, 0);
+  ihdr.writeUInt32BE(h, 4);
+  ihdr[8] = 8;
+  ihdr[9] = 2;
+  const body = Buffer.concat([
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+    pngChunk('IHDR', ihdr),
+    pngChunk('IDAT', zlib.deflateSync(raw)),
+    pngChunk('IEND', Buffer.alloc(0)),
+  ]);
+  if (!pngMagic(body)) throw new Error('noise PNG writer produced bad magic');
+  return body;
+}
+
 /* ---------------- browser setup (follows e2e.mjs) ---------------- */
 
 const errorWatch = [];
@@ -173,15 +213,30 @@ watchErrors(sw, 'service-worker');
  * light theme. Everything else (editor, lazy Copy module, clipboard) is
  * the real shipped code.
  */
-async function openAnnotate(pngBase64, label) {
+async function openAnnotate(pngBase64, label, opts = {}) {
   const page = await ctx.newPage();
   watchErrors(page, `annotate-${label}`);
-  await page.addInitScript((b64) => {
-    window.__capDataUrl = `data:image/png;base64,${b64}`;
+  await page.addInitScript((cfg) => {
+    window.__capDataUrl = `data:image/png;base64,${cfg.b64}`;
+    // Platform override (the parts-e2e precedent): report a Windows
+    // platform to the page's own navigator before any page script runs.
+    if (cfg.platform) {
+      try {
+        Object.defineProperty(navigator, 'userAgentData', { value: { platform: cfg.platform }, configurable: true });
+        Object.defineProperty(navigator, 'platform', { value: cfg.platform, configurable: true });
+      } catch { /* best effort */ }
+    }
     const origSend = chrome.runtime.sendMessage.bind(chrome.runtime);
     chrome.runtime.sendMessage = (msg, cb) => {
       if (msg && msg.type === 'GET_CAPTURE') {
-        setTimeout(() => cb({ ok: true, dataUrl: window.__capDataUrl }), 0);
+        setTimeout(() => cb({
+          ok: true,
+          dataUrl: window.__capDataUrl,
+          width: cfg.width || 0,
+          height: cfg.height || 0,
+          partIndex: cfg.partIndex || 0,
+          partTotal: cfg.partTotal || 0,
+        }), 0);
         return;
       }
       if (msg && msg.type === 'GET_SETTINGS') {
@@ -190,7 +245,14 @@ async function openAnnotate(pngBase64, label) {
       }
       return origSend(msg, cb);
     };
-  }, pngBase64);
+  }, {
+    b64: pngBase64,
+    platform: opts.platform || '',
+    width: opts.width || 0,
+    height: opts.height || 0,
+    partIndex: opts.partIndex || 0,
+    partTotal: opts.partTotal || 0,
+  });
   await page.goto(`chrome-extension://${extId}/pages/annotate.html#e2e-cap`);
   await page.waitForSelector('#content:not([hidden])', { timeout: 15000 });
   // The Copy module loads lazily; give it a moment, then require success.
@@ -344,6 +406,80 @@ try {
   await p3.close();
 } catch (e) {
   phase('C3 clipboard failure path', false, { note: e.message.slice(0, 200) });
+}
+
+/* ------------- C4: editor Windows clipboard note (Phase C3) ------------- */
+
+try {
+  const largeB64 = flatPng(2000, 1500, 30, 60, 90).toString('base64'); // 3 MP, over the ~2 MP rule
+  const pWinLarge = await openAnnotate(largeB64, 'note-win-large', { platform: 'Win32', width: 2000, height: 1500 });
+  const noteShown = await pWinLarge.evaluate(() => {
+    const n = document.getElementById('windowsNote');
+    return n ? { hidden: n.hidden, text: n.textContent } : null;
+  });
+  phase('C4 editor note shown for a large image on Windows',
+    !!noteShown && noteShown.hidden === false && noteShown.text === msg('en', 'copy_windowsNote'),
+    { note: noteShown ? `hidden=${noteShown.hidden} text=${String(noteShown.text).slice(0, 50)}...` : 'note element missing' });
+  await pWinLarge.close();
+
+  const pWinSmall = await openAnnotate(smallB64, 'note-win-small', { platform: 'Win32', width: 640, height: 480 });
+  const smallHidden = await pWinSmall.evaluate(() => document.getElementById('windowsNote').hidden);
+  phase('C4 editor note hidden for a small image on Windows', smallHidden === true,
+    { note: `hidden=${smallHidden}` });
+  await pWinSmall.close();
+
+  const pLinuxLarge = await openAnnotate(largeB64, 'note-linux-large', { width: 2000, height: 1500 });
+  const linuxHidden = await pLinuxLarge.evaluate(() => document.getElementById('windowsNote').hidden);
+  phase('C4 editor note hidden for a large image on non-Windows', linuxHidden === true,
+    { note: `hidden=${linuxHidden}` });
+  await pLinuxLarge.close();
+
+  const partB64 = flatPng(200, 120, 90, 60, 30).toString('base64');
+  const pWinPart = await openAnnotate(partB64, 'note-win-part', {
+    platform: 'Win32', width: 200, height: 120, partIndex: 1, partTotal: 3,
+  });
+  const partShown = await pWinPart.evaluate(() => document.getElementById('windowsNote').hidden);
+  phase('C4 editor note shown for a capture part on Windows', partShown === false,
+    { note: `hidden=${partShown}` });
+  await pWinPart.close();
+} catch (e) {
+  phase('C4 editor Windows clipboard note', false, { note: e.message.slice(0, 200) });
+}
+
+/* ------------- C5: large-copy toast on Windows (Phase C3) ------------- */
+
+try {
+  const noise = noisePng(1600, 1200); // 1.92 MP (no downscale), multi-MB PNG
+  if (noise.length <= 3_500_000) throw new Error(`fixture error: noise PNG only ${noise.length} bytes`);
+  const noiseB64 = noise.toString('base64');
+  const pWin = await openAnnotate(noiseB64, 'toast-win-large', { platform: 'Win32', width: 1600, height: 1200 });
+  await pWin.click('#btnCopy');
+  await pWin.waitForSelector('.toast', { timeout: 20000 });
+  const toastWin = await lastToast(pWin);
+  phase('C5 large-copy toast text on Windows',
+    toastWin === msg('en', 'copy_windowsToast'),
+    { note: `png=${noise.length}B toast=${toastWin.slice(0, 90)}` });
+  // The normal toast is gone after ~2.6 s; this one must outlive it.
+  await pWin.waitForTimeout(3200);
+  const stillThere = await pWin.evaluate(() => {
+    const els = document.querySelectorAll('.toast');
+    return els.length ? els[els.length - 1].textContent : null;
+  });
+  phase('C5 large-copy toast outlives the normal toast duration',
+    stillThere === msg('en', 'copy_windowsToast'),
+    { note: stillThere ? 'still visible after 3.2s' : 'toast already gone after 3.2s' });
+  await pWin.close();
+
+  const pLin = await openAnnotate(noiseB64, 'toast-linux-large', { width: 1600, height: 1200 });
+  await pLin.click('#btnCopy');
+  await pLin.waitForSelector('.toast', { timeout: 20000 });
+  const toastLin = await lastToast(pLin);
+  phase('C5 large copy on non-Windows keeps the short toast',
+    toastLin === msg('en', 'copySuccess'),
+    { note: toastLin.slice(0, 90) });
+  await pLin.close();
+} catch (e) {
+  phase('C5 large-copy toast', false, { note: e.message.slice(0, 200) });
 }
 
 /* ---------------- C8: zero console/page errors ---------------- */

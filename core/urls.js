@@ -280,6 +280,21 @@ export function isPrivateNetworkFetchBlocked(url, pageUrl) {
 }
 
 /**
+ * F1: redirect re-check. The pre-flight check above vets the URL a
+ * fetch STARTS at, but fetch() follows redirects silently: a public
+ * URL can bounce the request to a private address the original check
+ * would have refused. After a fetch completes, its final URL
+ * (response.url) must pass the same rule before the body is used.
+ * Non-network final URLs (data:, blob:, extension pages, or an empty
+ * url on an opaque response) have no host to re-check and pass.
+ */
+export function isRedirectBlocked(finalUrl, pageUrl) {
+  if (typeof finalUrl !== 'string' || !finalUrl) return false;
+  if (!/^https?:\/\//i.test(finalUrl)) return false;
+  return isPrivateNetworkFetchBlocked(finalUrl, pageUrl);
+}
+
+/**
  * J1: Google Lens safety guard. Returns a NOTICE code when the image URL
  * must NOT be sent to Google, or null when it may be sent. Page-local
  * data:/blob: URLs are meaningless to Lens; private-network URLs

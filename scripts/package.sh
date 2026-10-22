@@ -25,8 +25,16 @@ python3 scripts/validate.py
 for t in tests/test-*.mjs; do
   echo "-- $t"
   # test-svg-real-dom.mjs self-skips when jsdom is absent; give it jsdom when present.
-  if [ -d "$HOME/workspace/imgfetch-testdeps/node_modules" ]; then
-    NODE_PATH="$HOME/workspace/imgfetch-testdeps/node_modules${NODE_PATH:+:$NODE_PATH}" node "$t" || exit 1
+  # Optional: set IMGFETCH_TESTDEPS to a folder whose node_modules holds the
+  # dev-only test dependencies (jsdom). Unset: the jsdom suite self-skips.
+  if [ -n "${IMGFETCH_TESTDEPS:-}" ]; then
+    if [ -d "$IMGFETCH_TESTDEPS/node_modules" ]; then
+      NODE_PATH="$IMGFETCH_TESTDEPS/node_modules${NODE_PATH:+:$NODE_PATH}" node "$t" || exit 1
+    else
+      echo "ERROR: IMGFETCH_TESTDEPS is set but '$IMGFETCH_TESTDEPS/node_modules' does not exist." >&2
+      echo "Unset IMGFETCH_TESTDEPS (the jsdom suite then self-skips) or point it at the right folder." >&2
+      exit 1
+    fi
   else
     node "$t" || exit 1
   fi
@@ -41,14 +49,14 @@ mkdir -p "$DIST"
 
 # Store zip contents (I3): manifest, code folders, icons, licence and the
 # user-facing docs only. Excluded: assets/, docs/history, docs/tests,
-# docs/ARCHITECTURE.md, docs/BUILD.md, docs/PERFORMANCE.md,
-# docs/SECURITY_MODEL.md, SECURITY.md, tests/, scripts/, store-assets/,
+# docs/architecture.md, docs/build.md, docs/performance.md,
+# docs/security-model.md, SECURITY.md, tests/, scripts/, store-assets/,
 # results JSON, dist/.
 INCLUDE=(
   manifest.json
   background content core offscreen options pages popup shared icons _locales
   LICENSE README.md PRIVACY.md TERMS.md CHANGELOG.md
-  docs/USER_GUIDE.md docs/PERMISSIONS.md docs/LIMITATIONS.md
+  docs/user-guide.md docs/permissions.md docs/limitations.md
 )
 
 for TARGET in chrome edge; do

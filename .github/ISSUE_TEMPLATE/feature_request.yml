@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a new feature or an improvement to ImgFetch.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing an improvement. Describe the problem first,
+        then your idea. ImgFetch has fixed product rules: no accounts,
+        no sign-in, no tracking, and all processing stays on the device.
+        Proposals that need a server or user data cannot be accepted.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what makes it hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should ImgFetch do? Describe the behavior you would like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you thought about, and any workaround you use today.
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else that may help, such as example pages, screenshots, or similar features elsewhere.
+    validations:
+      required: false

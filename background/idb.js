@@ -98,4 +98,11 @@ export const idb = {
   all(storeName) {
     return tx(storeName, 'readonly', (store) => promisify(store.getAll()));
   },
+  /**
+   * All keys in a store, without reading the payloads. Pruning only needs
+   * to know which records exist, never their (multi-MB) contents.
+   */
+  keys(storeName) {
+    return tx(storeName, 'readonly', (store) => promisify(store.getAllKeys()));
+  },
 };
