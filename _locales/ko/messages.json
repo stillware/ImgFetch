@@ -1,0 +1,2186 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: 스마트 이미지 다운로더. 이미지를 최고 품질로 저장하고, 전체 페이지를 스캔하며, 스크린샷을 캡처하세요.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch 스마트 이미지 다운로더",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "한국어",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "자동 (브라우저 언어)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "취소",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "확인",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "로드 중",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "알 수 없는 크기",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch가 시작 중입니다. 잠시 후 다시 시도해 주세요.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "문제가 발생했습니다. 다시 시도해 주세요.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "이미지",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "스마트 이미지 다운로더",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "ImgFetch 탐색",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "홈",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "다운로드 기록",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "ImgFetch 설정",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "어떤 페이지에서든 이미지 가져오기",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "페이지를 스캔하고 원하는 것을 선택한 뒤, 사용 가능한 최고 버전을 저장하세요.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "이 페이지 스캔",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "스크린샷",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "보이는 페이지 캡처",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "보이는 영역",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "선택 영역 캡처",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "영역",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "요소 캡처",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "요소",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "전체 페이지 캡처",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "전체 페이지",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "스캔 중",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "페이지를 스캔하는 중…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "이미지 찾는 중",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "지금까지 {done}개 찾음…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "결과",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "이미지 검색…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "크기 필터",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "모든 크기",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400px 이상",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200px 이상",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "형식 필터",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "모든 형식",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "방향 필터",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "모든 방향",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "가로",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "세로",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "정사각형",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "이미지 정렬",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "페이지 순서",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "큰 순서대로",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "작은 순서대로",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "모두 선택",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "선택 해제",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "반전",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "찾은 이미지",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "다운로드 품질",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "스마트 다운로드",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "보이는 대로",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "다운로드 형식",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "원본 형식",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "일괄 다운로드 시 최고 품질 시도",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "다운로드 전에 각 이미지의 더 높은 품질 원본을 찾습니다. 느려지며 일부 사이트에서는 요청 제한이 발생할 수 있습니다.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_captureProgressAria": {
+    "message": "전체 페이지 캡처 진행 상황",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "중지",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "중지 중…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
+  "popup_download": {
+    "message": "선택 다운로드",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "{count}개 이미지 다운로드",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "선택 항목을 ZIP으로 다운로드",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "선택한 이미지를 하나의 .zip 파일로 묶습니다. 페이지에 보이는 그대로입니다 (ZIP 안에서는 스마트 품질 업그레이드 없음)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "다시 스캔",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "{count}개 이미지 찾음",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "이 페이지에서 이미지를 찾지 못했습니다.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "이미지를 찾지 못했습니다. 크기 필터가 작은 이미지 {dropped}개를 건너뛰었습니다. 설정 → 스캔에서 낮추세요.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "이 필터에 맞는 이미지가 없습니다.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "{shown}개 표시 · {total}개 찾음",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "{count}개 중복 제거됨",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "{count}개 UI 요소 숨겨짐",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count}개가 필터에 의해 숨겨짐",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "{shown}/{total}개 표시 중, 스크롤하면 더 보기",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (지원 안 됨)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count}개 다운로드 진행 중",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "다운로드 보기",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "이 페이지에서 {count}개 이미지 찾음",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "결과 보기",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "이미지 미리보기",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "미리보기 닫기",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "미리보기",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "{name} 미리보기",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "크기",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "형식",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "출처",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "배경 이미지",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "페이지 이미지",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "알 수 없음",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "PNG로 저장",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "JPEG로 저장",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "WebP로 저장",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "AVIF로 저장",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "원본 열기",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "이미지 정보",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "이 이미지는 탭에서 열 수 없습니다.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "다운로드",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "준비 중…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "실패한 항목 다시 시도",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "완료 항목 지우기",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "결과로 돌아가기",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "대기열이 비어 있습니다.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "{done}/{total} 저장됨",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed}개 실패",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "대기 중",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "진행 중",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "완료",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "실패",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "취소됨",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "폴더에서 보기",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "다운로드가 중단되었습니다.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "다운로드 기록",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "지우기",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "기록",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "다운로드 기록을 지울까요?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "ImgFetch가 다운로드한 파일 목록이 삭제됩니다. 파일 자체는 기기에 남습니다.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "기록 지우기",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "기록이 지워졌습니다.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "아직 다운로드가 없습니다. 저장한 이미지가 여기에 표시됩니다.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "아직 아무것도 없습니다.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "오늘",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "어제",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "ImgFetch 다운로드 대기열에 추가되었습니다.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "클립보드에 복사되었습니다.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "복사하지 못했습니다. 다시 시도하세요.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch가 이 사이트에서 일시 중지되었습니다.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch가 이 사이트에서 일시 중지되었습니다(사이트 환경설정 참조).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "변환에 실패해 원본이 저장되었습니다.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "원본을 찾지 못해 사용 가능한 최고 버전을 사용했습니다.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens를 열지 못했습니다. 다시 시도하세요.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens가 열렸습니다. 이미지 링크(Ctrl+V)를 링크 상자에 붙여넣으세요.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "완료.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "이미지 링크가 복사되었습니다.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "먼저 일반 웹 페이지를 연 뒤 다시 시도하세요.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "이 이미지 링크는 안전하지 않아 보입니다. ImgFetch가 건너뛰었습니다.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch가 여기에서 사용 가능한 이미지를 찾지 못했습니다.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "웹사이트가 이 이미지 저장을 허용하지 않았습니다.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch가 이 이미지를 변환하지 못했습니다. 대신 원본이 저장되었습니다.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch가 이 이미지를 GIF로 인코딩하지 못했습니다. 저장된 것이 없습니다.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "이 브라우저에서는 AVIF 인코딩을 사용할 수 없습니다 (Chrome/Edge 130+ 필요, 활성화하려면 브라우저를 업데이트하세요). 대신 PNG가 저장되었습니다.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "이 페이지는 하나의 이미지로 캡처하기에 너무 큽니다.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch가 원본을 확실히 찾지 못했습니다. 사용 가능한 최고 버전을 사용했습니다.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch가 이 페이지를 스캔하지 못했습니다. 페이지를 새로고침한 뒤 다시 스캔하세요.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch가 이 페이지를 캡처하지 못했습니다.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "다운로드가 시작되지 않았습니다. 다시 시도하세요.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "취소되었습니다.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "너무 오래 걸렸습니다. 다시 시도하세요.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "로컬 네트워크를 보호하기 위해 ImgFetch가 사설 네트워크 주소(localhost나 라우터 페이지 등)로의 요청을 차단했습니다.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch가 이 사이트에서 일시 중지되었습니다. 설정 → 사이트 환경설정에서 다시 켜세요.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "문제가 발생했습니다. 다시 시도하세요.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "설정",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "설정 섹션",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "일반",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "다운로드",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "품질",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "파일 이름",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "스캔",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "스크린샷",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "사이트 환경설정",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "키보드 단축키",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "폴더",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "다운로드 기록",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "백업 및 재설정",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "정보",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "개인정보 보호",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "ImgFetch 설정",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - ImgFetch 설정",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "설정 섹션",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "저장 중…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "모든 변경 사항이 저장되었습니다",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "저장에 실패했습니다. 다시 시도하세요",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "언어",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "모든 설정을 재설정할까요?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "모든 ImgFetch 설정이 기본값으로 돌아갑니다. 다운로드 기록은 유지됩니다.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "설정 재설정",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "설정이 재설정되었습니다.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ImgFetch의 모양과 동작.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "모양",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "시스템",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "밝게",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "어둡게",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "다운로드 완료 후",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "조용히 유지",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "알림 표시",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "완료되면 다운로드 패널 닫기",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "각 다운로드가 끝난 뒤 잠시 후 진행 화면이 홈 화면으로 접힙니다.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "파일이 기기에 저장되는 방식.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "각 파일의 저장 위치 묻기",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "다운로드할 때마다 브라우저의 저장 대화상자를 표시합니다.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "실패한 다운로드 자동 다시 시도",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "다운로드가 시작되지 않으면 ImgFetch가 스스로 한 번 더 시도합니다.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "동시 다운로드 수:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "이미지가 많을수록 높을수록 빠르지만, 일부 사이트에서는 제한될 수 있습니다.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch는 검증할 수 있는 최고의 실제 원본을 저장합니다. 이미지를 절대 확대하지 않습니다.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "스마트 품질 선택",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "스마트 다운로드 (권장)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "사용 가능한 모든 원본을 검사하고 검증할 수 있는 최고의 실제 버전을 저장합니다.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "정확한 원본 우선",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "추가 품질 검사를 건너뛰고 페이지에 표시된 이미지 그 자체를 저장합니다. 더 빠르고 더 프라이빗합니다.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "JPG 품질:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "PNG 품질:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "WebP 품질:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "JPG로 변환할 때 사용됩니다. 높을수록 파일이 커집니다.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100%는 무손실입니다. 낮을수록 색상이 줄어 파일이 작아집니다.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "WebP로 변환할 때 사용됩니다.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "기타 형식",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "최고 품질, 항상 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "고정 256색 팔레트 (ImgFetch 자체 인코더).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "무압축, 항상 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "이미지를 감싸는 벡터 래퍼.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch는 파일 이름을 항상 안전하게 만듭니다. 이상한 문자는 절대 사용하지 않습니다.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "이름 지정",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "원본 이름 유지",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "이미지 자체의 정리된 파일 이름을 사용합니다.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "사이트 + 날짜 + 번호",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "예: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "사용자 지정 템플릿",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "아래에서 나만의 패턴을 만드세요.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "사용자 지정 템플릿",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "사용 가능한 토큰",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "다운로드 전에 파일 이름 변경 허용",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "우클릭 메뉴에서 단일 다운로드 전에 미리보기가 있는 작은 이름 변경 시트를 엽니다.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "ImgFetch가 페이지에서 이미지를 찾는 방법.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "이보다 작은 이미지 건너뛰기",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "건너뛰지 않음",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "중간 (400px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "큼 (1200px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "매우 큼 (2000px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "결과에서 작은 아이콘과 간격 이미지를 숨깁니다. 스캔할 때마다 변경할 수 있습니다.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "배경 이미지 포함",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "페이지 배경으로 사용된 이미지도 찾습니다 (거대한 페이지에서는 느림).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "스캔 깊이",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "로드된 페이지",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "페이지 스크롤",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "로드된 페이지: 이미 로드된 이미지만 스캔합니다 (가장 빠름). 페이지 스크롤: 먼저 페이지를 잠시 스크롤해 지연 로드 이미지를 드러낸 뒤, 위치를 복원합니다.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "중복 이미지 제거",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "같은 이미지가 여러 크기로 나타나면 가장 큰 것만 남기고 나머지를 숨깁니다.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "페이지 캡처의 기본값.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "기본 형식",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "품질:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "지금 캡처",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "보이는 영역",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "영역 선택",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "요소 캡처",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "전체 페이지",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“영역 선택”은 현재 페이지에 실제 선택 레이어를 열어 사각형을 드래그하고, Esc로 취소합니다. “요소 캡처”는 아무 요소나 클릭해 그 요소만 정확히 캡처할 수 있게 합니다.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "캡처 후 주석 편집기 열기",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "저장 전에 화살표를 그리거나, 텍스트를 추가하거나, 스크린샷의 일부를 흐리게 할 수 있습니다.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "보이는 영역을 캡처했습니다",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "영역을 캡처했습니다",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "요소를 캡처했습니다",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "전체 페이지를 캡처했습니다",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, 저장하려면 미리보기 탭을 확인하세요.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "특정 웹사이트에 고유한 다운로드 동작을 지정합니다.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "웹사이트 도메인",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "현재 사이트 사용",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "추가",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "스마트는 이 사이트에서 최고의 실제 원본을 찾습니다 · 보이는 대로는 이미지를 보이는 그대로 저장합니다 · 일시 중지는 이 사이트에서 ImgFetch 다운로드를 끕니다.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "아직 사이트 환경설정이 없습니다.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "스마트",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "보이는 대로",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "일시 중지",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "제거",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "{host}의 동작",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "웹사이트 도메인을 입력하세요(예: example.com).",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host}가 추가되었습니다.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "현재 사이트를 읽지 못했습니다.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "현재 사이트: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "현재 ImgFetch에 할당된 키보드 단축키.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "로드 중…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "이 페이지 스캔",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "이 페이지 스캔 (대체)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "요소 선택",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "선택 영역 캡처",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "요소 캡처",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "등록된 단축키가 없습니다.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "설정 안 됨",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "단축키 페이지 링크 복사",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "단축키를 변경하려면 chrome://extensions/shortcuts (Edge에서는 edge://extensions/shortcuts)를 열고 ImgFetch를 찾아 원하는 키로 설정하세요. Mac에서는 Ctrl 대신 ⌘을 사용하세요. 단축키가 “설정 안 됨”으로 표시되면 제안된 키가 브라우저나 다른 확장 프로그램과 충돌한 것이므로 여기에서 수동으로 설정하세요.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "단축키를 읽지 못했습니다.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "단축키 페이지 링크가 복사되었습니다. 주소 표시줄에 붙여넣으세요.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "파일은 브라우저의 다운로드 폴더에 저장됩니다. 이 옵션으로 더 정리할 수 있습니다.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "다운로드 정리 위치",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "한 곳 (스마트 폴더 없음)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "사이트별 폴더",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "유형별 스마트 폴더",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "날짜별 폴더",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "스마트 폴더는 자동으로 분류합니다: 사진, 스크린샷, GIF, 그래픽. “사이트별” 예: 다운로드 / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "기본 하위 폴더 사용",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "켜면 모든 항목이 먼저 이 폴더 안에 저장되고, 위 정리가 추가됩니다.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "하위 폴더 이름",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "예: ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "예: 다운로드 / ImgFetch / example.com / photo.jpg. 스위치가 꺼져 있는 동안은 무시됩니다.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "저장한 항목의 간단한 목록으로, 팝업에 표시됩니다.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "최근 다운로드",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "다운로드 기록 유지",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "각 다운로드의 파일 이름, 사이트, 형식, 크기를 저장합니다.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "기록 유지 기간 (일)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "이보다 오래된 항목은 자동으로 삭제됩니다.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "지금 지우기",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "다운로드 기록 지우기",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "모든 기록 항목을 즉시 삭제합니다. 다운로드한 파일에는 영향이 없습니다.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "기록을 지우지 못했습니다.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "설정을 가져가거나 새로 시작하세요.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "설정 내보내기",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "모든 설정이 담긴 imgfetch-settings.json 파일을 다운로드합니다.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "설정을 내보냈습니다.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "설정 가져오기",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "가져올 설정 파일",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "ImgFetch 내보내기 파일에서 설정을 복원합니다. 잘못된 파일은 안전하게 거부됩니다.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "설정을 가져왔습니다.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "이 파일은 유효한 ImgFetch 설정 내보내기 파일이 아닙니다.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "기본값으로 재설정",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "모두 재설정",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "먼저 확인을 요청한 뒤 모든 ImgFetch 기본값을 복원합니다. 위에서 기록을 지우지 않는 한 기록은 유지됩니다.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "버전",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "라이선스",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "권한",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch가 액세스할 수 있는 항목과 이유:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "우클릭 메뉴에 ImgFetch 항목을 추가합니다.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "이미지 파일을 다운로드 폴더에 저장합니다.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "이 기기에서 설정과 기록을 기억합니다.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "요청한 페이지를 스캔해 이미지를 찾습니다.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "현재 열린 탭과 함께 작동합니다.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "백그라운드에서 이미지 형식을 변환합니다.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "다운로드가 끝나면 알려줍니다 (켰을 때만).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "대신 이미지 링크를 클립보드에 복사합니다.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "방문한 사이트의 이미지를 읽습니다. 페이지를 스캔하거나 다운로드를 시작할 때만입니다.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "문서",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "문서, 개인정보처리방침, 이용약관은 공개 리포지토리에 있습니다:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch에는 서버가 없으며 아무것도 수집하지 않습니다. 다운로드하기로 선택한 이미지만 가져오고, Google Lens(클릭했을 때만)는 이미지 주소로 Google을 엽니다. 전체 설명은 리포지토리의 PRIVACY.md를 참조하세요.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch는 모든 것을 기기에 보관합니다. 계정 없음, 추적 없음, 분석 없음.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ImgFetch가 저장하는 항목",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "설정, 사이트 환경설정, 다운로드 기록은 브라우저의 로컬 저장소에 저장되며, 이 기기에만 존재합니다.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "다운로드한 이미지는 바로 다운로드 폴더로 들어갑니다. ImgFetch는 어디에도 업로드하지 않습니다.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "ImgFetch가 절대 하지 않는 것",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "계정 없음, 로그인 없음. 로그인할 곳이 없습니다.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "분석 없음, 텔레메트리 없음, 충돌 보고서 없음.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "원격 코드 없음. 모든 스크립트는 확장 프로그램 패키지 안에 있습니다.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "이미지는 일반 브라우저 세션을 사용해 방문한 사이트에서 직접 가져옵니다. ImgFetch는 추적 매개변수를 추가하지 않습니다.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "ImgFetch가 각 권한을 요청하는 이유는 정보 섹션에 설명되어 있으며, 전체 설명은 공개 리포지토리의 PRIVACY.md에 있습니다.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "스크린샷에 주석 달기",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "스크린샷을 로드하는 중…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "주석 도구",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "펜",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "화살표",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "사각형",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "원",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "텍스트",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "모자이크",
+    "description": "Annotate tool: pixelate."
+  },
+  "tool_crop": {
+    "message": "자르기",
+    "description": "Annotate tool: crop."
+  },
+  "color_red": {
+    "message": "빨간색",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "주황색",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "초록색",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "파란색",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "검은색",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "흰색",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "얇게",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "보통",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "굵게",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "실행 취소",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "다시 실행",
+    "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "실행 취소 (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
+  },
+  "redo_title": {
+    "message": "다시 실행 (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "지우기",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "텍스트를 입력하고 Enter를 눌러 배치",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "텍스트 취소",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "저장",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "버리기",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "팁: 이미지 위에 드래그해 그립니다. 텍스트 도구: 텍스트가 들어갈 곳을 클릭하고 입력한 뒤 Enter를 누릅니다. 배치된 텍스트를 클릭해 선택하고, 드래그해 이동하며, Delete나 Backspace로 삭제합니다. 흐리게: 숨길 영역 위에 드래그합니다.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "모자이크는 호기심 많은 눈으로부터 세부 정보를 숨기지만, 되돌릴 수 있는 경우가 있으니 민감한 텍스트에는 사용하지 마세요.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "스크린샷이 저장되었습니다.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "저장에 실패했습니다.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "이 편집기 링크는 유효하지 않습니다.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "스크린샷을 로드하지 못했습니다.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "자르기 (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "적용",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "자르기 선택 영역",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "자르기 크기: {width} x {height} 픽셀",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "이미지를 불러올 수 없어 자르기를 사용할 수 없습니다.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "왼쪽 위 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "위쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "오른쪽 위 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "오른쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "오른쪽 아래 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "아래쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "왼쪽 아래 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "왼쪽 크기 조절 핸들",
+    "description": "Annotate crop: accessibility label of the left resize handle."
+  },
+  "capture_subtitle": {
+    "message": "스크린샷 미리보기",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "스크린샷을 준비하는 중…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "스크린샷 미리보기",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "스크린샷 저장",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "클립보드에 복사",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "보이는 페이지 다시 캡처",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "영역 다시 캡처",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "버리기",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "이 미리보기 링크는 유효하지 않습니다.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} 픽셀",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "스크린샷 준비 완료",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} 저장됨",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "스크린샷이 클립보드에 복사되었습니다.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "스크린샷을 복사하지 못했습니다.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "이미지 정보",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "이미지 세부 정보를 읽는 중…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "직접 링크",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "링크 복사",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "JPG로 저장",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "이미지가 지정되지 않았습니다.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "파일 이름",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "크기",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "표시 크기",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "대체 텍스트",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "카메라",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "촬영일",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "전체 크기",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "위치",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "사진 세부 정보",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "이 사진에는 GPS 좌표가 포함되어 있습니다. 원본 파일을 공유하면 촬영된 정확한 위치가 공유됩니다. 깨끗한 복사본은 “메타데이터 없이 저장”을 사용하세요.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "메타데이터 없이 저장",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "메타데이터 없는 복사본이 저장되었습니다.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "메타데이터를 제거하지 못했습니다.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "선택한 링크를 수동으로 복사하세요.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "다운로드 이름 지정",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "파일 이름",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "다운로드",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "{format}(으)로 저장됩니다. 올바른 확장자가 자동으로 추가됩니다.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "원본 형식",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "ImgFetch에 오신 것을 환영합니다",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "스마트 이미지 다운로더입니다. 어떤 이미지든 사용 가능한 최고 버전으로 저장하고, 전체 페이지를 한 번에 스캔하며, 스크린샷을 캡처하세요. 모두 하나의 깔끔한 메뉴에서.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "아무 이미지나 우클릭",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "ImgFetch 메뉴에서 이미지를 보이는 대로, 최고 품질로, 또는 원본으로 다운로드하거나, 그 자리에서 PNG, JPG, WebP로 변환할 수 있습니다.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "페이지 스캔 및 스크린샷",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "도구 모음의 ImgFetch 버튼을 클릭해 전체 페이지를 스캔해 이미지를 찾거나, 보이는 페이지나 선택한 영역의 스크린샷을 찍으세요.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "페이지 스캔",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "영역 캡처",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "내 것으로 만들기",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "다섯 가지 빠른 선택, 나머지는 모두 합리적인 기본값이 있습니다. 설정에서 언제든 변경할 수 있습니다.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "스크린샷 후 편집기 열기",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "저장 전에 화살표를 그리거나, 텍스트를 추가하거나, 흐리게 하세요.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "다운로드 완료 시",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "알려주기",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "하위 폴더에 저장",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "비어 있음 = 바로 다운로드 폴더에.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "하위 폴더 이름",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "단일 다운로드 전에 파일 이름 묻기",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "전체 설정 열기 →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "뒤로",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "다음",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "ImgFetch 사용 시작",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "ImgFetch를 즐기세요!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "설정 안 됨, 브라우저 단축키 설정에서 지정하세요",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "드래그해 선택: 화살표로 이동, Shift+화살표로 크기 조절, Enter로 확정, Esc로 취소",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "요소를 클릭해 캡처, Esc로 취소",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "요소를 클릭해 이미지 확인, Esc로 취소",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "다른 이름으로 저장...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (임베디드 이미지)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "이미지 링크 복사",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "이미지 복사",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "이미지 정보",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "더 보기...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "원본 열기",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Google Lens로 이미지 검색",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "이 페이지 스캔",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "스크린샷",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "보이는 영역 캡처",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "영역 선택",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "전체 페이지",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "요소 캡처",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "사이트 환경설정 추가",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "이 사이트에서 사용 안 함",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "설정",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} 저장됨",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "이미지를 형식 간에 변환하고, 스크린샷을 자르며, 이미지 링크를 복사합니다.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch가 다시 시작되어 대기열의 다운로드 {resumed}개를 재개했습니다{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", {failed}개 실패",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "{format}(으)로 변환 중…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "참고: 애니메이션 이미지는 정지 프레임으로 저장됩니다.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "다운로드 중…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "ZIP 다운로드 중…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "ZIP 준비 중 ({count}개 이미지{cappedNote}, 보이는 대로)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": "({total}개 중 처음 200개)",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ZIP 다운로드됨 ({count}개 이미지).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ZIP 다운로드됨 ({count}/{total}개 이미지, {skipped}개 건너뜀).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "최고 품질 찾는 중…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch가 최고 품질 버전을 사용하지 못했습니다. 다른 사용 가능한 원본을 시도하는 중…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "성공적으로 다운로드되었습니다.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "이 요소는 화면보다 길어 보이는 부분만 캡처되었습니다. 나머지는 전체 페이지를 사용하세요.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "이 페이지는 매우 길어 처음 {tileCount}개 타일(상단)만 캡처됩니다. 나머지는 영역 캡처를 사용하세요.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "이 페이지는 매우 커서 메모리 제한에 맞게 전체 페이지 이미지를 {percent}%로 축소했습니다.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "전체 페이지 캡처 중, 타일 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "전체 페이지를 캡처했습니다 ({width} × {height}px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "이미지 자체를 복사하지 못해 대신 링크를 복사했습니다.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "이미지 링크를 복사하지 못했습니다.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host}가 사이트 환경설정에 추가되었습니다.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch가 {host}에서 일시 중지되었습니다.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch는 일반 웹페이지만 스캔할 수 있으며, chrome://, edge:// 또는 웹 스토어 같은 브라우저 페이지는 지원되지 않습니다.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch는 일반 웹페이지에서만 요소를 선택할 수 있으며, chrome://, edge:// 또는 웹 스토어 같은 브라우저 페이지는 지원되지 않습니다.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "선택한 요소에서 이미지를 찾지 못했습니다.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "복사",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "편집한 스크린샷을 클립보드에 복사",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "스크린샷이 클립보드에 복사되었습니다.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "스크린샷이 클립보드에 복사되었습니다. 맞게 {width} x {height}로 축소되었습니다.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "스크린샷을 복사하지 못했습니다. 대신 저장해 보세요.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "지금은 복사를 사용할 수 없습니다.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "이 페이지에서는 {mode}을(를) 사용할 수 없습니다. 보이는 부분을 캡처했습니다.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "브라우저에서 이 페이지를 캡처할 수 없습니다.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "파트 {count} / {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "이 페이지는 매우 깁니다. 전체 해상도로 {count}개 부분으로 캡처합니다.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "이 페이지는 매우 깁니다. 처음 {count}개 부분만 캡처했습니다.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "이 페이지의 스크롤 가능한 콘텐츠 영역을 캡처했습니다.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "이 페이지에서 별도로 스크롤되는 섹션은 현재 보이는 상태로 캡처되었습니다.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "다른 사이트의 삽입된 콘텐츠는 보이는 상태로만 캡처할 수 있었습니다.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "캡처가 중지되었습니다. 전체 {total}개 중 {count}개 부분이 저장되었습니다.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "이 이미지가 사용 가능한 메모리에 비해 너무 커서 캡처가 더 작은 부분으로 계속되었습니다.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "안전 한계에 도달하여 캡처가 중지되었습니다. 지금까지 캡처한 부분이 저장되었습니다.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "전체 페이지를 캡처하는 중, 부분 {part}/{partTotal}, 타일 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "스크린샷 파트",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "모두 저장",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "모두 삭제",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "저장",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "편집",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "남은 파트가 없습니다. 이 탭을 닫아도 됩니다.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "모든 파트가 저장되었습니다. 이 탭을 닫아도 됩니다.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "{total}개 중 {current}번째 파트 저장 중…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "전체 {total}개 중 {count}번째 파트 미리보기",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "전체 페이지 스크린샷의 파트 목록",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 편집",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 저장",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 복사",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "전체 {total}개 중 {count}번째 파트 삭제",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height}픽셀 · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "참고: 전체 페이지와 같은 큰 스크린샷은 올바르게 복사되지만 Windows 클립보드 기록(Win+V)에는 나타나지 않습니다. 이는 복사의 문제가 아니라 Windows의 제한입니다. Ctrl+V를 눌러 필요한 곳에 이미지를 붙여 넣으세요.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "복사되었습니다. Ctrl+V를 눌러 붙여 넣으세요. Windows 클립보드 기록(Win+V)에는 큰 이미지가 표시되지 않습니다.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "이미지 {count}개 · 각 {width} × {height}px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "이미지 {count}개 · 크기가 서로 다름",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  }
+}

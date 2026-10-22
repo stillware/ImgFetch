@@ -1,0 +1,2186 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch：スマートな画像ダウンローダー。最高画質で画像を保存し、ページ全体をスキャンし、スクリーンショットを撮影します。",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch スマート画像ダウンローダー",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "日本語",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "自動（ブラウザの言語）",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "キャンセル",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "確認",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "読み込み中",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "不明なサイズ",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch を起動しています。しばらくしてからもう一度お試しください。",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "問題が発生しました。もう一度お試しください。",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "画像",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "スマート画像ダウンローダー",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "ImgFetch ナビゲーション",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "ホーム",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "ダウンロード履歴",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "ImgFetch 設定",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "あらゆるページから画像を取得",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "ページをスキャンし、必要なものを選んで、利用可能な最高のバージョンを保存します。",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "このページをスキャン",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "スクリーンショット",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "表示中のページをキャプチャ",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "表示中",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "選択した領域をキャプチャ",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "領域",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "要素をキャプチャ",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "要素",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "ページ全体をキャプチャ",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "ページ全体",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "スキャン中",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "ページをスキャンしています…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "画像を検索しています",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "これまでに {done} 件見つかりました…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "結果",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "画像を検索…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "サイズフィルター",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "任意のサイズ",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400px 以上",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200px 以上",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "形式フィルター",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "すべての形式",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "向きフィルター",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "任意の向き",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "横向き",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "縦向き",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "正方形",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "画像の並べ替え",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "ページの順序",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "大きい順",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "小さい順",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "すべて選択",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "選択を解除",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "反転",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "見つかった画像",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "ダウンロード品質",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "スマートダウンロード",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "表示どおり",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "ダウンロード形式",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "元の形式",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "一括ダウンロードで最高画質を試す",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "ダウンロード前に各画像のより高画質なソースを探します。遅くなり、一部のサイトではレート制限がかかる場合があります。",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_captureProgressAria": {
+    "message": "ページ全体のキャプチャの進行状況",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "停止",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "停止中…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
+  "popup_download": {
+    "message": "選択をダウンロード",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "{count} 件の画像をダウンロード",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "選択を ZIP でダウンロード",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "選択した画像を 1 つの .zip ファイルにまとめます。ページ上の表示どおりです（ZIP 内ではスマート品質アップは行われません）",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "再スキャン",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "{count} 件の画像が見つかりました",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "このページには画像が見つかりませんでした。",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "画像が見つかりませんでした。サイズフィルターにより {dropped} 件の小さい画像がスキップされました。「設定 → スキャン」で下げてください。",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "これらのフィルターに一致する画像はありません。",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "{shown} 件表示 · 見つかったのは {total} 件",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "{count} 件の重複を削除しました",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "{count} 件の UI 要素を非表示にしました",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} 件がフィルターで非表示",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "{shown}/{total} 件を表示中、スクロールでさらに表示",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}、{dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF（未対応）",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count} 件のダウンロードが進行中",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "ダウンロードを表示",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "このページで {count} 件の画像が見つかりました",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "結果を表示",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "画像プレビュー",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "プレビューを閉じる",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "プレビュー",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "{name} のプレビュー",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "サイズ",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "形式",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "ソース",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "背景画像",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "ページ画像",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "不明",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "PNG として保存",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "JPEG として保存",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "WebP として保存",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "AVIF として保存",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "オリジナルを開く",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "画像情報",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "この画像はタブで開けません。",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "ダウンロード",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "準備中…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "失敗を再試行",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "完了をクリア",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "結果に戻る",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "キューは空です。",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "{done}/{total} を保存しました",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} 件失敗",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "待機中",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "実行中",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "完了",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "失敗",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "キャンセル済み",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "フォルダーで表示",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "ダウンロードが中断されました。",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "ダウンロード履歴",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "クリア",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "履歴",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "ダウンロード履歴をクリアしますか？",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "ImgFetch がダウンロードしたファイルの一覧を削除します。ファイル自体はデバイスに残ります。",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "履歴をクリア",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "履歴をクリアしました。",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "まだダウンロードがありません。保存した画像はここに表示されます。",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "ここにはまだ何もありません。",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "今日",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "昨日",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "ImgFetch のダウンロードキューに追加しました。",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "クリップボードにコピーしました。",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "コピーに失敗しました。もう一度お試しください。",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch はこのサイトで一時停止しています。",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch はこのサイトで一時停止しています（サイト設定を参照）。",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "変換に失敗したため、オリジナルを保存しました。",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "オリジナルが見つからなかったため、利用可能な最高のバージョンを使用しました。",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens を開けませんでした。もう一度お試しください。",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens が開きました。画像のリンク（Ctrl+V）をリンク欄に貼り付けてください。",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "完了。",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "画像のリンクをコピーしました。",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "先に通常のウェブページを開いて、もう一度お試しください。",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "この画像リンクは安全ではないようです。ImgFetch はスキップしました。",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch はここで使用可能な画像を見つけられませんでした。",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "ウェブサイトがこの画像の保存を許可しませんでした。",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch はこの画像を変換できませんでした。代わりにオリジナルを保存しました。",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch はこの画像を GIF としてエンコードできませんでした。何も保存されませんでした。",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "AVIF エンコードはこのブラウザでは利用できません（Chrome/Edge 130+ が必要です。有効にするにはブラウザを更新してください）。代わりに PNG を保存しました。",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "このページは大きすぎて 1 枚の画像にキャプチャできません。",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch はオリジナルを確実に見つけられませんでした。利用可能な最高のバージョンを使用しました。",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch はこのページをスキャンできませんでした。ページを再読み込みしてもう一度スキャンしてください。",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch はこのページをキャプチャできませんでした。",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "ダウンロードが開始されませんでした。もう一度お試しください。",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "キャンセルされました。",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "時間がかかりすぎました。もう一度お試しください。",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ローカルネットワークを保護するため、ImgFetch はプライベートネットワークアドレス（localhost やルーターのページなど）へのリクエストをブロックしました。",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch はこのサイトで一時停止しています。「設定 → サイト設定」で再度有効にしてください。",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "問題が発生しました。もう一度お試しください。",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "設定",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "設定セクション",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "一般",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "ダウンロード",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "品質",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "ファイル名",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "スキャン",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "スクリーンショット",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "サイト設定",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "キーボードショートカット",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "フォルダー",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "ダウンロード履歴",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "バックアップとリセット",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "この拡張機能について",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "プライバシー",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "ImgFetch 設定",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - ImgFetch 設定",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "設定セクション",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "保存中…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "すべての変更を保存しました",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "保存に失敗しました。もう一度お試しください",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "言語",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "すべての設定をリセットしますか？",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "すべての ImgFetch 設定がデフォルトに戻ります。ダウンロード履歴は保持されます。",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "設定をリセット",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "設定をリセットしました。",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ImgFetch の見た目と動作。",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "外観",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "システム",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "ライト",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "ダーク",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "ダウンロード完了後",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "通知しない",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "通知を表示",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "完了したらダウンロードパネルを閉じる",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "各ダウンロード完了後しばらくすると、進捗表示がホーム画面に戻ります。",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "ファイルがデバイスに保存される方法。",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "各ファイルの保存先を確認する",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "ダウンロードのたびにブラウザの保存ダイアログを表示します。",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "失敗したダウンロードを自動で再試行",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "ダウンロードが開始されなかった場合、ImgFetch が自動でもう一度試します。",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "同時ダウンロード数：",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "画像が多いほど数を増やすと速くなりますが、一部のサイトでは制限されることがあります。",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch は検証できる最高の実ソースを保存します。画像を拡大することはありません。",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "スマート品質選択",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "スマートダウンロード（推奨）",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "利用可能なすべてのソースを調べ、検証できる最高の実バージョンを保存します。",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "正確なソースを優先",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "余分な品質チェックをスキップし、ページが表示している画像そのものを保存します。より高速でプライベートです。",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "JPG 品質：",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "PNG 品質：",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "WebP 品質：",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "JPG への変換時に使用します。高いほどファイルが大きくなります。",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% はロスレスです。低い値にすると色数が減り、ファイルが小さくなります。",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "WebP への変換時に使用します。",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "その他の形式",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "最高品質、常に 100%。",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "256 色の固定パレット（ImgFetch 独自エンコーダー）。",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "無圧縮、常に 100%。",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "画像を包むベクターコンテナー。",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch はファイル名を常に安全にします。変な文字は決して使いません。",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "命名",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "元の名前を保持",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "画像自体のクリーンなファイル名を使用します。",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "サイト + 日付 + 番号",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "例：example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "カスタムテンプレート",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "以下で独自のパターンを作成してください。",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "カスタムテンプレート",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "利用可能なトークン",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "ダウンロード前にファイル名を変更させてほしい",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "右クリックメニューからの単体ダウンロードの前に、プレビュー付きの小さな名前変更シートを開きます。",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "ImgFetch がページ内の画像を見つける方法。",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "これより小さい画像をスキップ",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "何もスキップしない",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "中（400px）",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "大（1200px）",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "特大（2000px）",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "結果から小さなアイコンやスペーサーを隠します。スキャンごとにも変更できます。",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "背景画像を含める",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "ページの背景として使われている画像も見つけます（巨大なページでは低速）。",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "スキャンの深さ",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "読み込まれたページ",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "ページをスクロール",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "読み込まれたページ：読み込み済みの画像のみスキャンします（最速）。ページをスクロール：先にページを少しスクロールして遅延読み込みの画像を表示し、元の位置に戻します。",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "重複画像を削除",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "同じ画像が複数サイズで現れた場合、最大のものだけを残し、他を隠します。",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "ページキャプチャのデフォルト。",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "デフォルト形式",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "品質：",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "今すぐキャプチャ",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "表示領域",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "領域を選択",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "要素をキャプチャ",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "ページ全体",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "「領域を選択」は現在のページに実際の選択レイヤーを開きます。四角形をドラッグして、Esc でキャンセルします。「要素をキャプチャ」は任意の要素をクリックして、その要素だけを正確にキャプチャできます。",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "キャプチャ後に注釈エディターを開く",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "保存前に矢印を描いたり、テキストを追加したり、スクリーンショットの一部をぼかしたりできます。",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "表示領域をキャプチャしました",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "領域をキャプチャしました",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "要素をキャプチャしました",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "ページ全体をキャプチャしました",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}、保存するにはプレビュータブをご覧ください。",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "特定のウェブサイトに独自のダウンロード動作を与えます。",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "ウェブサイトのドメイン",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "現在のサイトを使用",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "追加",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "スマートはこのサイトで最高の実ソースを見つけます · 表示どおりは画像を表示どおりに保存します · 一時停止はこのサイトでの ImgFetch ダウンロードをオフにします。",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "サイト設定はまだありません。",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "スマート",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "表示どおり",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "一時停止",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "削除",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "{host} の動作",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "ウェブサイトのドメインを入力してください（例：example.com）。",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} を追加しました。",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "現在のサイトを読み取れませんでした。",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "現在のサイト：{host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "現在 ImgFetch に割り当てられているキーボードショートカット。",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "読み込み中…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "このページをスキャン",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "このページをスキャン（代替）",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "要素を選択",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "選択した領域をキャプチャ",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "要素をキャプチャ",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "登録されたショートカットはありません。",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "未設定",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "ショートカットページのリンクをコピー",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "ショートカットを変更するには、chrome://extensions/shortcuts（Edge では edge://extensions/shortcuts）を開き、ImgFetch を見つけて好みのキーに設定してください。Mac では Ctrl の代わりに ⌘ を使います。ショートカットが「未設定」と表示されている場合、提案されたキーがブラウザや他の拡張機能と競合したため、ここで手動で設定してください。",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "ショートカットを読み取れませんでした。",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "ショートカットページのリンクをコピーしました。アドレスバーに貼り付けてください。",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "ファイルはブラウザのダウンロードフォルダーに保存されます。これらのオプションでさらに整理できます。",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "ダウンロードの整理先",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "1 か所（スマートフォルダーなし）",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "サイトごとのフォルダー",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "種類ごとのスマートフォルダー",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "日付ごとのフォルダー",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "スマートフォルダーは自動で分類します：写真、スクリーンショット、GIF、グラフィック。「サイトごと」の例：ダウンロード / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "既定のサブフォルダーを使う",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "オンにすると、まずすべてこのフォルダー内に保存され、上記の整理が追加されます。",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "サブフォルダー名",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "例：ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "例：ダウンロード / ImgFetch / example.com / photo.jpg。スイッチがオフの間は無視されます。",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "保存したもののシンプルな一覧をポップアップに表示します。",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "最近のダウンロード",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "ダウンロード履歴を保持する",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "各ダウンロードのファイル名、サイト、形式、サイズを保存します。",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "履歴を保持（日数）",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "これより古いエントリは自動的に削除されます。",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "今すぐクリア",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "ダウンロード履歴をクリア",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "すべての履歴エントリを今すぐ削除します。ダウンロード済みファイルには影響しません。",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "履歴をクリアできませんでした。",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "設定を持ち運んだり、最初からやり直したりできます。",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "設定をエクスポート",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "すべての設定を含む imgfetch-settings.json ファイルをダウンロードします。",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "設定をエクスポートしました。",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "設定をインポート",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "インポートする設定ファイル",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "ImgFetch エクスポートファイルから設定を復元します。無効なファイルは安全に拒否されます。",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "設定をインポートしました。",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "このファイルは有効な ImgFetch 設定エクスポートではありません。",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "デフォルトにリセット",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "すべてリセット",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "まず確認を求め、すべての ImgFetch デフォルトを復元します。上で履歴をクリアしない限り、履歴は保持されます。",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "バージョン",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "ライセンス",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "権限",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch がアクセスできるものとその理由：",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "右クリックメニューに ImgFetch の項目を追加します。",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "画像ファイルをダウンロードフォルダーに保存します。",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "このデバイスに設定と履歴を記憶します。",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "要求されたページをスキャンして画像を探します。",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "現在開いているタブと連携します。",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "バックグラウンドで画像を形式間で変換します。",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "ダウンロード完了をお知らせします（オンにした場合のみ）。",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "代わりに画像のリンクをクリップボードにコピーします。",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "訪問したサイトの画像を読み取ります。ページのスキャンやダウンロード開始時のみです。",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "ドキュメント",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "ドキュメント、プライバシーポリシー、利用規約は公開リポジトリにあります：",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch にはサーバーがなく、何も収集しません。ダウンロードを選択した画像のみ取得し、Google Lens（クリックした場合のみ）は画像のアドレスで Google を開きます。完全な声明はリポジトリの PRIVACY.md をご覧ください。",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch はすべてをデバイス上に保持します。アカウントなし、追跡なし、分析なし。",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ImgFetch が保存するもの",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "設定、サイト設定、ダウンロード履歴はブラウザのローカルストレージに保存され、このデバイスのみに存在します。",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "ダウンロードした画像は直接ダウンロードフォルダーに入ります。ImgFetch はどこにもアップロードしません。",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "ImgFetch が決してしないこと",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "アカウントなし、ログインなし。ログインする場所はありません。",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "分析なし、テレメトリなし、クラッシュレポートなし。",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "リモートコードなし。すべてのスクリプトは拡張機能パッケージ内にあります。",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "画像は通常のブラウザセッションで、訪問したサイトから直接取得されます。ImgFetch は追跡パラメーターを追加しません。",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "ImgFetch が各権限を要求する理由は「この拡張機能について」セクションで説明されており、完全な声明は公開リポジトリの PRIVACY.md にあります。",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "スクリーンショットに注釈",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "スクリーンショットを読み込んでいます…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "注釈ツール",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "ペン",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "矢印",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "四角形",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "円",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "テキスト",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "モザイク",
+    "description": "Annotate tool: pixelate."
+  },
+  "tool_crop": {
+    "message": "切り抜き",
+    "description": "Annotate tool: crop."
+  },
+  "color_red": {
+    "message": "赤",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "オレンジ",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "緑",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "青",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "黒",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "白",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "細",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "中",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "太",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "元に戻す",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "やり直し",
+    "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "元に戻す (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
+  },
+  "redo_title": {
+    "message": "やり直し (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "クリア",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "テキストを入力、Enter で配置",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "テキストをキャンセル",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "保存",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "破棄",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "ヒント：画像上でドラッグして描画します。テキストツール：テキストを置く場所をクリックし、入力して Enter を押します。配置したテキストをクリックで選択し、ドラッグで移動、Delete または Backspace で削除します。ぼかし：隠したい領域上でドラッグします。",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "モザイクは好奇の目から詳細を隠しますが、逆変換されることがあります。機密性の高いテキストには使用しないでください。",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "スクリーンショットを保存しました。",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "保存に失敗しました。",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "このエディターのリンクは無効です。",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "スクリーンショットを読み込めませんでした。",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "切り抜き (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "適用",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "切り抜き範囲",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "切り抜きサイズ: {width} x {height} ピクセル",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "画像を読み込めなかったため、切り抜きは利用できません。",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "左上のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "上のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "右上のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "右のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "右下のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "下のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "左下のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "左のサイズ変更ハンドル",
+    "description": "Annotate crop: accessibility label of the left resize handle."
+  },
+  "capture_subtitle": {
+    "message": "スクリーンショットのプレビュー",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "スクリーンショットを準備しています…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "スクリーンショットのプレビュー",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "スクリーンショットを保存",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "クリップボードにコピー",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "表示中のページを再キャプチャ",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "領域を再キャプチャ",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "破棄",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "このプレビューのリンクは無効です。",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} ピクセル",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "スクリーンショットの準備ができました",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} を保存しました",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "スクリーンショットをクリップボードにコピーしました。",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "スクリーンショットをコピーできませんでした。",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "画像情報",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "画像の詳細を読み取っています…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "直接リンク",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "リンクをコピー",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "JPG として保存",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "画像が指定されていません。",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "ファイル名",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "寸法",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "表示サイズ",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "代替テキスト",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "カメラ",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "撮影日",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "フルサイズ",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "場所",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "写真の詳細",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "この写真には GPS 座標が含まれています。元のファイルを共有すると、撮影された正確な場所が共有されます。クリーンなコピーには「メタデータなしで保存」を使ってください。",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "メタデータなしで保存",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "メタデータなしのコピーを保存しました。",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "メタデータを削除できませんでした。",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "選択したリンクを手動でコピーしてください。",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "ダウンロードに名前を付ける",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "ファイル名",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "ダウンロード",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "{format} として保存されます。正しい拡張子は自動で付きます。",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "元の形式",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "ImgFetch へようこそ",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "スマートな画像ダウンローダーです。あらゆる画像を最高の利用可能なバージョンで保存し、ページ全体を一度にスキャンし、スクリーンショットを撮影できます。すべて 1 つのすっきりしたメニューから。",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "任意の画像を右クリック",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "ImgFetch メニューでは、画像を表示どおり、最高画質、またはオリジナルでダウンロードしたり、その場で PNG、JPG、WebP に変換したりできます。",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "ページをスキャンしてスクリーンショット",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "ツールバーの ImgFetch ボタンをクリックして、ページ全体をスキャンして画像を探したり、表示中のページや選択した領域のスクリーンショットを撮ったりできます。",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "ページをスキャン",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "領域をキャプチャ",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "自分好みにカスタマイズ",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "5 つのクイック選択肢があり、他はすべて適切なデフォルトが設定されています。これらはいつでも「設定」で変更できます。",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "スクリーンショット後にエディターを開く",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "保存前に矢印を描いたり、テキストを追加したり、ぼかしたりできます。",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "ダウンロード完了時",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "通知する",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "サブフォルダーに保存",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "空 = ダウンロードに直接。",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "サブフォルダー名",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "単体ダウンロード前にファイル名を確認する",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "すべての設定を開く →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "戻る",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "次へ",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "ImgFetch を使い始める",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "ImgFetch をお楽しみください！",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "未設定、ブラウザのショートカット設定で割り当ててください",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "ドラッグで選択：矢印キーで移動、Shift+矢印キーでサイズ変更、Enter で確定、Esc でキャンセル",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "要素をクリックしてキャプチャ、Esc でキャンセル",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "要素をクリックしてその画像を調べる、Esc でキャンセル",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "名前を付けて保存...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG（埋め込み画像）",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "画像リンクをコピー",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "画像をコピー",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "画像情報",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "その他...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "オリジナルを開く",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Google レンズで画像を検索",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "このページをスキャン",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "スクリーンショット",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "表示領域をキャプチャ",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "領域を選択",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "ページ全体",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "要素をキャプチャ",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "サイト設定を追加",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "このサイトで無効化",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "設定",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} を保存しました",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "画像を形式間で変換し、スクリーンショットを切り抜き、画像のリンクをコピーします。",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch を再起動しました。キュー内の {resumed} 件のダウンロードを再開しました{failedPart}。",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": "、{failed} 件失敗",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "{format} に変換中…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "注意：アニメーション画像は静止画として保存されます。",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "ダウンロード中…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "ZIP をダウンロード中…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "ZIP を準備中（{count} 件{cappedNote}、表示どおり）…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": "（{total} 件のうち最初の 200 件）",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ZIP をダウンロードしました（{count} 件）。",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ZIP をダウンロードしました（{count}/{total} 件、{skipped} 件スキップ）。",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "最高品質を探しています…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch は最高品質のバージョンを使用できませんでした。別の利用可能なソースを試しています…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "正常にダウンロードしました。",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "この要素は画面より高いため、表示部分のみキャプチャされました。残りは「ページ全体」を使ってください。",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "このページはとても長いため、最初の {tileCount} タイル（上部）をキャプチャします。残りは領域キャプチャを使ってください。",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "このページはとても大きいため、ページ全体の画像をメモリ制限に収めるため {percent}% に縮小しました。",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "ページ全体をキャプチャ中、タイル {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "ページ全体をキャプチャしました（{width} × {height} px）。",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "画像自体をコピーできなかったため、代わりにそのリンクをコピーしました。",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "画像のリンクをコピーできませんでした。",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} をサイト設定に追加しました。",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch を {host} で一時停止しました。",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch は通常のウェブページのみスキャンできます。chrome://、edge://、ウェブストアなどのブラウザページは対象外です。",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch は通常のウェブページ上でのみ要素を選択できます。chrome://、edge://、ウェブストアなどのブラウザページは対象外です。",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "選択した要素に画像が見つかりませんでした。",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "コピー",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "編集したスクリーンショットをクリップボードにコピー",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "スクリーンショットをクリップボードにコピーしました。",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "スクリーンショットをクリップボードにコピーしました。収まるよう {width} x {height} に縮小しました。",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "スクリーンショットをコピーできませんでした。代わりに保存してみてください。",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "コピーは現在利用できません。",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "このページでは{mode}は利用できません。表示部分をキャプチャしました。",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "ブラウザではこのページをキャプチャできません。",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "パート {count} / {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "このページは非常に長いため、フル解像度で {count} 分割してキャプチャします。",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "このページは非常に長いため、最初の {count} 分割のみキャプチャしました。",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "このページのスクロール可能なコンテンツ領域をキャプチャしました。",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "このページ内の独立してスクロールする部分は、現在表示されている状態でキャプチャされました。",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "他のサイトの埋め込みコンテンツは、表示されている状態でのみキャプチャできました。",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "キャプチャを停止しました。{total} 個中 {count} 個のパーツを保存しました。",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "この画像は使用可能なメモリに対して大きすぎたため、キャプチャはより小さいパーツで続行されました。",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "安全制限に達したためキャプチャを停止しました。これまでに撮影したパーツは保存されました。",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "ページ全体をキャプチャしています。パーツ {part}/{partTotal}、タイル {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "スクリーンショットのパート",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "すべて保存",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "すべて破棄",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "保存",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "編集",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "パートは残っていません。このタブを閉じてもかまいません。",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "すべてのパートを保存しました。このタブを閉じてもかまいません。",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "パート {current} / {total} を保存しています…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "パート {count} / {total} のプレビュー",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "ページ全体のスクリーンショットのパート一覧",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "パート {count} / {total} を編集",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "パート {count} / {total} を保存",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "パート {count} / {total} をコピー",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "パート {count} / {total} を破棄",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} ピクセル · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "注: ページ全体などの大きなスクリーンショットは正しくコピーされますが、Windows のクリップボード履歴（Win+V）には表示されません。これはコピーの問題ではなく、Windows の制限です。Ctrl+V を押すと、必要な場所に画像を貼り付けられます。",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "コピーしました。Ctrl+V を押して貼り付けてください。Windows のクリップボード履歴（Win+V）には大きな画像は表示されません。",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "{count} 枚の画像 · 各 {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "{count} 枚の画像 · サイズはさまざまです",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  }
+}

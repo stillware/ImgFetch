@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch design system — shared by popup, options and pages.
+ * ImgFetch design system, shared by popup, options and pages.
  * Theme: [data-theme="light"|"dark"] on <html>; "system" resolves in JS.
  */
 :root {
@@ -80,7 +80,7 @@ body {
   color: #fff; font-weight: 800; font-size: 18px; letter-spacing: -0.5px;
   box-shadow: 0 3px 10px rgba(91, 80, 230, 0.4);
   /* NOTE: never let a broader selector (e.g. ".side-brand span") override
-     display/color here — that silently broke centering once. */
+     display/color here, that silently broke centering once. */
 }
 .brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.2px; }
 .brand-sub { font-size: 11px; color: var(--muted); margin-top: -3px; }
@@ -145,13 +145,14 @@ input.switch {
   transition: background-color 0.18s ease;
 }
 input.switch::after {
-  content: ""; position: absolute; top: 3px; left: 3px;
+  content: ""; position: absolute; top: 3px; inset-inline-start: 3px;
   width: 20px; height: 20px; border-radius: 50%;
   background: var(--surface); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   transition: transform 0.18s ease;
 }
 input.switch:checked { background: var(--primary); }
 input.switch:checked::after { transform: translateX(18px); }
+[dir="rtl"] input.switch:checked::after { transform: translateX(-18px); }
 input.switch:focus-visible { box-shadow: var(--focus); }
 input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
@@ -201,7 +202,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 /* ---------- image grid ---------- */
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 /* B6: the zoom control is a sibling of the thumb button, not nested inside
- * it — nested interactive controls are invalid HTML and confuse screen
+ * it, nested interactive controls are invalid HTML and confuse screen
  * readers. The wrapper carries the positioning context. */
 .thumb-wrap { position: relative; }
 .thumb {
@@ -212,7 +213,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .thumb-wrap:hover .thumb { transform: translateY(-2px); box-shadow: var(--shadow); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* Blob: thumbnails resolve async — shimmer until the preview arrives. */
+/* Blob: thumbnails resolve async, shimmer until the preview arrives. */
 @keyframes sx-shimmer { 0% { opacity: .45; } 50% { opacity: 1; } 100% { opacity: .45; } }
 .thumb img.thumb-loading {
   animation: sx-shimmer 1.2s ease-in-out infinite;
@@ -223,14 +224,14 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .thumb[aria-checked="true"] { border-color: var(--primary); }
 .thumb .tick {
-  position: absolute; top: 6px; left: 6px; width: 22px; height: 22px; border-radius: 50%;
+  position: absolute; top: 6px; inset-inline-start: 6px; width: 22px; height: 22px; border-radius: 50%;
   background: var(--primary); color: #fff; font-size: 13px; font-weight: 700;
   display: none; align-items: center; justify-content: center;
 }
 .thumb[aria-checked="true"] .tick { display: inline-flex; }
 /* D2: magnifier opens the preview; visible on hover/focus, always on touch. */
 .thumb-wrap .zoom-btn {
-  position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border-radius: 50%;
+  position: absolute; top: 6px; inset-inline-end: 6px; width: 28px; height: 28px; border-radius: 50%;
   background: rgba(10, 12, 25, 0.72); color: #fff; border: 0; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
   opacity: 0; transition: opacity .15s ease;
@@ -243,7 +244,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   .thumb-wrap .zoom-btn { transition: none; }
 }
 .thumb .dims {
-  position: absolute; left: 6px; bottom: 6px; font-size: 10px; font-weight: 600;
+  position: absolute; inset-inline-start: 6px; bottom: 6px; font-size: 10px; font-weight: 600;
   background: rgba(10, 12, 25, 0.72); color: #fff; padding: 2px 7px; border-radius: 999px;
 }
 .thumb:focus-visible { outline: none; box-shadow: var(--focus); }
@@ -260,7 +261,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .modal img.preview { width: 100%; border-radius: 8px; background: var(--surface-2); max-height: 300px; object-fit: contain; }
 
 /* ---------- toast ---------- */
-.toast-stack { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 100;
+.toast-stack { position: fixed; bottom: 14px; inset-inline-start: 50%; transform: translateX(-50%); z-index: 100;
   display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: max-content; max-width: 92vw; }
 .toast {
   background: #171a2e; color: #fff; font-size: 13px; padding: 10px 16px; border-radius: 10px;
@@ -281,7 +282,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Pane enter animation — replays every time `hidden` is removed (display
+/* Pane enter animation, replays every time `hidden` is removed (display
    flips from none), so view/pane switches feel smooth instead of instant.
    Honors prefers-reduced-motion via the block below. */
 @keyframes sx-pane-in { from { opacity: 0; transform: translateY(5px); } }

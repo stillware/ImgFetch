@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch SVG sanitizer tests — runs with plain Node, no dependencies:
+ * ImgFetch SVG sanitizer tests, runs with plain Node, no dependencies:
  *   node tests/test-svg.mjs
  *
  * B4 (ROUND 2): the old sanitizer was a denylist with known bypasses.
@@ -24,7 +24,7 @@
  * assert the payload is neutralized, while normal SVGs survive unchanged
  * in appearance. The stub DOM below implements just what
  * core/svg.js needs (querySelectorAll, attributes, remove/removeAttribute,
- * textContent) — the policy code is the real thing.
+ * textContent), the policy code is the real thing.
  */
 import { strict as assert } from 'node:assert';
 import { sanitizeSvgDocument, isSafeSvgUrl } from '../core/svg.js';
@@ -78,7 +78,7 @@ function makeEl(tag, attrs, parent) {
   return el;
 }
 
-/** Tiny XML parser — enough for the flat test payloads below. */
+/** Tiny XML parser, enough for the flat test payloads below. */
 function parseStubXml(xml) {
   const root = makeEl('#document', [], null);
   const stack = [root];
@@ -114,17 +114,6 @@ function sanitize(xml) {
 
 function findTag(doc, tag) {
   return doc.querySelectorAll('*').filter((e) => e.tagName.toLowerCase() === tag.toLowerCase());
-}
-
-function htmlOf(doc) {
-  // crude serializer for assertions
-  const ser = (node) => {
-    if (typeof node === 'string') return node;
-    const attrs = node.attributes.map((a) => ` ${a.name}="${a.value}"`).join('');
-    const kids = node.childNodes.map(ser).join('');
-    return `<${node.tagName}${attrs}>${kids}</${node.tagName}>`;
-  };
-  return doc.querySelectorAll('*').map(ser).join('');
 }
 
 // ---------------------------------------------------------------- harness

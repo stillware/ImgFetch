@@ -16,15 +16,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-queue-persist.mjs
+ * ImgFetch, tests/test-queue-persist.mjs
  * N4: the queue must be persisted IMMEDIATELY when a chromeDownloadId is
- * assigned. the pre-release code only scheduled a throttled (1 s) write — if the worker
+ * assigned. the pre-release code only scheduled a throttled (1 s) write, if the worker
  * died inside that window, the adopted download's id was never saved and
  * the item was re-queued (possible duplicate download).
  *
  * Contract: createQueuePersister({ getState, storage }) exposes
- *   schedule() — throttled write (unchanged old behavior), and
- *   flush()    — synchronous immediate write (N4: called by trackDownload).
+ *   schedule(), throttled write (unchanged old behavior), and
+ *   flush(), synchronous immediate write (N4: called by trackDownload).
  */
 import { createQueuePersister } from '../core/queue-persist.js';
 
@@ -32,7 +32,7 @@ let pass = 0;
 let fail = 0;
 function check(name, cond, extra = '') {
   if (cond) { pass += 1; }
-  else { fail += 1; console.log(`  FAIL ${name}${extra ? ` — ${extra}` : ''}`); }
+  else { fail += 1; console.log(`  FAIL ${name}${extra ? `, ${extra}` : ''}`); }
 }
 
 const writes = [];
@@ -42,7 +42,7 @@ const storage = {
 const state = { items: [{ id: 'a', chromeDownloadId: null }] };
 const getState = () => JSON.parse(JSON.stringify(state));
 
-// 1. schedule() defers — the old throttled behavior is kept for bulk updates.
+// 1. schedule() defers, the old throttled behavior is kept for bulk updates.
 {
   writes.length = 0;
   const p = createQueuePersister({ getState, storage, delayMs: 1000 });
@@ -52,7 +52,7 @@ const getState = () => JSON.parse(JSON.stringify(state));
   p.dispose();
 }
 
-// 2. flush() writes immediately — N4.
+// 2. flush() writes immediately, N4.
 {
   writes.length = 0;
   const p = createQueuePersister({ getState, storage, delayMs: 1000 });

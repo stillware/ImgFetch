@@ -1,0 +1,53 @@
+{
+  "dpr": 3,
+  "headed": true,
+  "browser": "chromium",
+  "phases": [
+    {
+      "name": "P0 worker alive + offscreen up",
+      "ok": true,
+      "evidence": {
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
+      }
+    },
+    {
+      "name": "C3 seam-free stitching at DPR 3",
+      "ok": true,
+      "evidence": {
+        "ms": 12640,
+        "planTiles": 25,
+        "parts": 3,
+        "seq": "part1: rows=64 bad=0 [0..63] | part2: rows=64 bad=0 [64..127] | part3: rows=72 bad=0 [128..199]",
+        "refGoodRows": "128/200",
+        "refDiff": "part1: diff=0/72864000 (0.000%) | part2: diff=0/72864000 (0.000%) | part3: diff=0/0 (0.000%) skipped=81972000",
+        "maxDiffPct": 0,
+        "meanAbs": 0,
+        "refSkippedPx": 81972000,
+        "wholePageCovered": true,
+        "note": "3 parts, 25 tiles, seq bad=0/200, maxDiff=0%"
+      }
+    },
+    {
+      "name": "C9 area crop byte-exact at DPR 3",
+      "ok": true,
+      "evidence": {
+        "cropPath": "worker/core/crop-image.js",
+        "rect": "{\"x\":180,\"y\":120,\"width\":3600,\"height\":2220}",
+        "dim": "3600x2220",
+        "diffPixels": 0,
+        "srcColors": 797607,
+        "outColors": 797607,
+        "note": "rect {\"x\":180,\"y\":120,\"width\":3600,\"height\":2220} -> 3600x2220 via worker/core/crop-image.js, diffPixels=0, colors 797607/797607"
+      }
+    },
+    {
+      "name": "no console errors / pageerrors anywhere",
+      "ok": true,
+      "evidence": {
+        "note": "0 errors, 0 total entries",
+        "first": []
+      }
+    }
+  ],
+  "errors": []
+}

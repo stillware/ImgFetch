@@ -7,7 +7,7 @@
       "name": "P0 worker alive",
       "ok": true,
       "evidence": {
-        "extId": "njkhdpnjkaebnpgaljpiomeoojbejalo"
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
       }
     },
     {
@@ -43,18 +43,21 @@
       "ok": true,
       "evidence": {
         "plan": {
-          "outW": 1280,
-          "outH": 17280,
-          "tiles": 24,
-          "scale": 1
+          "parts": 1,
+          "tiles": 28,
+          "partDims": [
+            "1280x20000"
+          ]
         },
-        "file": "stitch-tall20k-dpr1.png",
-        "size": 766659,
-        "dims": {
-          "w": 1280,
-          "h": 17280
-        },
-        "note": "1280x17280 (plan 1280x17280), 766659 bytes"
+        "parts": [
+          {
+            "part": 1,
+            "dims": "1280x20000",
+            "expect": "1280x20000",
+            "size": 884298
+          }
+        ],
+        "wholePageCovered": true
       }
     },
     {
@@ -62,18 +65,21 @@
       "ok": true,
       "evidence": {
         "plan": {
-          "outW": 1280,
-          "outH": 3000,
+          "parts": 1,
           "tiles": 5,
-          "scale": 1
+          "partDims": [
+            "1280x3000"
+          ]
         },
-        "file": "stitch-tall3k-dpr1.png",
-        "size": 131911,
-        "dims": {
-          "w": 1280,
-          "h": 3000
-        },
-        "note": "1280x3000 (plan 1280x3000), 131911 bytes"
+        "parts": [
+          {
+            "part": 1,
+            "dims": "1280x3000",
+            "expect": "1280x3000",
+            "size": 131911
+          }
+        ],
+        "wholePageCovered": true
       }
     },
     {
@@ -102,10 +108,10 @@
         "offscreenFound": true,
         "probe": {
           "ok": true,
-          "ms": 336,
+          "ms": 364,
           "px": 4
         },
-        "note": "100MP canvas: allocated in 336ms"
+        "note": "100MP canvas: allocated in 364ms"
       }
     },
     {

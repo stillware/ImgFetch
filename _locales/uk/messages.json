@@ -1,0 +1,2414 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: розумний завантажувач зображень. Зберігайте зображення в найкращій якості, скануйте цілі сторінки, робіть скриншоти.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch, розумний завантажувач зображень",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Українська",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Авто (мова браузера)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "Скасувати",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Підтвердити",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Завантаження",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Невідомий розмір",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch запускається, спробуйте ще раз за мить.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Щось пішло не так. Спробуйте ще раз.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "зображення",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Розумний завантажувач зображень",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "Навігація ImgFetch",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Головна",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "Історія завантажень",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "Налаштування ImgFetch",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Забирайте зображення з будь-якої сторінки",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Проскануйте сторінку, виберіть потрібне та збережіть найкращу доступну версію.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Сканувати цю сторінку",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Скриншот",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Зняти видиму частину сторінки",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Видима",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Зняти вибрану область",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Область",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Зняти елемент",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Елемент",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Зняти всю сторінку",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Вся сторінка",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Сканування",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Сканування сторінки…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Пошук зображень",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar_one": {
+    "message": "Знайдено: {done}…",
+    "description": "Scan progress. Singular: one image found so far."
+  },
+  "scan_foundSoFar_few": {
+    "message": "Знайдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_many": {
+    "message": "Знайдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "scan_foundSoFar_other": {
+    "message": "Знайдено: {done}…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Результати",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Пошук зображень…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Фільтр розміру",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Будь-який розмір",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 пкс",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 пкс і більше",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 пкс і більше",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Фільтр формату",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Усі формати",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Фільтр орієнтації",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Будь-яка орієнтація",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Альбомна",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Портретна",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Квадратна",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Сортування зображень",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Порядок на сторінці",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Спочатку великі",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Спочатку малі",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Вибрати все",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Зняти вибір",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Інвертувати",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Знайдені зображення",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "Якість завантаження",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Розумне завантаження",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Як показано",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "Формат завантаження",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Початковий формат",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Пробувати найкращу якість при масовому завантаженні",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "Перед завантаженням шукає для кожного зображення джерело в кращій якості. Повільніше, на деяких сайтах може спричинити обмеження частоти запитів.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_captureProgressAria": {
+    "message": "Перебіг захоплення всієї сторінки",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Зупинити",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Зупинення…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
+  "popup_download": {
+    "message": "Завантажити вибране",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount_one": {
+    "message": "Завантажити {count} зображення",
+    "description": "Download button. Singular: one image selected."
+  },
+  "popup_downloadCount_few": {
+    "message": "Завантажити {count} зображення",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_many": {
+    "message": "Завантажити {count} зображень",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadCount_other": {
+    "message": "Завантажити {count} зображення",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Завантажити вибране як ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Пакує вибрані зображення в один .zip-файл рівно так, як вони показані на сторінці (без розумного покращення якості всередині ZIP)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Сканувати знову",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound_one": {
+    "message": "Знайдено {count} зображення",
+    "description": "Results heading. Singular."
+  },
+  "results_titleFound_few": {
+    "message": "Знайдено {count} зображення",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_many": {
+    "message": "Знайдено {count} зображень",
+    "description": "Results heading. Plural."
+  },
+  "results_titleFound_other": {
+    "message": "Знайдено {count} зображення",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "На цій сторінці зображень не знайдено.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered_one": {
+    "message": "Зображень не знайдено: {dropped} маленьке зображення пропущено вашим фільтром розміру. Зменште його в Налаштування → Сканування.",
+    "description": "Toast when only the size filter removed images. Singular."
+  },
+  "results_noImagesFiltered_few": {
+    "message": "Зображень не знайдено: {dropped} маленьких зображення пропущено вашим фільтром розміру. Зменште його в Налаштування → Сканування.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_many": {
+    "message": "Зображень не знайдено: {dropped} маленьких зображень пропущено вашим фільтром розміру. Зменште його в Налаштування → Сканування.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noImagesFiltered_other": {
+    "message": "Зображень не знайдено: {dropped} маленьких зображення пропущено вашим фільтром розміру. Зменште його в Налаштування → Сканування.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Жодне зображення не відповідає цим фільтрам.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "Показано {shown} · знайдено {total}",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved_one": {
+    "message": "вилучено {count} дублікат",
+    "description": "Status line fragment. Singular."
+  },
+  "results_duplicatesRemoved_few": {
+    "message": "вилучено {count} дублікати",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_many": {
+    "message": "вилучено {count} дублікатів",
+    "description": "Status line fragment. Plural."
+  },
+  "results_duplicatesRemoved_other": {
+    "message": "вилучено {count} дублікати",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_one": {
+    "message": "приховано {count} елемент інтерфейсу",
+    "description": "Status line fragment. Singular."
+  },
+  "results_assetsHidden_few": {
+    "message": "приховано {count} елементи інтерфейсу",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_many": {
+    "message": "приховано {count} елементів інтерфейсу",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden_other": {
+    "message": "приховано {count} елементи інтерфейсу",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_one": {
+    "message": "{count} приховано фільтрами",
+    "description": "Status line fragment. Singular."
+  },
+  "results_hiddenByFilters_few": {
+    "message": "{count} приховано фільтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_many": {
+    "message": "{count} приховано фільтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters_other": {
+    "message": "{count} приховано фільтрами",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "Показано {shown} з {total}, прокрутіть для решти",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (не підтримується)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress_one": {
+    "message": "Виконується {count} завантаження",
+    "description": "Home status card. Singular."
+  },
+  "home_downloadsInProgress_few": {
+    "message": "Виконуються {count} завантаження",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_many": {
+    "message": "Виконується {count} завантажень",
+    "description": "Home status card. Plural."
+  },
+  "home_downloadsInProgress_other": {
+    "message": "Виконуються {count} завантаження",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "Переглянути завантаження",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound_one": {
+    "message": "На цій сторінці знайдено {count} зображення",
+    "description": "Home status card for a stored scan. Singular."
+  },
+  "home_imagesFound_few": {
+    "message": "На цій сторінці знайдено {count} зображення",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_many": {
+    "message": "На цій сторінці знайдено {count} зображень",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_imagesFound_other": {
+    "message": "На цій сторінці знайдено {count} зображення",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Переглянути результати",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Перегляд зображення",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Закрити перегляд",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Перегляд",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "Перегляд: {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Розмір",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Формат",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Джерело",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Фонове зображення",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Зображення сторінки",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "невідомий",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "Зберегти як PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "Зберегти як JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "Зберегти як WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "Зберегти як AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Відкрити оригінал",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Інформація про зображення",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Це зображення не можна відкрити у вкладці.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "Завантаження",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Підготовка…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Повторити невдалі",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Очистити завершені",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Назад до результатів",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Черга порожня.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "Збережено {done} з {total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "не вдалося: {failed}",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "очікування",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "виконується",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "готово",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "помилка",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "скасовано",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Показати в папці",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "Завантаження було перервано.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "Історія завантажень",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Очистити",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Історія",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "Очистити історію завантажень?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Це видалить список файлів, завантажених ImgFetch. Самі файли залишаться на вашому пристрої.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Очистити історію",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Історію очищено.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Завантажень поки немає. Ваші збережені зображення з’являться тут.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Тут поки нічого немає.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Сьогодні",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Вчора",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "Додано до черги завантажень ImgFetch.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Скопійовано до буфера обміну.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Не вдалося скопіювати. Спробуйте ще раз.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch призупинено на цьому сайті.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch призупинено на цьому сайті (див. Налаштування сайтів).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Не вдалося перетворити, збережено оригінал.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Оригінал не знайдено, використано найкращу доступну версію.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Не вдалося відкрити Google Lens. Спробуйте ще раз.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens відкрито, вставте посилання на зображення (Ctrl+V) у його поле посилання.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Готово.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Посилання на зображення скопійовано.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Спочатку відкрийте звичайну веб-сторінку, потім спробуйте знову.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Це посилання на зображення виглядає небезпечно, ImgFetch пропустив його.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch не знайшов тут придатного зображення.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Веб-сайт не дозволив зберегти це зображення.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch не зміг перетворити це зображення. Замість нього збережено оригінал.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch не зміг закодувати це зображення як GIF. Нічого не збережено.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "Кодування AVIF недоступне в цьому браузері (потрібен Chrome/Edge 130+, оновіть браузер, щоб увімкнути). Замість нього збережено PNG.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Ця сторінка завелика для захоплення одним зображенням.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch не зміг упевнено знайти оригінал. Використано найкращу доступну версію.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch не зміг просканувати цю сторінку. Перезавантажте сторінку та спробуйте знову.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch не зміг захопити цю сторінку.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "Завантаження не почалося. Спробуйте ще раз.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "Скасовано.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Це зайняло забагато часу. Спробуйте ще раз.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch заблокував запит до адреси приватної мережі (наприклад, localhost або сторінки роутера), щоб захистити вашу локальну мережу.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch призупинено на цьому сайті. Увімкніть його в Налаштування → Налаштування сайтів.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Щось пішло не так. Спробуйте ще раз.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Налаштування",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Розділи налаштувань",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Загальні",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "Завантаження",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Якість",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Імена файлів",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Сканування",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Скриншоти",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Налаштування сайтів",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Гарячі клавіші",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Папки",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "Історія завантажень",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Резервна копія та скидання",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "Про програму",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Конфіденційність",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "Налаштування ImgFetch",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - Налаштування ImgFetch",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Розділ налаштувань",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Збереження…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Усі зміни збережено",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Не вдалося зберегти, спробуйте знову",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Мова",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Скинути всі налаштування?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Кожне налаштування ImgFetch повернеться до значення за замовчуванням. Історія завантажень збережеться.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Скинути налаштування",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Налаштування скинуто.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "Як виглядає та поводиться ImgFetch.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Зовнішній вигляд",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Системна",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Світла",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Темна",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "Після завершення завантаження",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Мовчати",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Показувати сповіщення",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Закривати панель завантажень після завершення",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "Подання прогресу згортається на головний екран невдовзі після завершення кожного завантаження.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Як файли зберігаються на вашому пристрої.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Питати, куди зберігати кожен файл",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Показує діалог збереження браузера при кожному завантаженні.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Автоматично повторювати невдалі завантаження",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "Якщо завантаження не почалося, ImgFetch спробує ще раз самостійно.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Одночасних завантажень:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Чим вище значення, тим швидше при багатьох зображеннях, але деякі сайти можуть вас обмежити.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch зберігає найкраще справжнє джерело, яке може перевірити. Він ніколи не збільшує зображення.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Розумний вибір якості",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Розумне завантаження (рекомендовано)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Перевіряє кожне доступне джерело та зберігає найкращу справжню версію, яку може перевірити.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Надавати перевагу точному джерелу",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Пропускає додаткову перевірку якості та зберігає точне зображення, показане сторінкою. Швидше та приватніше.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "Якість JPG:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "Якість PNG:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "Якість WebP:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "Використовується при перетворенні в JPG. Чим вище, тим більші файли.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100%: без втрат. Менші значення зменшують кількість кольорів для менших файлів.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "Використовується при перетворенні в WebP.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Інші формати",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "Найвища якість, завжди 100%.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Фіксована палітра 256 кольорів (власний кодувальник ImgFetch).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Без стиснення, завжди 100%.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Векторна обгортка навколо зображення.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch завжди робить імена файлів безпечними, жодних дивних символів, ніколи.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Іменування",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Зберігати початкове ім’я",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Використовує власне очищене ім’я файлу зображення.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Сайт + дата + номер",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Приклад: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Власний шаблон",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Складіть власний шаблон нижче.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Власний шаблон",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Доступні токени",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "Дозволяти перейменовувати файли перед завантаженням",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Відкриває невеликий аркуш перейменування з переглядом перед одиночними завантаженнями з контекстного меню.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "Як ImgFetch знаходить зображення на сторінці.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Пропускати зображення менші за",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Не пропускати жодних",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Середні (400 пкс)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Великі (1200 пкс)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Дуже великі (2000 пкс)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Приховує крихітні іконки та розпірки з результатів. Це можна змінювати при кожному скануванні.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Включати фонові зображення",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Також знаходить зображення, використані як фон сторінки (повільніше на величезних сторінках).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Глибина сканування",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Завантажена сторінка",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Прокрутити сторінку",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Завантажена сторінка: сканує лише вже завантажені зображення (найшвидше). Прокрутити сторінку: спочатку ненадовго прокручує сторінку, щоб показати ліниво завантажувані зображення, потім повертає вашу позицію.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Видаляти дублікати зображень",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Коли те саме зображення трапляється в кількох розмірах, залишає лише найбільше, а решту приховує.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Значення за замовчуванням для захоплень сторінки.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Формат за замовчуванням",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Якість:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Захопити зараз",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Видима область",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Вибрати область",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Захопити елемент",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Вся сторінка",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "«Вибрати область» відкриває справжній оверлей вибору на поточній сторінці: перетягніть прямокутник, Esc скасовує. «Захопити елемент» дозволяє клікнути будь-який елемент, щоб захопити саме його.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Відкривати редактор анотацій після захоплення",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Малюйте стрілки, додавайте текст або приховуйте частини скриншоту перед збереженням.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Видиму область захоплено",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Область захоплено",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Елемент захоплено",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Всю сторінку захоплено",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, перевірте вкладку перегляду, щоб зберегти.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Задайте окремим сайтам власну поведінку завантаження.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Домен веб-сайту",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Використати поточний сайт",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Додати",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Розумний знаходить найкраще справжнє джерело на цьому сайті · Як показано зберігає зображення рівно як відображається · Призупинено вимикає завантаження ImgFetch на цьому сайті.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Налаштувань сайтів поки немає.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Розумний",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Як показано",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Призупинено",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Видалити",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "Поведінка для {host}",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "Введіть домен сайту, наприклад example.com.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} додано.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Не вдалося прочитати поточний сайт.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Поточний сайт: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Гарячі клавіші, призначені ImgFetch наразі.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Завантаження…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Сканувати цю сторінку",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Сканувати цю сторінку (альтернатива)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Вибрати елемент",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Захопити вибрану область",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Захопити елемент",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Гарячі клавіші не зареєстровано.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Не задано",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Скопіювати посилання на сторінку гарячих клавіш",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Щоб змінити гарячу клавішу, відкрийте chrome://extensions/shortcuts (або edge://extensions/shortcuts в Edge), знайдіть ImgFetch і задайте потрібні клавіші. На Mac використовуйте ⌘ замість Ctrl. Якщо клавіша показує «Не задано», запропонована клавіша конфліктувала з браузером або іншим розширенням, задайте її вручну тут.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Не вдалося прочитати гарячі клавіші.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Посилання на сторінку гарячих клавіш скопійовано, вставте його в адресний рядок.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Файли зберігаються в папці «Завантаження» вашого браузера. Ці параметри організовують їх краще.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "Організовувати завантаження в",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Одне місце (без розумних папок)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Папки за сайтами",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Розумні папки за типами",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Папки за датами",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Розумні папки сортують самі: Фото, Скриншоти, GIF, Графіка. Приклад «За сайтами»: Завантаження / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Використовувати підпапку за замовчуванням",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Коли увімкнено, все спочатку зберігається в цю папку, поверх організації вище.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Ім’я підпапки",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "напр. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Приклад: Завантаження / ImgFetch / example.com / photo.jpg. Ігнорується, поки перемикач вимкнено.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Простий список збереженого, показаний у спливному вікні.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Нещодавні завантаження",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "Зберігати історію завантажень",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Зберігає ім’я файлу, сайт, формат і розмір кожного завантаження.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Зберігати історію (днів)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Записи старші за це видаляються автоматично.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Очистити зараз",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "Очистити історію завантажень",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Негайно видаляє всі записи історії. Завантажені файли не зачіпаються.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Не вдалося очистити історію.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Заберіть налаштування з собою або почніть з чистого аркуша.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Експортувати налаштування",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Завантажує файл imgfetch-settings.json з усіма вашими налаштуваннями.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Налаштування експортовано.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Імпортувати налаштування",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "Файл налаштувань для імпорту",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Відновлює налаштування з файлу експорту ImgFetch. Неправильні файли безпечно відхиляються.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Налаштування імпортовано.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Цей файл не є коректним експортом налаштувань ImgFetch.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Скинути до значень за замовчуванням",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Скинути все",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Спочатку запитає підтвердження, потім відновить усі значення ImgFetch за замовчуванням. Історія збережеться, якщо ви не очистите її вище.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Версія",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Ліцензія",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "Дозволи",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "До чого має доступ ImgFetch і навіщо:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Додавати пункти ImgFetch до контекстного меню.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Зберігати файли зображень у вашу папку «Завантаження».",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Запам’ятовувати ваші налаштування та історію на цьому пристрої.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "Сканувати сторінки на ваше прохання в пошуках зображень.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Працювати з відкритою наразі вкладкою.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Перетворювати зображення між форматами у фоні.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "Повідомляти про завершення завантаження (лише якщо ви увімкнете).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Копіювати посилання на зображення до вашого буфера обміну.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Читати зображення на відвідуваних вами сайтах, лише коли ви скануєте сторінку або починаєте завантаження.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Документація",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Документація, політика конфіденційності та умови використання знаходяться у публічному репозиторії:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch не має сервера і нічого не збирає. Завантажуються лише вибрані вами зображення, а Google Lens (лише якщо ви клікнете) відкриває Google з адресою зображення. Повну заяву див. у PRIVACY.md в репозиторії.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch зберігає все на вашому пристрої. Жодних акаунтів, стеження й аналітики.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "Що зберігає ImgFetch",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Ваші налаштування, налаштування сайтів та історія завантажень живуть у локальному сховищі браузера, лише на цьому пристрої.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "Завантажені зображення йдуть просто у вашу папку «Завантаження». ImgFetch нікуди їх не надсилає.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "Чого ImgFetch ніколи не робить",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Жодних акаунтів і входу: входити нікуди.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Жодної аналітики, телеметрії та звітів про збої.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Жодного віддаленого коду: кожен скрипт усередині пакета розширення.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Зображення беруться безпосередньо з відвідуваних вами сайтів, з вашою звичайною сесією браузера. ImgFetch не додає трекінгових параметрів.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "Навіщо ImgFetch кожен дозвіл, пояснено в розділі «Про програму», а повну заяву див. у PRIVACY.md в публічному репозиторії.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Анотувати скриншот",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Завантаження скриншоту…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Інструменти анотацій",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Олівець",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Стрілка",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Прямокутник",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Коло",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Текст",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Пікселізація",
+    "description": "Annotate tool: pixelate."
+  },
+  "tool_crop": {
+    "message": "Обрізати",
+    "description": "Annotate tool: crop."
+  },
+  "color_red": {
+    "message": "Червоний",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Помаранчевий",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Зелений",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Синій",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Чорний",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Білий",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "Тонка",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Середня",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Товста",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Скасувати",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Повернути",
+    "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Скасувати (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
+  },
+  "redo_title": {
+    "message": "Повернути (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Очистити",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Введіть текст, натисніть Enter, щоб розмістити",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Скасувати текст",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Зберегти",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Відхилити",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "Порада: перетягуйте по зображенню, щоб малювати. Інструмент «Текст»: клікніть, де має бути текст, введіть його, натисніть Enter. Клікніть розміщений текст, щоб вибрати, перетягніть, щоб перемістити, натисніть Delete або Backspace, щоб видалити. Розмиття: перетягніть по приховуваній області.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Пікселізація приховує деталі від сторонніх очей, але іноді її можна обернути, тому не покладайтеся на неї для чутливого тексту.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Скриншот збережено.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Не вдалося зберегти.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Це посилання редактора недійсне.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Не вдалося завантажити скриншот.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Обрізати (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Застосувати",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Область обрізання",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Розмір обрізання: {width} на {height} пікселів",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Обрізання недоступне, оскільки зображення не вдалося завантажити.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Маркер зміни розміру у верхньому лівому куті",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Верхній маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Маркер зміни розміру у верхньому правому куті",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Правий маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Маркер зміни розміру у нижньому правому куті",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Нижній маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Маркер зміни розміру у нижньому лівому куті",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Лівий маркер зміни розміру",
+    "description": "Annotate crop: accessibility label of the left resize handle."
+  },
+  "capture_subtitle": {
+    "message": "Перегляд скриншоту",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Підготовка вашого скриншоту…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Перегляд скриншоту",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Зберегти скриншот",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Копіювати до буфера обміну",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Перезняти видиму частину",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Перезняти область",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Відхилити",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Це посилання перегляду недійсне.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} пкс",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Скриншот готовий",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} збережено",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Скриншот скопійовано до буфера обміну.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Не вдалося скопіювати скриншот.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Інформація про зображення",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Читання відомостей про зображення…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Пряме посилання",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Копіювати посилання",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "Зберегти як JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Зображення не вказано.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Ім’я файлу",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Розміри",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Показано як",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} пкс",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Альтернативний текст",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Камера",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Знято",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Повний розмір",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Місцезнаходження",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Відомості про фото",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Це фото містить GPS-координати. Передача початкового файлу розкриває точне місце зйомки. Використовуйте «Зберегти без метаданих» для чистої копії.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Зберегти без метаданих",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Копію без метаданих збережено.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Не вдалося видалити метадані.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Скопіюйте виділене посилання вручну.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "Назвіть ваше завантаження",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Ім’я файлу",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "Завантажити",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "Буде збережено як {format}. Правильне розширення додасться автоматично.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "початковий формат",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "Ласкаво просимо до ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Ваш розумний завантажувач зображень. Зберігайте будь-яке зображення в найкращій доступній версії, скануйте цілі сторінки разом і робіть скриншоти, усе з одного охайного меню.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Клацніть правою кнопкою будь-яке зображення",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "Меню ImgFetch дозволяє завантажити зображення як показано, в найкращій якості або як оригінал, або перетворити його в PNG, JPG чи WebP на льоту.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Скануйте сторінки та робіть скриншоти",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Натисніть кнопку ImgFetch на панелі інструментів, щоб просканувати цілу сторінку в пошуках зображень, або зніміть видиму частину сторінки чи вибрану область.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "сканувати сторінку",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "зняти область",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Налаштуйте під себе",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "П’ять швидких виборів, усе інше вже має розумні значення. Їх можна змінювати будь-коли в Налаштуваннях.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Відкривати редактор після скриншотів",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Малюйте стрілки, додавайте текст або приховуйте перед збереженням.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "Коли завантаження завершуються",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Сповіщати мене",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Зберігати в підпапку",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Порожньо = просто в Завантаження.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Ім’я підпапки",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Питати ім’я файлу перед одиночними завантаженнями",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Відкрити повні налаштування →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Назад",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "Далі",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "Почати використовувати ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "Приємного використання ImgFetch!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Не задано, задайте в налаштуваннях гарячих клавіш браузера",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Перетягніть для вибору: стрілки рухають, Shift+стрілки змінюють розмір, Enter підтверджує, Esc скасовує",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Клацніть елемент, щоб зняти його. Esc скасовує.",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Клацніть елемент, щоб оглянути його зображення. Esc скасовує.",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Зберегти як...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (вбудоване зображення)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Копіювати посилання на зображення",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Копіювати зображення",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Інформація про зображення",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Ще...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Відкрити оригінал",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Знайти зображення через Google Lens",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Сканувати цю сторінку",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Скриншот",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Зняти видиму область",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Вибрати область",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Вся сторінка",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Зняти елемент",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Додати налаштування сайту",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Вимкнути на цьому сайті",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Налаштування",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} збережено",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Перетворює зображення між форматами, обрізає скриншоти та копіює посилання на зображення.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted_one": {
+    "message": "ImgFetch перезапущено, відновлено {resumed} завантаження в черзі{failedPart}.",
+    "description": "Notice after restart. Singular."
+  },
+  "sw_restarted_few": {
+    "message": "ImgFetch перезапущено, відновлено {resumed} завантаження в черзі{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_many": {
+    "message": "ImgFetch перезапущено, відновлено {resumed} завантажень у черзі{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restarted_other": {
+    "message": "ImgFetch перезапущено, відновлено {resumed} завантаження в черзі{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", не вдалося: {failed}",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "Перетворення в {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Примітка: анімовані зображення зберігаються як нерухомий кадр.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "Завантаження…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "Завантаження ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip_one": {
+    "message": "Підготовка ZIP ({count} зображення{cappedNote}, як показано)…",
+    "description": "Queue label. Singular."
+  },
+  "sw_preparingZip_few": {
+    "message": "Підготовка ZIP ({count} зображення{cappedNote}, як показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_many": {
+    "message": "Підготовка ZIP ({count} зображень{cappedNote}, як показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_preparingZip_other": {
+    "message": "Підготовка ZIP ({count} зображення{cappedNote}, як показано)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " (перші 200 з {total})",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull_one": {
+    "message": "ZIP завантажено ({count} зображення).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDoneFull_few": {
+    "message": "ZIP завантажено ({count} зображення).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_many": {
+    "message": "ZIP завантажено ({count} зображень).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDoneFull_other": {
+    "message": "ZIP завантажено ({count} зображення).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_one": {
+    "message": "ZIP завантажено ({count} з {total} зображення, пропущено: {skipped}).",
+    "description": "Queue label. Singular."
+  },
+  "sw_zipDonePartial_few": {
+    "message": "ZIP завантажено ({count} з {total} зображення, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_many": {
+    "message": "ZIP завантажено ({count} з {total} зображень, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial_other": {
+    "message": "ZIP завантажено ({count} з {total} зображення, пропущено: {skipped}).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "Пошук найкращої якості…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch не зміг використати версію найвищої якості. Пробую інше доступне джерело…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Успішно завантажено.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Цей елемент вищий за екран, захоплено лише видиму частину. Використовуйте «Вся сторінка» для решти.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Ця сторінка дуже довга, захоплюються перші {tileCount} фрагментів (верхня частина). Для решти використовуйте захоплення області.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Ця сторінка дуже велика, зображення всієї сторінки зменшено до {percent}%, щоб вкластися в ліміти пам’яті.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Захоплення всієї сторінки, фрагмент {n} з {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Всю сторінку захоплено ({width} × {height} пкс).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Саме зображення скопіювати не вдалося, тому скопійовано його посилання.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Не вдалося скопіювати посилання на зображення.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} додано до налаштувань сайтів.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch призупинено на {host}.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch може сканувати лише звичайні веб-сторінки, службові сторінки браузера на кшталт chrome://, edge:// чи веб-магазину недоступні.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch може вибирати елементи лише на звичайних веб-сторінках, службові сторінки браузера на кшталт chrome://, edge:// чи веб-магазину недоступні.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "У вибраному елементі зображення не знайдено.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Копіювати",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Копіювати відредагований скриншот до буфера обміну",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Скриншот скопійовано до буфера обміну.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Скриншот скопійовано до буфера обміну, зменшено до {width} x {height}, щоб помістився.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Не вдалося скопіювати скриншот. Спробуйте зберегти його.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Копіювання наразі недоступне.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} недоступний на цій сторінці. Натомість захоплено видиму частину.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Браузер не дозволяє захоплення цієї сторінки.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title_one": {
+    "message": "Частина {count} з {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_few": {
+    "message": "Частини {count} з {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_many": {
+    "message": "Частин {count} з {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_title_other": {
+    "message": "Частина {count} з {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting_one": {
+    "message": "Ця сторінка дуже довга. Захоплення в {count} частину в повній роздільній здатності.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_few": {
+    "message": "Ця сторінка дуже довга. Захоплення в {count} частини в повній роздільній здатності.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_many": {
+    "message": "Ця сторінка дуже довга. Захоплення в {count} частин в повній роздільній здатності.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_splitting_other": {
+    "message": "Ця сторінка дуже довга. Захоплення в {count} частину в повній роздільній здатності.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped_one": {
+    "message": "Ця сторінка надзвичайно довга. Захоплено лише першу {count} частину.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_few": {
+    "message": "Ця сторінка надзвичайно довга. Захоплено лише перші {count} частини.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_many": {
+    "message": "Ця сторінка надзвичайно довга. Захоплено лише перші {count} частин.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "part_sanityCapped_other": {
+    "message": "Ця сторінка надзвичайно довга. Захоплено лише першу {count} частину.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Захоплено прокручувану область вмісту цієї сторінки.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Окремий прокручуваний розділ цієї сторінки захоплено в тому вигляді, в якому він був видимий.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Вбудований вміст з іншого сайту вдалося захопити лише у видимому вигляді.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped_one": {
+    "message": "Зйомку зупинено. Збережено {count} частину з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_few": {
+    "message": "Зйомку зупинено. Збережено {count} частини з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_many": {
+    "message": "Зйомку зупинено. Збережено {count} частин з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_stopped_other": {
+    "message": "Зйомку зупинено. Збережено частин: {count} з {total}.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Це зображення завелике для доступної пам'яті, тому зйомка продовжилася меншими частинами.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Зйомку зупинено на межі безпеки. Уже зняті частини збережено.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Зйомка всієї сторінки, частина {part} з {partTotal}, кадр {n} з {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Частини знімка екрана",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Зберегти все",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Відкинути все",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Зберегти",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Редагувати",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Частин не залишилося. Цю вкладку можна закрити.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Усі частини збережено. Цю вкладку можна закрити.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "Збереження частини {current} з {total}…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "Попередній перегляд частини {count} з {total}",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Частини знімка всієї сторінки",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "Редагувати частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "Зберегти частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "Копіювати частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "Відкинути частину {count} з {total}",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} пікселів · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Примітка: великі знімки, наприклад цілі сторінки, копіюються правильно, але не з'являються в історії буфера обміну Windows (Win+V). Це обмеження Windows, а не проблема копіювання. Натисніть Ctrl+V, щоб вставити зображення в потрібне місце.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Скопійовано. Натисніть Ctrl+V, щоб вставити. Історія буфера обміну Windows (Win+V) не показує великі зображення.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame_one": {
+    "message": "{count} зображення · {width} × {height} пкс",
+    "description": "Parts overview summary. Singular: all parts share one size."
+  },
+  "parts_summarySame_few": {
+    "message": "{count} зображення · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_many": {
+    "message": "{count} зображень · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summarySame_other": {
+    "message": "{count} зображення · по {width} × {height} пкс",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried_one": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Singular: parts have different sizes."
+  },
+  "parts_summaryVaried_few": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_many": {
+    "message": "{count} зображень · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "parts_summaryVaried_other": {
+    "message": "{count} зображення · розміри відрізняються",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  }
+}

@@ -16,9 +16,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/zip.js
+ * ImgFetch, core/zip.js
  * Minimal pure-JS ZIP writer (stored entries, no compression). No DOM,
- * no chrome.* — safe to unit test in Node.
+ * no chrome.*, safe to unit test in Node.
  *
  * Used for "Download as ZIP": many images packed into one .zip download.
  * Filenames are sanitized (no directories, no traversal) and flagged UTF-8.
@@ -61,7 +61,7 @@ function utf8Bytes(str) {
 }
 
 /**
- * DOS date/time for ZIP headers — real modified time, not 1980 (B6).
+ * DOS date/time for ZIP headers, real modified time, not 1980 (B6).
  */
 function dosDateTime(date) {
   const d = date instanceof Date ? date : new Date();
@@ -81,7 +81,7 @@ function dosDateTime(date) {
  * Header/data parts in final order.
  *
  * B6: returns the zip as separate parts instead of one concatenated buffer,
- * so the caller can do `new Blob(parts)` directly — no giant intermediate
+ * so the caller can do `new Blob(parts)` directly, no giant intermediate
  * copy (the old path peaked near 900 MB on large archives: file data +
  * zip buffer + Blob copy).
  */

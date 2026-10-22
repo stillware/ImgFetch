@@ -1,0 +1,53 @@
+{
+  "dpr": 1.5,
+  "headed": true,
+  "browser": "chromium",
+  "phases": [
+    {
+      "name": "P0 worker alive + offscreen up",
+      "ok": true,
+      "evidence": {
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
+      }
+    },
+    {
+      "name": "C3 seam-free stitching at DPR 1.5",
+      "ok": true,
+      "evidence": {
+        "ms": 6162,
+        "planTiles": 25,
+        "parts": 1,
+        "seq": "part1: rows=200 bad=0 [0..199]",
+        "refGoodRows": "200/200",
+        "refDiff": "part1: diff=29973/56940000 (0.053%)",
+        "maxDiffPct": 0.053,
+        "meanAbs": 0.03,
+        "refSkippedPx": 0,
+        "wholePageCovered": true,
+        "note": "1 parts, 25 tiles, seq bad=0/200, maxDiff=0.053%"
+      }
+    },
+    {
+      "name": "C9 area crop byte-exact at DPR 1.5",
+      "ok": true,
+      "evidence": {
+        "cropPath": "worker/core/crop-image.js",
+        "rect": "{\"x\":90,\"y\":60,\"width\":1800,\"height\":1110}",
+        "dim": "1800x1110",
+        "diffPixels": 0,
+        "srcColors": 333502,
+        "outColors": 333502,
+        "note": "rect {\"x\":90,\"y\":60,\"width\":1800,\"height\":1110} -> 1800x1110 via worker/core/crop-image.js, diffPixels=0, colors 333502/333502"
+      }
+    },
+    {
+      "name": "no console errors / pageerrors anywhere",
+      "ok": true,
+      "evidence": {
+        "note": "0 errors, 0 total entries",
+        "first": []
+      }
+    }
+  ],
+  "errors": []
+}

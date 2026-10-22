@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/filters.js
+ * ImgFetch, core/filters.js
  * Search / filter / sort for scanned images. Pure functions.
  *
  * Image: { id, src, width, height, format, alt, filename, pageTitle,
@@ -26,7 +26,7 @@
 /**
  * Size filter chips use minimum-threshold semantics (H1):
  * 'medium' means "400px and up", not "exactly the medium bucket".
- * Images with unknown size (0x0) always pass — never hide what we
+ * Images with unknown size (0x0) always pass, never hide what we
  * can't measure; the scan-time minSizePreset already dropped the
  * ones the user asked to skip.
  */
@@ -96,7 +96,7 @@ export function applyFilters(images, filters = {}) {
 export function matchesQuery(img, query, pageCtx) {
   const q = String(query || '').trim().toLowerCase();
   if (!q) return true;
-  // M5: records are slim — page title/host come from the scan payload.
+  // M5: records are slim, page title/host come from the scan payload.
   const ctx = pageCtx || {};
   const hay = [img.filename, img.alt, img.src, img.pageTitle, img.pageHost, ctx.title, ctx.pageHost]
     .filter(Boolean)

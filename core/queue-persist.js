@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/queue-persist.js
+ * ImgFetch, core/queue-persist.js
  * Pure persist-scheduling for the download queue (N4).
  *
  * H5 persists unfinished queue items to chrome.storage.session so a
@@ -25,7 +25,7 @@
  *
  * N4: a download can only be *adopted* after a restart if its
  * chromeDownloadId was already saved. trackDownload() therefore calls
- * flush() the moment the id is assigned — the id is on disk even if the
+ * flush() the moment the id is assigned, the id is on disk even if the
  * worker dies a millisecond later. flush() also cancels any pending
  * throttled write so the same state isn't written twice.
  */
@@ -40,7 +40,7 @@ export function createQueuePersister({ getState, storage, delayMs = 1000 }) {
       const p = storage.set({ [QUEUE_SESSION_KEY]: getState() });
       if (p && typeof p.catch === 'function') p.catch(() => {});
     } catch {
-      /* storage unavailable (e.g. during shutdown) — next update retries */
+      /* storage unavailable (e.g. during shutdown), next update retries */
     }
   };
 

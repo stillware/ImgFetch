@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/gif.js
+ * ImgFetch, core/gif.js
  * Minimal pure-JS GIF89a encoder (single frame). No DOM, no chrome.*
  * Lets ImgFetch genuinely encode GIF files instead of renaming other formats.
  *
@@ -149,7 +149,7 @@ export function lzwCompress(indices, minCodeSize) {
     } else {
       emitRaw(prefix);
       if (nextCode >= 4096) {
-        // Dictionary full — clear and restart.
+        // Dictionary full, clear and restart.
         emitRaw(clearCode);
         reset();
       } else {
@@ -246,7 +246,7 @@ export function encodeGifAnimated(width, height, frames) {
   bytes.push(0x70); // no global color table; 8-bit color resolution
   bytes.push(0);
   bytes.push(0);
-  // NETSCAPE2.0 — loop forever.
+  // NETSCAPE2.0, loop forever.
   bytes.push(0x21, 0xff, 0x0b);
   pushStr('NETSCAPE2.0');
   bytes.push(0x03, 0x01);

@@ -17,7 +17,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — scripts/regression-diff.mjs
+ * ImgFetch, scripts/regression-diff.mjs
  * Pattern check #3: run the same inputs through the old pre-release builds
  * and the new core. Any case that got WORSE must be reported (this would
  * have caught N1: the later pre-release build failed tall DPR-2 pages that
@@ -44,7 +44,7 @@ const oldRoot = process.argv[2] || join(tmpdir(), 'old-build');
 const require = createRequire(import.meta.url);
 import { existsSync } from 'node:fs';
 if (!existsSync(`${oldRoot}/core/fullpage-capture.js`)) {
-  console.log('SKIP: pre-release reference tree not present — regression diff needs it.');
+  console.log('SKIP: pre-release reference tree not present, regression diff needs it.');
   process.exit(0);
 }
 // The old core is ESM; load via dynamic import of absolute file URLs.
@@ -94,7 +94,12 @@ for (const h of heights) {
       const rNew = planNew(inp);
       const okEarlier = !rEarlier.refused && stitchEarlierAccepts(rEarlier.outW, rEarlier.outH);
       const okOld = stitchLaterAccepts(rOld.outW, rOld.outH);
-      const okNew = isStitchSizeAccepted(rNew.outW, rNew.outH);
+      // FIX 4: the planner emits parts; every part must satisfy the shared
+      // rule and the parts must cover the whole page (no truncation).
+      const okNew =
+        rNew.parts.length > 0 &&
+        rNew.parts.every((pt) => isStitchSizeAccepted(pt.w, pt.h)) &&
+        rNew.parts.reduce((n, pt) => n + pt.h, 0) === rNew.devH;
       const label = `${vw}x${h} dpr=${dpr}`;
       if (!okOld && okEarlier) {
         // The N1 regression: the later build failed where the earlier build worked.
@@ -103,7 +108,7 @@ for (const h of heights) {
       } else if (okEarlier && okNew) {
         // No quality regression: new output must be at least as large.
         const a177 = rEarlier.outW * rEarlier.outH;
-        const aNew = rNew.outW * rNew.outH;
+        const aNew = rNew.parts.reduce((n, pt) => n + pt.w * pt.h, 0);
         if (aNew < a177) {
           worse += 1;
           worseCases.push(`QUALITY REGRESSION ${label}: v177 ${rEarlier.outW}x${rEarlier.outH}, new ${rNew.outW}x${rNew.outH}`);

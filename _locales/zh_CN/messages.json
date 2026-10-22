@@ -1,0 +1,2186 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch：智能图片下载器。以最佳质量保存图片，扫描整个页面，截取屏幕截图。",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch 智能图片下载器",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "简体中文",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "自动（浏览器语言）",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "取消",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "确认",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "正在加载",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "未知尺寸",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch 正在启动，请稍后再试。",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "出了点问题，请重试。",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "图片",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "智能图片下载器",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "ImgFetch 导航",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "首页",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "下载历史",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "ImgFetch 设置",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "从任何页面获取图片",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "扫描页面，选择所需内容，并保存最佳可用版本。",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "扫描此页面",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "截图",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "截取可见页面",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "可见",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "截取所选区域",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "区域",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "截取元素",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "元素",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "截取整个页面",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "整个页面",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "正在扫描",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "正在扫描页面…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "正在查找图片",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "目前已找到 {done} 张…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "结果",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "搜索图片…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "尺寸筛选",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "任意尺寸",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400px+",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200px+",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "格式筛选",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "所有格式",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "方向筛选",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "任意方向",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "横向",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "纵向",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "方形",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "图片排序",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "页面顺序",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "最大的优先",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "最小的优先",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "全选",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "取消全选",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "反选",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "找到的图片",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "下载质量",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "智能下载",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "按显示效果",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "下载格式",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "原始格式",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "批量下载时尝试最佳质量",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "下载前为每张图片寻找更高质量的来源。速度较慢，在某些网站上可能触发请求频率限制。",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_captureProgressAria": {
+    "message": "整页捕获进度",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "停止",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "正在停止…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
+  "popup_download": {
+    "message": "下载所选",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "下载 {count} 张图片",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "将所选下载为 ZIP",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "将所选图片打包为一个 .zip 文件，与页面上显示的完全一致（ZIP 内不进行智能质量提升）",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "重新扫描",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "找到 {count} 张图片",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "此页面未找到图片。",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "未找到图片，尺寸过滤器跳过了 {dropped} 张小图片。请在“设置 → 扫描”中调低。",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "没有图片符合这些筛选条件。",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "显示 {shown} 张 · 共找到 {total} 张",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "已删除 {count} 个重复项",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "已隐藏 {count} 个界面元素",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} 张被筛选器隐藏",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "正在显示 {shown}/{total}，滚动查看更多",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}，{dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF（不支持）",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count} 个下载正在进行",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "查看下载",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "此页面找到 {count} 张图片",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "查看结果",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "图片预览",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "关闭预览",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "预览",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "预览 {name}",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "尺寸",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "格式",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "来源",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "背景图片",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "页面图片",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "未知",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "另存为 PNG",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "另存为 JPEG",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "另存为 WebP",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "另存为 AVIF",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "打开原图",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "图片信息",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "此图片无法在标签页中打开。",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "下载",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "准备中…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "重试失败项",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "清除已完成",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "返回结果",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "队列为空。",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "已保存 {done}/{total}",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} 个失败",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "等待中",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "下载中",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "已完成",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "失败",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "已取消",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "在文件夹中显示",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "下载已中断。",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "下载历史",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "清除",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "历史",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "清除下载历史？",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "这将删除 ImgFetch 下载的文件列表。文件本身仍保留在您的设备上。",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "清除历史",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "历史已清除。",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "暂无下载。您保存的图片将显示在这里。",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "这里还没有内容。",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "今天",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "昨天",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "已加入 ImgFetch 下载队列。",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "已复制到剪贴板。",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "复制失败，请重试。",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch 在此网站已暂停。",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch 在此网站已暂停（请参阅网站偏好）。",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "转换失败，已保存原图。",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "未找到原图，已使用最佳可用版本。",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "无法打开 Google Lens，请重试。",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens 已打开，请将图片链接（Ctrl+V）粘贴到其链接框中。",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "完成。",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "图片链接已复制。",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "请先打开一个普通网页，然后重试。",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "此图片链接看起来不安全，ImgFetch 已跳过。",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch 在此未找到可用的图片。",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "该网站不允许保存此图片。",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch 无法转换此图片，已保存原图。",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch 无法将此图片编码为 GIF，未保存任何内容。",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "此浏览器不支持 AVIF 编码（需要 Chrome/Edge 130+，请更新浏览器以启用）。已改为保存 PNG。",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "此页面太大，无法截取为一张图片。",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch 无法确定原图，已使用最佳可用版本。",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch 无法扫描此页面，请重新加载页面后再次扫描。",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch 无法截取此页面。",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "下载未开始，请重试。",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "已取消。",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "耗时过长，请重试。",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "为保护您的本地网络，ImgFetch 阻止了对私有网络地址（如 localhost 或路由器页面）的请求。",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch 在此网站已暂停，请在“设置 → 网站偏好”中重新启用。",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "出错了，请重试。",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "设置",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "设置分区",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "常规",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "下载",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "质量",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "文件名",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "扫描",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "截图",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "网站偏好",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "键盘快捷键",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "文件夹",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "下载历史",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "备份与重置",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "关于",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "隐私",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "ImgFetch 设置",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - ImgFetch 设置",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "设置分区",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "正在保存…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "所有更改已保存",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "保存失败，请重试",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "语言",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "重置所有设置？",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "所有 ImgFetch 设置将恢复为默认值，下载历史将保留。",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "重置设置",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "设置已重置。",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ImgFetch 的外观与行为。",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "外观",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "系统",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "浅色",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "深色",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "下载完成后",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "保持静默",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "显示通知",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "完成后关闭下载面板",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "每次下载完成后，进度视图会在稍后收缩回主屏幕。",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "文件如何保存到您的设备。",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "询问每个文件的保存位置",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "每次下载时显示浏览器的“保存”对话框。",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "自动重试失败的下载",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "如果下载未启动，ImgFetch 会自行重试一次。",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "并发下载数：",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "图片较多时数值越高越快，但某些网站可能会限制您。",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch 保存它能验证的最佳真实来源，从不放大图片。",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "智能质量选择",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "智能下载（推荐）",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "检查每个可用来源，保存它能验证的最佳真实版本。",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "优先使用精确来源",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "跳过额外的质量检查，直接保存页面显示的图片本身。更快，也更保护隐私。",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "JPG 质量：",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "PNG 质量：",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "WebP 质量：",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "转换为 JPG 时使用，数值越高文件越大。",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "100% 为无损，较低的值会减少颜色以获得更小的文件。",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "转换为 WebP 时使用。",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "其他格式",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "最高质量，始终 100%。",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "固定的 256 色调色板（ImgFetch 自有编码器）。",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "未压缩，始终 100%。",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "图片周围的矢量封装。",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch 始终让文件名安全，从不出现奇怪字符。",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "命名",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "保留原始名称",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "使用图片本身清理后的文件名。",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "网站 + 日期 + 编号",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "示例：example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "自定义模板",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "在下方创建自己的模式。",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "自定义模板",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "可用标记",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "下载前让我重命名文件",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "从右键菜单进行单个下载前，打开带预览的小型重命名页。",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "ImgFetch 如何在页面中查找图片。",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "跳过小于以下尺寸的图片",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "不跳过任何图片",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "中等（400px）",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "大（1200px）",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "特大（2000px）",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "从结果中隐藏小图标和间隔图，每次扫描时仍可更改。",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "包含背景图片",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "还会查找用作页面背景的图片（在超大页面上较慢）。",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "扫描深度",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "已加载的页面",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "滚动页面",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "已加载的页面：仅扫描已加载的图片（最快）。滚动页面：先快速滚动页面以显示懒加载的图片，然后恢复您的位置。",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "删除重复图片",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "当同一张图片以多种尺寸出现时，仅保留最大的一张并隐藏其余。",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "截取页面的默认设置。",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "默认格式",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "质量：",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "立即截取",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "可见区域",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "选择区域",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "截取元素",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "整个页面",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“选择区域”会在当前页面打开真正的选择层，拖动绘制矩形，按 Esc 取消。“截取元素”可让您点击任意元素以精确截取该元素。",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "截取后打开标注编辑器",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "在保存前绘制箭头、添加文字，或模糊截图的部分区域。",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "已截取可见区域",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "已截取区域",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "已截取元素",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "已截取整个页面",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}，请查看预览标签页以保存。",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "为特定网站指定各自的下载行为。",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "网站域名",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "使用当前网站",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "添加",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "智能会在此网站查找最佳真实来源 · 按显示效果会按图片显示的样子保存 · 已暂停会关闭此网站的 ImgFetch 下载。",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "暂无网站偏好。",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "智能",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "按显示效果",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "已暂停",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "删除",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "{host} 的行为",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "输入网站域名，例如 example.com。",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "已添加 {host}。",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "无法读取当前网站。",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "当前网站：{host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "当前分配给 ImgFetch 的键盘快捷键。",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "正在加载…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "扫描此页面",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "扫描此页面（备用）",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "选择元素",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "截取所选区域",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "截取元素",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "未注册任何快捷键。",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "未设置",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "复制快捷键页面链接",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "要更改快捷键，请打开 chrome://extensions/shortcuts（Edge 中为 edge://extensions/shortcuts），找到 ImgFetch 并设置首选按键。Mac 上请使用 ⌘ 代替 Ctrl。如果某个快捷键显示“未设置”，说明建议的按键与浏览器或其他扩展冲突，请在此处手动设置。",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "无法读取快捷键。",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "快捷键页面链接已复制，请粘贴到地址栏。",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "文件会保存到浏览器的“下载”文件夹中，这些选项可进一步整理。",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "下载整理到",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "同一位置（无智能文件夹）",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "按网站分文件夹",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "按类型分智能文件夹",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "按日期分文件夹",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "智能文件夹会自动分类：照片、截图、GIF、图形。“按网站”示例：下载 / example.com / photo.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "使用默认子文件夹",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "开启后，所有内容先保存到此文件夹内，再按上面的方式整理。",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "子文件夹名称",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "例如 ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "示例：下载 / ImgFetch / example.com / photo.jpg。开关关闭时忽略。",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "您保存内容的简单列表，显示在弹出窗口中。",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "最近下载",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "保留下载历史",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "存储每次下载的文件名、网站、格式和大小。",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "保留历史（天）",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "更早的条目会自动删除。",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "立即清除",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "清除下载历史",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "立即删除所有历史条目，已下载的文件不受影响。",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "无法清除历史。",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "带走您的设置，或重新开始。",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "导出设置",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "下载包含所有设置的 imgfetch-settings.json 文件。",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "设置已导出。",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "导入设置",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "要导入的设置文件",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "从 ImgFetch 导出文件恢复设置，无效文件会被安全拒绝。",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "设置已导入。",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "此文件不是有效的 ImgFetch 设置导出文件。",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "恢复默认",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "全部重置",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "先要求确认，然后恢复所有 ImgFetch 默认值。除非在上方清除了历史，否则历史将保留。",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "版本",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "许可",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "权限",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch 可以访问什么，以及原因：",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "将 ImgFetch 项添加到右键菜单。",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "将图片文件保存到您的“下载”文件夹。",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "在此设备上记住您的设置和历史。",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "扫描您请求的页面以查找图片。",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "与当前打开的标签页配合工作。",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "在后台转换图片格式。",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "在下载完成时通知您（仅当您启用时）。",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "代您将图片链接复制到剪贴板。",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "读取您访问的网站上的图片，仅在您扫描页面或开始下载时。",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "文档",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "文档、隐私政策和使用条款均在公开仓库中：",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch 没有服务器，也不收集任何内容。只会获取您选择下载的图片，Google Lens（仅当您点击时）会使用图片地址打开 Google。完整声明请参阅仓库中的 PRIVACY.md。",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch 将所有内容保存在您的设备上。无账号、无跟踪、无分析。",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ImgFetch 存储的内容",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "您的设置、网站偏好和下载历史保存在浏览器的本地存储中，仅在此设备上。",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "下载的图片直接进入您的“下载”文件夹，ImgFetch 不会将其上传到任何地方。",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "ImgFetch 绝不做的事",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "无账号、无登录，没有需要登录的地方。",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "无分析、无遥测、无崩溃报告。",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "无远程代码，所有脚本都在扩展包内。",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "图片使用您的普通浏览器会话直接从您访问的网站获取，ImgFetch 不添加任何跟踪参数。",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "ImgFetch 请求每项权限的原因在“关于”部分有说明，完整声明在公开仓库的 PRIVACY.md 中。",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "标注截图",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "正在加载截图…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "标注工具",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "画笔",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "箭头",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "矩形",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "圆形",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "文本",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "马赛克",
+    "description": "Annotate tool: pixelate."
+  },
+  "tool_crop": {
+    "message": "裁剪",
+    "description": "Annotate tool: crop."
+  },
+  "color_red": {
+    "message": "红色",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "橙色",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "绿色",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "蓝色",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "黑色",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "白色",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "细",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "中",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "粗",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "撤销",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "重做",
+    "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "撤销 (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
+  },
+  "redo_title": {
+    "message": "重做 (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "清空",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "输入文字，按 Enter 放置",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "取消文本",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "保存",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "放弃",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "提示：在图片上拖动进行绘制。文本工具：点击文本应放置的位置，输入文字，按 Enter。点击已放置的文本可选中，拖动可移动，按 Delete 或 Backspace 可删除。模糊：在要隐藏的区域上拖动。",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "马赛克可以让细节躲过好奇的目光，但有时可以被逆转，请勿用于敏感文字。",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "截图已保存。",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "保存失败。",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "此编辑器链接无效。",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "无法加载截图。",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "裁剪 (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "应用",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "裁剪选区",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "裁剪尺寸: {width} x {height} 像素",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "由于无法加载图片，裁剪功能不可用。",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "左上角缩放手柄",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "顶部缩放手柄",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "右上角缩放手柄",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "右侧缩放手柄",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "右下角缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "底部缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "左下角缩放手柄",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "左侧缩放手柄",
+    "description": "Annotate crop: accessibility label of the left resize handle."
+  },
+  "capture_subtitle": {
+    "message": "截图预览",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "正在准备您的截图…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "截图预览",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "保存截图",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "复制到剪贴板",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "重新截取可见页面",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "重新截取区域",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "放弃",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "此预览链接无效。",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} 像素",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "截图已就绪",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "已保存 {filename}",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "截图已复制到剪贴板。",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "无法复制截图。",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "图片信息",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "正在读取图片详情…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "直接链接",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "复制链接",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "另存为 JPG",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "未指定图片。",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "文件名",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "尺寸",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "显示为",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "替代文本",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "相机",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "拍摄于",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "完整尺寸",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "位置",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "照片详情",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "此照片包含 GPS 坐标。分享原文件会分享确切的拍摄地点。如需干净的副本，请使用“保存时去除元数据”。",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "保存时去除元数据",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "已保存去除元数据的副本。",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "无法去除元数据。",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "请手动复制选中的链接。",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "为您的下载命名",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "文件名",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "下载",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "将保存为 {format}，正确的扩展名会自动添加。",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "原始格式",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "欢迎使用 ImgFetch",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "您的智能图片下载器。以最佳可用版本保存任何图片，一次扫描整个页面，截取屏幕截图，全部在一个整洁的菜单中。",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "右键点击任何图片",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "ImgFetch 菜单可让您按显示效果、最佳质量或原图下载图片，或即时转换为 PNG、JPG 或 WebP。",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "扫描页面并截图",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "点击工具栏上的 ImgFetch 按钮，扫描整个页面查找图片，或截取可见页面或您选择的任何区域。",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "扫描页面",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "截取区域",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "让它成为您的专属",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "五个快速选项，其他一切都有合理的默认值。您可以随时在“设置”中更改它们。",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "截图后打开编辑器",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "在保存前绘制箭头、添加文字或进行模糊。",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "下载完成后",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "通知我",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "保存到子文件夹",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "留空 = 直接保存到“下载”。",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "子文件夹名称",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "单个下载前询问文件名",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "打开完整设置 →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "返回",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "下一步",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "开始使用 ImgFetch",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "祝您使用 ImgFetch 愉快！",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "未设置，请在浏览器快捷键设置中指定",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "拖动以选择：方向键移动，Shift+方向键调整大小，Enter 确认，Esc 取消",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "点击元素进行截取，按 Esc 取消",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "点击元素检查其图片，按 Esc 取消",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "另存为...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG（嵌入图片）",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "复制图片链接",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "复制图片",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "图片信息",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "更多...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "打开原图",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "使用 Google Lens 搜索图片",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "扫描此页面",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "截图",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "截取可见区域",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "选择区域",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "整个页面",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "截取元素",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "添加网站偏好",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "在此网站禁用",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "设置",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "已保存 {filename}",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "在格式之间转换图片、裁剪截图并复制图片链接。",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch 已重启，已恢复队列中的 {resumed} 个下载{failedPart}。",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": "，{failed} 个失败",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "正在转换为 {format}…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "注意：动态图片保存为静态帧。",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "正在下载…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "正在下载 ZIP…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "正在准备 ZIP（{count} 张图片{cappedNote}，按显示效果）…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": "（{total} 中的前 200 张）",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ZIP 已下载（{count} 张图片）。",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ZIP 已下载（{count}/{total} 张图片，跳过 {skipped} 张）。",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "正在寻找最佳质量…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch 无法使用最高质量版本，正在尝试其他可用来源…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "下载成功。",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "此元素高于屏幕，仅截取了可见部分。如需其余部分，请使用“整个页面”。",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "此页面很长，将截取前 {tileCount} 个分块（顶部）。如需其余部分，请使用区域截取。",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "此页面很大，整页图片已缩小至 {percent}% 以符合内存限制。",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "正在截取整个页面，分块 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "已截取整个页面（{width} × {height} px）。",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "无法复制图片本身，因此复制了其链接。",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "无法复制图片链接。",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "已将 {host} 添加到网站偏好。",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch 在 {host} 已暂停。",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch 只能扫描普通网页，chrome://、edge:// 或网上应用店等浏览器页面不在支持范围内。",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch 只能在普通网页上选取元素，chrome://、edge:// 或网上应用店等浏览器页面不在支持范围内。",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "在所选元素中未找到图片。",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "复制",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "将编辑后的截图复制到剪贴板",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "截图已复制到剪贴板。",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "截图已复制到剪贴板，已缩小至 {width} x {height} 以适应。",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "无法复制截图，请改为保存。",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "复制功能暂时不可用。",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "此页面不支持{mode}。已改为截取可见部分。",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "浏览器不允许截取此页面。",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "第 {count} 部分，共 {total} 部分",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "此页面很长。将以完整分辨率分 {count} 部分截取。",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "此页面非常长。仅截取了前 {count} 部分。",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "已截取此页面的可滚动内容区域。",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "此页面中单独滚动的部分已按当前可见状态截取。",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "来自其他网站的嵌入内容只能按可见状态截取。",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "捕获已停止。已保存 {total} 个部分中的 {count} 个。",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "此图像对于可用内存来说太大，因此捕获以较小的部分继续。",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "捕获已在安全限制处停止。已保存到目前为止捕获的部分。",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "正在捕获整页，第 {part} 部分（共 {partTotal} 部分），图块 {n}/{tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "截图分片",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "全部保存",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "全部丢弃",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "保存",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "编辑",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "所有分片都已处理完毕。可以关闭此标签页。",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "所有分片均已保存。可以关闭此标签页。",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "正在保存第 {current} 个分片，共 {total} 个…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "第 {count} 个分片的预览，共 {total} 个",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "整页截图的分片列表",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "编辑第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "保存第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "复制第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "丢弃第 {count} 个分片，共 {total} 个",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} 像素 · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "注意：大型截图（例如整页截图）可以正确复制，但不会出现在 Windows 剪贴板历史记录（Win+V）中。这是 Windows 的限制，不是复制出了问题。按 Ctrl+V 即可将图像粘贴到需要的位置。",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "已复制。按 Ctrl+V 粘贴。Windows 剪贴板历史记录（Win+V）不会显示大型图像。",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "{count} 张图像 · 每张 {width} × {height} 像素",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "{count} 张图像 · 尺寸各不相同",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  }
+}

@@ -16,19 +16,20 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — offscreen/offscreen.js
- * Off-DOM image pipeline: format conversion, screenshot cropping and
+ * ImgFetch, offscreen/offscreen.js
+ * Off-DOM image pipeline: format conversion, full-page stitching and
  * clipboard writes. Receives only validated messages from the service
  * worker (runtime messages with target === 'offscreen').
  */
 import { encodeGif, encodeGifAnimated } from '../core/gif.js';
 import { createZipParts } from '../core/zip.js';
-import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
-import { sanitizeSvgDocument } from '../core/svg.js';
+import { isPrivateNetworkFetchBlocked, isRedirectBlocked } from '../core/urls.js';
+import { dataUrlToBlob } from '../core/data-url.js';
+import { sanitizeSvgDocument, stripSvgDoctype } from '../core/svg.js';
 import { quantizePngRgba } from '../core/png-quantize.js';
 // N2: chunked-ZIP accumulator with abort + 2-min TTL (no more leaked chunks).
 import { createZipAccumulator } from '../core/zip-accum.js';
-// N1: the stitch size rule lives in core/fullpage-capture.js — the planner
+// N1: the stitch size rule lives in core/fullpage-capture.js, the planner
 // and the stitcher share it, so they can never disagree again.
 import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
@@ -54,16 +55,30 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     return true;
   }
 
-  function loadBitmap(src) {
-    return fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' })
-      .then((res) => {
-        if (!res.ok) throw new Error(`http-${res.status}`);
-        return res.blob();
-      })
-      .then((blob) => {
-        if (!blob.type.startsWith('image/')) throw new Error('not-image');
-        return createImageBitmap(blob);
-      });
+  /**
+   * F1: after any fetch that can receive an untrusted URL, re-check the
+   * FINAL url (response.url, after redirects) with the same
+   * private-network rule that vetted the original URL, and refuse the
+   * response if the redirect landed somewhere blocked.
+   */
+  function throwIfRedirectBlocked(res, pageUrl) {
+    if (res && isRedirectBlocked(res.url, pageUrl)) throw new Error('blocked-redirect');
+  }
+
+  async function loadBitmap(src, pageUrl) {
+    let blob;
+    if (typeof src === 'string' && src.startsWith('data:')) {
+      // F6: screenshot data URLs are decoded locally (chunked atob via
+      // core/data-url.js), never through fetch(dataUrl).
+      blob = dataUrlToBlob(src);
+    } else {
+      const res = await fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' });
+      throwIfRedirectBlocked(res, pageUrl);
+      if (!res.ok) throw new Error(`http-${res.status}`);
+      blob = await res.blob();
+    }
+    if (!blob.type.startsWith('image/')) throw new Error('not-image');
+    return createImageBitmap(blob);
   }
 
   function encode(bitmap, sx, sy, sw, sh, format, quality) {
@@ -72,7 +87,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     canvas.height = Math.max(1, Math.round(sh));
     const ctx = canvas.getContext('2d');
     if (format === 'jpg' || format === 'jpeg') {
-      // JPEG has no alpha — paint white first to avoid black backgrounds.
+      // JPEG has no alpha, paint white first to avoid black backgrounds.
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
@@ -102,7 +117,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * M3/B4: sanitize a network SVG before saving. A saved .svg opened in a
-   * browser can run embedded scripts — the allowlist sanitizer in
+   * browser can run embedded scripts, the allowlist sanitizer in
    * core/svg.js keeps only known-safe elements/attributes, neutralizes
    * javascript: URLs (including tab/newline-obfuscated ones), strips
    * foreignObject/script/iframe/embed/object, href-retargeting SMIL, and
@@ -112,10 +127,14 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   async function sanitizeSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
     const res = await fetch(msg.srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
+    throwIfRedirectBlocked(res, msg.pageUrl);
     if (!res.ok) throw new Error(`http-${res.status}`);
     const text = await res.text();
     if (text.length > 5_000_000) throw new Error('too-large');
-    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    // Strip DOCTYPE / internal entities before parsing: billion-laughs
+    // style entity expansion would otherwise hang the parser on hostile
+    // input. DOCTYPE never affects SVG rendering.
+    const doc = new DOMParser().parseFromString(stripSvgDoctype(text), 'image/svg+xml');
     if (doc.querySelector('parsererror')) throw new Error('not-svg');
     sanitizeSvgDocument(doc);
     const clean = new XMLSerializer().serializeToString(doc);
@@ -126,17 +145,23 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   }
 
   /**
-   * M3: createImageBitmap often can't decode SVG — fall back to
+   * M3: createImageBitmap often can't decode SVG, fall back to
    * rendering via an <img> element so SVG -> PNG/JPG works.
    */
-  async function loadBitmapWithSvgFallback(src) {
+  async function loadBitmapWithSvgFallback(src, pageUrl) {
     try {
-      return await loadBitmap(src);
+      return await loadBitmap(src, pageUrl);
     } catch (err) {
       let text = '';
       try {
-        const res = await fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-        if (res.ok) text = (await res.text()).slice(0, 4000);
+        if (typeof src === 'string' && src.startsWith('data:')) {
+          text = (await dataUrlToBlob(src).text()).slice(0, 4000);
+        } else {
+          const res = await fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' });
+          if (res.ok && !isRedirectBlocked(res.url, pageUrl)) {
+            text = (await res.text()).slice(0, 4000);
+          }
+        }
       } catch {
         /* fall through */
       }
@@ -160,7 +185,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     const format = String(msg.format || 'png').toLowerCase();
     if (!SAFE_FORMATS.has(format)) throw new Error('bad-format');
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const bitmap = await loadBitmapWithSvgFallback(msg.srcUrl);
+    const bitmap = await loadBitmapWithSvgFallback(msg.srcUrl, msg.pageUrl);
     try {
       return { ok: true, ...encode(bitmap, 0, 0, bitmap.width, bitmap.height, format, msg.quality) };
     } finally {
@@ -170,7 +195,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * L9: re-encode the image in its own format. Decoding to a bitmap and
-   * re-encoding drops all EXIF (including GPS) — the clean copy has no
+   * re-encoding drops all EXIF (including GPS), the clean copy has no
    * metadata. Quality 1.0 to minimize generational loss.
    */
   async function stripMetadata(msg) {
@@ -179,7 +204,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     let format = (m && m[1].toLowerCase()) || 'png';
     if (format === 'jpeg') format = 'jpg';
     if (!SAFE_FORMATS.has(format)) format = 'png';
-    const bitmap = await loadBitmapWithSvgFallback(msg.srcUrl);
+    const bitmap = await loadBitmapWithSvgFallback(msg.srcUrl, msg.pageUrl);
     try {
       return { ok: true, format, ...encode(bitmap, 0, 0, bitmap.width, bitmap.height, format, 1) };
     } finally {
@@ -189,7 +214,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * L11: sniff the real image type from the first bytes (Range request).
-   * A `.jpg` URL can serve WebP — the filename and history must reflect the
+   * A `.jpg` URL can serve WebP, the filename and history must reflect the
    * actual bytes, not the URL's claim.
    */
   async function sniffType(msg) {
@@ -199,6 +224,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
       referrerPolicy: 'no-referrer',
       headers: { Range: 'bytes=0-31' },
     }).catch(() => null);
+    if (res && isRedirectBlocked(res.url, msg.pageUrl)) throw new Error('sniff-failed');
     if (!res || (!res.ok && res.status !== 206)) throw new Error('sniff-failed');
     const buf = await res.arrayBuffer().catch(() => null);
     if (!buf || buf.byteLength < 4) throw new Error('sniff-failed');
@@ -206,29 +232,6 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     const ext = sniffed && ZIP_TYPE_TO_EXT[sniffed];
     if (!ext) throw new Error('sniff-unknown');
     return { ok: true, ext };
-  }
-
-  async function cropImage(msg) {
-    const rect = msg.rect || {};
-    const x = Math.max(0, Math.round(Number(rect.x) || 0));
-    const y = Math.max(0, Math.round(Number(rect.y) || 0));
-    const w = Math.round(Number(rect.width) || 0);
-    const h = Math.round(Number(rect.height) || 0);
-    if (!(w > 0 && h > 0 && w <= 16000 && h <= 16000)) throw new Error('bad-rect');
-    if (!allowedSource(msg.dataUrl, msg.pageUrl)) throw new Error('bad-source');
-    const format = String(msg.format || 'png').toLowerCase();
-    if (!SAFE_FORMATS.has(format)) throw new Error('bad-format');
-    const bitmap = await loadBitmap(msg.dataUrl);
-    try {
-      const sx = Math.min(x, bitmap.width - 1);
-      const sy = Math.min(y, bitmap.height - 1);
-      const sw = Math.min(w, bitmap.width - sx);
-      const sh = Math.min(h, bitmap.height - sy);
-      if (sw <= 0 || sh <= 0) throw new Error('bad-rect');
-      return { ok: true, ...encode(bitmap, sx, sy, sw, sh, format, msg.quality) };
-    } finally {
-      bitmap.close();
-    }
   }
 
   async function clipboardWrite(msg) {
@@ -240,7 +243,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     } catch (firstErr) {
       // The async Clipboard API rejects in the offscreen document when it
       // isn't focused ("NotAllowedError: Document is not focused"). The
-      // legacy execCommand path has no focus requirement — use it as backup.
+      // legacy execCommand path has no focus requirement, use it as backup.
       try {
         const ta = document.createElement('textarea');
         ta.value = text;
@@ -264,7 +267,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function clipboardImage(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const bitmap = await loadBitmap(msg.srcUrl);
+    const bitmap = await loadBitmap(msg.srcUrl, msg.pageUrl);
     try {
       const w = bitmap.width;
       const h = bitmap.height;
@@ -292,7 +295,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * H3: ZIP download that scales. Fetches with concurrency 4 and a 30 s
    * per-file timeout, detects the real image type (magic bytes, then
    * Content-Type, then URL) so entries are never mislabeled, and returns
-   * a blob: URL instead of a giant base64 data URL — the old path broke
+   * a blob: URL instead of a giant base64 data URL, the old path broke
    * past ~45 MB because of the runtime message size limit.
    * Returns { ok, url, count, skipped, bytes }. The worker revokes the
    * URL after the download completes (REVOKE_URL).
@@ -364,7 +367,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   function zipEntryName(r) {
     const ext = zipEntryExt(r.data, r.contentType, r.url);
     let stem = String(r.name || '');
-    // data: URLs make ugly names — use a clean numbered stem instead.
+    // data: URLs make ugly names, use a clean numbered stem instead.
     if (!stem || r.url.startsWith('data:')) {
       stem = `image-${String(r.index + 1).padStart(3, '0')}`;
     } else {
@@ -400,6 +403,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     } catch (err) {
       return { skipped: err && err.name === 'AbortError' ? 'timeout' : 'fetch-failed' };
     }
+    if (isRedirectBlocked(res.url, pageUrl)) return { skipped: 'blocked-redirect' };
     if (!res.ok) return { skipped: `http-${res.status}` };
     const buf = await res.arrayBuffer().catch(() => null);
     if (!buf || buf.byteLength === 0) return { skipped: 'empty-body' };
@@ -422,7 +426,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * Single-chunk calls behave as before.
    */
   // N2: accumulator releases a token's chunks on abort (ZIP_ABORT from the
-  // worker's catch/finally) or after a 2-minute TTL sweep — a failed or
+  // worker's catch/finally) or after a 2-minute TTL sweep, a failed or
   // cancelled multi-chunk ZIP no longer leaks memory until close.
   const zipAccums = createZipAccumulator();
   // N2: drop a failed/cancelled ZIP's accumulated chunks immediately.
@@ -456,7 +460,7 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     }
     zipAccums.take(token);
     if (!acc.entries.length) throw new Error('empty');
-    // B6: Blob built straight from the entry parts — no concatenated
+    // B6: Blob built straight from the entry parts, no concatenated
     // intermediate buffer (saves one full copy of the archive in memory).
     const { parts, size } = createZipParts(acc.entries);
     const blob = new Blob(parts, { type: 'application/zip' });
@@ -485,11 +489,11 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * Real 24-bit BMP encoding (headers + pixel data, no compression).
-   * Canvas cannot encode BMP, so it is written by hand — never faked.
+   * Canvas cannot encode BMP, so it is written by hand, never faked.
    */
   async function convertBmp(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const bitmap = await loadBitmap(msg.srcUrl);
+    const bitmap = await loadBitmap(msg.srcUrl, msg.pageUrl);
     try {
       const w = bitmap.width;
       const h = bitmap.height;
@@ -542,11 +546,12 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
 
   /**
    * Wrap the source raster in a genuine SVG document (base64-embedded).
-   * A real, valid .svg file — never a renamed raster.
+   * A real, valid .svg file, never a renamed raster.
    */
   async function convertSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
     const res = await fetch(msg.srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
+    throwIfRedirectBlocked(res, msg.pageUrl);
     if (!res.ok) throw new Error(`http-${res.status}`);
     const blob = await res.blob();
     if (!blob.type.startsWith('image/')) throw new Error('not-image');
@@ -586,10 +591,11 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * (e.g. animated WebP/APNG) and encode a real multi-frame GIF89a.
    * Returns null when the source isn't animated or WebCodecs is unavailable.
    */
-  async function tryAnimatedGif(srcUrl) {
+  async function tryAnimatedGif(srcUrl, pageUrl) {
     if (typeof ImageDecoder === 'undefined') return null;
     const res = await fetch(srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
     if (!res.ok) return null;
+    if (isRedirectBlocked(res.url, pageUrl)) return null;
     const buf = await res.arrayBuffer();
     if (buf.byteLength === 0 || buf.byteLength > GIF_PROBE_MAX_BYTES) return null;
     const type = sniffImageType(buf);
@@ -668,9 +674,9 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function convertGif(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const animated = await tryAnimatedGif(msg.srcUrl).catch(() => null);
+    const animated = await tryAnimatedGif(msg.srcUrl, msg.pageUrl).catch(() => null);
     if (animated) return animated;
-    const bitmap = await loadBitmap(msg.srcUrl);
+    const bitmap = await loadBitmap(msg.srcUrl, msg.pageUrl);
     try {
       const w = bitmap.width;
       const h = bitmap.height;
@@ -700,6 +706,83 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   }
 
   /**
+   * Round 4: stitched parts are written STRAIGHT into IndexedDB from
+   * here (same extension origin, same 'imgfetch' database and
+   * 'captures' store as background/idb.js), as Blob records. A part
+   * can be tens of MB; it must never travel back to the worker as a
+   * base64 data URL inside a runtime message. The worker only ever
+   * receives the record id and the byte size.
+   */
+  function capturesDb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('imgfetch', 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('captures')) {
+          db.createObjectStore('captures', { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function idbTxDone(db, mode, run) {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('captures', mode);
+      run(tx.objectStore('captures'));
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+  }
+
+  async function putCaptureRecord(record) {
+    const db = await capturesDb();
+    try {
+      await idbTxDone(db, 'readwrite', (store) => { store.put(record); });
+    } finally {
+      db.close();
+    }
+  }
+
+  async function allCaptureRecords() {
+    const db = await capturesDb();
+    try {
+      return await new Promise((resolve, reject) => {
+        const req = db.transaction('captures', 'readonly').objectStore('captures').getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    } finally {
+      db.close();
+    }
+  }
+
+  /**
+   * Close a parts group once the capture settles: every record of the
+   * group gets its final partTotal and is no longer marked open (the
+   * worker's pruner protects open groups and prunes closed groups
+   * only as a whole).
+   */
+  async function captureGroupFinalize(msg) {
+    const groupId = String(msg.groupId || '');
+    if (!groupId) throw new Error('bad-group');
+    const partTotal = Math.max(0, Math.round(Number(msg.partTotal) || 0));
+    const all = await allCaptureRecords();
+    const mine = all.filter((r) => r && r.groupId === groupId);
+    const db = await capturesDb();
+    try {
+      await idbTxDone(db, 'readwrite', (store) => {
+        for (const r of mine) store.put({ ...r, partTotal, groupOpen: false });
+      });
+    } finally {
+      db.close();
+    }
+    return { ok: true, updated: mine.length };
+  }
+
+  /**
    * Stitch viewport captures into one full-page image.
    * msg: { images: [{dataUrl, x, y}], width, height, format, quality }
    */
@@ -726,7 +809,13 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('no-2d-context');
+    if (!ctx || canvas.width !== width || canvas.height !== height) {
+      // The browser refused (or silently shrank) the allocation: say so
+      // instead of stitching into a smaller canvas than planned.
+      canvas.width = 0;
+      canvas.height = 0;
+      throw new Error('alloc-failed');
+    }
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
     // Tiles arrive at device resolution; the canvas may be downscaled.
@@ -735,19 +824,33 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     return { ok: true };
   }
 
+  /**
+   * FIX 4: tiles are always drawn 1:1 (no resampling, no downscale). The
+   * worker passes exact integer device-px offsets (dx, dy). For inner
+   * scroll containers / iframes it also passes a source crop
+   * (sx, sy, sw, sh): the tile is the full viewport capture, only the
+   * target's visible box is stitched. The legacy {x, y} form draws the
+   * whole tile at (x, y).
+   */
   async function stitchTile(msg) {
     const s = stitchSession;
     if (!s) throw new Error('no-stitch-session');
     if (!allowedSource(msg.dataUrl, msg.pageUrl)) throw new Error('bad-source');
-    const bitmap = await loadBitmap(msg.dataUrl);
+    const bitmap = await loadBitmap(msg.dataUrl, msg.pageUrl);
     try {
-      s.ctx.drawImage(
-        bitmap,
-        Math.round(Number(msg.x) || 0),
-        Math.round(Number(msg.y) || 0),
-        Math.max(1, Math.round(bitmap.width * s.scale)),
-        Math.max(1, Math.round(bitmap.height * s.scale)),
-      );
+      const dx = Math.round(Number(msg.dx ?? msg.x) || 0);
+      const dy = Math.round(Number(msg.dy ?? msg.y) || 0);
+      const hasCrop = Number(msg.sw) > 0 && Number(msg.sh) > 0;
+      if (hasCrop) {
+        const sx = Math.max(0, Math.round(Number(msg.sx) || 0));
+        const sy = Math.max(0, Math.round(Number(msg.sy) || 0));
+        const sw = Math.min(Math.round(Number(msg.sw)), bitmap.width - sx);
+        const sh = Math.min(Math.round(Number(msg.sh)), bitmap.height - sy);
+        if (sw <= 0 || sh <= 0) throw new Error('bad-crop');
+        s.ctx.drawImage(bitmap, sx, sy, sw, sh, dx, dy, sw, sh);
+      } else {
+        s.ctx.drawImage(bitmap, dx, dy);
+      }
       s.tiles += 1;
     } finally {
       bitmap.close();
@@ -776,6 +879,131 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     }
   }
 
+  /**
+   * Round 4 allocation probe: allocate a canvas at the planned part
+   * size, paint it and encode it losslessly, then release it. The
+   * worker probes the largest planned part BEFORE capturing; when this
+   * fails it replans with half the area budget and tries again, so an
+   * allocation limit can never crash a capture halfway through.
+   */
+  async function stitchProbe(msg) {
+    const width = Math.round(Number(msg.width) || 0);
+    const height = Math.round(Number(msg.height) || 0);
+    if (!isStitchSizeAccepted(width, height)) return { ok: false, error: 'bad-size' };
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    try {
+      const ctx = canvas.getContext('2d');
+      if (!ctx || canvas.width !== width || canvas.height !== height) {
+        return { ok: false, error: 'alloc-failed' };
+      }
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) return { ok: false, error: 'alloc-failed' };
+      return { ok: true, bytes: blob.size };
+    } catch {
+      return { ok: false, error: 'alloc-failed' };
+    } finally {
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+  }
+
+  /**
+   * Round 4: grow the live stitch canvas (a growing page extended the
+   * last part). The old canvas is drawn onto a taller one and released;
+   * on allocation failure the session is left untouched and the caller
+   * falls back to finishing the part at its planned height.
+   */
+  function stitchExtend(msg) {
+    const s = stitchSession;
+    if (!s) throw new Error('no-stitch-session');
+    const height = Math.round(Number(msg.height) || 0);
+    if (!(height > s.height) || !isStitchSizeAccepted(s.width, height)) {
+      return { ok: false, error: 'bad-size' };
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = s.width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx || canvas.width !== s.width || canvas.height !== height) {
+      canvas.width = 0;
+      canvas.height = 0;
+      return { ok: false, error: 'alloc-failed' };
+    }
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, s.width, height);
+    ctx.drawImage(s.canvas, 0, 0);
+    s.canvas.width = 0;
+    s.canvas.height = 0;
+    stitchSession = { canvas, ctx, width: s.width, height, scale: s.scale, tiles: s.tiles };
+    return { ok: true, height };
+  }
+
+  /**
+   * Round 4: finish a stitch session into IndexedDB as a Blob record.
+   * msg.record carries the worker-chosen metadata (id, partIndex,
+   * partTotal, groupId, groupOpen, at). Optional msg.cropHeight keeps
+   * only the top rows (a stopped capture saves the rows that were
+   * really captured). The canvas is released immediately after the
+   * encode; the reply carries only the record id and byte size.
+   */
+  async function stitchEndBlob(msg) {
+    const s = stitchSession;
+    stitchSession = null;
+    if (!s) throw new Error('no-stitch-session');
+    const rec = (msg && msg.record) || {};
+    const id = String(rec.id || '');
+    if (!id) {
+      s.canvas.width = 0;
+      s.canvas.height = 0;
+      throw new Error('bad-record');
+    }
+    try {
+      const cropH = Math.round(Number(msg.cropHeight) || 0);
+      let source = s.canvas;
+      let outH = s.height;
+      let temp = null;
+      if (cropH > 0 && cropH < s.height) {
+        temp = document.createElement('canvas');
+        temp.width = s.width;
+        temp.height = cropH;
+        const tctx = temp.getContext('2d');
+        if (!tctx || temp.width !== s.width || temp.height !== cropH) {
+          throw new Error('alloc-failed');
+        }
+        tctx.drawImage(s.canvas, 0, 0);
+        source = temp;
+        outH = cropH;
+      }
+      const format = msg.format === 'jpg' ? 'jpg' : 'png';
+      const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
+      const q = format === 'jpg' ? Math.min(1, Math.max(0.1, Number(msg.quality) || 1)) : undefined;
+      const blob = await new Promise((resolve) => source.toBlob(resolve, mime, q));
+      if (temp) { temp.width = 0; temp.height = 0; }
+      if (!blob) throw new Error('encode-failed');
+      const record = {
+        id,
+        blob,
+        width: s.width,
+        height: outH,
+        at: Number(rec.at) || Date.now(),
+        bytes: blob.size,
+      };
+      if (Number(rec.partIndex) > 0) record.partIndex = Number(rec.partIndex);
+      if (Number(rec.partTotal) > 0) record.partTotal = Number(rec.partTotal);
+      if (rec.groupId) record.groupId = String(rec.groupId);
+      if (rec.groupOpen) record.groupOpen = true;
+      await putCaptureRecord(record);
+      return { ok: true, id, bytes: blob.size, width: record.width, height: record.height, tiles: s.tiles };
+    } finally {
+      s.canvas.width = 0;
+      s.canvas.height = 0;
+    }
+  }
+
   function stitchAbort() {
     const s = stitchSession;
     stitchSession = null;
@@ -790,9 +1018,23 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * STITCH_BEGIN / STITCH_TILE / STITCH_END session protocol above so a
    * long page never travels as one giant runtime message. */
 
+  /**
+   * FIX 4.3: report the offscreen document's JS heap so peak memory
+   * during stitching can be measured (used by the e2e suite).
+   */
+  function memorySample() {
+    const m =
+      typeof performance !== 'undefined' && performance.memory ? performance.memory : null;
+    return {
+      ok: true,
+      usedJSHeapSize: m ? Math.round(m.usedJSHeapSize) : 0,
+      totalJSHeapSize: m ? Math.round(m.totalJSHeapSize) : 0,
+    };
+  }
+
   async function supportsAvif() {
     try {
-      // Probe with a real encode (toBlob + MIME check), not just toDataURL —
+      // Probe with a real encode (toBlob + MIME check), not just toDataURL,
       // some browsers silently fall back to PNG for toDataURL.
       const canvas = document.createElement('canvas');
       canvas.width = 16;
@@ -829,9 +1071,6 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
             break;
           case 'SNIFF_TYPE':
             result = await sniffType(msg);
-            break;
-          case 'CROP_IMAGE':
-            result = await cropImage(msg);
             break;
           case 'CLIPBOARD_WRITE':
             result = await clipboardWrite(msg);
@@ -872,11 +1111,27 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
           case 'STITCH_END':
             result = stitchEnd(msg);
             break;
+          case 'STITCH_END_BLOB':
+            result = await stitchEndBlob(msg);
+            break;
+          case 'STITCH_PROBE':
+            result = await stitchProbe(msg);
+            break;
+          case 'STITCH_EXTEND':
+            result = stitchExtend(msg);
+            break;
+          case 'CAPTURE_GROUP_FINALIZE':
+            result = await captureGroupFinalize(msg);
+            break;
           case 'STITCH_ABORT':
             result = stitchAbort();
             break;
           case 'SUPPORTS_AVIF':
             result = await supportsAvif();
+            break;
+          case 'MEMORY_SAMPLE':
+            // FIX 4.3: heap sample for memory measurement (e2e + diagnostics).
+            result = memorySample();
             break;
           default:
             throw new Error('unknown');

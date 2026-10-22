@@ -1,0 +1,2186 @@
+{
+  "appName": {
+    "message": "ImgFetch",
+    "description": "Extension name. Always ImgFetch, never translated."
+  },
+  "appDescription": {
+    "message": "ImgFetch: Akıllı Görüntü İndirici. Görüntüleri en iyi kalitede kaydedin, tüm sayfaları tarayın, ekran görüntüsü alın.",
+    "description": "Manifest description shown in the browser store and extension list."
+  },
+  "actionTitle": {
+    "message": "ImgFetch Akıllı Görüntü İndirici",
+    "description": "Tooltip of the toolbar button (manifest action title)."
+  },
+  "languageName": {
+    "message": "Türkçe",
+    "description": "Native name of this language, shown in the language dropdown."
+  },
+  "languageAuto": {
+    "message": "Otomatik (tarayıcı dili)",
+    "description": "First entry of the language dropdown: follow the browser language."
+  },
+  "ui_cancel": {
+    "message": "İptal",
+    "description": "Generic Cancel button label."
+  },
+  "ui_confirm": {
+    "message": "Onayla",
+    "description": "Default confirm label of the inline confirmation dialog."
+  },
+  "ui_loading": {
+    "message": "Yükleniyor",
+    "description": "Spinner accessibility label while content loads."
+  },
+  "ui_unknownSize": {
+    "message": "Bilinmeyen boyut",
+    "description": "Shown when image dimensions are not known."
+  },
+  "ui_startingUp": {
+    "message": "ImgFetch başlatılıyor, lütfen bir an sonra tekrar deneyin.",
+    "description": "Error shown when the background worker is not ready yet."
+  },
+  "ui_somethingWrong": {
+    "message": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "description": "Generic error message."
+  },
+  "ui_fallbackName": {
+    "message": "görüntü",
+    "description": "Fallback file label when no name is known."
+  },
+  "appTagline": {
+    "message": "Akıllı Görüntü İndirici",
+    "description": "Short tagline under the ImgFetch brand name."
+  },
+  "popup_navAria": {
+    "message": "ImgFetch gezintisi",
+    "description": "Accessibility label of the popup top navigation."
+  },
+  "popup_home": {
+    "message": "Ana Sayfa",
+    "description": "Popup nav: home view."
+  },
+  "popup_history": {
+    "message": "İndirme geçmişi",
+    "description": "Popup nav: history view."
+  },
+  "popup_settings": {
+    "message": "ImgFetch ayarları",
+    "description": "Popup nav: opens the settings page."
+  },
+  "popup_heroTitle": {
+    "message": "Herhangi bir sayfadan görüntü alın",
+    "description": "Popup home hero heading."
+  },
+  "popup_heroDesc": {
+    "message": "Sayfayı tarayın, istediklerinizi seçin ve mevcut en iyi sürümü kaydedin.",
+    "description": "Popup home hero paragraph."
+  },
+  "popup_scanButton": {
+    "message": "Bu sayfayı tara",
+    "description": "Popup home: start scanning the current page."
+  },
+  "popup_screenshotGroup": {
+    "message": "Ekran görüntüsü",
+    "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_shotVisible": {
+    "message": "Görünür sayfayı yakala",
+    "description": "Tooltip and label of the visible-area screenshot button."
+  },
+  "popup_shotVisibleLabel": {
+    "message": "Görünür",
+    "description": "Short label under the visible-area screenshot button."
+  },
+  "popup_shotArea": {
+    "message": "Seçili alanı yakala",
+    "description": "Tooltip and label of the area screenshot button."
+  },
+  "popup_shotAreaLabel": {
+    "message": "Alan",
+    "description": "Short label under the area screenshot button."
+  },
+  "popup_shotElement": {
+    "message": "Öğeyi yakala",
+    "description": "Tooltip and label of the element screenshot button."
+  },
+  "popup_shotElementLabel": {
+    "message": "Öğe",
+    "description": "Short label under the element screenshot button."
+  },
+  "popup_shotFull": {
+    "message": "Tüm sayfayı yakala",
+    "description": "Tooltip and label of the full-page screenshot button."
+  },
+  "popup_shotFullLabel": {
+    "message": "Tüm sayfa",
+    "description": "Short label under the full-page screenshot button."
+  },
+  "popup_scanningAria": {
+    "message": "Taranıyor",
+    "description": "Accessibility label of the scan spinner."
+  },
+  "popup_scanningTitle": {
+    "message": "Sayfa taranıyor…",
+    "description": "Heading shown while a page scan runs."
+  },
+  "popup_scanningStatus": {
+    "message": "Görüntüler aranıyor",
+    "description": "Status line before the first scan result arrives."
+  },
+  "scan_foundSoFar": {
+    "message": "Şu ana kadar {done} bulundu…",
+    "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_resultsTitle": {
+    "message": "Sonuçlar",
+    "description": "Heading of the scan results pane."
+  },
+  "popup_searchPlaceholder": {
+    "message": "Görüntü ara…",
+    "description": "Placeholder of the results search field."
+  },
+  "popup_sizeFilterAria": {
+    "message": "Boyut filtresi",
+    "description": "Accessibility label of the size filter chips."
+  },
+  "popup_sizeAny": {
+    "message": "Her boyut",
+    "description": "Size filter chip: no minimum size."
+  },
+  "popup_sizeSmall": {
+    "message": "< 400 px",
+    "description": "Size filter chip: smaller than 400 pixels."
+  },
+  "popup_sizeMedium": {
+    "message": "400 px+",
+    "description": "Size filter chip: 400 pixels and larger."
+  },
+  "popup_sizeLarge": {
+    "message": "1200 px+",
+    "description": "Size filter chip: 1200 pixels and larger."
+  },
+  "popup_formatFilterAria": {
+    "message": "Biçim filtresi",
+    "description": "Accessibility label of the format dropdown."
+  },
+  "popup_formatAll": {
+    "message": "Tüm biçimler",
+    "description": "Format filter: show every format."
+  },
+  "popup_orientFilterAria": {
+    "message": "Yön filtresi",
+    "description": "Accessibility label of the orientation dropdown."
+  },
+  "popup_orientAny": {
+    "message": "Her yön",
+    "description": "Orientation filter: any."
+  },
+  "popup_orientLandscape": {
+    "message": "Yatay",
+    "description": "Orientation filter: landscape images."
+  },
+  "popup_orientPortrait": {
+    "message": "Dikey",
+    "description": "Orientation filter: portrait images."
+  },
+  "popup_orientSquare": {
+    "message": "Kare",
+    "description": "Orientation filter: square images."
+  },
+  "popup_sortAria": {
+    "message": "Görüntüleri sırala",
+    "description": "Accessibility label of the sort dropdown."
+  },
+  "popup_sortOrder": {
+    "message": "Sayfa sırası",
+    "description": "Sort: keep the order images appear on the page."
+  },
+  "popup_sortLargest": {
+    "message": "Önce en büyük",
+    "description": "Sort: largest images first."
+  },
+  "popup_sortSmallest": {
+    "message": "Önce en küçük",
+    "description": "Sort: smallest images first."
+  },
+  "popup_selAll": {
+    "message": "Tümünü seç",
+    "description": "Select every visible result."
+  },
+  "popup_selNone": {
+    "message": "Hiçbirini seçme",
+    "description": "Clear the result selection."
+  },
+  "popup_selInvert": {
+    "message": "Ters çevir",
+    "description": "Invert the result selection."
+  },
+  "popup_gridAria": {
+    "message": "Bulunan görüntüler",
+    "description": "Accessibility label of the results grid."
+  },
+  "popup_qualityAria": {
+    "message": "İndirme kalitesi",
+    "description": "Accessibility label of the quality segmented control."
+  },
+  "popup_qualitySmart": {
+    "message": "Akıllı İndirme",
+    "description": "Quality mode: probe for the best genuine source."
+  },
+  "popup_qualityNormal": {
+    "message": "Göründüğü gibi",
+    "description": "Quality mode: save the image exactly as displayed."
+  },
+  "popup_dlFormatAria": {
+    "message": "İndirme biçimi",
+    "description": "Accessibility label of the download format dropdown."
+  },
+  "popup_formatOriginal": {
+    "message": "Orijinal biçim",
+    "description": "Download format: keep the source format."
+  },
+  "popup_bulkBest": {
+    "message": "Toplu indirme için en iyi kaliteyi dene",
+    "description": "Tooltip of the bulk best-quality checkbox."
+  },
+  "popup_bulkBestTitle": {
+    "message": "İndirmeden önce her görsel için daha yüksek kaliteli bir kaynak arar. Daha yavaştır, bazı sitelerde hız sınırlarını tetikleyebilir.",
+    "description": "Tooltip for the bulk download best-quality checkbox."
+  },
+  "popup_captureProgressAria": {
+    "message": "Tam sayfa yakalama ilerlemesi",
+    "description": "Popup: accessibility name of the full-page capture progress bar."
+  },
+  "popup_captureStop": {
+    "message": "Durdur",
+    "description": "Popup: button that stops the running full-page capture."
+  },
+  "popup_captureStopping": {
+    "message": "Durduruluyor…",
+    "description": "Popup: label shown on the Stop button while the capture is stopping."
+  },
+  "popup_download": {
+    "message": "Seçileni indir",
+    "description": "Download button with nothing selected yet."
+  },
+  "popup_downloadCount": {
+    "message": "{count} görüntü indir",
+    "description": "Download button. Plural: several images selected."
+  },
+  "popup_downloadZip": {
+    "message": "Seçileni ZIP olarak indir",
+    "description": "Button: pack the selection into one zip file."
+  },
+  "popup_downloadZipTitle": {
+    "message": "Seçili görüntüleri tek bir .zip dosyasında, sayfada göründükleri gibi paketler (ZIP içinde Akıllı kalite yükseltmesi yok)",
+    "description": "Tooltip of the ZIP download button."
+  },
+  "popup_rescan": {
+    "message": "Yeniden tara",
+    "description": "Button: run the page scan again."
+  },
+  "results_titleFound": {
+    "message": "{count} görüntü bulundu",
+    "description": "Results heading. Plural."
+  },
+  "results_noImages": {
+    "message": "Bu sayfada görüntü bulunamadı.",
+    "description": "Toast when a scan finds nothing."
+  },
+  "results_noImagesFiltered": {
+    "message": "Görüntü bulunamadı, boyut filtreniz {dropped} küçük görüntüyü atladı. Ayarlar → Tarama bölümünden düşürün.",
+    "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_noMatch": {
+    "message": "Bu filtrelere uyan görüntü yok.",
+    "description": "Empty state of the filtered results grid."
+  },
+  "results_shownFound": {
+    "message": "{shown} gösteriliyor · {total} bulundu",
+    "description": "Results status line: visible count and total."
+  },
+  "results_duplicatesRemoved": {
+    "message": "{count} yineleme kaldırıldı",
+    "description": "Status line fragment. Plural."
+  },
+  "results_assetsHidden": {
+    "message": "{count} arayüz öğesi gizlendi",
+    "description": "Status line fragment. Plural."
+  },
+  "results_hiddenByFilters": {
+    "message": "{count} filtrelerce gizlendi",
+    "description": "Status line fragment. Plural."
+  },
+  "popup_showingMore": {
+    "message": "{shown} / {total} gösteriliyor, fazlası için kaydırın",
+    "description": "Grid sentinel: more results load on scroll."
+  },
+  "popup_thumbTitle": {
+    "message": "{name}, {dims}",
+    "description": "Tooltip of a result thumbnail: file name and dimensions."
+  },
+  "popup_avifUnsupported": {
+    "message": "AVIF (desteklenmiyor)",
+    "description": "Download format option when the browser cannot encode AVIF."
+  },
+  "home_downloadsInProgress": {
+    "message": "{count} indirme sürüyor",
+    "description": "Home status card. Plural."
+  },
+  "home_viewDownloads": {
+    "message": "İndirmeleri görüntüle",
+    "description": "Home status card button: open the queue."
+  },
+  "home_imagesFound": {
+    "message": "Bu sayfada {count} görüntü bulundu",
+    "description": "Home status card for a stored scan. Plural."
+  },
+  "home_viewResults": {
+    "message": "Sonuçları görüntüle",
+    "description": "Home status card button: open the results."
+  },
+  "preview_imagePreview": {
+    "message": "Görüntü önizlemesi",
+    "description": "Title and accessibility label of the image preview dialog."
+  },
+  "preview_close": {
+    "message": "Önizlemeyi kapat",
+    "description": "Accessibility label of the preview close button."
+  },
+  "preview_zoomTitle": {
+    "message": "Önizleme",
+    "description": "Tooltip of the zoom button on a thumbnail."
+  },
+  "preview_zoomAria": {
+    "message": "{name} önizlemesi",
+    "description": "Accessibility label of the zoom button on a thumbnail."
+  },
+  "kv_size": {
+    "message": "Boyut",
+    "description": "Info row label: image dimensions."
+  },
+  "kv_format": {
+    "message": "Biçim",
+    "description": "Info row label: image format."
+  },
+  "kv_source": {
+    "message": "Kaynak",
+    "description": "Info row label: where the image came from."
+  },
+  "kv_sourceBackground": {
+    "message": "Arka plan görüntüsü",
+    "description": "Source value: CSS background image."
+  },
+  "kv_sourcePage": {
+    "message": "Sayfa görüntüsü",
+    "description": "Source value: regular page image."
+  },
+  "kv_unknownFormat": {
+    "message": "bilinmiyor",
+    "description": "Format value when the format is not known."
+  },
+  "preview_savePng": {
+    "message": "PNG olarak kaydet",
+    "description": "Preview action: download converted to PNG."
+  },
+  "preview_saveJpeg": {
+    "message": "JPEG olarak kaydet",
+    "description": "Preview action: download converted to JPEG."
+  },
+  "preview_saveWebp": {
+    "message": "WebP olarak kaydet",
+    "description": "Preview action: download converted to WebP."
+  },
+  "preview_saveAvif": {
+    "message": "AVIF olarak kaydet",
+    "description": "Preview action: download converted to AVIF."
+  },
+  "preview_openOriginal": {
+    "message": "Orijinali aç",
+    "description": "Preview action: open the image in a tab."
+  },
+  "preview_imageInfo": {
+    "message": "Görüntü bilgisi",
+    "description": "Preview action: open the image info page."
+  },
+  "info_cannotOpenTab": {
+    "message": "Bu görüntü bir sekmede açılamaz.",
+    "description": "Toast when the image URL cannot be opened in a tab."
+  },
+  "popup_queueTitle": {
+    "message": "İndirmeler",
+    "description": "Heading of the download queue pane."
+  },
+  "popup_queuePreparing": {
+    "message": "Hazırlanıyor…",
+    "description": "Queue status before the first update."
+  },
+  "popup_queueRetry": {
+    "message": "Başarısızları yeniden dene",
+    "description": "Queue button: retry failed downloads."
+  },
+  "popup_queueClear": {
+    "message": "Bitenleri temizle",
+    "description": "Queue button: remove finished items."
+  },
+  "popup_backResults": {
+    "message": "Sonuçlara dön",
+    "description": "Queue button: return to the results pane."
+  },
+  "queue_empty": {
+    "message": "Kuyruk boş.",
+    "description": "Queue summary when there is nothing queued."
+  },
+  "queue_summaryDone": {
+    "message": "{done} / {total} kaydedildi",
+    "description": "Queue summary: progress."
+  },
+  "queue_summaryFailed": {
+    "message": "{failed} başarısız",
+    "description": "Queue summary fragment: failed count."
+  },
+  "queue_statePending": {
+    "message": "bekliyor",
+    "description": "Queue item state label: waiting to start."
+  },
+  "queue_stateActive": {
+    "message": "etkin",
+    "description": "Queue item state label: downloading right now."
+  },
+  "queue_stateDone": {
+    "message": "tamamlandı",
+    "description": "Queue item state label: finished."
+  },
+  "queue_stateFailed": {
+    "message": "başarısız",
+    "description": "Queue item state label: the download failed."
+  },
+  "queue_stateCancelled": {
+    "message": "iptal edildi",
+    "description": "Queue item state label: cancelled by the user."
+  },
+  "queue_showInFolder": {
+    "message": "Klasörde göster",
+    "description": "Queue button: reveal a finished download in the file manager."
+  },
+  "queue_downloadInterrupted": {
+    "message": "İndirme kesintiye uğradı.",
+    "description": "Queue error: a download did not survive a browser restart."
+  },
+  "popup_historyTitle": {
+    "message": "İndirme geçmişi",
+    "description": "Heading of the history view."
+  },
+  "popup_historyClear": {
+    "message": "Temizle",
+    "description": "History button: clear the download history."
+  },
+  "popup_historyAria": {
+    "message": "Geçmiş",
+    "description": "Accessibility label of the history view."
+  },
+  "history_clearTitle": {
+    "message": "İndirme geçmişi temizlensin mi?",
+    "description": "Confirm dialog title."
+  },
+  "history_clearMessage": {
+    "message": "Bu, ImgFetch'in indirdiği dosyaların listesini kaldırır. Dosyaların kendileri cihazınızda kalır.",
+    "description": "Confirm dialog message."
+  },
+  "history_clearConfirm": {
+    "message": "Geçmişi temizle",
+    "description": "Confirm dialog button."
+  },
+  "history_cleared": {
+    "message": "Geçmiş temizlendi.",
+    "description": "Toast after clearing history."
+  },
+  "history_empty": {
+    "message": "Henüz indirme yok. Kaydedilen görüntüleriniz burada görünecek.",
+    "description": "Empty state of the download history."
+  },
+  "history_emptyShort": {
+    "message": "Burada henüz bir şey yok.",
+    "description": "Short empty state of the options history list."
+  },
+  "history_groupLine": {
+    "message": "{label} · {count}",
+    "description": "History group heading: day label and item count."
+  },
+  "history_today": {
+    "message": "Bugün",
+    "description": "History group label for today."
+  },
+  "history_yesterday": {
+    "message": "Dün",
+    "description": "History group label for yesterday."
+  },
+  "notice_queued": {
+    "message": "ImgFetch indirme kuyruğuna eklendi.",
+    "description": "Notice: a download was queued."
+  },
+  "notice_copied": {
+    "message": "Panoya kopyalandı.",
+    "description": "Notice: text copied to the clipboard."
+  },
+  "notice_copyFailed": {
+    "message": "Kopyalanamadı. Lütfen tekrar deneyin.",
+    "description": "Notice: clipboard copy failed."
+  },
+  "notice_disabledSite": {
+    "message": "ImgFetch bu sitede duraklatıldı.",
+    "description": "Notice: site is paused."
+  },
+  "notice_disabledSiteSeePrefs": {
+    "message": "ImgFetch bu sitede duraklatıldı (bkz. Site Tercihleri).",
+    "description": "Notice: ImgFetch is paused on this site; points to Site Preferences."
+  },
+  "notice_convertFailed": {
+    "message": "Dönüştürülemedi, orijinal kaydedildi.",
+    "description": "Notice: conversion fell back to the original."
+  },
+  "notice_originalUnknown": {
+    "message": "Orijinal bulunamadı, mevcut en iyi sürüm kullanıldı.",
+    "description": "Notice: original source not found."
+  },
+  "notice_lensFailed": {
+    "message": "Google Lens açılamadı. Lütfen tekrar deneyin.",
+    "description": "Notice: Google Lens failed to open."
+  },
+  "notice_lensPasteManually": {
+    "message": "Lens açık, görüntü bağlantısını (Ctrl+V) bağlantı kutusuna yapıştırın.",
+    "description": "Notice: paste the link into Google Lens manually."
+  },
+  "notice_done": {
+    "message": "Tamam.",
+    "description": "Generic success notice."
+  },
+  "notice_copiedLink": {
+    "message": "Görüntü bağlantısı kopyalandı.",
+    "description": "Notice: the image link was copied."
+  },
+  "error_noTab": {
+    "message": "Önce normal bir web sayfası açın, sonra tekrar deneyin.",
+    "description": "Error: the action needs a normal web page tab."
+  },
+  "error_badUrl": {
+    "message": "Bu görüntü bağlantısı güvensiz görünüyor, ImgFetch atladı.",
+    "description": "Error: the image URL failed safety checks."
+  },
+  "error_notImage": {
+    "message": "ImgFetch burada kullanılabilir bir görüntü bulamadı.",
+    "description": "Error: no usable image at the target."
+  },
+  "error_blocked": {
+    "message": "Web sitesi bu görüntünün kaydedilmesine izin vermedi.",
+    "description": "Error: the site blocked the download."
+  },
+  "error_convertFailed": {
+    "message": "ImgFetch bu görüntüyü dönüştüremedi. Orijinal kaydedildi.",
+    "description": "Error: format conversion failed, original saved."
+  },
+  "error_gifUnavailable": {
+    "message": "ImgFetch bu görüntüyü GIF olarak kodlayamadı. Hiçbir şey kaydedilmedi.",
+    "description": "Error: GIF encoding unavailable."
+  },
+  "error_avifUnavailable": {
+    "message": "AVIF kodlama bu tarayıcıda kullanılamıyor (Chrome/Edge 130+ gerekli, etkinleştirmek için tarayıcıyı güncelleyin). Bunun yerine PNG kaydedildi.",
+    "description": "Error: AVIF encoding unavailable, PNG saved."
+  },
+  "error_pageTooLarge": {
+    "message": "Bu sayfa tek bir görüntüde yakalanamayacak kadar büyük.",
+    "description": "Error: full-page capture exceeds limits."
+  },
+  "error_originalUnknown": {
+    "message": "ImgFetch orijinali güvenle bulamadı. Mevcut en iyi sürüm kullanıldı.",
+    "description": "Error: original source uncertain."
+  },
+  "error_scanFailed": {
+    "message": "ImgFetch bu sayfayı tarayamadı. Sayfayı yeniden yükleyip tekrar tarayın.",
+    "description": "Error: page scan failed."
+  },
+  "error_captureFailed": {
+    "message": "ImgFetch bu sayfayı yakalayamadı.",
+    "description": "Error: screenshot capture failed."
+  },
+  "error_downloadFailed": {
+    "message": "İndirme başlamadı. Lütfen tekrar deneyin.",
+    "description": "Error: download failed to start."
+  },
+  "error_cancelled": {
+    "message": "İptal edildi.",
+    "description": "Status: the operation was cancelled."
+  },
+  "error_timeout": {
+    "message": "Bu çok uzun sürdü. Lütfen tekrar deneyin.",
+    "description": "Error: the operation timed out."
+  },
+  "error_privateNetwork": {
+    "message": "ImgFetch, yerel ağınızı korumak için özel ağ adresine (localhost veya yönlendirici sayfası gibi) yapılan isteği engelledi.",
+    "description": "Error: private network request blocked."
+  },
+  "error_disabledSite": {
+    "message": "ImgFetch bu sitede duraklatıldı. Ayarlar → Site Tercihleri bölümünden yeniden etkinleştirin.",
+    "description": "Error: ImgFetch is paused on this site."
+  },
+  "error_unknown": {
+    "message": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "description": "Fallback error message."
+  },
+  "options_settings": {
+    "message": "Ayarlar",
+    "description": "Options page brand subtitle."
+  },
+  "options_sectionsAria": {
+    "message": "Ayar bölümleri",
+    "description": "Accessibility label of the options sidebar."
+  },
+  "options_secGeneral": {
+    "message": "Genel",
+    "description": "Options section: General."
+  },
+  "options_secDownloads": {
+    "message": "İndirmeler",
+    "description": "Options section: Downloads."
+  },
+  "options_secQuality": {
+    "message": "Kalite",
+    "description": "Options section: Quality."
+  },
+  "options_secFilenames": {
+    "message": "Dosya Adları",
+    "description": "Options section: File Names."
+  },
+  "options_secScanning": {
+    "message": "Tarama",
+    "description": "Options section: Scanning."
+  },
+  "options_secScreenshots": {
+    "message": "Ekran Görüntüleri",
+    "description": "Options section: Screenshots."
+  },
+  "options_secSites": {
+    "message": "Site Tercihleri",
+    "description": "Options section: Site Preferences."
+  },
+  "options_secShortcuts": {
+    "message": "Klavye kısayolları",
+    "description": "Options section: Shortcuts."
+  },
+  "options_secFolders": {
+    "message": "Klasörler",
+    "description": "Options section: Folders."
+  },
+  "options_secHistory": {
+    "message": "İndirme Geçmişi",
+    "description": "Options section: Download History."
+  },
+  "options_secBackup": {
+    "message": "Yedekleme ve Sıfırlama",
+    "description": "Options section: Backup and Reset."
+  },
+  "options_secAbout": {
+    "message": "Hakkında",
+    "description": "Options section: About."
+  },
+  "options_secPrivacy": {
+    "message": "Gizlilik",
+    "description": "Options section: Privacy."
+  },
+  "options_title": {
+    "message": "ImgFetch Ayarları",
+    "description": "Options page heading and tab title."
+  },
+  "options_sectionTitle": {
+    "message": "{section} - ImgFetch Ayarları",
+    "description": "Tab title when a section is open."
+  },
+  "options_sectionLabel": {
+    "message": "Ayar bölümü",
+    "description": "Accessibility label of the section picker."
+  },
+  "options_saving": {
+    "message": "Kaydediliyor…",
+    "description": "Save indicator: changes are being saved."
+  },
+  "options_saved": {
+    "message": "Tüm değişiklikler kaydedildi",
+    "description": "Save indicator: everything is saved."
+  },
+  "options_saveFailed": {
+    "message": "Kaydedilemedi, tekrar deneyin",
+    "description": "Save indicator: saving failed."
+  },
+  "options_language": {
+    "message": "Dil",
+    "description": "Label of the language dropdown in General."
+  },
+  "options_resetTitle": {
+    "message": "Tüm ayarlar sıfırlansın mı?",
+    "description": "Confirm dialog title."
+  },
+  "options_resetMessage": {
+    "message": "Her ImgFetch ayarı varsayılanına döner. İndirme geçmişiniz korunur.",
+    "description": "Confirm dialog message."
+  },
+  "options_resetConfirm": {
+    "message": "Ayarları sıfırla",
+    "description": "Confirm dialog button."
+  },
+  "options_resetDone": {
+    "message": "Ayarlar sıfırlandı.",
+    "description": "Toast after resetting settings."
+  },
+  "gen_desc": {
+    "message": "ImgFetch'in görünümü ve davranışı.",
+    "description": "General section description."
+  },
+  "gen_appearance": {
+    "message": "Görünüm",
+    "description": "General: theme label."
+  },
+  "theme_system": {
+    "message": "Sistem",
+    "description": "Theme: follow the system."
+  },
+  "theme_light": {
+    "message": "Açık",
+    "description": "Theme: light mode."
+  },
+  "theme_dark": {
+    "message": "Koyu",
+    "description": "Theme: dark mode."
+  },
+  "gen_afterDownload": {
+    "message": "İndirme bittikten sonra",
+    "description": "General: post-download behavior label."
+  },
+  "gen_silent": {
+    "message": "Sessiz kal",
+    "description": "Post-download: do nothing."
+  },
+  "gen_notify": {
+    "message": "Bildirim göster",
+    "description": "Post-download: show a notification."
+  },
+  "gen_autoCollapse": {
+    "message": "Bitince indirme panelini kapat",
+    "description": "General: auto-collapse toggle."
+  },
+  "gen_autoCollapseHint": {
+    "message": "İlerleme görünümü, her indirme bittikten bir süre sonra ana ekrana geri küçülür.",
+    "description": "Hint for the auto-collapse toggle."
+  },
+  "dl_desc": {
+    "message": "Dosyalar cihazınıza nasıl kaydedilir.",
+    "description": "Downloads section description."
+  },
+  "dl_saveAs": {
+    "message": "Her dosyanın nereye kaydedileceğini sor",
+    "description": "Downloads: save-as dialog toggle."
+  },
+  "dl_saveAsHint": {
+    "message": "Her indirmede tarayıcının Kaydet iletişimini gösterir.",
+    "description": "Hint for the save-as toggle."
+  },
+  "dl_autoRetry": {
+    "message": "Başarısız indirmeleri otomatik yeniden dene",
+    "description": "Downloads: auto-retry toggle."
+  },
+  "dl_autoRetryHint": {
+    "message": "İndirme başlamazsa ImgFetch kendi kendine bir kez daha dener.",
+    "description": "Hint for the auto-retry toggle."
+  },
+  "dl_concurrent": {
+    "message": "Eşzamanlı indirme:",
+    "description": "Downloads: concurrency slider label."
+  },
+  "dl_concurrentHint": {
+    "message": "Çok görüntüde daha yüksek daha hızlıdır, ama bazı siteler sizi kısıtlayabilir.",
+    "description": "Hint for the concurrency slider."
+  },
+  "q_desc": {
+    "message": "ImgFetch, doğrulayabildiği en iyi gerçek kaynağı kaydeder. Görüntüyü asla büyütmez.",
+    "description": "Quality section description."
+  },
+  "q_modeLabel": {
+    "message": "Akıllı kalite seçimi",
+    "description": "Quality: mode fieldset legend."
+  },
+  "q_smart": {
+    "message": "Akıllı İndirme (önerilen)",
+    "description": "Quality: smart mode option."
+  },
+  "q_smartHint": {
+    "message": "Her kullanılabilir kaynağı denetler ve doğrulayabildiği en iyi gerçek sürümü kaydeder.",
+    "description": "Hint for smart mode."
+  },
+  "q_original": {
+    "message": "Tam kaynağı tercih et",
+    "description": "Quality: original mode option."
+  },
+  "q_originalHint": {
+    "message": "Ekstra kalite denetimini atlar ve sayfanın gösterdiği görüntünün tam kendisini kaydeder. Daha hızlı ve daha gizli.",
+    "description": "Hint for original mode."
+  },
+  "q_jpg": {
+    "message": "JPG kalitesi:",
+    "description": "Quality: JPG slider label."
+  },
+  "q_png": {
+    "message": "PNG kalitesi:",
+    "description": "Quality: PNG slider label."
+  },
+  "q_webp": {
+    "message": "WebP kalitesi:",
+    "description": "Quality: WebP slider label."
+  },
+  "q_jpgHint": {
+    "message": "JPG'ye dönüştürürken kullanılır. Yüksek, daha büyük dosya demektir.",
+    "description": "Hint for the JPG slider."
+  },
+  "q_pngHint": {
+    "message": "%100 kayıpsızdır. Düşük değerler daha küçük dosyalar için renkleri azaltır.",
+    "description": "Hint for the PNG slider."
+  },
+  "q_webpHint": {
+    "message": "WebP'ye dönüştürürken kullanılır.",
+    "description": "Hint for the WebP slider."
+  },
+  "q_otherFormats": {
+    "message": "Diğer biçimler",
+    "description": "Quality: label for the format notes list."
+  },
+  "q_avifDesc": {
+    "message": "En yüksek kalite, her zaman %100.",
+    "description": "Quality note for AVIF."
+  },
+  "q_gifDesc": {
+    "message": "Sabit 256 renk paleti (ImgFetch'in kendi kodlayıcısı).",
+    "description": "Quality note for GIF."
+  },
+  "q_bmpDesc": {
+    "message": "Sıkıştırmasız, her zaman %100.",
+    "description": "Quality note for BMP."
+  },
+  "q_svgDesc": {
+    "message": "Görüntünün etrafında vektör sarmalayıcı.",
+    "description": "Quality note for SVG."
+  },
+  "fn_desc": {
+    "message": "ImgFetch dosya adlarını her zaman güvenli yapar, garip karakter asla olmaz.",
+    "description": "File Names section description."
+  },
+  "fn_naming": {
+    "message": "Adlandırma",
+    "description": "File Names: naming fieldset legend."
+  },
+  "fn_original": {
+    "message": "Orijinal adı koru",
+    "description": "Naming: keep original file name."
+  },
+  "fn_originalHint": {
+    "message": "Görüntünün kendi temizlenmiş dosya adını kullanır.",
+    "description": "Hint for keep-original naming."
+  },
+  "fn_site": {
+    "message": "Site + tarih + numara",
+    "description": "Naming: site, date and number pattern."
+  },
+  "fn_siteHint": {
+    "message": "Örnek: example - 2026-10-02 - 001.jpg",
+    "description": "Example of the site naming pattern."
+  },
+  "fn_custom": {
+    "message": "Özel şablon",
+    "description": "Naming: custom template option."
+  },
+  "fn_customHint": {
+    "message": "Aşağıda kendi deseninizi oluşturun.",
+    "description": "Hint for the custom template option."
+  },
+  "fn_customLabel": {
+    "message": "Özel şablon",
+    "description": "Label of the custom template field."
+  },
+  "fn_templatePlaceholder": {
+    "message": "{site} - {date} - {num}",
+    "description": "Placeholder of the custom template field. Identical in every language."
+  },
+  "fn_tokens": {
+    "message": "Kullanılabilir jetonlar",
+    "description": "Summary of the template tokens details."
+  },
+  "fn_tokensList": {
+    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
+    "description": "List of template tokens. Identical in every language."
+  },
+  "fn_askRename": {
+    "message": "İndirmeden önce dosyaları yeniden adlandırmama izin ver",
+    "description": "File Names: rename-sheet toggle."
+  },
+  "fn_askRenameHint": {
+    "message": "Sağ tık menüsünden tekli indirmelerden önce önizlemeli küçük bir yeniden adlandırma sayfası açar.",
+    "description": "Hint for the rename toggle."
+  },
+  "sc_desc": {
+    "message": "ImgFetch sayfadaki görüntüleri nasıl bulur.",
+    "description": "Scanning section description."
+  },
+  "sc_minSize": {
+    "message": "Şundan küçük görüntüleri atla",
+    "description": "Scanning: minimum size label."
+  },
+  "sc_sizeAny": {
+    "message": "Hiçbirini atlama",
+    "description": "Minimum size: no skipping."
+  },
+  "sc_sizeMedium": {
+    "message": "Orta (400 px)",
+    "description": "Minimum size: medium preset."
+  },
+  "sc_sizeLarge": {
+    "message": "Büyük (1200 px)",
+    "description": "Minimum size: large preset."
+  },
+  "sc_sizeXlarge": {
+    "message": "Çok büyük (2000 px)",
+    "description": "Minimum size: very large preset."
+  },
+  "sc_minSizeHint": {
+    "message": "Sonuçlardan minik simgeleri ve boşlukları gizler. Bunu tarama başına yine de değiştirebilirsiniz.",
+    "description": "Hint for the minimum size setting."
+  },
+  "sc_backgrounds": {
+    "message": "Arka plan görüntülerini dahil et",
+    "description": "Scanning: background images toggle."
+  },
+  "sc_backgroundsHint": {
+    "message": "Sayfa arka planı olarak kullanılan görüntüleri de bulur (devasa sayfalarda daha yavaş).",
+    "description": "Hint for the background images toggle."
+  },
+  "sc_depth": {
+    "message": "Tarama derinliği",
+    "description": "Scanning: scan depth label."
+  },
+  "sc_depthLoaded": {
+    "message": "Yüklenen sayfa",
+    "description": "Scan depth: only what is already loaded."
+  },
+  "sc_depthScroll": {
+    "message": "Sayfayı kaydır",
+    "description": "Scan depth: scroll first to reveal lazy images."
+  },
+  "sc_depthHint": {
+    "message": "Yüklenen sayfa: yalnızca zaten yüklenmiş görüntüleri tarar (en hızlı). Sayfayı kaydır: önce tembel yüklenen görüntüleri ortaya çıkarmak için sayfada kısaca kaydırır, sonra konumunuzu geri yükler.",
+    "description": "Hint explaining the two scan depths."
+  },
+  "sc_dedupe": {
+    "message": "Yinelenen görüntüleri kaldır",
+    "description": "Scanning: dedupe toggle."
+  },
+  "sc_dedupeHint": {
+    "message": "Aynı görüntü birkaç boyutta göründüğünde yalnızca en büyüğünü tutar, diğerlerini gizler.",
+    "description": "Hint for the dedupe toggle."
+  },
+  "sh_desc": {
+    "message": "Sayfa yakalamaları için varsayılanlar.",
+    "description": "Screenshots section description."
+  },
+  "sh_format": {
+    "message": "Varsayılan biçim",
+    "description": "Screenshots: default format label."
+  },
+  "sh_quality": {
+    "message": "Kalite:",
+    "description": "Screenshots: quality slider label."
+  },
+  "sh_captureNow": {
+    "message": "Şimdi yakala",
+    "description": "Screenshots: capture-now label."
+  },
+  "sh_visible": {
+    "message": "Görünür alan",
+    "description": "Capture now: visible area button."
+  },
+  "sh_area": {
+    "message": "Alan seç",
+    "description": "Capture now: select area button."
+  },
+  "sh_element": {
+    "message": "Öğeyi yakala",
+    "description": "Capture now: capture element button."
+  },
+  "sh_full": {
+    "message": "Tüm sayfa",
+    "description": "Capture now: full page button."
+  },
+  "sh_captureHint": {
+    "message": "“Alan seç” mevcut sayfada gerçek bir seçim katmanı açar, bir dikdörtgen sürükleyin, iptal için Esc'ye basın. “Öğeyi yakala” tam o öğeyi yakalamak için herhangi bir öğeye tıklamanıza izin verir.",
+    "description": "Hint for the capture-now buttons."
+  },
+  "sh_annotate": {
+    "message": "Yakalamadan sonra açıklama düzenleyicisini aç",
+    "description": "Screenshots: annotate toggle."
+  },
+  "sh_annotateHint": {
+    "message": "Kaydetmeden önce oklar çizin, metin ekleyin veya ekran görüntüsünün bölümlerini bulanıklaştırın.",
+    "description": "Hint for the annotate toggle."
+  },
+  "sh_capturedVisible": {
+    "message": "Görünür alan yakalandı",
+    "description": "Toast label: visible area was captured."
+  },
+  "sh_capturedArea": {
+    "message": "Alan yakalandı",
+    "description": "Toast label: area was captured."
+  },
+  "sh_capturedElement": {
+    "message": "Öğe yakalandı",
+    "description": "Toast label: element was captured."
+  },
+  "sh_capturedFull": {
+    "message": "Tüm sayfa yakalandı",
+    "description": "Toast label: full page was captured."
+  },
+  "sh_captured": {
+    "message": "{label}, kaydetmek için önizleme sekmesine bakın.",
+    "description": "Toast after capturing from the options page."
+  },
+  "sp_desc": {
+    "message": "Belirli web sitelerine kendi indirme davranışını verin.",
+    "description": "Site Preferences section description."
+  },
+  "sp_hostPlaceholder": {
+    "message": "example.com",
+    "description": "Placeholder of the site domain field. Identical in every language."
+  },
+  "sp_hostAria": {
+    "message": "Web sitesi alanı",
+    "description": "Accessibility label of the site domain field."
+  },
+  "sp_currentSite": {
+    "message": "Geçerli siteyi kullan",
+    "description": "Button: fill the domain field with the current site."
+  },
+  "sp_add": {
+    "message": "Ekle",
+    "description": "Button: add the site preference."
+  },
+  "sp_legend": {
+    "message": "Akıllı bu sitedeki en iyi gerçek kaynağı bulur · Göründüğü gibi görüntüleri tam gösterildiği gibi kaydeder · Duraklatıldı bu sitede ImgFetch indirmelerini kapatır.",
+    "description": "Legend explaining the site behavior modes."
+  },
+  "sp_empty": {
+    "message": "Henüz site tercihi yok.",
+    "description": "Empty state of the site list."
+  },
+  "sp_smart": {
+    "message": "Akıllı",
+    "description": "Site behavior: smart mode."
+  },
+  "sp_asShown": {
+    "message": "Göründüğü gibi",
+    "description": "Site behavior: as-shown mode."
+  },
+  "sp_paused": {
+    "message": "Duraklatıldı",
+    "description": "Site behavior: paused mode."
+  },
+  "sp_remove": {
+    "message": "Kaldır",
+    "description": "Button: remove a site preference."
+  },
+  "sp_behaviorAria": {
+    "message": "{host} için davranış",
+    "description": "Accessibility label of the per-site behavior dropdown."
+  },
+  "sp_typeDomain": {
+    "message": "example.com gibi bir web alanı yazın.",
+    "description": "Toast: the domain field is empty."
+  },
+  "sp_added": {
+    "message": "{host} eklendi.",
+    "description": "Toast: site preference added."
+  },
+  "sp_noCurrentSite": {
+    "message": "Geçerli site okunamadı.",
+    "description": "Toast: the current site is not readable."
+  },
+  "sp_currentSiteIs": {
+    "message": "Geçerli site: {host}",
+    "description": "Toast: shows the detected current site."
+  },
+  "kb_desc": {
+    "message": "Şu anda ImgFetch'e atanmış klavye kısayolları.",
+    "description": "Shortcuts section description."
+  },
+  "kb_loading": {
+    "message": "Yükleniyor…",
+    "description": "Placeholder while shortcut bindings load."
+  },
+  "kb_scanPage": {
+    "message": "Bu sayfayı tara",
+    "description": "Shortcut label: scan the page."
+  },
+  "kb_scanPageAlt": {
+    "message": "Bu sayfayı tara (alternatif)",
+    "description": "Shortcut label: alternative scan binding."
+  },
+  "kb_selectElement": {
+    "message": "Öğe seç",
+    "description": "Shortcut label: select an element."
+  },
+  "kb_captureArea": {
+    "message": "Seçili alanı yakala",
+    "description": "Shortcut label: capture an area."
+  },
+  "kb_captureElement": {
+    "message": "Öğeyi yakala",
+    "description": "Shortcut label: capture an element."
+  },
+  "kb_none": {
+    "message": "Kayıtlı kısayol yok.",
+    "description": "Empty state of the shortcut list."
+  },
+  "kb_notSet": {
+    "message": "Ayarlanmadı",
+    "description": "A shortcut has no key assigned."
+  },
+  "kb_copyLink": {
+    "message": "Kısayol sayfası bağlantısını kopyala",
+    "description": "Button: copy the browser shortcuts page link."
+  },
+  "kb_changeHint": {
+    "message": "Bir kısayolu değiştirmek için chrome://extensions/shortcuts (Edge'de edge://extensions/shortcuts) adresini açın, ImgFetch'i bulun ve tercih ettiğiniz tuşları ayarlayın. Mac'te Ctrl yerine ⌘ kullanın. Bir kısayol “Ayarlanmadı” gösteriyorsa önerilen tuş tarayıcıyla veya başka bir uzantıyla çakışmış demektir, buradan elle ayarlayın.",
+    "description": "Hint explaining how to change shortcuts."
+  },
+  "kb_readFailed": {
+    "message": "Kısayol bağlantıları okunamadı.",
+    "description": "Error state of the shortcut list."
+  },
+  "kb_linkCopied": {
+    "message": "Kısayol sayfası bağlantısı kopyalandı, adres çubuğunuza yapıştırın.",
+    "description": "Toast: shortcuts link copied."
+  },
+  "fo_desc": {
+    "message": "Dosyalar tarayıcınızın İndirilenler klasörüne kaydedilir. Bu seçenekler onları daha da düzenler.",
+    "description": "Folders section description."
+  },
+  "fo_mode": {
+    "message": "İndirmeleri şurada düzenle",
+    "description": "Folders: organization mode label."
+  },
+  "fo_flat": {
+    "message": "Tek yer (akıllı klasör yok)",
+    "description": "Folders: flat mode."
+  },
+  "fo_site": {
+    "message": "Web sitesine göre klasörler",
+    "description": "Folders: organize by website."
+  },
+  "fo_type": {
+    "message": "Türe göre akıllı klasörler",
+    "description": "Folders: organize by file type."
+  },
+  "fo_date": {
+    "message": "Tarihe göre klasörler",
+    "description": "Folders: organize by date."
+  },
+  "fo_modeHint": {
+    "message": "Akıllı klasörler otomatik sıralar: Fotoğraflar, Ekran Görüntüleri, GIF'ler, Grafikler. “Web sitesine göre” örneği: İndirilenler / example.com / foto.jpg",
+    "description": "Hint for the folder organization modes."
+  },
+  "fo_useSubfolder": {
+    "message": "Varsayılan alt klasör kullan",
+    "description": "Folders: default subfolder toggle."
+  },
+  "fo_useSubfolderHint": {
+    "message": "Açıkken her şey önce bu klasörün içine, yukarıdaki düzenlemenin üstüne kaydedilir.",
+    "description": "Hint for the subfolder toggle."
+  },
+  "fo_subfolder": {
+    "message": "Alt klasör adı",
+    "description": "Folders: subfolder name label."
+  },
+  "fo_subfolderPlaceholder": {
+    "message": "örn. ImgFetch",
+    "description": "Placeholder of the subfolder name field."
+  },
+  "fo_subfolderHint": {
+    "message": "Örnek: İndirilenler / ImgFetch / example.com / foto.jpg. Anahtar kapalıyken yok sayılır.",
+    "description": "Hint for the subfolder name field."
+  },
+  "hi_desc": {
+    "message": "Kaydettiklerinizin basit bir listesi, açılır pencerede gösterilir.",
+    "description": "History section description."
+  },
+  "hi_recent": {
+    "message": "Son indirmeler",
+    "description": "History: recent downloads label."
+  },
+  "hi_enabled": {
+    "message": "İndirme geçmişini tut",
+    "description": "History: keep history toggle."
+  },
+  "hi_enabledHint": {
+    "message": "Her indirmenin dosya adını, sitesini, biçimini ve boyutunu saklar.",
+    "description": "Hint for the history toggle."
+  },
+  "hi_retention": {
+    "message": "Geçmişi tut (gün)",
+    "description": "History: retention label."
+  },
+  "hi_retentionHint": {
+    "message": "Bundan eski girdiler otomatik kaldırılır.",
+    "description": "Hint for the retention field."
+  },
+  "hi_clearNow": {
+    "message": "Şimdi temizle",
+    "description": "History: clear-now label."
+  },
+  "hi_clearButton": {
+    "message": "İndirme geçmişini temizle",
+    "description": "History: clear button."
+  },
+  "hi_clearHint": {
+    "message": "Tüm geçmiş girdilerini hemen kaldırır. İndirilen dosyalar etkilenmez.",
+    "description": "Hint for clearing history."
+  },
+  "hi_clearFailed": {
+    "message": "Geçmiş temizlenemedi.",
+    "description": "Toast: clearing history failed."
+  },
+  "bk_desc": {
+    "message": "Ayarlarınızı yanınıza alın ya da yeni başlayın.",
+    "description": "Backup section description."
+  },
+  "bk_export": {
+    "message": "Ayarları dışa aktar",
+    "description": "Backup: export button."
+  },
+  "bk_exportHint": {
+    "message": "Tüm ayarlarınızla bir imgfetch-settings.json dosyası indirir.",
+    "description": "Hint for exporting settings."
+  },
+  "bk_exported": {
+    "message": "Ayarlar dışa aktarıldı.",
+    "description": "Toast: settings exported."
+  },
+  "bk_import": {
+    "message": "Ayarları içe aktar",
+    "description": "Backup: import button."
+  },
+  "bk_importAria": {
+    "message": "İçe aktarılacak ayar dosyası",
+    "description": "Accessibility label of the import file field."
+  },
+  "bk_importHint": {
+    "message": "Ayarları bir ImgFetch dışa aktarma dosyasından geri yükler. Geçersiz dosyalar güvenle reddedilir.",
+    "description": "Hint for importing settings."
+  },
+  "bk_imported": {
+    "message": "Ayarlar içe aktarıldı.",
+    "description": "Toast: settings imported."
+  },
+  "bk_importInvalid": {
+    "message": "Bu dosya geçerli bir ImgFetch ayar dışa aktarımı değil.",
+    "description": "Toast: the import file is invalid."
+  },
+  "bk_reset": {
+    "message": "Varsayılanlara sıfırla",
+    "description": "Backup: reset label."
+  },
+  "bk_resetButton": {
+    "message": "Her şeyi sıfırla",
+    "description": "Backup: reset button."
+  },
+  "bk_resetHint": {
+    "message": "Önce onay ister, sonra tüm ImgFetch varsayılanlarını geri yükler. Yukarıdan temizlemedikçe geçmiş korunur.",
+    "description": "Hint for resetting settings."
+  },
+  "about_version": {
+    "message": "Sürüm",
+    "description": "About: version row label."
+  },
+  "about_licence": {
+    "message": "Lisans",
+    "description": "About: licence heading."
+  },
+  "about_permissions": {
+    "message": "İzinler",
+    "description": "About: permissions heading."
+  },
+  "about_permissionsIntro": {
+    "message": "ImgFetch neye erişebilir ve neden:",
+    "description": "About: permissions introduction."
+  },
+  "perm_contextMenus": {
+    "message": "Sağ tık menüsüne ImgFetch öğeleri ekler.",
+    "description": "Permission: contextMenus."
+  },
+  "perm_downloads": {
+    "message": "Görüntü dosyalarını İndirilenler klasörünüze kaydeder.",
+    "description": "Permission: downloads."
+  },
+  "perm_storage": {
+    "message": "Ayarlarınızı ve geçmişinizi bu cihazda hatırlar.",
+    "description": "Permission: storage."
+  },
+  "perm_scripting": {
+    "message": "İstediğiniz sayfaları görüntü arayarak tarar.",
+    "description": "Permission: scripting."
+  },
+  "perm_activeTab": {
+    "message": "Şu anda açık sekmeyle çalışır.",
+    "description": "Permission: activeTab."
+  },
+  "perm_offscreen": {
+    "message": "Arka planda görüntüleri biçimler arasında dönüştürür.",
+    "description": "Permission: offscreen."
+  },
+  "perm_notifications": {
+    "message": "İndirme bittiğinde haber verir (yalnızca etkinleştirirseniz).",
+    "description": "Permission: notifications."
+  },
+  "perm_clipboardWrite": {
+    "message": "Sizin için görüntü bağlantılarını panonuza kopyalar.",
+    "description": "Permission: clipboardWrite."
+  },
+  "perm_hosts": {
+    "message": "Ziyaret ettiğiniz web sitelerindeki görüntüleri, yalnızca bir sayfayı taradığınızda veya indirme başlattığınızda okur.",
+    "description": "Permission: host access."
+  },
+  "about_docs": {
+    "message": "Belgeler",
+    "description": "About: documentation heading."
+  },
+  "about_docsText": {
+    "message": "Belgeler, gizlilik politikası ve kullanım koşulları herkese açık depoda:",
+    "description": "About: documentation paragraph."
+  },
+  "about_privacyText": {
+    "message": "ImgFetch'in sunucusu yoktur ve hiçbir şey toplamaz. Yalnızca indirmeyi seçtiğiniz görüntüler alınır ve Google Lens (yalnızca tıklarsanız) görüntünün adresiyle Google'ı açar. Tam açıklama için depodaki PRIVACY.md dosyasına bakın.",
+    "description": "About: privacy paragraph."
+  },
+  "pr_desc": {
+    "message": "ImgFetch her şeyi cihazınızda tutar. Hesap yok, izleme yok, analiz yok.",
+    "description": "Privacy section description."
+  },
+  "pr_stores": {
+    "message": "ImgFetch ne saklar",
+    "description": "Privacy: stored data heading."
+  },
+  "pr_stores1": {
+    "message": "Ayarlarınız, site tercihleriniz ve indirme geçmişiniz tarayıcınızın yerel depolamasında, yalnızca bu cihazda yaşar.",
+    "description": "Privacy: stored data, first item."
+  },
+  "pr_stores2": {
+    "message": "İndirilen görüntüler doğrudan İndirilenler klasörünüze gider. ImgFetch onları hiçbir yere yüklemez.",
+    "description": "Privacy: stored data, second item."
+  },
+  "pr_never": {
+    "message": "ImgFetch'in asla yapmadıkları",
+    "description": "Privacy: never-does heading."
+  },
+  "pr_never1": {
+    "message": "Hesap ve giriş yok, giriş yapılacak bir şey yok.",
+    "description": "Privacy: never-does, first item."
+  },
+  "pr_never2": {
+    "message": "Analiz, telemetri, kilitlenme raporu yok.",
+    "description": "Privacy: never-does, second item."
+  },
+  "pr_never3": {
+    "message": "Uzak kod yok, her betik uzantı paketinin içindedir.",
+    "description": "Privacy: never-does, third item."
+  },
+  "pr_never4": {
+    "message": "Görüntüler, normal tarayıcı oturumunuz kullanılarak ziyaret ettiğiniz sitelerden doğrudan alınır. ImgFetch izleme parametresi eklemez.",
+    "description": "Privacy: never-does, fourth item."
+  },
+  "pr_permNote": {
+    "message": "ImgFetch'in her izni neden istediği Hakkında bölümünde açıklanmıştır, tam açıklama herkese açık depodaki PRIVACY.md dosyasıdır.",
+    "description": "Privacy: note pointing at the About section."
+  },
+  "annotate_subtitle": {
+    "message": "Ekran görüntüsüne açıklama ekle",
+    "description": "Annotate page: subtitle under the brand name."
+  },
+  "annotate_loading": {
+    "message": "Ekran görüntüsü yükleniyor…",
+    "description": "Annotate page: loading text."
+  },
+  "annotate_toolbarAria": {
+    "message": "Açıklama araçları",
+    "description": "Accessibility label of the annotation toolbar."
+  },
+  "tool_pen": {
+    "message": "Kalem",
+    "description": "Annotate tool: pen."
+  },
+  "tool_arrow": {
+    "message": "Ok",
+    "description": "Annotate tool: arrow."
+  },
+  "tool_rect": {
+    "message": "Dikdörtgen",
+    "description": "Annotate tool: rectangle."
+  },
+  "tool_circle": {
+    "message": "Daire",
+    "description": "Annotate tool: circle."
+  },
+  "tool_text": {
+    "message": "Metin",
+    "description": "Annotate tool: text."
+  },
+  "tool_pixelate": {
+    "message": "Pikselleştir",
+    "description": "Annotate tool: pixelate."
+  },
+  "tool_crop": {
+    "message": "Kırp",
+    "description": "Annotate tool: crop."
+  },
+  "color_red": {
+    "message": "Kırmızı",
+    "description": "Annotate color: red."
+  },
+  "color_orange": {
+    "message": "Turuncu",
+    "description": "Annotate color: orange."
+  },
+  "color_green": {
+    "message": "Yeşil",
+    "description": "Annotate color: green."
+  },
+  "color_blue": {
+    "message": "Mavi",
+    "description": "Annotate color: blue."
+  },
+  "color_black": {
+    "message": "Siyah",
+    "description": "Annotate color: black."
+  },
+  "color_white": {
+    "message": "Beyaz",
+    "description": "Annotate color: white."
+  },
+  "width_thin": {
+    "message": "İnce",
+    "description": "Annotate stroke width: thin."
+  },
+  "width_medium": {
+    "message": "Orta",
+    "description": "Annotate stroke width: medium."
+  },
+  "width_thick": {
+    "message": "Kalın",
+    "description": "Annotate stroke width: thick."
+  },
+  "annotate_undo": {
+    "message": "Geri al",
+    "description": "Annotate: undo button."
+  },
+  "redo_redo": {
+    "message": "Yinele",
+    "description": "Annotate: redo button."
+  },
+  "undo_title": {
+    "message": "Geri al (Ctrl+Z)",
+    "description": "Annotate: tooltip and accessibility label of the undo button."
+  },
+  "redo_title": {
+    "message": "Yinele (Ctrl+Y)",
+    "description": "Annotate: tooltip and accessibility label of the redo button."
+  },
+  "annotate_clear": {
+    "message": "Temizle",
+    "description": "Annotate: clear all annotations."
+  },
+  "annotate_textPlaceholder": {
+    "message": "Metni yazın, yerleştirmek için Enter",
+    "description": "Placeholder of the annotation text field."
+  },
+  "annotate_cancelText": {
+    "message": "Metni iptal et",
+    "description": "Accessibility label of the text-cancel button."
+  },
+  "annotate_save": {
+    "message": "Kaydet",
+    "description": "Annotate: save button."
+  },
+  "annotate_discard": {
+    "message": "Vazgeç",
+    "description": "Annotate: discard button."
+  },
+  "annotate_kbdHint": {
+    "message": "İpucu: çizmek için görüntü üzerinde sürükleyin. Metin aracı: metnin gideceği yere tıklayın, yazın, Enter'a basın. Yerleştirilen metne tıklayarak seçin, taşımak için sürükleyin, silmek için Delete veya Backspace'e basın. Bulanıklaştırma: gizlenecek alan üzerinde sürükleyin.",
+    "description": "Annotate: keyboard and mouse hints."
+  },
+  "annotate_pixelateWarning": {
+    "message": "Pikselleştirme detayları meraklı gözlerden gizler ama bazen geri alınabilir, hassas metin için güvenmeyin.",
+    "description": "Warning shown when the pixelate tool is used."
+  },
+  "annotate_saved": {
+    "message": "Ekran görüntüsü kaydedildi.",
+    "description": "Toast: the annotated screenshot was saved."
+  },
+  "annotate_saveFailed": {
+    "message": "Kaydetme başarısız.",
+    "description": "Toast: saving the screenshot failed."
+  },
+  "annotate_invalidLink": {
+    "message": "Bu düzenleyici bağlantısı geçersiz.",
+    "description": "Error: the annotate page opened without a capture id."
+  },
+  "annotate_loadFailed": {
+    "message": "Ekran görüntüsü yüklenemedi.",
+    "description": "Error: the screenshot could not be loaded into the editor."
+  },
+  "crop_title": {
+    "message": "Kırp (C)",
+    "description": "Annotate: tooltip and accessibility label of the crop tool."
+  },
+  "crop_apply": {
+    "message": "Uygula",
+    "description": "Annotate crop: apply button."
+  },
+  "crop_regionAria": {
+    "message": "Kırpma seçimi",
+    "description": "Annotate crop: accessibility label of the crop selection overlay."
+  },
+  "crop_sizeAria": {
+    "message": "Kırpma boyutu: {width} x {height} piksel",
+    "description": "Annotate crop: accessibility label of the live crop size readout. Placeholders: width and height in image pixels."
+  },
+  "crop_unavailable": {
+    "message": "Görüntü yüklenemediği için kırpma kullanılamıyor.",
+    "description": "Annotate crop: message shown when the crop tool cannot be used."
+  },
+  "crop_handleNw": {
+    "message": "Sol üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top-left resize handle."
+  },
+  "crop_handleN": {
+    "message": "Üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top resize handle."
+  },
+  "crop_handleNe": {
+    "message": "Sağ üst yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the top-right resize handle."
+  },
+  "crop_handleE": {
+    "message": "Sağ yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the right resize handle."
+  },
+  "crop_handleSe": {
+    "message": "Sağ alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom-right resize handle."
+  },
+  "crop_handleS": {
+    "message": "Alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom resize handle."
+  },
+  "crop_handleSw": {
+    "message": "Sol alt yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the bottom-left resize handle."
+  },
+  "crop_handleW": {
+    "message": "Sol yeniden boyutlandırma tutamacı",
+    "description": "Annotate crop: accessibility label of the left resize handle."
+  },
+  "capture_subtitle": {
+    "message": "Ekran görüntüsü önizlemesi",
+    "description": "Capture page: subtitle under the brand name."
+  },
+  "capture_loading": {
+    "message": "Ekran görüntünüz hazırlanıyor…",
+    "description": "Capture page: loading text."
+  },
+  "capture_imgAlt": {
+    "message": "Ekran görüntüsü önizlemesi",
+    "description": "Accessibility label of the screenshot image."
+  },
+  "capture_save": {
+    "message": "Ekran görüntüsünü kaydet",
+    "description": "Capture page: save button."
+  },
+  "capture_copy": {
+    "message": "Panoya kopyala",
+    "description": "Capture page: copy button."
+  },
+  "capture_retakeVisible": {
+    "message": "Görünür sayfayı yeniden yakala",
+    "description": "Capture page: retake visible page."
+  },
+  "capture_retakeArea": {
+    "message": "Alanı yeniden yakala",
+    "description": "Capture page: retake area."
+  },
+  "capture_discard": {
+    "message": "Vazgeç",
+    "description": "Capture page: discard button."
+  },
+  "capture_invalidLink": {
+    "message": "Bu önizleme bağlantısı geçersiz.",
+    "description": "Error: the capture page opened without a capture id."
+  },
+  "capture_metaPixels": {
+    "message": "{width} × {height} piksel",
+    "description": "Capture metadata: dimensions in pixels."
+  },
+  "capture_ready": {
+    "message": "Ekran görüntüsü hazır",
+    "description": "Capture metadata fallback when dimensions are unknown."
+  },
+  "capture_savedFile": {
+    "message": "{filename} kaydedildi",
+    "description": "Toast: the screenshot was saved."
+  },
+  "capture_copied": {
+    "message": "Ekran görüntüsü panoya kopyalandı.",
+    "description": "Toast: the screenshot was copied."
+  },
+  "capture_copyFailed": {
+    "message": "Ekran görüntüsü kopyalanamadı.",
+    "description": "Toast: copying the screenshot failed."
+  },
+  "info_subtitle": {
+    "message": "Görüntü bilgisi",
+    "description": "Info page: subtitle under the brand name."
+  },
+  "info_loading": {
+    "message": "Görüntü detayları okunuyor…",
+    "description": "Info page: loading text."
+  },
+  "info_directLink": {
+    "message": "Doğrudan bağlantı",
+    "description": "Info page: direct link field label."
+  },
+  "info_copyLink": {
+    "message": "Bağlantıyı kopyala",
+    "description": "Info page: copy link button."
+  },
+  "info_saveJpg": {
+    "message": "JPG olarak kaydet",
+    "description": "Info page: download as JPG."
+  },
+  "info_noImage": {
+    "message": "Görüntü belirtilmedi.",
+    "description": "Error: the info page opened without an image."
+  },
+  "kv_fileName": {
+    "message": "Dosya adı",
+    "description": "Info row label: file name."
+  },
+  "kv_dimensions": {
+    "message": "Boyutlar",
+    "description": "Info row label: dimensions."
+  },
+  "kv_shownAt": {
+    "message": "Gösterim boyutu",
+    "description": "Info row label: rendered size on the page."
+  },
+  "info_shownAtValue": {
+    "message": "{w} × {h} px",
+    "description": "Info row value: rendered size."
+  },
+  "kv_altText": {
+    "message": "Alternatif metin",
+    "description": "Info row label: alt text."
+  },
+  "kv_camera": {
+    "message": "Kamera",
+    "description": "EXIF row label: camera."
+  },
+  "kv_takenOn": {
+    "message": "Çekim tarihi",
+    "description": "EXIF row label: date taken."
+  },
+  "kv_fullSize": {
+    "message": "Tam boyut",
+    "description": "EXIF row label: full size."
+  },
+  "kv_location": {
+    "message": "Konum",
+    "description": "EXIF row label: GPS location."
+  },
+  "kv_photoDetails": {
+    "message": "Fotoğraf detayları",
+    "description": "Heading of the EXIF section."
+  },
+  "info_gpsWarning": {
+    "message": "Bu fotoğraf GPS koordinatları içeriyor. Orijinal dosyayı paylaşmak çekildiği tam konumu paylaşır. Temiz bir kopya için “Meta verisiz kaydet”i kullanın.",
+    "description": "Warning shown when a photo has GPS data."
+  },
+  "info_stripButton": {
+    "message": "Meta verisiz kaydet",
+    "description": "Button: download a copy with metadata removed."
+  },
+  "info_stripped": {
+    "message": "Meta verisiz kopya kaydedildi.",
+    "description": "Toast: metadata was stripped."
+  },
+  "info_stripFailed": {
+    "message": "Meta veri kaldırılamadı.",
+    "description": "Toast: stripping metadata failed."
+  },
+  "info_copyManual": {
+    "message": "Seçili bağlantıyı elle kopyalayın.",
+    "description": "Toast: clipboard write failed, select the link instead."
+  },
+  "rename_subtitle": {
+    "message": "İndirmenizi adlandırın",
+    "description": "Rename page: subtitle under the brand name."
+  },
+  "rename_filename": {
+    "message": "Dosya adı",
+    "description": "Rename page: file name label."
+  },
+  "rename_download": {
+    "message": "İndir",
+    "description": "Rename page: download button."
+  },
+  "rename_formatHint": {
+    "message": "{format} olarak kaydedilecek. Doğru uzantı otomatik eklenir.",
+    "description": "Rename page: format hint."
+  },
+  "rename_originalFormat": {
+    "message": "orijinal biçim",
+    "description": "Rename sheet: format hint when the image keeps its original format."
+  },
+  "welcome_title": {
+    "message": "ImgFetch'e hoş geldiniz",
+    "description": "Welcome page: first step heading."
+  },
+  "welcome_desc": {
+    "message": "Akıllı görüntü indiriciniz. Her görüntüyü mevcut en iyi sürümde kaydedin, tüm sayfaları bir seferde tarayın ve ekran görüntüsü alın, hepsi tek düzenli menüden.",
+    "description": "Welcome page: first step paragraph."
+  },
+  "welcome_step2Title": {
+    "message": "Herhangi bir görüntüye sağ tıklayın",
+    "description": "Welcome page: second step heading."
+  },
+  "welcome_step2Desc": {
+    "message": "ImgFetch menüsü görüntüyü göründüğü gibi, en iyi kalitede veya orijinal olarak indirmenize ya da anında PNG, JPG veya WebP'ye dönüştürmenize izin verir.",
+    "description": "Welcome page: second step paragraph."
+  },
+  "welcome_step3Title": {
+    "message": "Sayfaları tarayın ve ekran yakalayın",
+    "description": "Welcome page: third step heading."
+  },
+  "welcome_step3Desc": {
+    "message": "Tüm sayfayı görüntü için taramak ya da görünür sayfanın veya seçtiğiniz herhangi bir alanın ekran görüntüsünü almak için araç çubuğundaki ImgFetch düğmesine tıklayın.",
+    "description": "Welcome page: third step paragraph."
+  },
+  "welcome_scanLabel": {
+    "message": "sayfayı tara",
+    "description": "Welcome page: label next to the scan shortcut."
+  },
+  "welcome_captureLabel": {
+    "message": "alanı yakala",
+    "description": "Welcome page: label next to the capture shortcut."
+  },
+  "welcome_step4Title": {
+    "message": "Kendinize göre yapın",
+    "description": "Welcome page: fourth step heading."
+  },
+  "welcome_step4Desc": {
+    "message": "Beş hızlı seçim, geri kalan her şeyin zaten mantıklı bir varsayılanı var. Bunları Ayarlar'dan istediğiniz zaman değiştirebilirsiniz.",
+    "description": "Welcome page: fourth step paragraph."
+  },
+  "welcome_annotate": {
+    "message": "Ekran görüntülerinden sonra düzenleyiciyi aç",
+    "description": "Welcome mini-setting: annotate toggle."
+  },
+  "welcome_annotateHint": {
+    "message": "Kaydetmeden önce oklar çizin, metin ekleyin veya bulanıklaştırın.",
+    "description": "Hint for the welcome annotate toggle."
+  },
+  "welcome_afterDownload": {
+    "message": "İndirmeler bittiğinde",
+    "description": "Welcome mini-setting: post-download label."
+  },
+  "welcome_notifyMe": {
+    "message": "Bana bildir",
+    "description": "Welcome mini-setting: notify option."
+  },
+  "welcome_subfolder": {
+    "message": "Alt klasöre kaydet",
+    "description": "Welcome mini-setting: subfolder label."
+  },
+  "welcome_subfolderHint": {
+    "message": "Boş = doğrudan İndirilenler.",
+    "description": "Hint for the welcome subfolder field."
+  },
+  "welcome_subfolderAria": {
+    "message": "Alt klasör adı",
+    "description": "Accessibility label of the welcome subfolder field."
+  },
+  "welcome_askName": {
+    "message": "Tekli indirmelerden önce dosya adı sor",
+    "description": "Welcome mini-setting: ask-name toggle."
+  },
+  "welcome_fullSettings": {
+    "message": "Tam ayarları aç →",
+    "description": "Welcome: link to the full settings page."
+  },
+  "welcome_back": {
+    "message": "Geri",
+    "description": "Welcome: back button."
+  },
+  "welcome_next": {
+    "message": "İleri",
+    "description": "Welcome: next button."
+  },
+  "welcome_start": {
+    "message": "ImgFetch'i kullanmaya başlayın",
+    "description": "Welcome: finish button on the last step."
+  },
+  "welcome_enjoy": {
+    "message": "ImgFetch'in keyfini çıkarın!",
+    "description": "Toast when onboarding finishes."
+  },
+  "welcome_shortcutNotSet": {
+    "message": "Ayarlanmadı, tarayıcı kısayol ayarlarından atayın",
+    "description": "Welcome: shown when a shortcut has no key."
+  },
+  "overlay_selectHint": {
+    "message": "Seçmek için sürükleyin: oklar taşır, Shift+oklar boyutlandırır, Enter onaylar, Esc iptal eder",
+    "description": "Overlay hint for area selection."
+  },
+  "overlay_captureHint": {
+    "message": "Yakalamak için bir öğeye tıklayın, iptal için Esc",
+    "description": "Overlay hint for element capture."
+  },
+  "overlay_inspectHint": {
+    "message": "Görüntüsünü incelemek için bir öğeye tıklayın, iptal için Esc",
+    "description": "Overlay hint for element inspection."
+  },
+  "menu_saveAs": {
+    "message": "Farklı kaydet...",
+    "description": "Context menu: save-as submenu."
+  },
+  "menu_svgEmbedded": {
+    "message": "SVG (gömülü görüntü)",
+    "description": "Context menu: save as SVG."
+  },
+  "menu_copyLink": {
+    "message": "Görüntü Bağlantısını Kopyala",
+    "description": "Context menu: copy the image link."
+  },
+  "menu_copyImage": {
+    "message": "Görüntüyü Kopyala",
+    "description": "Context menu: copy the image."
+  },
+  "menu_imageInfo": {
+    "message": "Görüntü Bilgisi",
+    "description": "Context menu: open image info."
+  },
+  "menu_more": {
+    "message": "Diğer...",
+    "description": "Context menu: more submenu."
+  },
+  "menu_openOriginal": {
+    "message": "Orijinali Aç",
+    "description": "Context menu: open the original image."
+  },
+  "menu_lens": {
+    "message": "Görüntüyü Google Lens ile Ara",
+    "description": "Context menu: Google Lens search."
+  },
+  "menu_scanPage": {
+    "message": "Bu Sayfayı Tara",
+    "description": "Context menu: scan the page."
+  },
+  "menu_screenshot": {
+    "message": "Ekran Görüntüsü",
+    "description": "Context menu: screenshot submenu."
+  },
+  "menu_shotVisible": {
+    "message": "Görünür Alanı Yakala",
+    "description": "Context menu: capture the visible area."
+  },
+  "menu_shotArea": {
+    "message": "Alan Seç",
+    "description": "Context menu: select an area."
+  },
+  "menu_shotFull": {
+    "message": "Tüm Sayfa",
+    "description": "Context menu: capture the full page."
+  },
+  "menu_shotElement": {
+    "message": "Öğeyi Yakala",
+    "description": "Context menu: capture an element."
+  },
+  "menu_addSitePref": {
+    "message": "Site Tercihi Ekle",
+    "description": "Context menu: add a site preference."
+  },
+  "menu_disableSite": {
+    "message": "Bu Sitede Devre Dışı Bırak",
+    "description": "Context menu: disable ImgFetch here."
+  },
+  "menu_settings": {
+    "message": "Ayarlar",
+    "description": "Context menu: open settings."
+  },
+  "notify_saved": {
+    "message": "{filename} kaydedildi",
+    "description": "Notification: a download finished."
+  },
+  "sw_offscreenJustification": {
+    "message": "Görüntüleri biçimler arasında dönüştürür, ekran görüntülerini kırpar ve görüntü bağlantılarını kopyalar.",
+    "description": "Justification for the offscreen document, shown in the browser UI."
+  },
+  "sw_restarted": {
+    "message": "ImgFetch yeniden başlatıldı, kuyruktaki {resumed} indirme sürdürüldü{failedPart}.",
+    "description": "Notice after restart. Plural."
+  },
+  "sw_restartFailed": {
+    "message": ", {failed} başarısız",
+    "description": "Fragment appended to the restart notice when some failed."
+  },
+  "sw_converting": {
+    "message": "{format}'ye dönüştürülüyor…",
+    "description": "Queue label: converting to a format."
+  },
+  "sw_stillFrameNote": {
+    "message": "Not: animasyonlu görüntüler sabit kare olarak kaydedilir.",
+    "description": "Queue label: animated image note."
+  },
+  "sw_downloading": {
+    "message": "İndiriliyor…",
+    "description": "Queue label: downloading."
+  },
+  "sw_downloadingZip": {
+    "message": "ZIP indiriliyor…",
+    "description": "Queue label: downloading a zip."
+  },
+  "sw_preparingZip": {
+    "message": "ZIP hazırlanıyor ({count} görüntü{cappedNote}, göründüğü gibi)…",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipCapped": {
+    "message": " ({total} içinden ilk 200)",
+    "description": "Fragment: the zip was capped at 200 files."
+  },
+  "sw_zipDoneFull": {
+    "message": "ZIP indirildi ({count} görüntü).",
+    "description": "Queue label. Plural."
+  },
+  "sw_zipDonePartial": {
+    "message": "ZIP indirildi ({count} / {total} görüntü, {skipped} atlandı).",
+    "description": "Queue label. Plural."
+  },
+  "sw_findingBest": {
+    "message": "En iyi kalite aranıyor…",
+    "description": "Queue label: probing for best quality."
+  },
+  "sw_retryingSource": {
+    "message": "ImgFetch en yüksek kaliteli sürümü kullanamadı. Başka bir kullanılabilir kaynak deneniyor…",
+    "description": "Queue label: retrying another source."
+  },
+  "sw_downloadedOk": {
+    "message": "Başarıyla indirildi.",
+    "description": "Queue label: single download done."
+  },
+  "sw_elementClipped": {
+    "message": "Bu öğe ekrandan uzun, yalnızca görünen kısım yakalandı. Geri kalanı için Tüm sayfa kullanın.",
+    "description": "Notice: the element was clipped to the viewport."
+  },
+  "sw_tileCapped": {
+    "message": "Bu sayfa çok uzun, ilk {tileCount} kutucuk (üst kısım) yakalanıyor. Geri kalanı için alan yakalama kullanın.",
+    "description": "Notice: full-page capture was capped."
+  },
+  "sw_scaledDown": {
+    "message": "Bu sayfa çok büyük, tüm sayfa görüntüsü bellek sınırlarına uyması için %{percent} ölçeğine küçültüldü.",
+    "description": "Notice: full-page capture was scaled down."
+  },
+  "sw_capturingTile": {
+    "message": "Tüm sayfa yakalanıyor, kutucuk {n} / {tileCount}…",
+    "description": "Notice: full-page capture progress."
+  },
+  "sw_fullPageCaptured": {
+    "message": "Tüm sayfa yakalandı ({width} × {height}px).",
+    "description": "Notice: full-page capture finished."
+  },
+  "sw_linkCopiedInstead": {
+    "message": "Görüntünün kendisi kopyalanamadı, bu yüzden bağlantısı kopyalandı.",
+    "description": "Notice: fell back to copying the link."
+  },
+  "sw_copyLinkFailed": {
+    "message": "Görüntü bağlantısı kopyalanamadı.",
+    "description": "Notice: copying the link failed."
+  },
+  "sw_siteAdded": {
+    "message": "{host} site tercihlerine eklendi.",
+    "description": "Notice: site preference added."
+  },
+  "sw_sitePaused": {
+    "message": "ImgFetch {host} sitesinde duraklatıldı.",
+    "description": "Notice: ImgFetch paused on a site."
+  },
+  "sw_scanOffLimits": {
+    "message": "ImgFetch yalnızca normal web sayfalarını tarayabilir, chrome://, edge:// veya web mağazası gibi tarayıcı sayfaları kapsam dışındadır.",
+    "description": "Notice: the scan shortcut was used on a restricted browser page."
+  },
+  "sw_pickOffLimits": {
+    "message": "ImgFetch yalnızca normal web sayfalarında öğe seçebilir, chrome://, edge:// veya web mağazası gibi tarayıcı sayfaları kapsam dışındadır.",
+    "description": "Notice: the pick-element shortcut was used on a restricted browser page."
+  },
+  "sw_noImageInElement": {
+    "message": "Seçili öğede görsel bulunamadı.",
+    "description": "Toast: the picked element contained no usable image."
+  },
+  "copyButton": {
+    "message": "Kopyala",
+    "description": "Annotate editor: Copy button."
+  },
+  "copyTooltip": {
+    "message": "Düzenlenen ekran görüntüsünü panoya kopyala",
+    "description": "Tooltip of the Copy button."
+  },
+  "copySuccess": {
+    "message": "Ekran görüntüsü panoya kopyalandı.",
+    "description": "Toast: screenshot copied."
+  },
+  "copyDownscaled": {
+    "message": "Ekran görüntüsü panoya kopyalandı, sığması için {width} x {height} boyutuna küçültüldü.",
+    "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyFailed": {
+    "message": "Ekran görüntüsü kopyalanamadı. Bunun yerine kaydetmeyi deneyin.",
+    "description": "Toast: copying failed."
+  },
+  "copyUnavailable": {
+    "message": "Kopyalama şu anda kullanılamıyor.",
+    "description": "Tooltip: the Copy button is disabled."
+  },
+  "cap_restrictedFallback": {
+    "message": "{mode} bu sayfada kullanılamıyor. Bunun yerine görünür kısım yakalandı.",
+    "description": "Notice: the requested capture mode is impossible on this page, the visible part was captured."
+  },
+  "cap_captureRefused": {
+    "message": "Tarayıcı bu sayfanın yakalanmasına izin vermiyor.",
+    "description": "Error: the browser refused the capture (e.g. web store pages)."
+  },
+  "part_title": {
+    "message": "Parça {count} / {total}",
+    "description": "Title: part i of N of a split full-page capture."
+  },
+  "part_splitting": {
+    "message": "Bu sayfa çok uzun. Tam çözünürlükte {count} parça olarak yakalanıyor.",
+    "description": "Notice: a very long page is captured in N parts at full resolution."
+  },
+  "part_sanityCapped": {
+    "message": "Bu sayfa aşırı uzun. Yalnızca ilk {count} parça yakalandı.",
+    "description": "Notice: a runaway page was capped at the first N parts."
+  },
+  "scroll_innerCaptured": {
+    "message": "Bu sayfanın kaydırılabilir içerik alanı yakalandı.",
+    "description": "Notice: an inner scroll container was the full-page capture target."
+  },
+  "scroll_nestedClipped": {
+    "message": "Bu sayfanın ayrı kaydırılan bölümü, o anda göründüğü haliyle yakalandı.",
+    "description": "Notice: a nested scroller was captured as visible only."
+  },
+  "scroll_crossOriginClipped": {
+    "message": "Başka bir siteden gömülü içerik yalnızca görünür haliyle yakalanabildi.",
+    "description": "Notice: cross-origin iframe content captured as visible."
+  },
+  "parts_stopped": {
+    "message": "Yakalama durduruldu. {total} parçadan {count} tanesi kaydedildi.",
+    "description": "Notice: the capture stopped early; the parts captured so far were saved."
+  },
+  "parts_allocFallback": {
+    "message": "Bu görüntü kullanılabilir bellek için çok büyüktü, bu yüzden yakalama daha küçük parçalarla devam etti.",
+    "description": "Notice: the planned image was too large to allocate, so the capture continued in smaller parts."
+  },
+  "parts_capped": {
+    "message": "Yakalama güvenlik sınırında durduruldu. Şu ana kadar yakalanan parçalar kaydedildi.",
+    "description": "Notice: a full-page capture hit its safety limit; the parts captured so far were saved."
+  },
+  "parts_tileProgress": {
+    "message": "Tam sayfa yakalanıyor, parça {part} / {partTotal}, karo {n} / {tileCount}…",
+    "description": "Notice: full-page capture progress, with part and tile numbers."
+  },
+  "parts_heading": {
+    "message": "Ekran görüntüsü parçaları",
+    "description": "Parts overview page: generic heading (capture records store no page title)."
+  },
+  "parts_saveAll": {
+    "message": "Tümünü kaydet",
+    "description": "Parts overview page: header button, saves every part."
+  },
+  "parts_discardAll": {
+    "message": "Tümünü sil",
+    "description": "Parts overview page: header button, discards the whole group."
+  },
+  "parts_save": {
+    "message": "Kaydet",
+    "description": "Parts overview page: per-part Save button."
+  },
+  "parts_edit": {
+    "message": "Düzenle",
+    "description": "Parts overview page: per-part Edit button."
+  },
+  "parts_empty": {
+    "message": "Hiç parça kalmadı. Bu sekmeyi kapatabilirsiniz.",
+    "description": "Parts overview page: empty state after every part was discarded."
+  },
+  "parts_allSaved": {
+    "message": "Tüm parçalar kaydedildi. Bu sekmeyi kapatabilirsiniz.",
+    "description": "Parts overview page: empty state after every part was saved."
+  },
+  "parts_savingProgress": {
+    "message": "{total} parçadan {current}. parça kaydediliyor…",
+    "description": "Parts overview page: Save-all progress line."
+  },
+  "parts_thumbAlt": {
+    "message": "{total} parçadan {count}. parçanın önizlemesi",
+    "description": "Parts overview page: thumbnail image alternative text."
+  },
+  "parts_listAria": {
+    "message": "Tam sayfa ekran görüntüsünün parçaları",
+    "description": "Parts overview page: accessibility label of the parts list."
+  },
+  "parts_editAria": {
+    "message": "{total} parçadan {count}. parçayı düzenle",
+    "description": "Parts overview page: accessibility label of a part Edit button."
+  },
+  "parts_saveAria": {
+    "message": "{total} parçadan {count}. parçayı kaydet",
+    "description": "Parts overview page: accessibility label of a part Save button."
+  },
+  "parts_copyAria": {
+    "message": "{total} parçadan {count}. parçayı kopyala",
+    "description": "Parts overview page: accessibility label of a part Copy button."
+  },
+  "parts_discardAria": {
+    "message": "{total} parçadan {count}. parçayı sil",
+    "description": "Parts overview page: accessibility label of a part Discard button."
+  },
+  "parts_metaLine": {
+    "message": "{width} × {height} piksel · {size}",
+    "description": "Parts overview page: per-part dimensions and file size line."
+  },
+  "copy_windowsNote": {
+    "message": "Not: Tam sayfalar gibi büyük ekran görüntüleri doğru şekilde kopyalanır ancak Windows pano geçmişinde (Win+V) görünmez. Bu, Windows'un bir sınırıdır, kopyalama sorunu değildir. Görüntüyü istediğiniz yere yapıştırmak için Ctrl+V tuşlarına basın.",
+    "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
+  },
+  "copy_windowsToast": {
+    "message": "Kopyalandı. Yapıştırmak için Ctrl+V tuşlarına basın. Windows pano geçmişi (Win+V) büyük görüntüleri göstermez.",
+    "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
+  },
+  "parts_summarySame": {
+    "message": "{count} görüntü · her biri {width} × {height} px",
+    "description": "Parts overview summary. Plural: all parts share one size."
+  },
+  "parts_summaryVaried": {
+    "message": "{count} görüntü · farklı boyutlar",
+    "description": "Parts overview summary. Plural: parts have different sizes."
+  }
+}

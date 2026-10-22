@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ImgFetch, Annotate screenshot</title>
+  <title data-i18n="annotate_subtitle">ImgFetch, Annotate screenshot</title>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 1100px; margin: 0 auto; padding: 20px 20px 60px; }
@@ -28,13 +28,33 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .tool svg { width: 16px; height: 16px; flex: none; }
     .tool[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
     .tool:disabled { opacity: 0.45; cursor: default; }
+    .crop-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+    .crop-box { position: absolute; box-sizing: border-box; border: 1.5px solid #fff; outline: 1px solid rgba(15,20,28,.5); box-shadow: 0 0 0 9999px rgba(12,16,24,.55); pointer-events: auto; cursor: move; touch-action: none; }
+    .crop-thirds-v { position: absolute; top: 0; bottom: 0; left: 33.333%; right: 33.333%; border-left: 1px solid rgba(255,255,255,.5); border-right: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+    .crop-thirds-h { position: absolute; left: 0; right: 0; top: 33.333%; bottom: 33.333%; border-top: 1px solid rgba(255,255,255,.5); border-bottom: 1px solid rgba(255,255,255,.5); pointer-events: none; }
+    .crop-size { position: absolute; left: -2px; top: -30px; direction: ltr; background: rgba(12,16,24,.88); color: #fff; font-size: 12px; line-height: 1.5; padding: 2px 8px; border-radius: 6px; white-space: nowrap; pointer-events: none; }
+    .crop-size.is-inside { top: 4px; }
+    .crop-handle { position: absolute; box-sizing: border-box; width: 13px; height: 13px; margin: -7px 0 0 -7px; padding: 0; background: #fff; border: 1.5px solid rgba(15,20,28,.6); border-radius: 3px; pointer-events: auto; touch-action: none; z-index: 2; }
+    .crop-handle[data-handle="nw"] { left: 0; top: 0; cursor: nwse-resize; }
+    .crop-handle[data-handle="n"] { left: 50%; top: 0; cursor: ns-resize; }
+    .crop-handle[data-handle="ne"] { left: 100%; top: 0; cursor: nesw-resize; }
+    .crop-handle[data-handle="e"] { left: 100%; top: 50%; cursor: ew-resize; }
+    .crop-handle[data-handle="se"] { left: 100%; top: 100%; cursor: nwse-resize; }
+    .crop-handle[data-handle="s"] { left: 50%; top: 100%; cursor: ns-resize; }
+    .crop-handle[data-handle="sw"] { left: 0; top: 100%; cursor: nesw-resize; }
+    .crop-handle[data-handle="w"] { left: 0; top: 50%; cursor: ew-resize; }
+    .crop-actions { position: absolute; top: calc(100% + 8px); inset-inline-end: 0; display: flex; gap: 8px; pointer-events: auto; }
+    .crop-box.actions-inside .crop-actions { top: auto; bottom: 6px; inset-inline-end: 6px; }
+    .crop-box.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 0; }
+    .crop-box.actions-inside.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 6px; }
+    .crop-size.is-end { left: auto; right: -2px; }
     .swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; }
     .swatch[aria-pressed="true"] { border-color: var(--text); }
     .stage { position: relative; display: inline-block; max-width: 100%; border-radius: 8px; overflow: hidden; background: var(--surface-2); }
     #editor { display: block; max-width: 100%; height: auto; cursor: crosshair; touch-action: none; }
     #textWrap { position: absolute; display: none; z-index: 5; }
     #textInput { font-size: 16px; padding: 4px 8px; border: 2px solid var(--primary); border-radius: 6px; background: var(--surface); color: var(--text); }
-    #textClose { position: absolute; top: -11px; right: -11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+    #textClose { position: absolute; top: -11px; inset-inline-end: -11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
     #textClose:hover { background: var(--danger,#e5484d); color: #fff; border-color: var(--danger,#e5484d); }
     .actions { display: flex; gap: 8px; margin-top: 14px; }
     .kbd-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
@@ -45,55 +65,79 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
     <div>
       <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub">Annotate screenshot</div>
+      <div class="brand-sub" data-i18n="annotate_subtitle">Annotate screenshot</div>
     </div>
   </div>
 
   <div id="loading" class="empty">
-    <div class="spinner" role="status" aria-label="Loading"></div>
-    <p>Loading screenshot…</p>
+    <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
+    <p data-i18n="annotate_loading">Loading screenshot…</p>
   </div>
 
   <div id="content" hidden>
-    <div class="toolbar" role="toolbar" aria-label="Annotation tools">
-      <button class="tool" data-tool="pen" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span>Pen</span></button>
-      <button class="tool" data-tool="arrow" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span>Arrow</span></button>
-      <button class="tool" data-tool="rect" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg><span>Rectangle</span></button>
-      <button class="tool" data-tool="circle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg><span>Circle</span></button>
-      <button class="tool" data-tool="text" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg><span>Text</span></button>
-      <button class="tool" data-tool="pixelate" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span>Pixelate</span></button>
+    <div class="toolbar" role="toolbar" data-i18n-attr="aria-label:annotate_toolbarAria" aria-label="Annotation tools">
+      <button class="tool" data-tool="pen" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span data-i18n="tool_pen">Pen</span></button>
+      <button class="tool" data-tool="arrow" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span data-i18n="tool_arrow">Arrow</span></button>
+      <button class="tool" data-tool="rect" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg><span data-i18n="tool_rect">Rectangle</span></button>
+      <button class="tool" data-tool="circle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg><span data-i18n="tool_circle">Circle</span></button>
+      <button class="tool" data-tool="text" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg><span data-i18n="tool_text">Text</span></button>
+      <button class="tool" data-tool="pixelate" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span data-i18n="tool_pixelate">Pixelate</span></button>
+      <button class="tool" data-tool="crop" aria-pressed="false" data-i18n-attr="title:crop_title;aria-label:crop_title" title="Crop (C)" aria-label="Crop (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg><span data-i18n="tool_crop">Crop</span></button>
       <span style="width:8px"></span>
-      <button class="swatch" data-color="#e5484d" style="background:#e5484d" aria-pressed="true" aria-label="Red"></button>
-      <button class="swatch" data-color="#e8930c" style="background:#e8930c" aria-pressed="false" aria-label="Orange"></button>
-      <button class="swatch" data-color="#2f9e6e" style="background:#2f9e6e" aria-pressed="false" aria-label="Green"></button>
-      <button class="swatch" data-color="#3e8ef7" style="background:#3e8ef7" aria-pressed="false" aria-label="Blue"></button>
-      <button class="swatch" data-color="#111111" style="background:#111111" aria-pressed="false" aria-label="Black"></button>
-      <button class="swatch" data-color="#ffffff" style="background:#ffffff;border-color:#ccc" aria-pressed="false" aria-label="White"></button>
+      <button class="swatch" data-color="#e5484d" style="background:#e5484d" aria-pressed="true" data-i18n-attr="aria-label:color_red" aria-label="Red"></button>
+      <button class="swatch" data-color="#e8930c" style="background:#e8930c" aria-pressed="false" data-i18n-attr="aria-label:color_orange" aria-label="Orange"></button>
+      <button class="swatch" data-color="#2f9e6e" style="background:#2f9e6e" aria-pressed="false" data-i18n-attr="aria-label:color_green" aria-label="Green"></button>
+      <button class="swatch" data-color="#3e8ef7" style="background:#3e8ef7" aria-pressed="false" data-i18n-attr="aria-label:color_blue" aria-label="Blue"></button>
+      <button class="swatch" data-color="#111111" style="background:#111111" aria-pressed="false" data-i18n-attr="aria-label:color_black" aria-label="Black"></button>
+      <button class="swatch" data-color="#ffffff" style="background:#ffffff;border-color:#ccc" aria-pressed="false" data-i18n-attr="aria-label:color_white" aria-label="White"></button>
       <span style="width:8px"></span>
-      <button class="tool" data-width="3" aria-pressed="false">Thin</button>
-      <button class="tool" data-width="6" aria-pressed="true">Medium</button>
-      <button class="tool" data-width="12" aria-pressed="false">Thick</button>
+      <button class="tool" data-width="3" aria-pressed="false" data-i18n="width_thin">Thin</button>
+      <button class="tool" data-width="6" aria-pressed="true" data-i18n="width_medium">Medium</button>
+      <button class="tool" data-width="12" aria-pressed="false" data-i18n="width_thick">Thick</button>
       <span style="width:8px"></span>
-      <button class="tool" id="btnUndo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg><span>Undo</span></button>
-      <button class="tool" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span>Clear</span></button>
+      <button class="tool" id="btnUndo" data-i18n-attr="title:undo_title;aria-label:undo_title" title="Undo (Ctrl+Z)" aria-label="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg><span data-i18n="annotate_undo">Undo</span></button>
+      <button class="tool" id="btnRedo" data-i18n-attr="title:redo_title;aria-label:redo_title" title="Redo (Ctrl+Y)" aria-label="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="translate(24 0) scale(-1 1)"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></g></svg><span data-i18n="redo_redo">Redo</span></button>
+      <button class="tool" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span data-i18n="annotate_clear">Clear</span></button>
     </div>
 
     <div class="stage" id="stage">
       <canvas id="editor"></canvas>
       <div id="textWrap">
-        <input id="textInput" type="text" placeholder="Type text, Enter to place" maxlength="120">
-        <button id="textClose" type="button" aria-label="Cancel text">✕</button>
+        <input id="textInput" type="text" data-i18n-attr="placeholder:annotate_textPlaceholder" placeholder="Type text, Enter to place" maxlength="120">
+        <button id="textClose" type="button" data-i18n-attr="aria-label:annotate_cancelText" aria-label="Cancel text">✕</button>
+      </div>
+      <div class="crop-overlay" id="cropOverlay" hidden>
+        <div class="crop-box" id="cropBox" role="group" data-i18n-attr="aria-label:crop_regionAria" aria-label="Crop selection">
+          <div class="crop-thirds-v" aria-hidden="true"></div>
+          <div class="crop-thirds-h" aria-hidden="true"></div>
+          <div class="crop-size" id="cropSize" role="status"></div>
+          <button type="button" class="crop-handle" data-handle="nw" data-i18n-attr="aria-label:crop_handleNw" aria-label="Top-left resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="n" data-i18n-attr="aria-label:crop_handleN" aria-label="Top resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="ne" data-i18n-attr="aria-label:crop_handleNe" aria-label="Top-right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="e" data-i18n-attr="aria-label:crop_handleE" aria-label="Right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="se" data-i18n-attr="aria-label:crop_handleSe" aria-label="Bottom-right resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="s" data-i18n-attr="aria-label:crop_handleS" aria-label="Bottom resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="sw" data-i18n-attr="aria-label:crop_handleSw" aria-label="Bottom-left resize handle"></button>
+          <button type="button" class="crop-handle" data-handle="w" data-i18n-attr="aria-label:crop_handleW" aria-label="Left resize handle"></button>
+          <div class="crop-actions" id="cropActions">
+            <button type="button" class="btn btn-primary" id="cropApply" data-i18n="crop_apply">Apply</button>
+            <button type="button" class="btn" id="cropCancel" data-i18n="ui_cancel">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Save</button>
-      <button id="btnCancel" class="btn btn-ghost">Discard</button>
+      <button id="btnSave" class="btn btn-primary"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> <span data-i18n="annotate_save">Save</span></button>
+      <button id="btnCopy" class="btn" data-i18n="copyButton" data-i18n-attr="title:copyTooltip;aria-label:copyTooltip">Copy</button>
+      <button id="btnCancel" class="btn btn-ghost" data-i18n="annotate_discard">Discard</button>
     </div>
-    <p class="kbd-hint">Tip: drag on the image to draw. Text tool: click where the text should go, type, press Enter. Click placed text to select it, drag to move, press Delete or Backspace to remove. Blur: drag over the area to hide.</p>
+    <p class="kbd-hint" data-i18n="annotate_kbdHint">Tip: drag on the image to draw. Text tool: click where the text should go, type, press Enter. Click placed text to select it, drag to move, press Delete or Backspace to remove. Blur: drag over the area to hide.</p>
+    <p class="kbd-hint" id="windowsNote" data-i18n="copy_windowsNote" hidden>Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.</p>
   </div>
 
   <script src="../shared/ui.js"></script>
+  <script src="../shared/undo-redo.js"></script>
     <script src="annotate.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — scripts/check-duplicates.mjs
+ * ImgFetch, scripts/check-duplicates.mjs
  * Pattern check #1: single source of truth. Every shared numeric limit,
  * key string and rule function must be defined ONCE (in its canonical
  * module) and imported everywhere else. A second literal copy of the same
@@ -35,20 +35,24 @@
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+// Normalize separators so every path comparison works on Windows (\) and POSIX (/).
+const rel = (f) => relative(ROOT, f).replace(/\\/g, '/');
 
 function jsFiles(dir, out = []) {
   for (const e of readdirSync(dir)) {
     if (e === 'node_modules' || e === '.git') continue;
     const p = join(dir, e);
+    const r = rel(p);
     if (statSync(p).isDirectory()) {
       // tests/ may use literals freely; dist/ is build output.
-      if (relative(ROOT, p) === 'tests' || relative(ROOT, p) === 'dist') continue;
+      if (r === 'tests' || r === 'dist') continue;
       jsFiles(p, out);
     } else if (e.endsWith('.js') || e.endsWith('.mjs')) {
-      if (relative(ROOT, p).startsWith('tests/')) continue;
-      if (relative(ROOT, p) === 'scripts/check-duplicates.mjs') continue; // self
+      if (r.startsWith('tests/')) continue;
+      if (r === 'scripts/check-duplicates.mjs') continue; // self
       out.push(p);
     }
   }
@@ -57,10 +61,13 @@ function jsFiles(dir, out = []) {
 
 // { name, canonical (relative), literals: [source spellings that may appear] }
 const LIMITS = [
-  { name: 'FULLPAGE_MAX_SIDE', canonical: 'core/fullpage-capture.js', literals: ['32767'] },
-  { name: 'FULLPAGE_MAX_AREA', canonical: 'core/fullpage-capture.js', literals: ['100_000_000', '100000000'],
-    allowSameValue: ['offscreen/offscreen.js /* GIF_PROBE_MAX_BYTES: distinct 100 MB fetch cap */'] },
-  { name: 'FULLPAGE_MAX_TILES', canonical: 'core/fullpage-capture.js', literals: [] }, // value too common; name check only
+  // FIX 4 / Round 4: one stitched part is capped at 32767px side /
+  // 100MP area (allocation + lossless encode of a 100 MP canvas were
+  // re-proven in the project browser before the raise; see
+  // core/fullpage-capture.js).
+  { name: 'PART_MAX_SIDE', canonical: 'core/fullpage-capture.js', literals: ['32767'] },
+  { name: 'PART_MAX_AREA', canonical: 'core/fullpage-capture.js', literals: ['100_000_000', '100000000'],
+    allowSameValue: ['offscreen/offscreen.js /* GIF_PROBE_MAX_BYTES: distinct 100 MB GIF probe byte budget */'] },
   { name: 'ZIP_ACCUM_TTL_MS', canonical: 'core/zip-accum.js', literals: ['120_000', '120000'],
     allowSameValue: ['core/scan-state.js /* SCAN_STATE_STALE_MS: distinct 2-min scan staleness */'] },
   { name: 'QUEUE_SESSION_KEY', canonical: 'core/queue-persist.js', literals: ["'imgfetch.queue'", '"imgfetch.queue"'] },
@@ -80,7 +87,6 @@ const RULES = [
 
 const files = jsFiles(ROOT);
 const src = new Map(files.map((f) => [f, readFileSync(f, 'utf8')]));
-const rel = (f) => relative(ROOT, f);
 let failures = 0;
 const fail = (msg) => { failures += 1; console.log(`  DUPLICATE-RULE FAIL: ${msg}`); };
 
@@ -93,7 +99,7 @@ for (const lim of LIMITS) {
       if (rel(f) === lim.canonical) continue;
       const allowedFiles = (lim.allowSameValue || []).map((a) => a.split(' /*')[0]);
       if (allowedFiles.includes(rel(f))) continue;
-      // ignore comments-only lines? No — a literal in a comment is still a
+      // ignore comments-only lines? No, a literal in a comment is still a
       // smell, but allow it to avoid false positives on docs.
       const lines = text.split('\n').filter((l) => l.includes(lit) && !l.trim().startsWith('*') && !l.trim().startsWith('//'));
       if (lines.length) {
@@ -121,7 +127,7 @@ for (const rule of RULES) {
 
 // 3. every router case 'X' must be in MESSAGE_TYPES (two-place rule).
 // The offscreen document has its OWN internal dispatcher (service-worker.js
-// ignores target:'offscreen' messages) — exempt from the runtime allowlist.
+// ignores target:'offscreen' messages), exempt from the runtime allowlist.
 const RUNTIME_ROUTERS = ['background/service-worker.js', 'popup/popup.js'];
 const validationSrc = src.get(join(ROOT, 'core/validation.js')) || '';
 const typeSet = new Set([...validationSrc.matchAll(/'([A-Z][A-Z0-9_]+)'/g)].map((m) => m[1]));
@@ -136,7 +142,7 @@ for (const [f, text] of src) {
 }
 
 if (failures) {
-  console.log(`\n${failures} single-source violation(s) — build FAILED`);
+  console.log(`\n${failures} single-source violation(s), build FAILED`);
   process.exit(1);
 }
 console.log('OK: all shared limits and rules have a single source of truth');

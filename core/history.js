@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/history.js
+ * ImgFetch, core/history.js
  * Lightweight download history helpers. Pure functions.
  */
 
@@ -56,8 +56,22 @@ function dayKey(at) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-/** Group records into [{key,label,items}] newest day first. */
-export function groupByDay(records) {
+/**
+ * Group records into [{key,label,items}] newest day first.
+ * Pass the i18n t() as `translate` to localize the Today/Yesterday
+ * labels; without it the labels stay in English (keeps Node tests
+ * deterministic and the module free of i18n state).
+ */
+export function groupByDay(records, translate) {
+  const dayLabel = (key, fallback) => {
+    if (typeof translate === 'function') {
+      try {
+        const s = translate(key);
+        if (typeof s === 'string' && s && s !== key) return s;
+      } catch { /* fall through to the English fallback */ }
+    }
+    return fallback;
+  };
   const groups = new Map();
   for (const r of records || []) {
     const key = dayKey(r.at || Date.now());
@@ -70,7 +84,9 @@ export function groupByDay(records) {
     .sort((a, b) => (a[0] < b[0] ? 1 : -1))
     .map(([key, items]) => ({
       key,
-      label: key === today ? 'Today' : key === yesterday ? 'Yesterday' : formatDay(key),
+      label: key === today ? dayLabel('history_today', 'Today')
+        : key === yesterday ? dayLabel('history_yesterday', 'Yesterday')
+        : formatDay(key),
       count: items.length,
       items,
     }));

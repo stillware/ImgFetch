@@ -16,9 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/settings.js
+ * ImgFetch, core/settings.js
  * Settings schema, defaults and validation. Pure (no chrome.*).
  */
+
+import { isValidLanguage } from './validation.js';
 
 export const SETTINGS_VERSION = 1;
 
@@ -28,6 +30,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   theme: 'system', // system | light | dark
   afterDownload: 'notify', // notify | silent
   autoCollapseQueue: true, // collapse the download progress pane when everything finishes
+  language: 'auto', // 'auto' | locale code from shared/i18n.js LOCALES
   // Downloads
   saveAsDialog: false,
   maxConcurrent: 3,
@@ -51,7 +54,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   // Scanning
   minSizePreset: 'any', // any | medium | large | xlarge
   includeBackgrounds: true,
-  scanDepth: 'loaded', // loaded | scroll — scan what's loaded, or scroll the page first to reveal lazy images
+  scanDepth: 'loaded', // loaded | scroll, scan what's loaded, or scroll the page first to reveal lazy images
   detectLazyScroll: true, // legacy alias of scanDepth === 'scroll'
   dedupeScan: true, // drop duplicate images from scan results
   // Screenshots
@@ -84,7 +87,7 @@ function clampNumber(v, min, max, fallback) {
 export function normalizeSettings(stored) {
   const s = { ...DEFAULT_SETTINGS, ...(stored || {}) };
   // B3: defaultAction is removed (it had no UI and no generic download
-  // button exists — every action names its mode explicitly). Drop it from
+  // button exists, every action names its mode explicitly). Drop it from
   // old installs instead of carrying a dead key forever.
   delete s.defaultAction;
   // AVIF quality slider removed (2026-10-12): AVIF always encodes at 100%.
@@ -93,6 +96,7 @@ export function normalizeSettings(stored) {
   for (const [key, values] of Object.entries(ENUMS)) {
     if (!values.includes(s[key])) s[key] = DEFAULT_SETTINGS[key];
   }
+  if (!isValidLanguage(s.language)) s.language = 'auto';
   s.jpgQuality = clampNumber(s.jpgQuality, 0.1, 1, DEFAULT_SETTINGS.jpgQuality);
   s.pngQuality = clampNumber(s.pngQuality, 0.1, 1, DEFAULT_SETTINGS.pngQuality);
   s.webpQuality = clampNumber(s.webpQuality, 0.1, 1, DEFAULT_SETTINGS.webpQuality);
@@ -142,7 +146,7 @@ export function qualityModeForHost(settings, host) {
     if (pref === 'disabled') return 'disabled';
     return legacy(pref); // 'smart' | 'normal'
   }
-  // B3: defaultAction is gone — with no site pref and no explicit request,
+  // B3: defaultAction is gone, with no site pref and no explicit request,
   // qualityPreference alone decides between smart and original.
   if (settings.qualityPreference === 'original') return 'original';
   return 'smart';
@@ -151,7 +155,7 @@ export function qualityModeForHost(settings, host) {
 /**
  * B3: qualityPreference is a real setting. 'smart' (default) probes every
  * candidate source for the best genuine version; 'original' skips probing
- * and saves the exact source URL — fewer requests, faster, more private.
+ * and saves the exact source URL, fewer requests, faster, more private.
  * Returns false for non-smart modes (nothing to probe).
  */
 export function shouldProbeBestSources(settings, mode) {

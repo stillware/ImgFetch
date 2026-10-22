@@ -20,11 +20,15 @@
  * Image info page: details + every download action + copyable link.
  */
 import { parseExif } from '../core/exif.js';
+import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
 import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
 
 (() => {
   'use strict';
   const UI = window.ImgFetchUI;
+
+  // B: runtime localization. No top-level await; init() awaits i18nReady.
+  const i18nReady = initI18n();
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const srcUrl = params.get('src') || '';
@@ -79,6 +83,9 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
   }
 
   async function init() {
+    await i18nReady;
+    applyI18n();
+    onLanguageChange(() => applyI18n());
     try {
       const { settings } = await UI.send('GET_SETTINGS');
       UI.applyTheme(settings.theme);
@@ -86,7 +93,7 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
       UI.applyTheme('system');
     }
     if (!srcUrl) {
-      fail('No image was specified.');
+      fail(t('info_noImage'));
       return;
     }
     let info;
@@ -97,17 +104,17 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
       return;
     }
     $('preview').src = info.url;
-    $('preview').alt = info.alt || 'Image preview';
+    $('preview').alt = info.alt || t('preview_imagePreview');
     $('link').value = info.url;
 
     const kv = $('kv');
     const rows = [
-      ['File name', info.filename || 'image'],
-      ['Dimensions', UI.formatDims(info.width, info.height)],
-      ['Format', (info.format || 'unknown').toUpperCase()],
-      ['Shown at', info.renderedWidth ? `${info.renderedWidth} × ${info.renderedHeight} px` : '-'],
+      [t('kv_fileName'), info.filename || t('ui_fallbackName')],
+      [t('kv_dimensions'), UI.formatDims(info.width, info.height)],
+      [t('kv_format'), (info.format || t('kv_unknownFormat')).toUpperCase()],
+      [t('kv_shownAt'), info.renderedWidth ? t('info_shownAtValue', { w: info.renderedWidth, h: info.renderedHeight }) : '-'],
     ];
-    if (info.alt) rows.push(['Alt text', info.alt]);
+    if (info.alt) rows.push([t('kv_altText'), info.alt]);
     for (const [k, v] of rows) {
       kv.append(UI.el('dt', k), UI.el('dd', v));
     }
@@ -119,30 +126,30 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
         const kvExif = UI.el('dl', null, 'kv');
         kvExif.style.marginTop = '12px';
         const erows = [];
-        if (exif.make || exif.model) erows.push(['Camera', [exif.make, exif.model].filter(Boolean).join(' ')]);
-        if (exif.dateTaken || exif.dateTime) erows.push(['Taken on', formatExifDate(exif.dateTaken || exif.dateTime)]);
-        if (exif.pixelWidth) erows.push(['Full size', `${exif.pixelWidth} × ${exif.pixelHeight} px`]);
-        if (exif.gps) erows.push(['Location', `${exif.gps.lat}, ${exif.gps.lng}`]);
+        if (exif.make || exif.model) erows.push([t('kv_camera'), [exif.make, exif.model].filter(Boolean).join(' ')]);
+        if (exif.dateTaken || exif.dateTime) erows.push([t('kv_takenOn'), formatExifDate(exif.dateTaken || exif.dateTime)]);
+        if (exif.pixelWidth) erows.push([t('kv_fullSize'), t('info_shownAtValue', { w: exif.pixelWidth, h: exif.pixelHeight })]);
+        if (exif.gps) erows.push([t('kv_location'), `${exif.gps.lat}, ${exif.gps.lng}`]);
         if (erows.length) {
-          const h = UI.el('h3', 'Photo details');
+          const h = UI.el('h3', t('kv_photoDetails'));
           h.style.cssText = 'font-size:13px;margin:14px 0 6px;color:var(--muted)';
           kv.after(h);
           for (const [k, v] of erows) kvExif.append(UI.el('dt', k), UI.el('dd', v));
           h.after(kvExif);
           // L9: GPS coordinates can reveal where someone lives or works.
           if (exif.gps) {
-            const warn = UI.el('p', 'This photo contains GPS coordinates. Sharing the original file shares the exact location it was taken. Use “Save without metadata” for a clean copy.', 'small');
+            const warn = UI.el('p', t('info_gpsWarning'), 'small');
             warn.style.cssText = 'color:var(--warning,#b7791f);font-size:12px;margin:8px 0 0;line-height:1.5;';
             kvExif.after(warn);
-            const stripBtn = UI.el('button', 'Save without metadata', 'btn');
+            const stripBtn = UI.el('button', t('info_stripButton'), 'btn');
             stripBtn.style.marginTop = '8px';
             stripBtn.addEventListener('click', async () => {
               stripBtn.disabled = true;
               try {
                 await UI.send('DOWNLOAD_STRIPPED', { url: info.url, pageUrl: info.pageUrl });
-                UI.toast('Saved a copy with metadata removed.');
+                UI.toast(t('info_stripped'));
               } catch (err) {
-                UI.toast(err.message || 'Could not strip metadata.');
+                UI.toast(err.message || t('info_stripFailed'));
                 stripBtn.disabled = false;
               }
             });
@@ -160,7 +167,7 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
     const dl = (mode, format) => async () => {
       try {
         await UI.send('DOWNLOAD_IMAGE', { srcUrl: info.url, mode, format: format || 'as-is', pageUrl, tabId });
-        UI.toast('Added to the ImgFetch download queue.');
+        UI.toast(t('notice_queued'));
       } catch (err) {
         UI.toast(err.message);
       }
@@ -174,16 +181,16 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
       if (/^https?:\/\//i.test(info.url)) {
         chrome.tabs.create({ url: info.url });
       } else {
-        UI.toast('This image cannot be opened in a tab.');
+        UI.toast(t('info_cannotOpenTab'));
       }
     });
     $('btnCopy').addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(info.url);
-        UI.toast('Image link copied.');
+        UI.toast(t('notice_copiedLink'));
       } catch {
         $('link').select();
-        UI.toast('Copy the selected link manually.');
+        UI.toast(t('info_copyManual'));
       }
     });
     $('link').addEventListener('click', (e) => e.target.select());

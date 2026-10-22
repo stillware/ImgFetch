@@ -12,7 +12,7 @@ behavior: PNG slider unlocked/functional, AVIF always in the context menu.
 Did the structural part:
 - `scripts/package.sh` now extracts both zips and runs `diff -r`; exits 1
   on any difference.
-- `docs/BUILD.md` updated to describe the enforcement.
+- `docs/build.md` updated to describe the enforcement.
 - Proof: package.sh output "== zip content check: Chrome and Edge identical ==".
 
 ## F2 - Validator on extracted zips
@@ -35,8 +35,8 @@ it should stay as is for F3.
   renders via DOM (no innerHTML), shows "Not set, assign in browser shortcut
   settings" when empty, uses Mac symbols on Mac.
 - `scripts/validate.py`: new check that manifest suggested_key values appear
-  in README and USER_GUIDE, and that welcome.html hardcodes no shortcuts.
-- `docs/USER_GUIDE.md`: added Alt+Shift+E and Ctrl+Shift+E lines.
+  in README and user-guide, and that welcome.html hardcodes no shortcuts.
+- `docs/user-guide.md`: added Alt+Shift+E and Ctrl+Shift+E lines.
 - Proof: validate.py "ALL CHECKS PASSED".
 
 ## F5 - Edge shortcut conflicts
@@ -66,7 +66,7 @@ it should stay as is for F3.
   "ImgFetch could not capture this page."
 - The Playwright e2e passes 10/10 without activeTab only because it does not
   exercise captureVisibleTab; real screenshot capture needs it.
-- `docs/PERMISSIONS.md` and `PRIVACY.md` document activeTab honestly.
+- `docs/permissions.md` and `PRIVACY.md` document activeTab honestly.
 - `chrome.action.openPopup`: already wrapped in .catch; no sync throw path.
 
 ## F8 - Honest numbers

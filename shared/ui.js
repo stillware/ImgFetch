@@ -16,11 +16,37 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — shared/ui.js
+ * ImgFetch, shared/ui.js
  * Tiny view helpers shared by popup, options and pages. No dependencies.
  */
 (() => {
   'use strict';
+
+  /**
+   * Runtime localization for the shared UI helpers. ui.js is a classic
+   * script, so the i18n module loads lazily; English defaults are used
+   * until it resolves (or if it cannot load, e.g. no chrome runtime).
+   * initI18n is intentionally not called here: every page using these
+   * helpers already runs it at startup, and this module shares that
+   * loaded state.
+   */
+  let __t = null;
+  try {
+    import('./i18n.js').then((m) => {
+      if (m && typeof m.t === 'function') __t = m.t;
+    }).catch(() => { /* English defaults remain */ });
+  } catch { /* dynamic import unavailable; English defaults remain */ }
+
+  /** Translate a key; falls back to the given English when i18n is unavailable. */
+  function tr(key, english) {
+    if (__t) {
+      try {
+        const s = __t(key);
+        if (typeof s === 'string' && s && s !== key) return s;
+      } catch { /* fall through */ }
+    }
+    return english;
+  }
 
   /** Resolve "system" to light/dark and apply [data-theme] on <html>. */
   function applyTheme(theme) {
@@ -62,14 +88,24 @@
       stack.setAttribute('aria-live', 'polite');
       document.body.appendChild(stack);
     }
+    // Round 5: a repeated identical text replaces the visible toast
+    // (and restarts its timer) instead of stacking a copy of it.
+    for (const child of [...stack.children]) {
+      if (child.textContent === message) {
+        clearTimeout(child._toastTimer);
+        child._toastTimer = setTimeout(() => child.remove(), ms || 2600);
+        stack.appendChild(child);
+        return;
+      }
+    }
     const t = el('div', message, 'toast');
     stack.appendChild(t);
-    setTimeout(() => t.remove(), ms || 2600);
+    t._toastTimer = setTimeout(() => t.remove(), ms || 2600);
     while (stack.children.length > 3) stack.firstChild.remove();
   }
 
   /**
-   * L6: inline confirmation dialog matching the ImgFetch design — replaces
+   * L6: inline confirmation dialog matching the ImgFetch design, replaces
    * window.confirm(). Returns a Promise<boolean>. Focus-trapped, Escape
    * cancels, and it restores focus to the invoking element.
    */
@@ -93,9 +129,9 @@
       p.style.cssText = 'margin:0 0 16px;color:var(--muted);font-size:13px;line-height:1.5;';
       const row = el('div', null, 'row');
       row.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;';
-      const cancelBtn = el('button', 'Cancel', 'btn');
+      const cancelBtn = el('button', tr('ui_cancel', 'Cancel'), 'btn');
       cancelBtn.type = 'button';
-      const okBtn = el('button', confirmLabel || 'Confirm', danger ? 'btn btn-danger' : 'btn btn-primary');
+      const okBtn = el('button', confirmLabel || tr('ui_confirm', 'Confirm'), danger ? 'btn btn-danger' : 'btn btn-primary');
       okBtn.type = 'button';
       row.append(cancelBtn, okBtn);
       dialog.append(h, p, row);
@@ -133,11 +169,11 @@
       chrome.runtime.sendMessage({ type, ...(payload || {}) }, (res) => {
         const err = chrome.runtime.lastError;
         if (err) {
-          reject(new Error('ImgFetch is starting up, please try again in a moment.'));
+          reject(new Error(tr('ui_startingUp', 'ImgFetch is starting up, please try again in a moment.')));
           return;
         }
         if (!res || res.ok !== true) {
-          reject(new Error((res && res.error) || 'Something went wrong. Please try again.'));
+          reject(new Error((res && res.error) || tr('ui_somethingWrong', 'Something went wrong. Please try again.')));
           return;
         }
         resolve(res);
@@ -158,7 +194,7 @@
   }
 
   function formatDims(w, h) {
-    return w > 0 && h > 0 ? `${w} × ${h}` : 'Unknown size';
+    return w > 0 && h > 0 ? `${w} × ${h}` : tr('ui_unknownSize', 'Unknown size');
   }
 
   /**

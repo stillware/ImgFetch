@@ -19,7 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ImgFetch, Image info</title>
+  <title data-i18n="info_subtitle">ImgFetch, Image info</title>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 640px; margin: 0 auto; padding: 28px 20px 60px; }
@@ -33,31 +33,31 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
     <div>
       <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub">Image info</div>
+      <div class="brand-sub" data-i18n="info_subtitle">Image info</div>
     </div>
   </div>
 
   <div id="loading" class="empty">
-    <div class="spinner" role="status" aria-label="Loading"></div>
-    <p>Reading image details…</p>
+    <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
+    <p data-i18n="info_loading">Reading image details…</p>
   </div>
 
   <div id="content" hidden>
     <div class="card">
-      <img id="preview" class="preview" alt="Image preview">
+      <img id="preview" class="preview" data-i18n-attr="alt:preview_imagePreview" alt="Image preview">
       <dl class="kv" id="kv"></dl>
       <div class="field" style="margin-top:12px;">
-        <label for="link">Direct link</label>
+        <label for="link" data-i18n="info_directLink">Direct link</label>
         <input type="text" id="link" class="link" readonly>
       </div>
       <div class="actions">
-        <button id="btnDownload" class="btn btn-primary">Smart Download</button>
-        <button id="btnCopy" class="btn btn-ghost">Copy link</button>
-        <button id="btnPng" class="btn btn-ghost">Save as PNG</button>
-        <button id="btnJpg" class="btn btn-ghost">Save as JPG</button>
-        <button id="btnWebp" class="btn btn-ghost">Save as WebP</button>
-        <button id="btnAvif" class="btn btn-ghost">Save as AVIF</button>
-        <button id="btnOpen" class="btn btn-ghost">Open original</button>
+        <button id="btnDownload" class="btn btn-primary" data-i18n="popup_qualitySmart">Smart Download</button>
+        <button id="btnCopy" class="btn btn-ghost" data-i18n="info_copyLink">Copy link</button>
+        <button id="btnPng" class="btn btn-ghost" data-i18n="preview_savePng">Save as PNG</button>
+        <button id="btnJpg" class="btn btn-ghost" data-i18n="preview_saveJpeg">Save as JPG</button>
+        <button id="btnWebp" class="btn btn-ghost" data-i18n="preview_saveWebp">Save as WebP</button>
+        <button id="btnAvif" class="btn btn-ghost" data-i18n="preview_saveAvif">Save as AVIF</button>
+        <button id="btnOpen" class="btn btn-ghost" data-i18n="preview_openOriginal">Open original</button>
       </div>
     </div>
   </div>

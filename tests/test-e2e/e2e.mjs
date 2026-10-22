@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch e2e — tests/test-e2e/e2e.mjs
+ * ImgFetch e2e, tests/test-e2e/e2e.mjs
  * Real-browser suite (Playwright + Chromium). Run under a virtual display:
  *   xvfb-run -a node tests/test-e2e/e2e.mjs [--dpr=1|2] [--headed]
  *
@@ -69,7 +69,7 @@ const EDGE_PATH = '/usr/bin/microsoft-edge-stable';
 const results = { dpr: DPR, headed: HEADED, browser: BROWSER, phases: [], errors: [] };
 function phase(name, ok, evidence = {}) {
   results.phases.push({ name, ok, evidence });
-  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${evidence.note ? ` — ${evidence.note}` : ''}`);
+  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${evidence.note ? `, ${evidence.note}` : ''}`);
   if (!ok) results.errors.push(name);
 }
 const pngMagic = (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47;
@@ -204,7 +204,7 @@ try {
 
 // ---- P3/P4: full-page STITCH through the REAL offscreen document ----
 // NOTE (honest): chrome.tabs.captureVisibleTab needs the activeTab grant,
-// which only a real user gesture (click/shortcut) provides — Playwright
+// which only a real user gesture (click/shortcut) provides, Playwright
 // cannot synthesize it, so the tile-capture HALF of captureFullPage is
 // NOT TESTED here (see NOT_TESTED.md). What IS tested: the REAL planner +
 // the REAL offscreen stitcher (the N1 contract) with REAL rendered pixels:
@@ -225,7 +225,10 @@ async function stitchFullPage(h, label) {
       fullW: metrics.viewportW, fullH: h,
       viewportW: metrics.viewportW, viewportH: metrics.viewportH, dpr: DPR,
     });
-    ev.plan = { outW: plan.outW, outH: plan.outH, tiles: plan.tileCount, scale: +plan.scale.toFixed(3) };
+    ev.plan = {
+      parts: plan.parts.length, tiles: plan.totalTiles,
+      partDims: plan.parts.map((pt) => `${pt.w}x${pt.h}`),
+    };
     // Ensure the offscreen document exists.
     await sw.evaluate(() => chrome.offscreen.createDocument({
       url: 'offscreen/offscreen.html', reasons: ['BLOBS', 'CLIPBOARD'],
@@ -233,55 +236,55 @@ async function stitchFullPage(h, label) {
     }).catch(() => {}));
     await new Promise((r) => setTimeout(r, 1500));
     // Drive the stitcher via chrome.runtime.sendMessage from the SERVICE
-    // WORKER's context — the exact path the extension's offscreenCall uses.
+    // WORKER's context, the exact path the extension's offscreenCall uses.
     // (The worker's own listener ignores target:'offscreen', so there is
     // exactly one responder and no race. CDP Target.attachToTarget does not
     // route through Playwright's session.send params.)
     const sendOff = (msg) =>
       sw.evaluate((m) => chrome.runtime.sendMessage(m), { target: 'offscreen', ...msg });
-    // N1: STITCH_BEGIN with the planner's output must NOT throw bad-size.
+    // FIX 4: stitch EVERY part through the real offscreen document.
+    // STITCH_BEGIN with each part's size must NOT throw bad-size (the
+    // planner guarantees the shared rule); tiles go to exact integer
+    // device-px offsets, drawn 1:1.
     // Retry like the extension's own offscreenCall: createDocument resolves
     // before the offscreen page's scripts register their listener.
-    let begin = null;
-    for (let a = 0; a < 6 && (!begin || !begin.ok); a += 1) {
-      if (a) await new Promise((r) => setTimeout(r, 400 * a));
-      begin = await sendOff({
-        type: 'STITCH_BEGIN',
-        width: plan.outW, height: plan.outH, scale: plan.scale,
-      });
-    }
-    if (!begin || !begin.ok) return { ok: false, ev: { ...ev, note: `STITCH_BEGIN rejected: ${JSON.stringify(begin)}` } };
-    // Shoot real tiles and stitch them at the plan's positions.
-    const rows = plan.rows, cols = plan.cols;
-    for (let rr = 0; rr < rows; rr += 1) {
-      for (let cc = 0; cc < cols; cc += 1) {
-        const sx = Math.max(0, Math.min(cc * metrics.viewportW, plan.capW - metrics.viewportW));
-        const sy = Math.max(0, Math.min(rr * metrics.viewportH, plan.capH - metrics.viewportH));
-        await pg.evaluate(([x, y]) => window.scrollTo(x, y), [sx, sy]);
+    let okAll = true;
+    const partEvs = [];
+    for (const part of plan.parts) {
+      let begin = null;
+      for (let a = 0; a < 6 && (!begin || !begin.ok); a += 1) {
+        if (a) await new Promise((r) => setTimeout(r, 400 * a));
+        begin = await sendOff({ type: 'STITCH_BEGIN', width: part.w, height: part.h });
+      }
+      if (!begin || !begin.ok) return { ok: false, ev: { ...ev, note: `STITCH_BEGIN part ${part.index} rejected: ${JSON.stringify(begin)}` } };
+      for (const tile of part.tiles) {
+        await pg.evaluate(([x, y]) => window.scrollTo(x, y), [tile.sx, tile.sy]);
         await pg.waitForTimeout(250);
         const shot = await pg.screenshot({ type: 'png' });
         const dataUrl = `data:image/png;base64,${shot.toString('base64')}`;
-        const tile = await sendOff({
-          type: 'STITCH_TILE', dataUrl,
-          x: Math.round(sx * DPR * plan.scale), y: Math.round(sy * DPR * plan.scale),
+        const res = await sendOff({
+          type: 'STITCH_TILE', dataUrl, dx: tile.dx, dy: tile.dy,
           pageUrl: `${BASE}/tall?h=${h}`,
         });
-        if (!tile || !tile.ok) return { ok: false, ev: { ...ev, note: `STITCH_TILE r${rr}c${cc} failed: ${JSON.stringify(tile)}` } };
+        if (!res || !res.ok) return { ok: false, ev: { ...ev, note: `STITCH_TILE part ${part.index} failed: ${JSON.stringify(res)}` } };
       }
+      const end = await sendOff({ type: 'STITCH_END', format: 'png' });
+      if (!end || !end.ok || !end.dataUrl) return { ok: false, ev: { ...ev, note: `STITCH_END part ${part.index} failed: ${JSON.stringify(end).slice(0, 160)}` } };
+      const b = Buffer.from(end.dataUrl.split(',')[1], 'base64');
+      const f = `stitch-${label}-p${part.index}-dpr${DPR}.png`;
+      fs.writeFileSync(path.join(downloadDir, f), b);
+      // Verify: PNG magic + REAL dimensions from the IHDR chunk (no
+      // renderer needed), and a not-blank sanity check via file size.
+      const ihdrW = b.readUInt32BE(16); const ihdrH = b.readUInt32BE(20);
+      const partOk = pngMagic(b) && ihdrW === part.w && ihdrH === part.h && b.length > 10000;
+      if (!partOk) okAll = false;
+      partEvs.push({ part: part.index, dims: `${ihdrW}x${ihdrH}`, expect: `${part.w}x${part.h}`, size: b.length });
     }
-    const end = await sendOff({ type: 'STITCH_END', format: 'png' });
-    if (!end || !end.ok || !end.dataUrl) return { ok: false, ev: { ...ev, note: `STITCH_END failed: ${JSON.stringify(end).slice(0, 160)}` } };
-    const b = Buffer.from(end.dataUrl.split(',')[1], 'base64');
-    const f = `stitch-${label}-dpr${DPR}.png`;
-    fs.writeFileSync(path.join(downloadDir, f), b);
-    // Verify: PNG magic + REAL dimensions from the IHDR chunk (no renderer
-    // needed — loading a 22MP PNG in a page crashed the target), and a
-    // not-blank sanity check via file size (an all-white 1280x17280 PNG is
-    // <100KB; real content is several hundred KB).
-    const ihdrW = b.readUInt32BE(16); const ihdrH = b.readUInt32BE(20);
-    const ok = pngMagic(b) && ihdrW === plan.outW && ihdrH === plan.outH && b.length > 10000;
     await pg.close().catch(() => {});
-    return { ok, ev: { ...ev, file: f, size: b.length, dims: { w: ihdrW, h: ihdrH }, note: `${ihdrW}x${ihdrH} (plan ${plan.outW}x${plan.outH}), ${b.length} bytes` } };
+    // The parts must cover the whole page: no truncation.
+    const coveredH = plan.parts.reduce((n, pt) => n + pt.h, 0);
+    const whole = coveredH === plan.devH;
+    return { ok: okAll && whole, ev: { ...ev, parts: partEvs, wholePageCovered: whole } };
   } catch (e) {
     return { ok: false, ev: { ...ev, note: `threw: ${e.message.slice(0, 200)}` } };
   }
@@ -295,7 +298,7 @@ async function stitchFullPage(h, label) {
   phase('P4 stitch 3000px baseline via real offscreen', ok, ev);
 }
 
-// ---- P5: N4 — chromeDownloadId persisted IMMEDIATELY in the browser ----
+// ---- P5: N4, chromeDownloadId persisted IMMEDIATELY in the browser ----
 // (CDP ServiceWorker.stopAllWorkers does not stop an MV3 extension worker,
 // and chrome.runtime.reload() tears down the test browser, so the restart
 // half is unit-tested; here we prove N4's actual claim in the live browser:
@@ -317,7 +320,7 @@ async function stitchFullPage(h, label) {
     })).filter((x) => x.srcUrl);
     const sendP = send({ type: 'DOWNLOAD_MANY', items: pick }).catch((e) => ({ e2eErr: e.message.slice(0, 80) }));
     // The persisted value is the serialize()d array. Poll it: catch the
-    // queue while downloads are in flight (the fixture is fast — 20 tiny
+    // queue while downloads are in flight (the fixture is fast, 20 tiny
     // images can finish in under a second).
     let snap = null;
     const t0 = Date.now();

@@ -16,14 +16,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/scan-state.js
+ * ImgFetch, core/scan-state.js
  * Scan lifecycle state shared between the service worker and the popup:
  *   idle -> scanning -> results | error
  *
  * The worker writes it to chrome.storage.session when a scan starts and
  * finishes; the popup reads it on open so a shortcut-triggered scan is
  * never lost just because the popup was closed. A 'scanning' state older
- * than SCAN_STATE_STALE_MS means the worker died mid-scan — treat it as
+ * than SCAN_STATE_STALE_MS means the worker died mid-scan, treat it as
  * idle instead of hanging the popup. Pure logic, unit-testable in Node.
  */
 

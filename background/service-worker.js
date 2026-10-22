@@ -51,12 +51,29 @@ import {
   shouldProbeBestSources,
 } from '../core/settings.js';
 import { DownloadQueue } from '../core/queue.js';
-import { planFullPageCapture } from '../core/fullpage-capture.js';
+import {
+  planFullPageCapture,
+  pickScrollTarget,
+  tilesCoveringRegion,
+  shiftPlanParts,
+  PART_MAX_AREA,
+  PART_MAX_SIDE,
+  PART_PROVEN_AREA,
+  CAPTURE_MAX_DURATION_MS,
+  CAPTURE_AREA_FLOOR,
+  PART_MAX_COUNT,
+} from '../core/fullpage-capture.js';
+import { captureRecordMeta, pruneCaptureRecords } from '../core/capture-storage.js';
+import { decideCaptureStep } from '../core/capture-decision.js';
+import { cropPngDataUrl } from '../core/crop-image.js';
 import {
   isValidMessage,
   senderKind,
   SENDER_RULES,
   friendlyError,
+  setErrorTranslator,
+  isValidCaptureId,
+  isValidCaptureGroupId,
 } from '../core/validation.js';
 import { addRecord, pruneRecords, MAX_RECORDS } from '../core/history.js';
 import { dedupeImages } from '../core/dedupe.js';
@@ -64,9 +81,61 @@ import { pickBestImageUrl } from '../core/image-url.js';
 import { coerceScanState } from '../core/scan-state.js';
 import { bulkItemPayload, singleItemPayload, pickUpgrade } from '../core/bulk-payload.js';
 import { resolveFolder } from '../core/folders.js';
+import { initI18n, t } from '../shared/i18n.js';
 
 const OFFSCREEN_PATH = 'offscreen/offscreen.html';
 const SETTINGS_KEY = 'imgfetch.settings';
+
+/* ------------------------------------------------------------------ */
+/* B: runtime localization                                             */
+/* ------------------------------------------------------------------ */
+// No top-level await: it kills the MV3 worker. Handlers await i18nReady.
+let i18nReady = initI18n(); // reassigned when the language setting changes (storage.onChanged below)
+
+/**
+ * Localize friendlyError() codes through the loaded locale. Codes are
+ * kebab-case ('bad-url'); message keys are camelCase ('error_badUrl').
+ * Registered once at startup; the closure resolves t() lazily so it
+ * always uses the current locale.
+ */
+function errorKeyFor(code) {
+  const parts = String(code || '').split('-');
+  return 'error_' + parts.map((p, i) => (i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1))).join('');
+}
+setErrorTranslator((code) => {
+  const key = errorKeyFor(code);
+  const text = t(key);
+  // t() returns the key itself when the locale is not loaded yet;
+  // fall back to the built-in English strings instead of a raw key.
+  if (text !== key) return text;
+  const generic = t('ui_somethingWrong');
+  return generic === 'ui_somethingWrong' ? null : generic;
+});
+
+/**
+ * t() with an English fallback. t() returns the key itself when the
+ * locale is not loaded yet; that must never reach the user. Used where
+ * the worker cannot await i18nReady (e.g. startup queue triage).
+ */
+function tx(key, english) {
+  const s = t(key);
+  return s === key ? english : s;
+}
+
+/**
+ * shared/i18n.js reads the language from chrome.storage.local under the
+ * key 'settings', but this worker keeps settings under SETTINGS_KEY
+ * ('imgfetch.settings'). Mirror the normalized settings there so
+ * initI18n()/setLanguage() in pages and in this worker see the same
+ * language. The mirror is written on every saveSettings() and persists
+ * across worker restarts.
+ */
+const I18N_SETTINGS_KEY = 'settings';
+function mirrorI18nSettings() {
+  try {
+    if (settingsCache) chrome.storage.local.set({ [I18N_SETTINGS_KEY]: settingsCache }).catch(() => {});
+  } catch { /* storage unavailable; pages fall back to browser language */ }
+}
 const HISTORY_KEY = 'imgfetch.history';
 const LAST_SCAN_KEY = 'imgfetch.lastScan';
 const COUNTER_KEY = 'imgfetch.fileCounter';
@@ -83,7 +152,6 @@ let offscreenLastUsed = 0;
 let offscreenInflight = 0; // H4: jobs currently running in the offscreen document
 const CAPS_SESSION_KEY = 'imgfetch.caps'; // legacy session backup key (removed on write)
 const pendingCompletions = new Map(); // chrome downloadId -> { resolve, reject }
-let queueDrainTimer = null;
 
 const queue = new DownloadQueue({
   concurrency: 3,
@@ -173,7 +241,7 @@ async function restoreQueueState() {
       continue;
     }
     if (dl) {
-      triaged.push({ ...s, state: 'failed', error: 'The download was interrupted.' });
+      triaged.push({ ...s, state: 'failed', error: tx('queue_downloadInterrupted', 'The download was interrupted.') });
       continue;
     }
     triaged.push({ ...s, state: 'pending' });
@@ -207,7 +275,7 @@ async function restoreQueueState() {
   if (resumed > 0 || failed > 0) {
     broadcast({
       type: 'NOTICE_TEXT',
-      text: `ImgFetch restarted, resumed ${resumed} queued download${resumed === 1 ? '' : 's'}${failed > 0 ? `, ${failed} failed` : ''}.`,
+      text: t('sw_restarted', { count: resumed, resumed, failedPart: failed > 0 ? t('sw_restartFailed', { failed }) : '' }),
     });
   }
 }
@@ -245,13 +313,33 @@ async function getSettings() {
 async function saveSettings(next) {
   settingsCache = normalizeSettings(next);
   await chrome.storage.local.set({ [SETTINGS_KEY]: settingsCache });
+  mirrorI18nSettings();
   return settingsCache;
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && changes[SETTINGS_KEY]) {
+  if (area !== 'local') return;
+  if (changes[SETTINGS_KEY]) {
+    const oldLang = settingsCache && settingsCache.language;
     settingsCache = normalizeSettings(changes[SETTINGS_KEY].newValue);
     queue.concurrency = settingsCache.maxConcurrent;
+    mirrorI18nSettings();
+    // B: rebuild menu titles when the language changed.
+    if (settingsCache.language !== oldLang) {
+      i18nReady = initI18n(); // re-read the new language before rebuilding
+      buildMenus();
+    }
+  } else if (changes[I18N_SETTINGS_KEY]) {
+    // B: written directly by shared/i18n.js setLanguage() (options page).
+    // Adopt the language into the canonical settings and rebuild menus;
+    // the debounced SAVE_SETTINGS lands the full object right after.
+    const next = normalizeSettings(changes[I18N_SETTINGS_KEY].newValue);
+    if (settingsCache && next.language === settingsCache.language) return;
+    settingsCache = next;
+    queue.concurrency = settingsCache.maxConcurrent;
+    i18nReady = initI18n(); // pick up the new language
+    buildMenus();
+    chrome.storage.local.set({ [SETTINGS_KEY]: settingsCache }).catch(() => {});
   }
 });
 
@@ -288,25 +376,6 @@ async function activeTab() {
 
 function isScannableTab(tab) {
   return !!tab && typeof tab.id === 'number' && /^https?:\/\//.test(tab.url || '');
-}
-
-/**
- * Tab to capture: the active tab when it's a normal web page, otherwise the
- * most recently used web tab (e.g. when captures are triggered from the
- * Settings page, which is focused at that moment).
- */
-async function captureTargetTab() {
-  const tab = await activeTab();
-  if (isScannableTab(tab)) {
-    assertSiteAllowed(await getSettings(), tab.url); // H8: paused sites block capture
-    return tab;
-  }
-  const tabs = await chrome.tabs.query({ lastFocusedWindow: true }).catch(() => []);
-  const fallback = (tabs || [])
-    .filter(isScannableTab)
-    .sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0))[0];
-  if (fallback) assertSiteAllowed(await getSettings(), fallback.url); // H8
-  return fallback || null;
 }
 
 async function nextFileNumber() {
@@ -468,11 +537,12 @@ async function ensureOffscreen() {
         return;
       }
     }
+    // B: the justification string is user-visible in chrome://extensions.
+    await i18nReady;
     await chrome.offscreen.createDocument({
       url: OFFSCREEN_PATH,
       reasons: ['BLOBS', 'CLIPBOARD'],
-      justification:
-        'Convert downloaded images between formats, crop screenshots, and copy image links.',
+      justification: t('sw_offscreenJustification'),
     });
   })().finally(() => {
     creatingOffscreen = null;
@@ -535,6 +605,34 @@ async function findRankedSourcesCached(srcUrl, pageUrl, tabId, candidates) {
 const CAP_CACHE_SIZE = 2;
 const capCache = new Map(); // id -> data (LRU, hot path only)
 
+/** Groups whose capture is still running: their records are never pruned. */
+const openCaptureGroups = new Set();
+
+/**
+ * Round 4 pruning: age + total-bytes + count caps from
+ * core/capture-storage.js (the caps themselves live there, once).
+ * Open groups are protected; closed groups are pruned whole, never
+ * part by part. Metadata comes from the records themselves; blob
+ * payloads stay in IndexedDB (a Blob handle is not its bytes).
+ */
+async function pruneCaptures() {
+  try {
+    const all = await idb.all('captures');
+    if (!all.length) return;
+    const metas = all.map((r) => captureRecordMeta(r));
+    const drop = pruneCaptureRecords(metas, {
+      now: Date.now(),
+      openGroupIds: [...openCaptureGroups],
+    });
+    for (const id of drop) {
+      capCache.delete(id);
+      await idb.del('captures', id).catch(() => {});
+    }
+  } catch {
+    /* pruning is housekeeping; a failure never breaks a capture */
+  }
+}
+
 async function rememberCapture(id, data) {
   capCache.set(id, data);
   if (capCache.size > CAP_CACHE_SIZE) {
@@ -543,11 +641,7 @@ async function rememberCapture(id, data) {
   }
   try {
     await idb.put('captures', { id, ...data });
-    // Prune stale captures (older than 1h, keep at most 5).
-    const all = await idb.all('captures');
-    const cutoff = Date.now() - 3600e3;
-    const stale = all.filter((c) => c.at < cutoff).slice(0, Math.max(0, all.length - 5));
-    await Promise.all(stale.map((c) => idb.del('captures', c.id)));
+    await pruneCaptures();
   } catch {
     /* IndexedDB unavailable, the memory cache covers the normal case */
   }
@@ -559,9 +653,35 @@ async function rememberCapture(id, data) {
   }
 }
 
+/**
+ * Register a capture record the offscreen document already wrote to
+ * IndexedDB as a Blob (a stitched part). The worker keeps only the
+ * metadata; the image bytes never pass through the worker.
+ */
+async function registerStoredCapture(id, meta) {
+  capCache.set(id, { ...meta, blobStored: true });
+  if (capCache.size > CAP_CACHE_SIZE) {
+    const oldest = [...capCache.keys()][0];
+    capCache.delete(oldest);
+  }
+  await pruneCaptures();
+}
+
+/** Chunked Blob -> data URL (service workers have no FileReader). */
+async function blobToDataUrl(blob) {
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  let bin = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < buf.length; i += CHUNK) {
+    bin += String.fromCharCode.apply(null, buf.subarray(i, i + CHUNK));
+  }
+  const type = blob.type || 'image/png';
+  return `data:${type};base64,${btoa(bin)}`;
+}
+
 async function recallCapture(id) {
   const mem = capCache.get(id);
-  if (mem) return mem;
+  if (mem && (mem.dataUrl || mem.blob)) return mem;
   try {
     const rec = await idb.get('captures', id);
     if (rec) {
@@ -573,6 +693,57 @@ async function recallCapture(id) {
     /* ignore */
   }
   return null;
+}
+
+/**
+ * Round 4: discarding a parts group removes ALL of its records, so a
+ * multi-part capture never leaves orphaned parts behind. Also used
+ * when a group is saved and closed.
+ */
+async function discardCaptureGroup(groupId) {
+  const gid = String(groupId || '');
+  if (!gid) return { removed: 0 };
+  openCaptureGroups.delete(gid);
+  let removed = 0;
+  try {
+    const all = await idb.all('captures');
+    for (const r of all) {
+      if (r && r.groupId === gid) {
+        capCache.delete(r.id);
+        await idb.del('captures', r.id).catch(() => {});
+        removed += 1;
+      }
+    }
+  } catch {
+    /* IndexedDB unavailable: nothing else to clean up */
+  }
+  return { removed };
+}
+
+/**
+ * Round 4 (Parts overview): discarding ONE part of a group. The id
+ * and group id must both be in the worker-minted formats, and the
+ * stored record must really belong to that group, so a page can
+ * never delete a capture outside the group it is showing. Returns
+ * how many records remain in the group.
+ */
+async function discardCapture(id, groupId) {
+  if (!isValidCaptureId(id) || !isValidCaptureGroupId(groupId)) {
+    throw new Error(friendlyError('capture-failed'));
+  }
+  const cap = await recallCapture(id);
+  if (!cap || String(cap.groupId || '') !== groupId) {
+    throw new Error(friendlyError('capture-failed'));
+  }
+  await forgetCapture(id);
+  let remaining = 0;
+  try {
+    const all = await idb.all('captures');
+    remaining = all.filter((r) => r && r.groupId === groupId).length;
+  } catch {
+    remaining = 0;
+  }
+  return { removed: 1, remaining };
 }
 
 async function forgetCapture(id) {
@@ -602,7 +773,7 @@ async function performDownload(item) {
   const { srcUrl, mode, format, pageUrl, pageTitle, kind } = item.payload;
   checkPublicFetch(srcUrl, pageUrl); // M7
   const settings = await getSettings();
-  // Page blob: URLs must be resolved in-page to a data URL first —
+  // Page blob: URLs must be resolved in-page to a data URL first,
   // nothing outside the page can fetch them.
   let src = srcUrl;
   if (typeof src === 'string' && src.startsWith('blob:')) {
@@ -715,7 +886,7 @@ async function performDownload(item) {
       type: 'basic',
       iconUrl: chrome.runtime.getURL('icons/icon-48.png'),
       title: 'ImgFetch',
-      message: `Saved ${path.split('/').pop()}`,
+      message: t('notify_saved', { filename: path.split('/').pop() }),
       // Cosmetic: the download already succeeded; a denied notification
       // permission must not surface as an error.
     }).catch(() => {});
@@ -826,7 +997,7 @@ function waitForDownloadComplete(downloadId) {
 
 /**
  * Actual on-disk size of a finished download, for history records.
- * chrome.downloads.search reports fileSize once the download completes —
+ * chrome.downloads.search reports fileSize once the download completes,
  * this is the exact size the user got, not an estimate.
  */
 async function downloadFileSize(downloadId) {
@@ -972,18 +1143,18 @@ async function attemptSmartCandidate(item, candidate, wantFormat, settings, say)
   let height = candidate.height || 0;
 
   if (wantFormat && wantFormat !== targetExt) {
-    say(`Converting to ${formatLabel(wantFormat)}…`);
+    say(t('sw_converting', { format: formatLabel(wantFormat) }));
     const converted = await convertSource(candidate.url, wantFormat, settings, pageUrl);
     finalUrl = converted.dataUrl;
     targetExt = converted.ext;
     width = converted.width || width;
     height = converted.height || height;
     if (getExtensionFromUrl(candidate.url) === 'gif') {
-      say('Note: animated images are saved as a still frame.');
+      say(t('sw_stillFrameNote'));
     }
   }
 
-  say('Downloading…');
+  say(t('sw_downloading'));
   finalUrl = await maybeSanitizeSvg(finalUrl, targetExt, pageUrl); // M3
   // L11: direct (unconverted) smart downloads get the same sniff check.
   if (/^https?:\/\//i.test(finalUrl) && finalUrl === candidate.url) {
@@ -1021,12 +1192,12 @@ async function attemptSmartCandidate(item, candidate, wantFormat, settings, say)
       type: 'basic',
       iconUrl: chrome.runtime.getURL('icons/icon-48.png'),
       title: 'ImgFetch',
-      message: `Saved ${path.split('/').pop()}`,
+      message: t('notify_saved', { filename: path.split('/').pop() }),
       // Cosmetic: the download already succeeded; a denied notification
       // permission must not surface as an error.
     }).catch(() => {});
   } else if (kind !== 'bulk') {
-    say('Downloaded successfully.');
+    say(t('sw_downloadedOk'));
   }
 
   return { downloadId, filename: path };
@@ -1047,7 +1218,7 @@ async function performZipDownload(item) {
   // H3: resolve page blob: URLs in-page first (nothing outside the page
   // can fetch them). Unresolvable ones count as skipped, not silent.
   const capped = files.slice(0, 200);
-  const cappedNote = files.length > 200 ? ` (first 200 of ${files.length})` : '';
+  const cappedNote = files.length > 200 ? t('sw_zipCapped', { total: files.length }) : '';
   let skipped = 0;
   const resolved = [];
   for (const f of capped) {
@@ -1069,7 +1240,7 @@ async function performZipDownload(item) {
     }
   }
 
-  say(`Preparing ZIP (${resolved.length} images${cappedNote}, as shown)…`);
+  say(t('sw_preparingZip', { count: resolved.length, cappedNote }));
   // B6: blob: URLs were resolved to data URLs in-page, those can be huge,
   // so split the payload into small messages (no single runtime message
   // near the size limit). The offscreen side accumulates the chunks.
@@ -1117,7 +1288,7 @@ async function performZipDownload(item) {
   if (!res || !res.url) throw new Error(friendlyError('convert-failed'));
   skipped += Number(res.skipped) || 0;
 
-  say('Downloading ZIP…');
+  say(t('sw_downloadingZip'));
   const d = new Date();
   const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}`;
   const folder = resolveFolder(settings, pageUrl, '', 'zip');
@@ -1142,8 +1313,8 @@ async function performZipDownload(item) {
     await offscreenCall({ type: 'REVOKE_URL', url: res.url }).catch(() => {});
   }
   const doneMsg = skipped > 0
-    ? `ZIP downloaded (${res.count} of ${capped.length} images, ${skipped} skipped).`
-    : `ZIP downloaded (${res.count} images).`;
+    ? t('sw_zipDonePartial', { count: res.count, total: capped.length, skipped })
+    : t('sw_zipDoneFull', { count: res.count });
   say(doneMsg);
   return { downloadId };
 }
@@ -1182,8 +1353,8 @@ async function performSmartDownload(item) {
   const url = normalizeUrl(smartSrc, pageUrl);
   if (!url) throw new Error(friendlyError('bad-url'));
 
-  say('Finding best quality…');
-  // B3: qualityPreference 'original' skips best-source probing entirely —
+  say(t('sw_findingBest'));
+  // B3: qualityPreference 'original' skips best-source probing entirely,
   // the exact source URL is used (fewer requests, faster, more private).
   const ranked = isBlobSource || !shouldProbeBestSources(settings, 'smart')
     ? []
@@ -1219,7 +1390,7 @@ async function performSmartDownload(item) {
       return await attemptSmartCandidate(item, candidate, wantFormat, settings, say);
     } catch (err) {
       lastError = err;
-      say('ImgFetch could not use the highest-quality version. Trying another available source…');
+      say(t('sw_retryingSource'));
     }
   }
   const final = lastError || new Error(friendlyError('download-failed'));
@@ -1445,92 +1616,244 @@ async function scanPage(tabId) {
 /* Screenshots                                                         */
 /* ------------------------------------------------------------------ */
 
+/**
+ * FIX 3: every capture targets the REAL active tab of the current window,
+ * whatever its URL (http, https, chrome://, edge://, about:,
+ * chrome-extension://, data:, file:// when allowed). The silent fallback to
+ * "the most recently used web tab" is gone: capturing a different tab than
+ * the one the user sees is never acceptable.
+ *
+ * Modes that need script injection (area, element, full page) are driven
+ * through the pure decision table in core/capture-decision.js: injection is
+ * attempted inside try/catch and its failure (a restricted page, or an
+ * empty tab.url on one) is the fallback signal, tab.url itself is never
+ * consulted. Where the browser forbids injection, the capture falls back
+ * to the visible area of the SAME tab with a clear localized notice; where
+ * even the visible capture is refused (Chrome Web Store, Edge Add-ons), a
+ * clear localized error is shown. Never a silent failure, never a raw
+ * error string, never another tab.
+ */
+const CAPTURE_MODE_LABEL_KEYS = {
+  visible: 'menu_shotVisible',
+  area: 'menu_shotArea',
+  element: 'menu_shotElement',
+  full: 'menu_shotFull',
+};
+
+/**
+ * Run one capture request through the FIX 3 decision table.
+ * @param {'visible'|'area'|'element'|'full'} requestedMode
+ * @param {(tab) => Promise} runMode the requested mode, run after a
+ *   successful injection (null for 'visible', which needs no injection)
+ */
+async function captureWithFallback(requestedMode, runMode) {
+  await i18nReady;
+  const tab = await activeTab();
+  if (!tab || !Number.isInteger(tab.id) || typeof tab.windowId !== 'number') {
+    throw new Error(friendlyError('no-tab'));
+  }
+  // H8: paused sites block captures, but only http/https pages have site
+  // preferences; other URL types skip the check instead of failing it.
+  if (/^https?:\/\//i.test(tab.url || '')) {
+    assertSiteAllowed(await getSettings(), tab.url);
+  }
+  const outcomes = { injection: null, visible: null };
+  let visibleDataUrl = null;
+  for (;;) {
+    const d = decideCaptureStep(requestedMode, outcomes);
+    if (d.step === 'inject') {
+      let ok = false;
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ['content/scanner.js'],
+        });
+        ok = true;
+      } catch {
+        /* restricted page (or an empty URL on one): the fallback signal */
+      }
+      outcomes.injection = ok ? 'ok' : 'failed';
+    } else if (d.step === 'capture-visible') {
+      visibleDataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' }).catch(() => null);
+      outcomes.visible = visibleDataUrl ? 'ok' : 'failed';
+    } else if (d.step === 'proceed') {
+      if (typeof runMode !== 'function') throw new Error(friendlyError('capture-failed'));
+      return runMode(tab);
+    } else if (d.step === 'done' || d.step === 'fallback-done') {
+      if (d.step === 'fallback-done') {
+        const labelKey = CAPTURE_MODE_LABEL_KEYS[d.noticeVars.mode] || CAPTURE_MODE_LABEL_KEYS.visible;
+        broadcast({ type: 'NOTICE_TEXT', text: t(d.noticeKey, { mode: t(labelKey) }) });
+      }
+      return finishCapture(visibleDataUrl, 0, 0);
+    } else if (d.step === 'refuse') {
+      throw new Error(t(d.errorKey));
+    } else {
+      throw new Error(friendlyError('capture-failed'));
+    }
+  }
+}
+
+/** Visible-area capture of the active tab, whatever its URL. */
 async function captureVisible() {
-  const tab = await captureTargetTab();
-  if (!tab || typeof tab.windowId !== 'number') throw new Error(friendlyError('no-tab'));
-  const dataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' }).catch(() => null);
-  if (!dataUrl) throw new Error(friendlyError('capture-failed'));
-  return finishCapture(dataUrl, 0, 0);
+  return captureWithFallback('visible', null);
 }
 
 /**
- * Shared tail for every screenshot: store it and open the preview/annotate
- * page. M10: extracted from captureVisible/Area/Element (3 identical tails).
+ * Shared tail for single screenshots: store the record and open the
+ * preview/annotate page. M10: extracted from captureVisible/Area/Element
+ * (3 identical tails). Split full-page captures do NOT come through
+ * here: the full-page loop stores each part as a Blob record and opens
+ * one Parts overview tab when the last part lands.
  */
-async function finishCapture(dataUrl, width, height) {
-  const id = `cap-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
-  await rememberCapture(id, { dataUrl, width, height, at: Date.now() });
+/** Capture record ids embed their creation time; the pruner reads it back. */
+function makeCaptureId() {
+  return `cap-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+}
+
+async function finishCapture(dataUrl, width, height, opts = {}) {
+  const id = makeCaptureId();
+  const record = { dataUrl, width, height, at: Date.now() };
+  const partIndex = Number(opts.partIndex) || 0;
+  const partTotal = Number(opts.partTotal) || 0;
+  if (partIndex > 0 && partTotal > 1) {
+    record.partIndex = partIndex;
+    record.partTotal = partTotal;
+  }
+  await rememberCapture(id, record);
   const st = await getSettings();
   const page = st.annotateAfterCapture ? 'pages/annotate.html' : 'pages/capture.html';
-  await openResultTab(page, id);
+  // Single captures reuse one result tab; a caller that must not reuse
+  // (none today) can say so explicitly.
+  await openResultTab(page, id, { reuse: opts.reuse !== false });
   return { id };
 }
 
 /**
- * Single reused result tab for screenshots: each new capture replaces the
- * previous result tab instead of spawning one tab per screenshot.
+ * Result tabs for screenshots. Single captures reuse one result tab (each
+ * new capture replaces the previous one instead of spawning a tab per
+ * screenshot); the parts of a split capture each get their own tab.
+ * Returns the tab id.
  */
 let resultTabId = 0;
 
-async function openResultTab(page, id) {
+async function openResultTab(page, id, opts = {}) {
   const url = chrome.runtime.getURL(`${page}#${id}`);
-  if (resultTabId) {
+  const reuse = opts.reuse !== false;
+  if (reuse && resultTabId) {
     try {
       await chrome.tabs.get(resultTabId);
       await chrome.tabs.update(resultTabId, { url, active: true });
       // Hash-only updates don't reload the page, force it so the new
       // capture id is picked up.
       await chrome.tabs.reload(resultTabId);
-      return;
+      return resultTabId;
     } catch {
       resultTabId = 0; // tab was closed, fall through and create
     }
   }
   const tab = await chrome.tabs.create({ url });
-  resultTabId = tab.id;
+  if (reuse) resultTabId = tab.id;
+  return tab.id;
+}
+
+/**
+ * B: localized overlay picker hints. Resolved after i18nReady and passed
+ * into the classic content script via executeScript args, because
+ * content/overlay.js cannot use a static import.
+ */
+async function overlayHints() {
+  await i18nReady;
+  return {
+    select: t('overlay_selectHint'),
+    capture: t('overlay_captureHint'),
+    inspect: t('overlay_inspectHint'),
+  };
 }
 
 /**
  * Capture a region chosen with the overlay picker (area or element).
  * M10: captureArea() and captureElement() merged, their bodies were
  * identical except for the picker function.
+ * FIX 3: the tab comes from captureWithFallback (always the real active
+ * tab, whatever its URL); content/scanner.js is already injected there.
  */
-async function captureRegion(pick) {
-  const tab = await captureTargetTab();
-  if (!isScannableTab(tab)) throw new Error(friendlyError('no-tab'));
-  await chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    files: ['content/overlay.js'],
-  });
+async function captureRegion(tab, mode, pick) {
+  try {
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['content/overlay.js'],
+    });
+  } catch {
+    // Scanner injected fine but the overlay did not (vanishingly rare):
+    // the same honest fallback as a restricted page, never another tab.
+    const dataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' }).catch(() => null);
+    if (!dataUrl) throw new Error(t('cap_captureRefused'));
+    broadcast({
+      type: 'NOTICE_TEXT',
+      text: t('cap_restrictedFallback', { mode: t(CAPTURE_MODE_LABEL_KEYS[mode] || CAPTURE_MODE_LABEL_KEYS.area) }),
+    });
+    return finishCapture(dataUrl, 0, 0);
+  }
+  const hints = await overlayHints();
   const [result] = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     world: 'ISOLATED',
     func: pick,
+    args: [hints],
   });
   const rect = result && result.result;
   if (!rect) return { cancelled: true };
+  // The screenshot must be taken while the source tab is still active, so
+  // capture first; the result tab (which steals focus) opens right after.
   const full = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' }).catch(() => null);
-  if (!full) throw new Error(friendlyError('capture-failed'));
-  const cropped = await offscreenCall({ type: 'CROP_IMAGE', dataUrl: full, rect, format: 'png', quality: 0.92 });
-  if (!cropped || !cropped.ok) throw new Error(friendlyError('capture-failed'));
+  if (!full) throw new Error(t('cap_captureRefused'));
+  // Open the result tab early: the user sees the editor loading state while
+  // the crop and the store finish. The page retries its record read briefly
+  // (shared/capture-io.js), so opening before the store lands is safe.
+  const id = makeCaptureId();
+  const st = await getSettings();
+  const page = st.annotateAfterCapture ? 'pages/annotate.html' : 'pages/capture.html';
+  const tabId = await openResultTab(page, id, { reuse: true });
+  try {
+    // FIX 4.6: the overlay reports device-pixel rects; the crop cuts 1:1
+    // with no resampling. Cropping in the worker (createImageBitmap plus
+    // OffscreenCanvas) is lossless by construction: no quality parameter
+    // exists. It also skips the offscreen cold start and both base64
+    // message round trips of the old offscreen crop path.
+    const cropped = await cropPngDataUrl(full, rect);
+    await rememberCapture(id, {
+      dataUrl: cropped.dataUrl, width: cropped.width, height: cropped.height, at: Date.now(),
+    });
+  } catch (err) {
+    // Never leave a stuck loading page: close the tab we just opened,
+    // then surface the original error exactly like before.
+    await chrome.tabs.remove(tabId).catch(() => {});
+    throw err;
+  }
+  // The user may have closed the result tab mid-flight; drop the capture
+  // instead of leaking it until the hourly prune.
+  const stillThere = await chrome.tabs.get(tabId).catch(() => null);
+  if (!stillThere) {
+    await forgetCapture(id);
+    return { id, closed: true };
+  }
   // L4: the element picker clamps to the viewport, say so when it cut the element.
-  const res = await finishCapture(cropped.dataUrl, cropped.width, cropped.height);
-  if (rect && rect.clipped) {
+  if (rect.clipped) {
     broadcast({
       type: 'NOTICE_TEXT',
-      text: 'That element is taller than the screen, only the visible part was captured. Use Full page for the whole thing.',
+      text: t('sw_elementClipped'),
     });
   }
-  return res;
+  return { id };
 }
 
 async function captureArea() {
-  return captureRegion(() => window.__imgfetch.selectArea());
+  return captureWithFallback('area', (tab) => captureRegion(tab, 'area', (hints) => window.__imgfetch.selectArea(hints)));
 }
 
 /** Capture a single page element chosen with the picker. */
 async function captureElement() {
-  return captureRegion(() => window.__imgfetch.selectElement());
+  return captureWithFallback('element', (tab) => captureRegion(tab, 'element', (hints) => window.__imgfetch.selectElement(hints)));
 }
 
 async function saveCapture(id) {
@@ -1538,6 +1861,12 @@ async function saveCapture(id) {
   if (!cap) throw new Error(friendlyError('capture-failed'));
   const settings = await getSettings();
   let dataUrl = cap.dataUrl;
+  if (!dataUrl && cap.blob) {
+    // Round 4: stitched parts are stored as Blobs; the Save flow works
+    // on the real bytes, converted here in the worker.
+    dataUrl = await blobToDataUrl(cap.blob);
+  }
+  if (!dataUrl) throw new Error(friendlyError('capture-failed'));
   // H7: the extension follows the actual bytes, only claim JPG after a
   // successful conversion, otherwise the file stays an honest PNG.
   let ext = 'png';
@@ -1581,138 +1910,610 @@ async function saveCapture(id) {
 }
 
 /**
- * Full-page screenshot: scroll through the page capturing each viewport,
- * then stitch the tiles into one image in the offscreen document.
- * Very long pages are capped so the browser never builds a giant canvas.
+ * Full-page screenshot (FIX 4): scroll through the page capturing each
+ * viewport tile, then stitch the tiles in the offscreen document.
+ *
+ * - The capture target is the page's largest scrollable region: the
+ *   document, a large inner element, or a same-origin iframe (FIX 4.1).
+ * - No truncation, no downscaling: a page taller than the safe canvas
+ *   limits is captured WHOLE at full device resolution, split into
+ *   numbered parts ("Part i of N"), each part within the limits (FIX 4.2).
+ * - Tiles are processed one at a time and their bitmaps released
+ *   immediately; only the finished part PNG exists transiently before it
+ *   moves to IndexedDB (FIX 4.3). Tile offsets are exact integers in
+ *   device px, scroll positions device-aligned (FIX 4.4).
+ * - After each scroll the capture waits for viewport stability (in-view
+ *   lazy images, bounded) instead of a fixed delay; fixed AND sticky
+ *   elements are hidden after the first tile; every page change is
+ *   restored in the finally, even on failure or tab close (FIX 4.5).
+ * - Cancellable via CANCEL_CAPTURE: safe, the finally still restores the
+ *   page and STITCH_ABORT releases the offscreen canvas.
  */
-/* H2/B6: full-page capture limits live in core/fullpage-capture.js (pure, tested).
- * Tiles are captured at CSS-viewport size; the OUTPUT is capped by area
- * (100 MP, max side 32767) and downscaled with a user notice instead of
- * failing or silently truncating. Pages needing more than 24 tiles capture
- * the first 24 from the top, with a notice. */
-const TILE_GAP_MS = 650; // captureVisibleTab is rate-limited (~2/s)
+/* FIX 4: full-page capture limits live in core/fullpage-capture.js (pure,
+ * tested). Tiles are captured at full device resolution; pages that need
+ * more than one part are split, never truncated, never downscaled. */
+const TILE_GAP_MS = 520; // captureVisibleTab is rate-limited (~2/s); 520 ms keeps a small headroom
 
-/** One viewport tile with a single retry on rate-limit failure. */
+/**
+ * One viewport tile. A quota rejection
+ * (MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND) is waited out with a
+ * small bounded backoff and retried: a tile is NEVER silently skipped.
+ * Other failures keep the original one-retry behaviour, then the
+ * caller fails the capture honestly instead of stitching a hole.
+ */
 async function captureTile(windowId) {
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    const shot = await chrome.tabs.captureVisibleTab(windowId, { format: 'png' }).catch(() => null);
+  let failures = 0;
+  let quotaWaits = 0;
+  for (;;) {
+    let shot = null;
+    let errText = '';
+    try {
+      shot = await chrome.tabs.captureVisibleTab(windowId, { format: 'png' });
+    } catch (err) {
+      errText = String((err && err.message) || err);
+    }
     if (shot) return shot;
+    if (/MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND/i.test(errText) && quotaWaits < 4) {
+      quotaWaits += 1;
+      await new Promise((res) => setTimeout(res, 350 * quotaWaits));
+      continue;
+    }
+    failures += 1;
+    if (failures >= 2) return null;
     await new Promise((res) => setTimeout(res, TILE_GAP_MS));
   }
-  return null;
+}
+
+/**
+ * Run func in the page WITHOUT re-injecting the content script.
+ * captureWithFallback injects content/scanner.js once; the tile loop uses
+ * this lighter path (dozens of tiles per capture).
+ */
+async function runInPageFunc(tabId, func, args = []) {
+  const [result] = await chrome.scripting.executeScript({
+    target: { tabId },
+    world: 'ISOLATED',
+    func,
+    args,
+  });
+  return result && result.result;
+}
+
+/** Set by CANCEL_CAPTURE while a full-page capture is in flight. */
+let fullCaptureCancel = false;
+
+/**
+ * Round 5: the last full-page capture progress, memory only. The
+ * popup renders CAPTURE_PROGRESS broadcasts as one live status row
+ * (never a toast per tile) and asks GET_CAPTURE_PROGRESS when it
+ * opens mid-capture. Cleared by endCaptureProgress at capture end.
+ */
+let lastCaptureProgress = null;
+
+function setCaptureProgress(progress) {
+  lastCaptureProgress = progress;
+  broadcast({ type: 'CAPTURE_PROGRESS', ...progress });
+}
+
+function endCaptureProgress(phase) {
+  if (!lastCaptureProgress) return;
+  const last = lastCaptureProgress;
+  lastCaptureProgress = null;
+  broadcast({
+    type: 'CAPTURE_PROGRESS',
+    part: last.part, partTotal: last.partTotal,
+    tile: last.tile, tileCount: last.tileCount, phase,
+  });
 }
 
 async function captureFullPage() {
-  const tab = await captureTargetTab();
-  if (!isScannableTab(tab)) throw new Error(friendlyError('no-tab'));
+  try {
+    return await captureWithFallback('full', (tab) => captureFullPageInner(tab));
+  } catch (err) {
+    // Round 5: a failed or cancelled capture must still release a
+    // popup waiting on progress (the no-parts cancel lands here).
+    endCaptureProgress('error');
+    throw err;
+  }
+}
+
+async function captureFullPageInner(tab) {
   const tabId = tab.id;
   const windowId = tab.windowId;
-  await chrome.scripting.executeScript({ target: { tabId }, files: ['content/scanner.js'] });
-  const metrics = await runInPage(tabId, () => window.__imgfetch.getPageMetrics());
-  if (!metrics || !metrics.viewportW || !metrics.viewportH) {
-    throw new Error(friendlyError('capture-failed'));
-  }
-  const dpr = metrics.dpr || 1;
-  const fullW = Math.max(1, Math.round(metrics.scrollWidth || metrics.viewportW));
-  const fullH = Math.max(1, Math.round(metrics.scrollHeight || metrics.viewportH));
-  // B6: pure capture plan (tested in test-core.mjs), tiles capped at 24
-  // from the top, output capped by area instead of the old 8192px side cap.
-  const plan = planFullPageCapture({
-    fullW,
-    fullH,
-    viewportW: metrics.viewportW,
-    viewportH: metrics.viewportH,
-    dpr,
-  });
-  const { cols, rows, tileCount, tileCapped, capW, capH, scale, outW, outH } = plan;
-  if (tileCapped) {
-    broadcast({
-      type: 'NOTICE_TEXT',
-      text: `This page is very long, capturing the first ${tileCount} tiles (top portion). Use area capture for the rest.`,
-    });
-  }
-  if (scale < 1) {
-    broadcast({
-      type: 'NOTICE_TEXT',
-      text: `This page is very large, the full-page image was scaled to ${Math.round(scale * 100)}% to fit memory limits.`,
-    });
-  }
+  fullCaptureCancel = false;
+  const startedAt = Date.now();
 
-  const origX = metrics.scrollX || 0;
-  const origY = metrics.scrollY || 0;
-  const setFixedHidden = (hide) =>
-    runInPage(tabId, (h) => window.__imgfetch.setFixedHidden(h), [hide]).catch(() => 0);
-  // H2: abort if the user switches tab mid-capture, captureVisibleTab
-  // would otherwise capture the wrong tab.
-  const assertTabStillActive = async () => {
+  // FIX 4.1: describe the page's scrollable regions and pick the capture
+  // target (document, inner container, or same-origin iframe).
+  const ctx = await runInPageFunc(tabId, () => window.__imgfetch.describeScrollContext());
+  if (!ctx || !ctx.doc) throw new Error(friendlyError('capture-failed'));
+  const picked = pickScrollTarget(ctx);
+  const target = picked.target;
+  const notices = picked.notices || {};
+  const dpr = Number(ctx.dpr) > 0 ? Number(ctx.dpr) : 1;
+
+  // Content size (CSS px) and visible box size of the target.
+  let fullW, fullH, boxW, boxH;
+  if (target.kind === 'document') {
+    fullW = ctx.doc.scrollW; fullH = ctx.doc.scrollH;
+    boxW = ctx.viewportW; boxH = ctx.viewportH;
+  } else {
+    const list = target.kind === 'frame' ? (ctx.frames || []) : (ctx.containers || []);
+    const rep = list.find((c) => c.token === target.token);
+    if (!rep) throw new Error(friendlyError('capture-failed'));
+    fullW = rep.scrollW; fullH = rep.scrollH;
+    boxW = rep.clientW; boxH = rep.clientH;
+  }
+  let currentFullW = fullW;
+  let currentFullH = fullH;
+
+  // Round 4: freeze CSS animations/transitions for the whole capture
+  // (restored by restoreCaptureTarget in the finally below).
+  await runInPageFunc(tabId, () => window.__imgfetch.setCaptureStyleLock(true)).catch(() => {});
+
+  // H2: never capture the wrong tab. This only READS tab state; our own
+  // capture work opens no tab and takes no focus until the very end, so
+  // a false here always means the USER really switched away.
+  const tabStillActive = async () => {
     const live = await chrome.tabs.get(tabId).catch(() => null);
-    if (!live || live.windowId !== windowId) throw new Error(friendlyError('capture-failed'));
+    if (!live || live.windowId !== windowId) return false;
     const active = await activeTab().catch(() => null);
-    if (!active || active.id !== tabId) throw new Error(friendlyError('capture-failed'));
+    return !!active && active.id === tabId;
   };
+  const setFixedHidden = (hide) =>
+    runInPageFunc(tabId, (h) => window.__imgfetch.setFixedHidden(h), [hide]).catch(() => 0);
 
-  const begin = await offscreenCall({ type: 'STITCH_BEGIN', width: outW, height: outH, scale });
-  if (!begin || !begin.ok) throw new Error(friendlyError('capture-failed'));
-  let n = 0;
-  try {
-    for (let r = 0; r < rows; r += 1) {
-      for (let c = 0; c < cols; c += 1) {
-        await assertTabStillActive();
-        const sx = Math.max(0, Math.min(c * metrics.viewportW, capW - metrics.viewportW));
-        const sy = Math.max(0, Math.min(r * metrics.viewportH, capH - metrics.viewportH));
-        await runInPage(tabId, (x, y) => window.scrollTo(x, y), [sx, sy]);
-        // After the first tile, hide fixed headers/banners so they don't
-        // repeat in every tile (restored in finally).
-        if (n === 1) await setFixedHidden(true);
-        await new Promise((res) => setTimeout(res, TILE_GAP_MS));
-        const shot = await captureTile(windowId);
-        if (!shot) throw new Error(friendlyError('capture-failed'));
-        n += 1;
-        if (tileCount > 1) {
-          broadcast({ type: 'NOTICE_TEXT', text: `Capturing full page, tile ${n} of ${tileCount}…` });
-        }
-        // Tile positions are in output (downscaled device) pixels.
-        const res = await offscreenCall({
-          type: 'STITCH_TILE',
-          dataUrl: shot,
-          x: Math.round(sx * dpr * scale),
-          y: Math.round(sy * dpr * scale),
+  // Original page state, restored in the finally no matter what happens.
+  const origWinScroll = await runInPageFunc(tabId, () => ({ x: window.scrollX || 0, y: window.scrollY || 0 }));
+  let box = null; // CSS px crop box for container/frame targets
+  if (target.kind !== 'document') {
+    box = await runInPageFunc(tabId, (t) => window.__imgfetch.ensureTargetVisible(t), [target]);
+    if (!box) throw new Error(friendlyError('capture-failed'));
+    // The tile shows the box/window intersection; plan the tile grid on
+    // what is actually visible so tiles and crops agree exactly.
+    const visW = Math.min(box.x + box.w, ctx.viewportW) - Math.max(box.x, 0);
+    const visH = Math.min(box.y + box.h, ctx.viewportH) - Math.max(box.y, 0);
+    if (!(visW >= 50 && visH >= 50)) throw new Error(friendlyError('capture-failed'));
+    boxW = visW;
+    boxH = visH;
+  }
+
+  // Round 4 allocation fallback: above the round-3 proven area, probe
+  // the largest planned part in the offscreen document first. If the
+  // canvas cannot be allocated and encoded there, halve the area
+  // budget and replan, before a single tile is captured.
+  let areaBudget = PART_MAX_AREA;
+  let plan = planFullPageCapture({
+    fullW, fullH, viewportW: boxW, viewportH: boxH, dpr, maxArea: areaBudget,
+  });
+  let allocNoticeShown = false;
+  const noteAllocFallback = () => {
+    if (allocNoticeShown) return;
+    allocNoticeShown = true;
+    broadcast({ type: 'NOTICE_TEXT', text: t('parts_allocFallback') });
+  };
+  {
+    const largest = plan.parts.reduce((m, pt) => Math.max(m, pt.w * pt.h), 0);
+    if (largest > PART_PROVEN_AREA) {
+      const big = plan.parts.reduce((a, b) => (b.w * b.h > a.w * a.h ? b : a), plan.parts[0]);
+      let ok = false;
+      while (!ok && areaBudget > CAPTURE_AREA_FLOOR) {
+        const probe = await offscreenCall({ type: 'STITCH_PROBE', width: big.w, height: big.h }).catch(() => null);
+        if (probe && probe.ok) { ok = true; break; }
+        areaBudget = Math.max(CAPTURE_AREA_FLOOR, Math.floor(areaBudget / 2));
+        noteAllocFallback();
+        plan = planFullPageCapture({
+          fullW, fullH, viewportW: boxW, viewportH: boxH, dpr, maxArea: areaBudget,
         });
-        if (!res || !res.ok) throw new Error(friendlyError('capture-failed'));
+      }
+      if (!ok) throw new Error(friendlyError('capture-failed'));
+    }
+  }
+
+  if (notices.innerCaptured) {
+    broadcast({ type: 'NOTICE_TEXT', text: t('scroll_innerCaptured') });
+  }
+  if (notices.nestedClipped) {
+    broadcast({ type: 'NOTICE_TEXT', text: t('scroll_nestedClipped') });
+  }
+  if (notices.crossOriginClipped) {
+    broadcast({ type: 'NOTICE_TEXT', text: t('scroll_crossOriginClipped') });
+  }
+  if (plan.parts.length > 1) {
+    broadcast({ type: 'NOTICE_TEXT', text: t('part_splitting', { count: plan.parts.length }) });
+  }
+  if (plan.sanityCapped) {
+    broadcast({ type: 'NOTICE_TEXT', text: t('part_sanityCapped', { count: plan.parts.length }) });
+  }
+
+  const origTargetScroll = await runInPageFunc(tabId, (t) => window.__imgfetch.readCaptureTargetScroll(t), [target]);
+  // Device-px crop of the target's visible box inside each viewport tile
+  // (container/frame targets; the document needs no crop). The box does
+  // not move while its content scrolls, so one crop fits every tile.
+  const crop = box ? {
+    x: Math.max(0, Math.round(Math.max(box.x, 0) * dpr)),
+    y: Math.max(0, Math.round(Math.max(box.y, 0) * dpr)),
+    w: Math.max(1, Math.round(boxW * dpr)),
+    h: Math.max(1, Math.round(boxH * dpr)),
+  } : null;
+  // CSS px box for the stability wait.
+  const stableBox = box
+    ? { x: Math.max(box.x, 0), y: Math.max(box.y, 0), w: boxW, h: boxH }
+    : { x: 0, y: 0, w: ctx.viewportW, h: ctx.viewportH };
+
+  const groupId = `grp-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+  openCaptureGroups.add(groupId);
+  const partIds = [];
+  let tileNo = 0;
+  let lastCaptureAt = 0;
+  let stopped = null; // { reason: 'cancel'|'tab'|'cap'|'alloc', total }
+  let pendingGrowthDevH = 0;
+
+  const singleColumn = () => plan.parts.every((pt) => pt.x0 === 0 && pt.w === plan.devW);
+  const renumber = () => {
+    plan.parts.forEach((pt, i) => { pt.index = i + 1; pt.total = plan.parts.length; });
+  };
+  const readTargetSize = async () => {
+    const sz = await runInPageFunc(tabId, (t) => window.__imgfetch.readCaptureTargetSize(t), [target]).catch(() => null);
+    return sz && Number(sz.scrollH) > 0 ? sz : null;
+  };
+  // Replace the parts from index `fromIdx` on with a fresh plan of the
+  // region [regionY0Dev, newTotalDevH), planned as its own page and
+  // shifted down. Single-column layouts only (tall pages, the growing
+  // and fallback cases that matter); anything else keeps its plan.
+  const replanRegion = (fromIdx, regionY0Dev, newTotalDevH) => {
+    const regionDevH = Math.max(1, newTotalDevH - regionY0Dev);
+    const sub = planFullPageCapture({
+      fullW: currentFullW, fullH: regionDevH / dpr,
+      viewportW: boxW, viewportH: boxH, dpr, maxArea: areaBudget,
+    });
+    if (sub.sanityCapped) plan.sanityCapped = true;
+    plan.parts = [
+      ...plan.parts.slice(0, fromIdx),
+      ...shiftPlanParts(sub.parts, regionY0Dev, dpr),
+    ];
+    if (plan.parts.length > PART_MAX_COUNT) {
+      plan.parts = plan.parts.slice(0, PART_MAX_COUNT);
+      plan.sanityCapped = true;
+    }
+    plan.devH = regionY0Dev + sub.devH;
+    renumber();
+  };
+  // Extend the part currently being stitched (its session is open in
+  // the offscreen document) to cover a grown page height, adding the
+  // new tile rows; anything past the part limits becomes new parts.
+  const extendCurrentPart = async (part, newDevH) => {
+    const maxH = Math.max(part.h, Math.min(plan.maxSide || PART_MAX_SIDE, Math.floor(areaBudget / plan.devW)));
+    const wantH = Math.min(newDevH - part.y0, maxH);
+    if (wantH > part.h) {
+      const ext = await offscreenCall({ type: 'STITCH_EXTEND', height: wantH }).catch(() => null);
+      if (ext && ext.ok) {
+        const existing = new Set(part.tiles.map((t) => `${t.dx},${t.dy}`));
+        const region = { x0: part.x0, y0: part.y0, w: part.w, h: wantH };
+        for (const t of tilesCoveringRegion(region, plan.devW, newDevH, plan.tileW, plan.tileH, dpr)) {
+          if (!existing.has(`${t.dx},${t.dy}`)) part.tiles.push(t);
+        }
+        part.h = wantH;
+        part.cssH = part.h / dpr;
       }
     }
-  } catch (err) {
-    await offscreenCall({ type: 'STITCH_ABORT' }).catch(() => null);
-    throw err;
+    if (part.y0 + part.h < newDevH) {
+      const remY0 = part.y0 + part.h;
+      const sub = planFullPageCapture({
+        fullW: currentFullW, fullH: (newDevH - remY0) / dpr,
+        viewportW: boxW, viewportH: boxH, dpr, maxArea: areaBudget,
+      });
+      plan.parts.push(...shiftPlanParts(sub.parts, remY0, dpr));
+      if (plan.parts.length > PART_MAX_COUNT) {
+        plan.parts = plan.parts.slice(0, PART_MAX_COUNT);
+        plan.sanityCapped = true;
+      }
+    }
+    plan.devH = Math.max(plan.devH, Math.min(newDevH, plan.parts.reduce((m, pt) => Math.max(m, pt.y0 + pt.h), 0)));
+    renumber();
+  };
+  // Largest device-px Y whose rows are COMPLETELY captured in a part:
+  // every tile row above it finished across the part's full width.
+  // A stopped part is only saved cropped to this safe end.
+  const safeCropEnd = (part, doneTiles) => {
+    const rows = [...new Set(part.tiles.map((t) => t.dy))].sort((a, b) => a - b);
+    let end = 0;
+    for (const dy of rows) {
+      if (dy > end) break;
+      let x = 0;
+      const iv = part.tiles
+        .filter((t, i) => t.dy === dy && doneTiles.has(i))
+        .map((t) => [t.dx, t.dx + plan.tileW])
+        .sort((a, b) => a[0] - b[0]);
+      let covered = iv.length > 0;
+      for (const [a, b] of iv) {
+        if (a > x) { covered = false; break; }
+        x = Math.max(x, b);
+      }
+      if (!covered || x < part.w) break;
+      end = Math.max(end, Math.min(dy + plan.tileH, part.h));
+    }
+    return end;
+  };
+
+  try {
+    for (let pi = 0; pi < plan.parts.length && !stopped; pi += 1) {
+      const part = plan.parts[pi];
+      const begin = await offscreenCall({ type: 'STITCH_BEGIN', width: part.w, height: part.h }).catch(() => null);
+      if (!begin || !begin.ok) {
+        // Allocation failure on a later part: halve the area budget
+        // and replan what is left (or the whole page when nothing has
+        // been captured yet); never crash the worker.
+        if (areaBudget > CAPTURE_AREA_FLOOR && (pi === 0 || singleColumn())) {
+          areaBudget = Math.max(CAPTURE_AREA_FLOOR, Math.floor(areaBudget / 2));
+          noteAllocFallback();
+          if (pi === 0 && partIds.length === 0) {
+            plan = planFullPageCapture({
+              fullW: currentFullW, fullH: currentFullH,
+              viewportW: boxW, viewportH: boxH, dpr, maxArea: areaBudget,
+            });
+          } else {
+            replanRegion(pi, part.y0, plan.devH);
+          }
+          pi -= 1;
+          continue;
+        }
+        stopped = { reason: 'alloc', total: plan.parts.length };
+        break;
+      }
+      const doneTiles = new Set();
+      let pendingStitch = null;
+      let pendingTileIndex = -1;
+      const flushStitch = async () => {
+        if (!pendingStitch) return true;
+        const r = await pendingStitch;
+        pendingStitch = null;
+        if (!r || !r.ok) return false;
+        if (pendingTileIndex >= 0) doneTiles.add(pendingTileIndex);
+        pendingTileIndex = -1;
+        return true;
+      };
+      let sessionOpen = true;
+      try {
+        let ti = 0;
+        let settleWaits = 0;
+        for (;;) {
+          while (ti < part.tiles.length && !stopped) {
+            if (fullCaptureCancel) { stopped = { reason: 'cancel', total: plan.parts.length }; break; }
+            if (Date.now() - startedAt > CAPTURE_MAX_DURATION_MS) { stopped = { reason: 'cap', total: plan.parts.length }; break; }
+            if (!(await tabStillActive())) { stopped = { reason: 'tab', total: plan.parts.length }; break; }
+            const tile = part.tiles[ti];
+            // Scroll the target; read back the ACTUAL position and derive
+            // exact integer device-px offsets from it, so even a browser
+            // that snaps fractional scrolls stitches without gaps.
+            const actual = await runInPageFunc(
+              tabId,
+              (t, x, y) => window.__imgfetch.scrollCaptureTarget(t, x, y),
+              [target, tile.sx, tile.sy],
+            );
+            if (!actual) throw new Error(friendlyError('capture-failed'));
+            const ax = Math.round((actual.x || 0) * dpr);
+            const ay = Math.round((actual.y || 0) * dpr);
+            // After the first tile, hide fixed AND sticky headers/banners
+            // so they don't repeat in every tile (restored in finally).
+            if (tileNo === 1) await setFixedHidden(true);
+            // FIX 4.5: viewport stability instead of a fixed delay, then
+            // respect the captureVisibleTab rate limit. The previous
+            // tile's stitch (below) runs DURING this wait: the pipeline
+            // overlaps, and at most one tile bitmap is ever in flight.
+            await runInPageFunc(
+              tabId,
+              (b, ms) => window.__imgfetch.waitForViewportStable(b, ms),
+              [stableBox, 2500],
+            ).catch(() => null);
+            const sinceLast = Date.now() - lastCaptureAt;
+            if (sinceLast < TILE_GAP_MS) {
+              await new Promise((r) => setTimeout(r, TILE_GAP_MS - sinceLast));
+            }
+            // The stability wait and the rate-limit gap are exactly
+            // when a user switch or cancel lands, so re-check BEFORE
+            // the screenshot and again AFTER it. A bitmap grabbed
+            // across a switch can show the OTHER tab (captureVisibleTab
+            // photographs the active tab, not necessarily ours), so
+            // such a tile is discarded, never stitched: the part is
+            // cropped to the complete tiles before it instead.
+            if (fullCaptureCancel) { stopped = { reason: 'cancel', total: plan.parts.length }; break; }
+            if (!(await tabStillActive())) { stopped = { reason: 'tab', total: plan.parts.length }; break; }
+            const shot = await captureTile(windowId);
+            lastCaptureAt = Date.now();
+            if (!shot) throw new Error(friendlyError('capture-failed'));
+            if (fullCaptureCancel) { stopped = { reason: 'cancel', total: plan.parts.length }; break; }
+            if (!(await tabStillActive())) { stopped = { reason: 'tab', total: plan.parts.length }; break; }
+            tileNo += 1;
+            const futureTiles = plan.parts.slice(pi + 1).reduce((n, pt) => n + pt.tiles.length, 0);
+            const tileCount = tileNo + (part.tiles.length - ti - 1) + futureTiles;
+            if (tileCount > 1) {
+              // Round 5: tile progress is a live status broadcast,
+              // not a toast per tile (NOTICE_TEXT stays for one-off
+              // notices like capped, stopped and captured).
+              setCaptureProgress({
+                part: plan.parts.length > 1 ? part.index : 1,
+                partTotal: plan.parts.length,
+                tile: tileNo,
+                tileCount,
+                phase: 'capturing',
+              });
+            }
+            if (!(await flushStitch())) throw new Error(friendlyError('capture-failed'));
+            const tileMsg = {
+              type: 'STITCH_TILE',
+              dataUrl: shot,
+              dx: ax - part.x0,
+              dy: ay - part.y0,
+            };
+            if (crop) {
+              tileMsg.sx = crop.x;
+              tileMsg.sy = crop.y;
+              tileMsg.sw = crop.w;
+              tileMsg.sh = crop.h;
+            }
+            pendingTileIndex = ti;
+            pendingStitch = offscreenCall(tileMsg).catch(() => null);
+            ti += 1;
+            // Growing pages: sample the target size periodically; the
+            // remaining plan is replanned between parts, and the last
+            // part is extended in the settle phase below.
+            if (tileNo % 8 === 0) {
+              const sz = await readTargetSize();
+              if (sz) {
+                currentFullH = sz.scrollH;
+                currentFullW = sz.scrollW;
+                const nd = Math.round(sz.scrollH * dpr);
+                if (nd > pendingGrowthDevH) pendingGrowthDevH = nd;
+              }
+            }
+          }
+          if (stopped) break;
+          if (pi !== plan.parts.length - 1) break;
+          // Last part: the page must have stopped growing. Re-read the
+          // height; growth extends this part (or appends new parts),
+          // a settled height (two reads, a short bounded wait apart)
+          // ends the capture.
+          const sz = await readTargetSize();
+          if (sz) {
+            currentFullH = sz.scrollH;
+            currentFullW = sz.scrollW;
+            const nd = Math.round(sz.scrollH * dpr);
+            const ndw = Math.round(sz.scrollW * dpr);
+            if (ndw === plan.devW && nd >= plan.devH + plan.tileH && singleColumn()) {
+              if (!(await flushStitch())) throw new Error(friendlyError('capture-failed'));
+              const beforeTiles = part.tiles.length;
+              await extendCurrentPart(part, nd);
+              if (part.tiles.length > beforeTiles) continue;
+              break; // at a part limit: remainder parts were appended
+            }
+          }
+          if (settleWaits >= 1) break;
+          settleWaits += 1;
+          await new Promise((r) => setTimeout(r, 350));
+        }
+        if (!(await flushStitch())) throw new Error(friendlyError('capture-failed'));
+      } catch (err) {
+        if (sessionOpen) await offscreenCall({ type: 'STITCH_ABORT' }).catch(() => null);
+        throw err;
+      }
+      if (stopped) {
+        // Deliver the finished parts, plus this part cropped to the
+        // rows really captured when that is safe. Nothing is lost and
+        // nothing half-stitched is presented as complete.
+        const cropEnd = safeCropEnd(part, doneTiles);
+        let savedPartial = false;
+        if (cropEnd > 0) {
+          const end = await offscreenCall({
+            type: 'STITCH_END_BLOB', format: 'png', cropHeight: cropEnd,
+            record: {
+              id: makeCaptureId(), partIndex: part.index, partTotal: plan.parts.length,
+              groupId, groupOpen: true, at: Date.now(),
+            },
+          }).catch(() => null);
+          if (end && end.ok) {
+            sessionOpen = false;
+            await registerStoredCapture(end.id, {
+              width: end.width, height: end.height, partIndex: part.index,
+              partTotal: plan.parts.length, groupId, at: Date.now(), bytes: end.bytes,
+            });
+            partIds.push(end.id);
+            savedPartial = true;
+          }
+        }
+        if (!savedPartial) {
+          await offscreenCall({ type: 'STITCH_ABORT' }).catch(() => null);
+        }
+        break;
+      }
+      // The part is encoded with canvas.toBlob in the offscreen
+      // document and written straight into IndexedDB as a Blob record;
+      // only its id and byte size come back here.
+      const end = await offscreenCall({
+        type: 'STITCH_END_BLOB', format: 'png',
+        record: {
+          id: makeCaptureId(), partIndex: part.index, partTotal: plan.parts.length,
+          groupId, groupOpen: true, at: Date.now(),
+        },
+      }).catch(() => null);
+      sessionOpen = false;
+      if (!end || !end.ok) throw new Error(friendlyError('capture-failed'));
+      await registerStoredCapture(end.id, {
+        width: end.width, height: end.height, partIndex: part.index,
+        partTotal: plan.parts.length, groupId, at: Date.now(), bytes: end.bytes,
+      });
+      partIds.push(end.id);
+      // Growth noticed while this part ran: replan the parts that have
+      // not started yet so the new tail is captured too.
+      if (pi < plan.parts.length - 1 && pendingGrowthDevH >= plan.devH + plan.tileH && singleColumn()) {
+        const nextY0 = plan.parts[pi + 1].y0;
+        replanRegion(pi + 1, nextY0, pendingGrowthDevH);
+        pendingGrowthDevH = 0;
+      }
+    }
   } finally {
-    // Always restore scroll position and fixed elements, even on failure.
-    // Best-effort: the tab may be closed already; the capture result stands.
-    await runInPage(tabId, (x, y) => window.scrollTo(x, y), [origX, origY]).catch(() => {});
+    // FIX 4.5: always restore the page, even on failure, cancellation,
+    // or abort. Best-effort: the tab may be closed already.
+    fullCaptureCancel = false;
+    const ox = (origTargetScroll && origTargetScroll.x) || 0;
+    const oy = (origTargetScroll && origTargetScroll.y) || 0;
+    await runInPageFunc(tabId, (t, x, y) => window.__imgfetch.scrollCaptureTarget(t, x, y),
+      [target, ox, oy]).catch(() => {});
+    await runInPageFunc(tabId, () => window.__imgfetch.restoreCaptureTarget()).catch(() => {});
+    const wx = (origWinScroll && origWinScroll.x) || 0;
+    const wy = (origWinScroll && origWinScroll.y) || 0;
+    await runInPageFunc(tabId, (x, y) => window.scrollTo(x, y), [wx, wy]).catch(() => {});
     await setFixedHidden(false);
   }
 
-  const stitched = await offscreenCall({ type: 'STITCH_END', format: 'png' });
-  if (!stitched || !stitched.ok || !stitched.dataUrl) {
+  // The capture is over and the page is restored. Only NOW may a tab
+  // open: the group's records get their final partTotal, then exactly
+  // one tab appears (the editor for a single part, the Parts overview
+  // for several parts or for a stopped multi-part capture).
+  try {
+    if (partIds.length) {
+      await offscreenCall({
+        type: 'CAPTURE_GROUP_FINALIZE', groupId, partTotal: partIds.length,
+      }).catch(() => null);
+    }
+  } finally {
+    openCaptureGroups.delete(groupId);
+  }
+  if (!partIds.length) {
+    if (stopped && stopped.reason === 'cancel') throw new Error(friendlyError('cancelled'));
     throw new Error(friendlyError('capture-failed'));
   }
-  const id = `cap-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
-  await rememberCapture(id, {
-    dataUrl: stitched.dataUrl,
-    width: stitched.width,
-    height: stitched.height,
-    at: Date.now(),
-  });
-  {
+  if (stopped) {
+    if (stopped.reason === 'cap') {
+      broadcast({ type: 'NOTICE_TEXT', text: t('parts_capped') });
+    } else {
+      if (stopped.reason === 'alloc') noteAllocFallback();
+      broadcast({
+        type: 'NOTICE_TEXT',
+        text: t('parts_stopped', { count: partIds.length, total: Math.max(stopped.total || 0, partIds.length) }),
+      });
+    }
+    await openResultTab('pages/parts.html', groupId, { reuse: false });
+    endCaptureProgress('stopped');
+    return { id: partIds[0], partIds, groupId, stopped: true };
+  }
+  if (partIds.length === 1) {
     const st = await getSettings();
     const page = st.annotateAfterCapture ? 'pages/annotate.html' : 'pages/capture.html';
-    await openResultTab(page, id);
+    await openResultTab(page, partIds[0], { reuse: true });
+    if (tileNo > 1) {
+      broadcast({
+        type: 'NOTICE_TEXT',
+        text: t('sw_fullPageCaptured', { width: plan.parts[0].w, height: plan.parts[0].h }),
+      });
+    }
+    endCaptureProgress('done');
+    return { id: partIds[0], partIds, groupId };
   }
-  if (tileCount > 1 || scale < 1) {
-    broadcast({ type: 'NOTICE_TEXT', text: `Full page captured (${stitched.width} × ${stitched.height}px).` });
-  }
-  return { id };
+  await openResultTab('pages/parts.html', groupId, { reuse: false });
+  endCaptureProgress('done');
+  return { id: partIds[0], partIds, groupId };
 }
-
 /**
  * Copy an image to the clipboard from inside the page itself. The page owns
  * blob: URLs and sends its own referrer/cookies, so this succeeds where the
@@ -2016,7 +2817,7 @@ function prepareQueue(settings) {
 }
 
 /**
- * M7: block extension-privileged fetches (no CORS) to private networks —
+ * M7: block extension-privileged fetches (no CORS) to private networks,
  * loopback, link-local, RFC-1918, unless the page itself is on that host.
  * A malicious page could otherwise make the browser GET internal URLs.
  * Throws a friendly error; the queue surfaces it like any download failure.
@@ -2038,6 +2839,8 @@ async function buildMenus() {
 }
 
 async function buildMenusInner() {
+  // B: menu titles come from the loaded locale.
+  await i18nReady;
   chrome.contextMenus.removeAll(() => {
     const img = ['image'];
     const page = ['page'];
@@ -2048,10 +2851,10 @@ async function buildMenusInner() {
     // Image Info, More. Rarely used items live under More.
     chrome.contextMenus.create({ id: M.rootImage, title: 'ImgFetch', contexts: img });
     chrome.contextMenus.create({
-      id: M.smart, parentId: M.rootImage, title: 'Smart Download', contexts: img,
+      id: M.smart, parentId: M.rootImage, title: t('popup_qualitySmart'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.saveAs, parentId: M.rootImage, title: 'Save as...', contexts: img,
+      id: M.saveAs, parentId: M.rootImage, title: t('menu_saveAs'), contexts: img,
     });
     for (const [id, label] of [
       [M.savePng, 'PNG'],
@@ -2059,7 +2862,7 @@ async function buildMenusInner() {
       [M.saveWebp, 'WebP'],
       [M.saveAvif, 'AVIF'],
       [M.saveGif, 'GIF'],
-      [M.saveSvg, 'SVG (embedded image)'],
+      [M.saveSvg, t('menu_svgEmbedded')],
       [M.saveBmp, 'BMP'],
     ]) {
       chrome.contextMenus.create({ id, parentId: M.saveAs, title: label, contexts: img });
@@ -2068,66 +2871,66 @@ async function buildMenusInner() {
       id: M.sepImage1, type: 'separator', parentId: M.rootImage, contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.copyLink, parentId: M.rootImage, title: 'Copy Image Link', contexts: img,
+      id: M.copyLink, parentId: M.rootImage, title: t('menu_copyLink'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.copyImage, parentId: M.rootImage, title: 'Copy Image', contexts: img,
+      id: M.copyImage, parentId: M.rootImage, title: t('menu_copyImage'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.imageInfo, parentId: M.rootImage, title: 'Image Info', contexts: img,
+      id: M.imageInfo, parentId: M.rootImage, title: t('menu_imageInfo'), contexts: img,
     });
     chrome.contextMenus.create({
       id: M.sepImage2, type: 'separator', parentId: M.rootImage, contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.more, parentId: M.rootImage, title: 'More...', contexts: img,
+      id: M.more, parentId: M.rootImage, title: t('menu_more'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.openOriginal, parentId: M.more, title: 'Open Original', contexts: img,
+      id: M.openOriginal, parentId: M.more, title: t('menu_openOriginal'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.lensSearch, parentId: M.more, title: 'Search Image with Google Lens', contexts: img,
+      id: M.lensSearch, parentId: M.more, title: t('menu_lens'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.scanPage, parentId: M.more, title: 'Scan This Page', contexts: img,
+      id: M.scanPage, parentId: M.more, title: t('menu_scanPage'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.screenshot, parentId: M.more, title: 'Screenshot', contexts: img,
+      id: M.screenshot, parentId: M.more, title: t('menu_screenshot'), contexts: img,
     });
     for (const [id, label] of [
-      [M.shotVisible, 'Capture Visible Area'],
-      [M.shotArea, 'Select Area'],
-      [M.shotElement, 'Capture Element'],
-      [M.shotFull, 'Full Page'],
+      [M.shotVisible, t('menu_shotVisible')],
+      [M.shotArea, t('menu_shotArea')],
+      [M.shotElement, t('menu_shotElement')],
+      [M.shotFull, t('menu_shotFull')],
     ]) {
       chrome.contextMenus.create({ id, parentId: M.screenshot, title: label, contexts: img });
     }
     chrome.contextMenus.create({
-      id: M.addSitePref, parentId: M.more, title: 'Add Site Preference', contexts: img,
+      id: M.addSitePref, parentId: M.more, title: t('menu_addSitePref'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.disableSite, parentId: M.more, title: 'Disable on This Site', contexts: img,
+      id: M.disableSite, parentId: M.more, title: t('menu_disableSite'), contexts: img,
     });
     chrome.contextMenus.create({
-      id: M.openSettings, parentId: M.more, title: 'Settings', contexts: img,
+      id: M.openSettings, parentId: M.more, title: t('menu_settings'), contexts: img,
     });
 
     // ---- Page menu ----
     chrome.contextMenus.create({ id: M.rootPage, title: 'ImgFetch', contexts: page });
     chrome.contextMenus.create({
-      id: M.pageScan, parentId: M.rootPage, title: 'Scan This Page', contexts: page,
+      id: M.pageScan, parentId: M.rootPage, title: t('menu_scanPage'), contexts: page,
     });
     chrome.contextMenus.create({
-      id: M.pageShotVisible, parentId: M.rootPage, title: 'Capture Visible Area', contexts: page,
+      id: M.pageShotVisible, parentId: M.rootPage, title: t('menu_shotVisible'), contexts: page,
     });
     chrome.contextMenus.create({
-      id: M.pageShotArea, parentId: M.rootPage, title: 'Select Area', contexts: page,
+      id: M.pageShotArea, parentId: M.rootPage, title: t('menu_shotArea'), contexts: page,
     });
     chrome.contextMenus.create({
-      id: M.pageShotFull, parentId: M.rootPage, title: 'Full Page', contexts: page,
+      id: M.pageShotFull, parentId: M.rootPage, title: t('menu_shotFull'), contexts: page,
     });
     chrome.contextMenus.create({
-      id: M.pageShotElement, parentId: M.rootPage, title: 'Capture Element', contexts: page,
+      id: M.pageShotElement, parentId: M.rootPage, title: t('menu_shotElement'), contexts: page,
     });
   });
 }
@@ -2252,8 +3055,8 @@ async function handleMenuClick(info, tab) {
       if (desc) raw = pickBestImageUrl(desc);
       const url = normalizeUrl(raw || '', pageUrl) || normalizeUrl(info.srcUrl, pageUrl);
       if (!url) {
-        await showPageToast(tabId, "Couldn't copy image link.", true);
-        broadcast({ type: 'NOTICE_TEXT', text: "Couldn't copy image link." });
+        await showPageToast(tabId, t('sw_copyLinkFailed'), true);
+        broadcast({ type: 'NOTICE_TEXT', text: t('sw_copyLinkFailed') });
         break;
       }
       // 3. Clipboard: in-page first (the menu click's user activation makes
@@ -2269,11 +3072,11 @@ async function handleMenuClick(info, tab) {
         }
       }
       if (copied) {
-        await showPageToast(tabId, 'Image link copied.', false);
+        await showPageToast(tabId, t('notice_copiedLink'), false);
         broadcast({ type: 'NOTICE', code: 'copied' });
       } else {
-        await showPageToast(tabId, "Couldn't copy image link.", true);
-        broadcast({ type: 'NOTICE_TEXT', text: "Couldn't copy image link." });
+        await showPageToast(tabId, t('sw_copyLinkFailed'), true);
+        broadcast({ type: 'NOTICE_TEXT', text: t('sw_copyLinkFailed') });
       }
       break;
     }
@@ -2313,7 +3116,7 @@ async function handleMenuClick(info, tab) {
           if (res && res.ok) {
             broadcast({
               type: 'NOTICE_TEXT',
-              text: 'The image itself could not be copied, so its link was copied instead.',
+              text: t('sw_linkCopiedInstead'),
             });
           } else {
             broadcast({ type: 'NOTICE', code: 'copy-failed' });
@@ -2378,7 +3181,7 @@ async function handleMenuClick(info, tab) {
       const s = await getSettings();
       if (!s.sitePrefs[host]) s.sitePrefs[host] = 'smart';
       await saveSettings(s);
-      broadcast({ type: 'NOTICE_TEXT', text: `${host} added to site preferences.` });
+      broadcast({ type: 'NOTICE_TEXT', text: t('sw_siteAdded', { host }) });
       chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html#sites') });
       break;
     }
@@ -2390,7 +3193,7 @@ async function handleMenuClick(info, tab) {
       const s = await getSettings();
       s.sitePrefs[host] = 'disabled';
       await saveSettings(s);
-      broadcast({ type: 'NOTICE_TEXT', text: `ImgFetch paused on ${host}.` });
+      broadcast({ type: 'NOTICE_TEXT', text: t('sw_sitePaused', { host }) });
       break;
     }
     default:
@@ -2442,6 +3245,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 async function routeMessage(msg, kind, sender) {
+  // B: never surface a raw message key; wait for the locale first.
+  await i18nReady;
   const settings = await getSettings();
   switch (msg.type) {
     case 'GET_SETTINGS':
@@ -2635,9 +3440,23 @@ async function routeMessage(msg, kind, sender) {
       return captureElement().catch((err) => { shotError(err); throw err; });
     case 'CAPTURE_FULL':
       return captureFullPage();
+    case 'CANCEL_CAPTURE':
+      // FIX 4.5: cancel an in-flight full-page capture. Safe: the
+      // capture's finally still restores the page and releases the
+      // offscreen canvas; completed parts stay as real results.
+      fullCaptureCancel = true;
+      return { cancelled: true };
     case 'SAVE_CAPTURE':
       if (kind !== 'extension') throw new Error('forbidden');
       return saveCapture(String(msg.id || ''));
+
+    case 'DISCARD_CAPTURE_GROUP':
+      if (kind !== 'extension') throw new Error('forbidden');
+      return discardCaptureGroup(String(msg.groupId || ''));
+
+    case 'DISCARD_CAPTURE':
+      if (kind !== 'extension') throw new Error('forbidden');
+      return discardCapture(String(msg.id || ''), String(msg.groupId || ''));
 
     case 'SAVE_ANNOTATED': {
       if (kind !== 'extension') throw new Error('forbidden');
@@ -2648,14 +3467,34 @@ async function routeMessage(msg, kind, sender) {
       const cap = await recallCapture(capId);
       if (!cap) throw new Error(friendlyError('capture-failed'));
       // Swap in the annotated image, then save through the normal path.
-      await rememberCapture(capId, { ...cap, dataUrl });
+      // A blob-stored part keeps no stale Blob next to the new dataUrl.
+      const { blob: _oldBlob, blobStored: _oldFlag, ...rest } = cap;
+      await rememberCapture(capId, { ...rest, dataUrl });
       return saveCapture(capId);
     }
 
+    case 'GET_CAPTURE_PROGRESS':
+      // Round 5: a popup that opens mid-capture asks for the last
+      // progress so it can show the live status row at once.
+      return { progress: lastCaptureProgress };
     case 'GET_CAPTURE': {
       const cap = await recallCapture(String(msg.id || ''));
       if (!cap) throw new Error(friendlyError('capture-failed'));
-      return { dataUrl: cap.dataUrl, width: cap.width, height: cap.height };
+      // FIX 4.2: parts of a split capture carry their "Part i of N"
+      // numbering for the result/annotate flow. Round 4: pages read
+      // blob records straight from IndexedDB (shared/capture-io.js);
+      // this message fallback converts the Blob so legacy callers
+      // still receive a usable dataUrl.
+      let dataUrl = cap.dataUrl || null;
+      if (!dataUrl && cap.blob) dataUrl = await blobToDataUrl(cap.blob);
+      return {
+        dataUrl,
+        width: cap.width,
+        height: cap.height,
+        partIndex: cap.partIndex || 0,
+        partTotal: cap.partTotal || 0,
+        groupId: cap.groupId || '',
+      };
     }
 
     case 'GET_IMAGE_INFO': {
@@ -2719,13 +3558,13 @@ let avifSupport = null;
 async function supportsAvif() {
   if (avifSupport !== null) return avifSupport;
   // J3: cache only a definite answer. A failed probe (offscreen not ready,
-  // transient error) is inconclusive — do not cache it as false for the
+  // transient error) is inconclusive, do not cache it as false for the
   // whole session; retry on the next call.
   try {
     const res = await offscreenCall({ type: 'SUPPORTS_AVIF' });
     if (res && typeof res.ok === 'boolean') avifSupport = res.ok;
   } catch {
-    /* inconclusive — leave uncached so the next call retries */
+    /* inconclusive, leave uncached so the next call retries */
   }
   return avifSupport === true;
 }
@@ -2745,13 +3584,13 @@ async function supportsAvif() {
 async function handleScanCommand() {
   const tab = await activeTab();
   if (!tab || !Number.isInteger(tab.id) || !isScannableTab(tab)) {
-    notifyScanIssue('ImgFetch can only scan normal web pages, browser pages like chrome://, edge:// or the web store are off-limits.');
+    notifyScanIssue(t('sw_scanOffLimits'));
     return;
   }
   try {
     assertSiteAllowed(await getSettings(), tab.url); // H8: paused sites block the shortcut too
   } catch {
-    notifyScanIssue('ImgFetch is paused on this site (see Site Preferences).');
+    notifyScanIssue(t('notice_disabledSiteSeePrefs'));
     return;
   }
   requestScan(tab.id).catch((err) => {
@@ -2779,13 +3618,13 @@ function notifyScanIssue(message) {
 async function handleSelectElement() {
   const tab = await activeTab();
   if (!tab || !Number.isInteger(tab.id) || !isScannableTab(tab)) {
-    notifyScanIssue('ImgFetch can only pick elements on normal web pages, browser pages like chrome://, edge:// or the web store are off-limits.');
+    notifyScanIssue(t('sw_pickOffLimits'));
     return;
   }
   try {
     assertSiteAllowed(await getSettings(), tab.url); // H8: paused sites block it too
   } catch {
-    notifyScanIssue('ImgFetch is paused on this site (see Site Preferences).');
+    notifyScanIssue(t('notice_disabledSiteSeePrefs'));
     return;
   }
   const pageUrl = tab.url || '';
@@ -2795,10 +3634,12 @@ async function handleSelectElement() {
       target: { tabId: tab.id },
       files: ['content/overlay.js'],
     });
+    const hints = await overlayHints();
     const [res] = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       world: 'ISOLATED',
-      func: () => window.__imgfetch.pickElement(),
+      func: (hints) => window.__imgfetch.pickElement(hints),
+      args: [hints],
     });
     picked = (res && res.result) || null;
   } catch (err) {
@@ -2813,7 +3654,7 @@ async function handleSelectElement() {
     url = normalizeUrl(picked.backgroundUrl, pageUrl);
   }
   if (!url) {
-    await showPageToast(tab.id, 'No image found in the selected element.', true);
+    await showPageToast(tab.id, t('sw_noImageInElement'), true);
     return;
   }
   const src = encodeURIComponent(url);
@@ -2862,17 +3703,23 @@ restoreQueueState().catch(() => {
   /* never break worker startup */
 });
 
-// Friendly codes used with NOTICE broadcasts.
-const NOTICE_TEXT = {
-  queued: 'Added to the ImgFetch download queue.',
-  copied: 'Image link copied.',
-  'disabled-site': 'ImgFetch is paused on this site (see Site Preferences).',
-};
+// B: friendly codes used with NOTICE broadcasts, resolved through the
+// loaded locale. t() is sync; the worker may still be loading the
+// locale when the first NOTICE arrives, so resolve after i18nReady.
+function noticeTextFor(code) {
+  if (code === 'queued') return t('notice_queued');
+  if (code === 'copied') return t('notice_copiedLink');
+  if (code === 'disabled-site') return t('notice_disabledSiteSeePrefs');
+  return null;
+}
 
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg && msg.type === 'NOTICE' && msg.code && NOTICE_TEXT[msg.code]) {
+  if (msg && msg.type === 'NOTICE' && msg.code) {
     // Re-broadcast resolved text for surfaces that want plain strings.
-    broadcast({ type: 'NOTICE_TEXT', text: NOTICE_TEXT[msg.code] });
+    i18nReady.then(() => {
+      const text = noticeTextFor(msg.code);
+      if (text) broadcast({ type: 'NOTICE_TEXT', text });
+    });
   }
   return false;
 });

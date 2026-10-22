@@ -16,14 +16,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-svg-real-dom.mjs
+ * ImgFetch, tests/test-svg-real-dom.mjs
  * Pattern check #6: the SVG sanitizer must ALSO pass against a REAL DOM.
  * test-svg.mjs uses a stub DOM; this file parses every attack payload with
  * jsdom's real DOMParser (image/svg+xml), runs the REAL sanitizeSvgDocument
  * from core/svg.js, and asserts the serialized output is inert.
  *
  * Requires jsdom: npm i jsdom   (kept out of the shipped zip)
- * Usage: NODE_PATH=~/workspace/imgfetch-testdeps/node_modules node tests/test-svg-real-dom.mjs
+ * Usage: NODE_PATH=$IMGFETCH_TESTDEPS/node_modules node tests/test-svg-real-dom.mjs
+ * IMGFETCH_TESTDEPS is the folder holding the dev-only test dependencies;
+ * the file self-skips when jsdom cannot be required.
  */
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);

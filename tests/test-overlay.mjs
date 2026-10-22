@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch overlay picker tests — runs with plain Node, no dependencies:
+ * ImgFetch overlay picker tests, runs with plain Node, no dependencies:
  *   node tests/test-overlay.mjs
  *
  * Exercises the REAL pickHelpers from content/overlay.js (describeImg,

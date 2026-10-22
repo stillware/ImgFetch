@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — tests/test-races.mjs
+ * ImgFetch, tests/test-races.mjs
  * Pattern check #7: race tests with real timers against the real modules.
  *  - cancel() during an active download: in-flight finishes, nothing new
  *    starts, a failed in-flight item does NOT retry after cancel.
@@ -36,7 +36,7 @@ async function test(name, fn) {
   catch (e) { fail += 1; console.log(`  FAIL ${name}: ${e.message}`); }
 }
 
-await test('race: cancel during active — in-flight finishes, nothing new starts', async () => {
+await test('race: cancel during active, in-flight finishes, nothing new starts', async () => {
   const started = [];
   const finished = [];
   const q = new DownloadQueue({
@@ -77,7 +77,7 @@ await test('race: failed in-flight does not retry after cancel', async () => {
   assert.equal(q.snapshot().items[0].state, 'failed');
 });
 
-await test('race: interleaved ZIP chunks — abort one token, other survives', async () => {
+await test('race: interleaved ZIP chunks, abort one token, other survives', async () => {
   const za = createZipAccumulator();
   const a = za.get('tok-a');
   const b = za.get('tok-b');
@@ -107,7 +107,7 @@ await test('race: 100 rapid schedule() calls coalesce to one write', async () =>
 });
 
 await test('race: enqueue after cancel resumes only the new item', async () => {
-  // Designed behavior: enqueue() and retryFailed() are the resume paths —
+  // Designed behavior: enqueue() and retryFailed() are the resume paths,
   // otherwise no download could ever start again after one cancel.
   // Previously-cancelled items must stay cancelled.
   const started = [];

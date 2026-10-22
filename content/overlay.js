@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — content/overlay.js
+ * ImgFetch, content/overlay.js
  * Full-page area selector for screenshots. Exposes
  *   window.__imgfetch.selectArea() -> Promise<{x,y,width,height}|null>
  * Coordinates are in CSS pixels relative to the viewport.
@@ -24,7 +24,8 @@
 (() => {
   'use strict';
 
-  function selectArea() {
+  /* B: optional localized hints ({ select, capture, inspect }); English defaults when omitted. */
+  function selectArea(hints) {
     return new Promise((resolve) => {
       if (document.documentElement.hasAttribute('data-imgfetch-selecting')) {
         resolve(null);
@@ -35,7 +36,7 @@
       const overlay = document.createElement('div');
       overlay.setAttribute('data-imgfetch-overlay', '1');
       const hint = document.createElement('div');
-      hint.textContent = 'Drag to select: arrows move, Shift+arrows resize, Enter confirms, Esc cancels';
+      hint.textContent = (hints && hints.select) || 'Drag to select: arrows move, Shift+arrows resize, Enter confirms, Esc cancels';
       const box = document.createElement('div');
       const style = document.createElement('style');
       style.textContent = `
@@ -130,7 +131,7 @@
         const h = Math.abs(e.clientY - startY);
         if (w < 8 || h < 8) {
           box.style.display = 'none';
-          return; // too small — let the user try again
+          return; // too small, let the user try again
         }
         const dpr = window.devicePixelRatio || 1;
         finish({
@@ -196,7 +197,7 @@
    * Element picker: hover highlights the element under the cursor,
    * click captures it. Returns device-pixel rect or null on cancel.
    */
-  function selectElement() {
+  function selectElement(hints) {
     return new Promise((resolve) => {
       if (document.documentElement.hasAttribute('data-imgfetch-selecting')) {
         resolve(null);
@@ -207,7 +208,7 @@
       const overlay = document.createElement('div');
       overlay.setAttribute('data-imgfetch-overlay', '1');
       const hint = document.createElement('div');
-      hint.textContent = 'Click an element to capture it, Esc to cancel';
+      hint.textContent = (hints && hints.capture) || 'Click an element to capture it, Esc to cancel';
       hint.className = 'sx-hint';
       const box = document.createElement('div');
       box.className = 'sx-box';
@@ -372,14 +373,14 @@
 
   /**
    * Resolve what was picked: { descriptor } | { backgroundUrl } |
-   * { none: true }. Only image attributes are read — form controls are
+   * { none: true }. Only image attributes are read, form controls are
    * never inspected for values.
    */
   function resolveImage(el) {
     if (!el) return { none: true };
     const tag = (el.tagName || '').toLowerCase();
     if (tag === 'img') return { descriptor: describeImg(el) };
-    // Never read form controls' values — only look for images.
+    // Never read form controls' values, only look for images.
     if (/^(input|textarea|select|button)$/.test(tag)) return { none: true };
     const inner = largestImg(el);
     if (inner) return { descriptor: describeImg(inner) };
@@ -391,12 +392,12 @@
   /**
    * Element image picker (Select Element shortcut): hover highlights the
    * element under the cursor, click resolves its image. Returns:
-   *   { descriptor }     — for <img> (or the largest <img> inside a container)
-   *   { backgroundUrl }  — for a CSS background image on the element
-   *   { none: true }     — clicked element has no image
-   *   null               — Esc / cancelled
+   *   { descriptor }, for <img> (or the largest <img> inside a container)
+   *   { backgroundUrl }, for a CSS background image on the element
+   *   { none: true }, clicked element has no image
+   *   null, Esc / cancelled
    */
-  function pickElement() {
+  function pickElement(hints) {
     return new Promise((resolve) => {
       if (document.documentElement.hasAttribute('data-imgfetch-selecting')) {
         resolve(null);
@@ -407,7 +408,7 @@
       const overlay = document.createElement('div');
       overlay.setAttribute('data-imgfetch-overlay', '1');
       const hint = document.createElement('div');
-      hint.textContent = 'Click an element to inspect its image, Esc to cancel';
+      hint.textContent = (hints && hints.inspect) || 'Click an element to inspect its image, Esc to cancel';
       hint.className = 'sx-hint';
       const box = document.createElement('div');
       box.className = 'sx-box';

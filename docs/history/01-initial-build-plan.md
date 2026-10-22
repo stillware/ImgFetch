@@ -1,11 +1,11 @@
 # Initial build plan
 
-> Historical document. This is the first build plan. The shipped product differs (shortcuts, permissions and settings have changed). See README.md and docs/USER_GUIDE.md for the current behaviour.
+> Historical document. This is the first build plan. The shipped product differs (shortcuts, permissions and settings have changed). See README.md and docs/user-guide.md for the current behaviour.
 
 
 ## Feature matrix
 
-### Tier 1 — Essential (this build)
+### Tier 1, Essential (this build)
 | Feature | Notes |
 |---|---|
 | Right-click menu hierarchy | Parent "ImgFetch", children: Download Image, Best Quality, Original Image, Save as PNG/JPG/WebP, Open Original in New Tab, Image Info, More… |
@@ -24,10 +24,10 @@
 | Settings page | 10 sections, import/export/reset, site preferences |
 | Onboarding | 3 short screens on first install |
 
-### Tier 2 — Nice-to-have (partially in)
-- Per-site preferences (quality mode per host) — IN
-- Preview modal with zoom — IN (basic)
-- Duplicate detection by URL — IN
+### Tier 2, Nice-to-have (partially in)
+- Per-site preferences (quality mode per host), IN
+- Preview modal with zoom, IN (basic)
+- Duplicate detection by URL, IN
 
 ### Tier 3 / Deferred
 - Cloud upload, translations (EN only), OCR on screenshots, video frame capture,
@@ -61,14 +61,14 @@
 No `tabs`, no `<all_urls>` (scheme-scoped instead), no remote code, no analytics.
 
 ## Architecture
-- `core/` — pure JS modules (urls, filenames, ranking, filters, settings, queue,
+- `core/`, pure JS modules (urls, filenames, ranking, filters, settings, queue,
   validation, history): zero chrome deps, Node-tested.
-- `background/service-worker.js` — menus, message router, queue owner, offscreen
+- `background/service-worker.js`, menus, message router, queue owner, offscreen
   manager, screenshots, history writer. Thin; delegates logic to core.
-- `content/scanner.js` — page scan + candidate validation (Image probing).
-- `content/overlay.js` — area-select overlay.
-- `offscreen/` — fetch→bitmap→canvas→dataURL conversion & crop.
-- `popup/`, `options/`, `pages/` — UI, ImgFetch design system in `ui.css`.
+- `content/scanner.js`, page scan + candidate validation (Image probing).
+- `content/overlay.js`, area-select overlay.
+- `offscreen/`, fetch→bitmap→canvas→dataURL conversion & crop.
+- `popup/`, `options/`, `pages/`, UI, ImgFetch design system in `ui.css`.
 
 ## Testing matrix
 - Node unit tests: core/* (urls, filenames, ranking, filters, settings, queue,
@@ -84,4 +84,4 @@ No `tabs`, no `<all_urls>` (scheme-scoped instead), no remote code, no analytics
 - Message type allowlist + payload size cap + sender classification.
 - Offscreen fetch restricted to validated URLs; data URLs length-capped.
 - No eval/new Function, no innerHTML with page data (textContent + escaping).
-- Host permissions documented in PERMISSIONS.md.
+- Host permissions documented in permissions.md.

@@ -16,7 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * ImgFetch — core/export.js
+ * ImgFetch, core/export.js
  * Pure helpers for the Smart Download export engine.
  * No chrome.* dependencies (unit-testable in Node).
  */
@@ -64,7 +64,7 @@ export function qualityForFormat(format, settings) {
   if (f === 'jpg') return clamp(s.jpgQuality, 1);
   if (f === 'png') return clamp(s.pngQuality, 1);
   if (f === 'webp') return clamp(s.webpQuality, 1);
-  if (f === 'avif') return 1; // no slider — AVIF always encodes at 100%
+  if (f === 'avif') return 1; // no slider, AVIF always encodes at 100%
   return undefined;
 }
 

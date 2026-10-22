@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+ImgFetch - smart image downloader
+Copyright (C) 2026 ImgFetch Developer
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title data-i18n="parts_heading">ImgFetch, Screenshot parts</title>
+  <link rel="stylesheet" href="../shared/ui.css">
+  <style>
+    body { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
+    .page-heading { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+    .page-summary { color: var(--muted); margin: 0 0 16px; }
+    .header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .save-progress { color: var(--muted); margin: 10px 0 0; }
+    .part-card { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px; }
+    .part-thumb { flex: none; width: 220px; max-width: 40vw; height: auto; border-radius: 8px; background: var(--surface-2); display: block; }
+    .part-main { flex: 1; min-width: 0; }
+    .part-title { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
+    .part-meta { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; }
+    .part-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .part-actions .btn-danger { margin-inline-start: auto; }
+    #partList { margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="brand" style="margin-bottom:16px;">
+    <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
+    <div>
+      <div class="brand-name">ImgFetch</div>
+      <div class="brand-sub" data-i18n="capture_subtitle">Screenshot preview</div>
+    </div>
+  </div>
+
+  <div id="loading" class="empty">
+    <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
+    <p data-i18n="capture_loading">Preparing your screenshot…</p>
+  </div>
+
+  <div id="content" hidden>
+    <h1 class="page-heading" id="partsHeading" data-i18n="parts_heading">Screenshot parts</h1>
+    <p class="page-summary" id="partsSummary"></p>
+    <div class="header-actions">
+      <button id="btnSaveAll" class="btn btn-primary" data-i18n="parts_saveAll">Save all</button>
+      <button id="btnDiscardAll" class="btn btn-danger" data-i18n="parts_discardAll">Discard all</button>
+    </div>
+    <p class="save-progress" id="saveProgress" role="status" aria-live="polite" hidden></p>
+    <p class="notice" id="windowsNote" hidden></p>
+    <div id="partList" role="list"></div>
+  </div>
+
+  <div id="emptyState" class="empty" hidden>
+    <p id="emptyText"></p>
+  </div>
+
+  <script src="../shared/ui.js"></script>
+  <script src="parts.js"></script>
+</body>
+</html>

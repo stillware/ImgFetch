@@ -7,7 +7,7 @@
       "name": "P0 worker alive",
       "ok": true,
       "evidence": {
-        "extId": "njkhdpnjkaebnpgaljpiomeoojbejalo"
+        "extId": "lbmaelhbkhdmflgnpkejnffagfeonkba"
       }
     },
     {
@@ -32,10 +32,10 @@
       "name": "P2b history records have exact byte sizes",
       "ok": true,
       "evidence": {
-        "records": 11,
-        "bytesOk": 11,
-        "bytesMatch": 11,
-        "note": "11/11 with bytes>0, 11/11 match disk"
+        "records": 12,
+        "bytesOk": 12,
+        "bytesMatch": 12,
+        "note": "12/12 with bytes>0, 12/12 match disk"
       }
     },
     {
@@ -43,18 +43,28 @@
       "ok": true,
       "evidence": {
         "plan": {
-          "outW": 2427,
-          "outH": 32767,
-          "tiles": 24,
-          "scale": 0.948
+          "parts": 2,
+          "tiles": 28,
+          "partDims": [
+            "2560x20160",
+            "2560x19840"
+          ]
         },
-        "file": "stitch-tall20k-dpr2.png",
-        "size": 2045776,
-        "dims": {
-          "w": 2427,
-          "h": 32767
-        },
-        "note": "2427x32767 (plan 2427x32767), 2045776 bytes"
+        "parts": [
+          {
+            "part": 1,
+            "dims": "2560x20160",
+            "expect": "2560x20160",
+            "size": 1225795
+          },
+          {
+            "part": 2,
+            "dims": "2560x19840",
+            "expect": "2560x19840",
+            "size": 1209098
+          }
+        ],
+        "wholePageCovered": true
       }
     },
     {
@@ -62,18 +72,21 @@
       "ok": true,
       "evidence": {
         "plan": {
-          "outW": 2560,
-          "outH": 6000,
+          "parts": 1,
           "tiles": 5,
-          "scale": 1
+          "partDims": [
+            "2560x6000"
+          ]
         },
-        "file": "stitch-tall3k-dpr2.png",
-        "size": 363919,
-        "dims": {
-          "w": 2560,
-          "h": 6000
-        },
-        "note": "2560x6000 (plan 2560x6000), 363919 bytes"
+        "parts": [
+          {
+            "part": 1,
+            "dims": "2560x6000",
+            "expect": "2560x6000",
+            "size": 363919
+          }
+        ],
+        "wholePageCovered": true
       }
     },
     {
@@ -102,10 +115,10 @@
         "offscreenFound": true,
         "probe": {
           "ok": true,
-          "ms": 365,
+          "ms": 311,
           "px": 4
         },
-        "note": "100MP canvas: allocated in 365ms"
+        "note": "100MP canvas: allocated in 311ms"
       }
     },
     {
