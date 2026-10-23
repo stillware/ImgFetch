@@ -52,8 +52,7 @@ Chrome may show a developer mode notice for extensions installed this way, and i
 
 ### Install in Edge
 
-You can install the official extension directly from the Microsoft Edge Add-ons store.
-
+You can install the official extension directly from the Microsoft Edge Add-ons store.  
 *Note: The current live listing serves version **1.1.0**.*
 
 ### For developers
