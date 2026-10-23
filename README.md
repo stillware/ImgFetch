@@ -36,17 +36,27 @@ Last verified: 2026-10-22
 | ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. The live listing currently serves 1.0.0; the version 1.1.0 update is pending review and goes live when Microsoft approves it. |
 | ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7) | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
 | ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f) | Firefox Add-ons | Coming soon (needs a separate port) |
-| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, install unpacked in Chrome or Edge |
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP download for Chrome |
 
-To install 1.1.0 from GitHub Releases, in Chrome or Edge:
+### Install in Chrome
 
-1. Download the release zip from [GitHub Releases][Releases] and unpack it so the folder contains `manifest.json` at the top level.
-2. Open `chrome://extensions` in Chrome or `edge://extensions` in Edge.
-3. Turn on **Developer mode** (top right corner in Chrome, left sidebar in Edge).
-4. Click **Load unpacked** and select the unpacked folder.
+The Chrome Web Store listing is coming soon. Until then, install ImgFetch in Chrome from the release file:
+
+1. Download the ZIP from the [latest GitHub release][Latest release] and unzip it. The unzipped folder must contain `manifest.json` at the top level.
+2. Open `chrome://extensions` in Chrome.
+3. Turn on **Developer mode** (top right corner).
+4. Click **Load unpacked** and select the unzipped folder. You can also drag the unzipped folder onto the page.
 5. Pin ImgFetch from the extensions menu if you want it on the toolbar.
 
-Developers can also clone the repository with `git clone https://github.com/umr-x/ImgFetch` and load the cloned folder the same way.
+Chrome may show a developer mode notice for extensions installed this way, and it does not update them automatically. To update, download the newest release and repeat these steps.
+
+### Install in Edge
+
+Install ImgFetch from [Edge Add-ons][Edge Add-ons]. The live listing currently serves 1.0.0, and the 1.1.0 update goes live there when Microsoft approves it.
+
+### For developers
+
+You can also clone the repository with `git clone https://github.com/umr-x/ImgFetch` and load the cloned folder with **Load unpacked** the same way.
 
 ## Contents
 
@@ -264,6 +274,7 @@ ImgFetch is free and open source software with no accounts, no tracking and all 
 
 [Edge Add-ons]: https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea
 [Releases]: https://github.com/umr-x/ImgFetch/releases
+[Latest release]: https://github.com/umr-x/ImgFetch/releases/latest
 
 <!--------------------------------- Project --------------------------------->
 
