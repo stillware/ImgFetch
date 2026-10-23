@@ -5,18 +5,22 @@ How to install ImgFetch and use every feature: scanning, downloading, screenshot
 Applies to: ImgFetch 1.1.0
 Last verified: 2026-10-22
 
-## Install
+### Install in Chrome
 
-ImgFetch runs in Google Chrome and Microsoft Edge, with Chrome 116 or later.
-Microsoft Edge: published on [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea). The live listing currently serves 1.0.0; the 1.1.0 update is submitted after the GitHub release and goes live when Microsoft approves it.
-Google Chrome: the Chrome Web Store listing is coming soon. Firefox is coming soon and needs a separate port.
-Version 1.1.0 was released on GitHub Releases on 2026-10-22 (tag `v1.1.0`). To install 1.1.0 now, or to install in Chrome, use the release zip:
+The Chrome Web Store listing is coming soon. Until then, install ImgFetch in Chrome from the release file:
 
-1. Download the release zip and unpack it. Keep the unpacked `ImgFetch` folder in a fixed place, because the browser loads it from there.
-2. In Chrome, open `chrome://extensions`. In Edge, open `edge://extensions`.
-3. Turn on Developer mode.
-4. Choose Load unpacked and select the unpacked `ImgFetch` folder.
-5. Pin ImgFetch to the toolbar so its button is always visible.
+1. Download the ZIP from the [latest GitHub release][Latest release] and unzip it. The unzipped folder must contain `manifest.json` at the top level.
+2. Open `chrome://extensions` in Chrome.
+3. Turn on **Developer mode** (top right corner).
+4. Click **Load unpacked** and select the unzipped folder. You can also drag the unzipped folder onto the page.
+5. Pin ImgFetch from the extensions menu if you want it on the toolbar.
+
+Chrome may show a developer mode notice for extensions installed this way, and it does not update them automatically. To update, download the newest release and repeat these steps.
+
+### Install in Edge
+
+You can install the official extension directly from the Microsoft Edge Add-ons store.  
+*Note: The current live listing serves version **1.1.0**.*
 
 There is no sign-in and no account. Everything runs on your device. See [Permissions](permissions.md) for what each permission is for.
 
