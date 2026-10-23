@@ -33,10 +33,10 @@ Last verified: 2026-10-22
 
 | Browser | Install from | Status |
 | --- | --- | --- |
-| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. The live listing currently serves 1.0.0; the version 1.1.0 update is pending review and goes live when Microsoft approves it. |
+| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. The live listing serves version 1.1.0. |
 | ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7) | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
 | ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f) | Firefox Add-ons | Coming soon (needs a separate port) |
-| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP download for Chrome |
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP |
 
 ### Install in Chrome
 
