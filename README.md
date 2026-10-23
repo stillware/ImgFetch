@@ -52,7 +52,8 @@ Chrome may show a developer mode notice for extensions installed this way, and i
 
 ### Install in Edge
 
-Install ImgFetch from [Edge Add-ons][Edge Add-ons]. The live listing serves 1.1.0 Enjoy it.
+You can install the official extension directly from the Microsoft Edge Add-ons store.
+*Note: The current live listing serves version **1.1.0**.*
 
 ### For developers
 
