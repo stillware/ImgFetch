@@ -33,15 +33,15 @@ Last verified: 2026-10-22
 
 | Browser | Install from | Status |
 | --- | --- | --- |
-| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. The live listing serves version 1.1.0. |
+| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. Version 1.1.0 is live. |
 | ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7) | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
 | ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f) | Firefox Add-ons | Coming soon (needs a separate port) |
-| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP |
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP ZIP download for Chrome |
 
 ### Install in Chrome
-
+ 
 The Chrome Web Store listing is coming soon. Until then, install ImgFetch in Chrome from the release file:
-
+ 
 1. Download the ZIP from the [latest GitHub release][Latest release] and unzip it. The unzipped folder must contain `manifest.json` at the top level.
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode** (top right corner).
@@ -226,9 +226,6 @@ Yes. ImgFetch is free software under the GNU General Public License v3 or later,
 **Does it upload my images anywhere?**
 No. Downloads, conversions and captures happen on your device.
 The only network requests are the ones needed to fetch images you chose to save.
-
-**Why does the Edge Add-ons listing show version 1.0.0?**
-The live Edge listing currently serves 1.0.0. The 1.1.0 update is submitted after the GitHub release and goes live when Microsoft approves it.
 
 **Why is the Chrome Web Store listing coming soon?**
 The Chrome Web Store listing is not live yet; until it is, install 1.1.0 from GitHub Releases as described under [Install](#install).

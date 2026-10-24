@@ -9,7 +9,7 @@ Last verified: 2026-10-22
 
 | Store | Listing URL | Status |
 |---|---|---|
-| Microsoft Edge Add-ons | https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea | Published. The live listing currently serves 1.0.0. The 1.1.0 update is submitted after the GitHub release and goes live when Microsoft approves it. |
+| Microsoft Edge Add-ons | https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea | Published.  The live listing serves 1.1.0. |
 | Chrome Web Store | No URL yet | Coming soon |
 | Firefox Add-ons | No URL yet | Coming soon. Firefox needs a separate port; no date is promised. |
 | GitHub Releases | https://github.com/umr-x/ImgFetch/releases | Version 1.1.0 released on 2026-10-22, tag `v1.1.0`. Version 1.0.0 was released on 2026-10-12. |
@@ -162,7 +162,7 @@ Redo in the screenshot editor, faster and lossless Area and Element captures, an
 - [ ] The data usage answers above match `PRIVACY.md`. No data collection is declared, because none happens.
 - [ ] The single purpose statement above is pasted into the single purpose field.
 - [ ] The six screenshots in `store-assets/store/` are uploaded in order, with the captions above.
-- [ ] For the Edge update: the live Edge listing serves 1.0.0 until Microsoft approves the 1.1.0 update. Submit the 1.1.0 package after the GitHub release, and do not state anywhere that 1.1.0 is live on Edge before approval.
+- [ ] For every Edge update: submit the package after the GitHub release, and state in the README and in this file that a version is live on Edge only after Microsoft has approved and published it.
 - [ ] The support URL points to GitHub Issues and the privacy policy is reachable from the listing.
 - [ ] The Chrome Web Store URL is added to this file and to the README only after that listing is live.
 - [ ] No claim appears in the listing that the extension does not deliver: no Firefox version, no store rating, and no feature that is not in 1.1.0.

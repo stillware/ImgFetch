@@ -127,9 +127,8 @@ Web Store Developer Dashboard and the Edge zip in Microsoft Partner Center,
 and fill in the listing from `store-assets/store-listing.md`.
 
 Version 1.1.0 was released on GitHub Releases on 2026-10-22 (tag `v1.1.0`).
-The Microsoft Edge Add-ons listing is published and currently serves 1.0.0;
-the 1.1.0 update is submitted after the GitHub release and goes live when
-Microsoft approves it. The Chrome Web Store listing is coming soon.
+The Microsoft Edge Add-ons listing is published and serves 1.1.0.
+The Chrome Web Store listing is coming soon.
 Before submission, work through
 [the manual test checklist](tests/manual-test-checklist.md) on real Chrome
 and real Edge builds.

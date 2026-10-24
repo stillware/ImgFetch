@@ -60,7 +60,7 @@ If you cancel a capture or switch away from the source tab, capture stops, finis
 
 | Limit | Reason | Workaround |
 | --- | --- | --- |
-| ImgFetch runs in Google Chrome and Microsoft Edge only, with Chrome 116 or later. There is no Firefox or Safari version. | The Manifest V3 offscreen document and capture APIs used here differ outside Chromium. | Use Chrome or Edge. The Edge Add-ons listing is published and currently serves 1.0.0, with the 1.1.0 update pending Microsoft review. The Chrome Web Store listing is coming soon. Until the store version you need is live, install from the release zip as the [User guide](user-guide.md) describes. |
+| ImgFetch runs in Google Chrome and Microsoft Edge only, with Chrome 116 or later. There is no Firefox or Safari version. | The Manifest V3 offscreen document and capture APIs used here differ outside Chromium. | Use Chrome or Edge. The Edge Add-ons listing is published and serves 1.1.0. The Chrome Web Store listing is coming soon. Until it is live, install in Chrome from the release zip as the [User guide](user-guide.md) describes. |
 | Image decoding and encoding support follows the browser build. | Codecs ship with the browser, not with the extension. | Keep the browser up to date. |
 
 ## Platform
