@@ -547,11 +547,13 @@ await test('createZip makes a readable archive', async () => {
 // Cross-verify with Python's zipfile (independent implementation).
 await test('createZip verified by zipfile', async () => {
   const { writeFileSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
   const files = [
     { name: 'hello.txt', data: new TextEncoder().encode('hello imgfetch') },
     { name: 'data.bin', data: Uint8Array.from({ length: 100 }, (_, i) => i & 0xff) },
   ];
-  writeFileSync('/tmp/imgfetch-test.zip', Buffer.from(createZip(files)));
+  writeFileSync(join(tmpdir(), 'imgfetch-test.zip'), Buffer.from(createZip(files)));
 });
 
 await test('B6: createZipParts reassembles to identical bytes', () => {
