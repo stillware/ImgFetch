@@ -1,10 +1,10 @@
-[Badge Release][Releases]
-[Badge License][License file]
-[Badge Issues][Issues]
-[Badge Stars][Stargazers]
-[Badge Last commit][Commits]
-[Badge Manifest][Manifest file]
-[Badge Edge][Edge Add-ons]
+[![Badge Release]][Releases]
+[![Badge License]][License file]
+[![Badge Issues]][Issues]
+[![Badge Stars]][Stargazers]
+[![Badge Last commit]][Commits]
+[![Badge Manifest]][Manifest file]
+[![Badge Edge]][Edge Add-ons]
 
 <p align="center">
 <img src="assets/brand/imgfetch-mark-exact.svg" width="96" height="96" alt="ImgFetch logo">
