@@ -1,10 +1,10 @@
-[![Badge Release]][Releases]
-[![Badge License]][License file]
-[![Badge Issues]][Issues]
-[![Badge Stars]][Stargazers]
-[![Badge Last commit]][Commits]
-[![Badge Manifest]][Manifest file]
-[![Badge Edge]][Edge Add-ons]
+[Badge Release][Releases]
+[Badge License][License file]
+[Badge Issues][Issues]
+[Badge Stars][Stargazers]
+[Badge Last commit][Commits]
+[Badge Manifest][Manifest file]
+[Badge Edge][Edge Add-ons]
 
 <p align="center">
 <img src="assets/brand/imgfetch-mark-exact.svg" width="96" height="96" alt="ImgFetch logo">
@@ -31,17 +31,17 @@ Last verified: 2026-10-22
 
 ## Install
 
-| Browser | Install from | Status |
-| --- | --- | --- |
-| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons] | Published. Version 1.1.0 is live. |
-| ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7) | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
-| ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f) | Firefox Add-ons | Coming soon (needs a separate port) |
-| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white) | [GitHub Releases][Releases] | Latest: 1.1.0, ZIP download for Chrome |
+| Browser                                                                                            | Install from                                                                 | Status                                                                                                                                |
+| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons]                                                 | Published. Version 1.1.0 is live.                                                                                                     |
+| ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7)  | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
+| ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f)        | Firefox Add-ons                                                              | Coming soon (needs a separate port)                                                                                                   |
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)                  | [GitHub Releases][Releases]                                                  | Latest: 1.1.0, ZIP download for Chrome                                                                                                |
 
 ### Install in Chrome
- 
+
 The Chrome Web Store listing is coming soon. Until then, install ImgFetch in Chrome from the release file:
- 
+
 1. Download the ZIP from the [latest GitHub release][Latest release] and unzip it. The unzipped folder must contain `manifest.json` at the top level.
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode** (top right corner).
@@ -52,7 +52,7 @@ Chrome may show a developer mode notice for extensions installed this way, and i
 
 ### Install in Edge
 
-You can install the official extension directly from the Microsoft Edge Add-ons store.  
+You can install the official extension directly from the Microsoft Edge Add-ons store.
 *Note: The current live listing serves version **1.1.0**.*
 
 ### For developers
@@ -83,26 +83,26 @@ ImgFetch is a free, open-source image downloader and screenshot extension for Go
 It finds the real sources behind a page image, checks that each source loads, and saves the best valid one.
 It never upscales an image and never claims quality it has not verified.
 
-| Area | What it does |
-| --- | --- |
-| Image downloads | Right-click Smart Download saves the best validated source. It never upscales and never invents a better source. |
-| Whole page scan | Scan This Page finds all images across a whole page for preview, filtering and bulk image download. |
-| Bulk and ZIP | Download a selection one by one, or pack it into a single ZIP file. |
+| Area                   | What it does                                                                                                                                                                                        |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Image downloads        | Right-click Smart Download saves the best validated source. It never upscales and never invents a better source.                                                                                    |
+| Whole page scan        | Scan This Page finds all images across a whole page for preview, filtering and bulk image download.                                                                                                 |
+| Bulk and ZIP           | Download a selection one by one, or pack it into a single ZIP file.                                                                                                                                 |
 | Formats and conversion | Save image as PNG, JPG, WebP, AVIF, GIF, SVG or BMP (for example WebP to PNG or JPG) where the browser supports the format. Quality settings apply per format, and PNG at full quality is lossless. |
-| Screenshots | Take a full page screenshot (scrolling capture), or capture the Visible area, a selected Area or a single Element. Long pages are split into balanced parts and reviewed in the Parts overview. |
-| Editor | Annotate screenshots with Pen, Arrow, Rectangle, Circle, Text and Pixelate, adjust the frame with the non-destructive Crop tool, then use Undo, Redo, Copy and Save. |
-| Languages | The interface is available in 21 locales covering 19 languages, with a right-to-left layout for Arabic. |
-| Privacy | Everything runs on your device. There are no accounts, no analytics, no telemetry and no tracking. |
+| Screenshots            | Take a full page screenshot (scrolling capture), or capture the Visible area, a selected Area or a single Element. Long pages are split into balanced parts and reviewed in the Parts overview.     |
+| Editor                 | Annotate screenshots with Pen, Arrow, Rectangle, Circle, Text and Pixelate, adjust the frame with the non-destructive Crop tool, then use Undo, Redo, Copy and Save.                                |
+| Languages              | The interface is available in 21 locales covering 19 languages, with a right-to-left layout for Arabic.                                                                                             |
+| Privacy                | Everything runs on your device. There are no accounts, no analytics, no telemetry and no tracking.                                                                                                  |
 
 ## See it in action
 
-|  |  |
-| --- | --- |
-| ![Scan results with some images selected and the download bar visible](assets/readme/scan-select-download.png)<br>Select images from the scan results and download them, one by one or as a ZIP. | ![Quality, format and file name options in Settings](assets/readme/quality-and-formats.png)<br>Quality, format and file name options for saved images. |
-| ![The four screenshot modes in the popup: Visible, Area, Element and Full page](assets/readme/screenshot-modes.png)<br>Four screenshot modes: Visible, Area, Element and Full page. | ![Parts overview page listing the parts of a long full page capture](assets/readme/fullpage-parts-overview.png)<br>A long full page capture split into parts, reviewed in the Parts overview. |
-| ![Screenshot editor with the Crop tool active, dimmed outside the crop rectangle](assets/readme/editor-crop.png)<br>The editor with the non-destructive Crop tool active. | ![Screenshot editor with arrow, text and pixelate annotations and the Copy and Save buttons](assets/readme/editor-tools-copy-save.png)<br>Annotate a capture, then Copy or Save it. |
-| ![Settings page with the language picker showing the available locales](assets/readme/languages-and-settings.png)<br>Settings with the language picker: 21 locales covering 19 languages. | ![ImgFetch interface in Arabic with a right-to-left layout](assets/readme/rtl-arabic.png)<br>Arabic uses a full right-to-left layout. |
-| ![Privacy panel listing the five privacy facts: no accounts, no tracking, no remote code, local storage, permissions only for their features](assets/readme/privacy-no-tracking.png)<br>Private by design: no accounts, no tracking, no remote code. |  |
+|                                                                                                                                                                                                                                                  |                                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Scan results with some images selected and the download bar visible](assets/readme/scan-select-download.png)Select images from the scan results and download them, one by one or as a ZIP.                                                     | ![Quality, format and file name options in Settings](assets/readme/quality-and-formats.png)Quality, format and file name options for saved images.                                        |
+| ![The four screenshot modes in the popup: Visible, Area, Element and Full page](assets/readme/screenshot-modes.png)Four screenshot modes: Visible, Area, Element and Full page.                                                                  | ![Parts overview page listing the parts of a long full page capture](assets/readme/fullpage-parts-overview.png)A long full page capture split into parts, reviewed in the Parts overview. |
+| ![Screenshot editor with the Crop tool active, dimmed outside the crop rectangle](assets/readme/editor-crop.png)The editor with the non-destructive Crop tool active.                                                                            | ![Screenshot editor with arrow, text and pixelate annotations and the Copy and Save buttons](assets/readme/editor-tools-copy-save.png)Annotate a capture, then Copy or Save it.           |
+| ![Settings page with the language picker showing the available locales](assets/readme/languages-and-settings.png)Settings with the language picker: 21 locales covering 19 languages.                                                            | ![ImgFetch interface in Arabic with a right-to-left layout](assets/readme/rtl-arabic.png)Arabic uses a full right-to-left layout.                                                         |
+| ![Privacy panel listing the five privacy facts: no accounts, no tracking, no remote code, local storage, permissions only for their features](assets/readme/privacy-no-tracking.png)Private by design: no accounts, no tracking, no remote code. |                                                                                                                                                                                           |
 
 ## Quick start
 
@@ -118,26 +118,26 @@ Defaults come from the extension manifest.
 You can change them at `chrome://extensions/shortcuts` in Chrome or `edge://extensions/shortcuts` in Edge.
 On macOS, use Command instead of Ctrl for the extension shortcuts.
 
-| Command | Default key | Action |
-| --- | --- | --- |
-| Scan page | Ctrl+Shift+S | Scan the page for images |
+| Command                 | Default key    | Action                                                                       |
+| ----------------------- | -------------- | ---------------------------------------------------------------------------- |
+| Scan page               | Ctrl+Shift+S   | Scan the page for images                                                     |
 | Scan page (alternative) | No default key | Scan the page for images; bind your own key in the browser shortcut settings |
-| Capture area | Ctrl+Shift+X | Capture a selected Area |
-| Capture element | Ctrl+Shift+E | Capture a single Element |
-| Select element | Alt+Shift+E | Pick an Element and show its image details |
+| Capture area            | Ctrl+Shift+X   | Capture a selected Area                                                      |
+| Capture element         | Ctrl+Shift+E   | Capture a single Element                                                     |
+| Select element          | Alt+Shift+E    | Pick an Element and show its image details                                   |
 
 Editor shortcuts, active in the screenshot editor:
 
-| Shortcut | Action |
-| --- | --- |
-| C | Select the Crop tool |
-| Ctrl+Z (Cmd+Z on macOS) | Undo |
-| Ctrl+Y | Redo |
-| Ctrl+Shift+Z (Cmd+Shift+Z on macOS) | Redo |
-| Enter | Apply a pending crop, or confirm a Text label |
-| Esc | Cancel a pending crop or a Text label |
-| Arrow keys | Nudge a pending crop by 1 pixel (Shift+arrow keys: 10 pixels) |
-| Delete or Backspace | Delete the selected Text label |
+| Shortcut                            | Action                                                        |
+| ----------------------------------- | ------------------------------------------------------------- |
+| C                                   | Select the Crop tool                                          |
+| Ctrl+Z (Cmd+Z on macOS)             | Undo                                                          |
+| Ctrl+Y                              | Redo                                                          |
+| Ctrl+Shift+Z (Cmd+Shift+Z on macOS) | Redo                                                          |
+| Enter                               | Apply a pending crop, or confirm a Text label                 |
+| Esc                                 | Cancel a pending crop or a Text label                         |
+| Arrow keys                          | Nudge a pending crop by 1 pixel (Shift+arrow keys: 10 pixels) |
+| Delete or Backspace                 | Delete the selected Text label                                |
 
 Undo does exactly what the Undo button does, including the crop step in the same history, and it does not fire while you type in the text annotation box, where the browser native text undo keeps working.
 
@@ -153,12 +153,12 @@ The full policy is in [PRIVACY.md](PRIVACY.md), and [docs/permissions.md](docs/p
 
 ## Supported browsers and languages
 
-| Browser | Support |
-| --- | --- |
-| Google Chrome | Supported; requires Chrome 116 or later |
-| Microsoft Edge | Supported; Chromium based Edge |
-| Other Chromium browsers | Not officially tested; the extension may load and work |
-| Firefox | No Firefox version exists yet; a Firefox version is coming soon and needs a separate port |
+| Browser                 | Support                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| Google Chrome           | Supported; requires Chrome 116 or later                                                   |
+| Microsoft Edge          | Supported; Chromium based Edge                                                            |
+| Other Chromium browsers | Not officially tested; the extension may load and work                                    |
+| Firefox                 | No Firefox version exists yet; a Firefox version is coming soon and needs a separate port |
 
 The interface is available in 21 locales covering 19 languages: English, Spanish, Latin American Spanish, Brazilian Portuguese, French, German, Italian, Dutch, Russian, Ukrainian, Polish, Czech, Turkish, Arabic, Simplified Chinese, Traditional Chinese, Japanese, Korean, Indonesian, Vietnamese and Thai.
 Change it under Options, General, Language; the default is Auto, which follows the browser language.
@@ -220,9 +220,7 @@ Translations live in `_locales/`, one folder per locale. See [docs/translating.m
 
 ## FAQ
 
-## FAQ
-
-**Is ImgFetch free?**
+**Is ImgFetch free?** 
 
 Yes. ImgFetch is free software under the GNU General Public License v3 or later, with no paid tier and no accounts.
 
@@ -273,6 +271,10 @@ ImgFetch is free and open source software with no accounts, no tracking and all 
 
 <!--------------------------------------------------------------------------->
 
+<!--------------------------------- Stores ---------------------------------->
+
+<!--------------------------------- Project --------------------------------->
+
 [Badge Release]: https://img.shields.io/github/v/release/umr-x/ImgFetch
 [Badge License]: https://img.shields.io/badge/License-GPLv3-blue.svg
 [Badge Issues]: https://img.shields.io/github/issues/umr-x/ImgFetch
@@ -280,15 +282,9 @@ ImgFetch is free and open source software with no accounts, no tracking and all 
 [Badge Last commit]: https://img.shields.io/github/last-commit/umr-x/ImgFetch
 [Badge Manifest]: https://img.shields.io/badge/Manifest-V3-blue
 [Badge Edge]: https://img.shields.io/badge/Edge_Add--ons-available-0078D7?logo=microsoftedge&logoColor=white
-
-<!--------------------------------- Stores ---------------------------------->
-
 [Edge Add-ons]: https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea
 [Releases]: https://github.com/umr-x/ImgFetch/releases
 [Latest release]: https://github.com/umr-x/ImgFetch/releases/latest
-
-<!--------------------------------- Project --------------------------------->
-
 [License file]: LICENSE
 [Manifest file]: manifest.json
 [Issues]: https://github.com/umr-x/ImgFetch/issues
