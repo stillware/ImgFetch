@@ -12,7 +12,7 @@
 
 <h1 align="center">ImgFetch</h1>
 
-<p align="center">Save images in the best genuinely available quality and capture screenshots, with no accounts and no tracking.</p>
+<p align="center">Free image downloader and screenshot extension for Chrome and Edge. Bulk download images, save image as PNG, JPG or WebP, and take full page screenshots. No accounts, no tracking.</p>
 
 <p align="center">
 <a href="#install">Install</a> ·
@@ -79,17 +79,17 @@ You can also clone the repository with `git clone https://github.com/umr-x/ImgFe
 
 ## Features
 
-ImgFetch is a browser extension for Google Chrome and Microsoft Edge.
+ImgFetch is a free, open-source image downloader and screenshot extension for Google Chrome and Microsoft Edge.
 It finds the real sources behind a page image, checks that each source loads, and saves the best valid one.
 It never upscales an image and never claims quality it has not verified.
 
 | Area | What it does |
 | --- | --- |
 | Image downloads | Right-click Smart Download saves the best validated source. It never upscales and never invents a better source. |
-| Whole page scan | Scan This Page finds images across a whole page for preview, filtering and bulk download. |
+| Whole page scan | Scan This Page finds all images across a whole page for preview, filtering and bulk image download. |
 | Bulk and ZIP | Download a selection one by one, or pack it into a single ZIP file. |
-| Formats and conversion | Save as PNG, JPG, WebP, AVIF, GIF, SVG or BMP where the browser supports the format. Quality settings apply per format, and PNG at full quality is lossless. |
-| Screenshots | Capture the Visible area, a selected Area, a single Element, or the Full page. Long pages are split into balanced parts and reviewed in the Parts overview. |
+| Formats and conversion | Save image as PNG, JPG, WebP, AVIF, GIF, SVG or BMP (for example WebP to PNG or JPG) where the browser supports the format. Quality settings apply per format, and PNG at full quality is lossless. |
+| Screenshots | Take a full page screenshot (scrolling capture), or capture the Visible area, a selected Area or a single Element. Long pages are split into balanced parts and reviewed in the Parts overview. |
 | Editor | Annotate screenshots with Pen, Arrow, Rectangle, Circle, Text and Pixelate, adjust the frame with the non-destructive Crop tool, then use Undo, Redo, Copy and Save. |
 | Languages | The interface is available in 21 locales covering 19 languages, with a right-to-left layout for Arabic. |
 | Privacy | Everything runs on your device. There are no accounts, no analytics, no telemetry and no tracking. |
@@ -220,31 +220,40 @@ Translations live in `_locales/`, one folder per locale. See [docs/translating.m
 
 ## FAQ
 
+## FAQ
+
 **Is ImgFetch free?**
+
 Yes. ImgFetch is free software under the GNU General Public License v3 or later, with no paid tier and no accounts.
 
 **Does it upload my images anywhere?**
+
 No. Downloads, conversions and captures happen on your device.
 The only network requests are the ones needed to fetch images you chose to save.
 
 **Why is the Chrome Web Store listing coming soon?**
+
 The Chrome Web Store listing is not live yet; until it is, install 1.1.0 from GitHub Releases as described under [Install](#install).
 
 **Why is AVIF sometimes unavailable?**
+
 AVIF encoding depends on the browser, and ImgFetch offers it only when a real encode test succeeds.
 On older browsers it shows a clear message instead of silently saving a different format.
 
 **Why does a copied screenshot not appear in Windows clipboard history?**
+
 On Windows, clipboard history (Win+V) does not show images above roughly 4 MB.
 The copy still worked: paste it with Ctrl+V into Paint, a document or a chat.
 ImgFetch shows a short note in the editor for large images on Windows, and a longer copy toast for very large copies, so this limit does not look like a failed copy.
 
 **What happens when a full page is too long for one screenshot?**
+
 The capture is split into balanced parts, each up to 32767 pixels per side and about 100 megapixels, stored on your device.
 When the capture finishes, one Parts overview page opens where you can review each part and Edit, Save, Copy or Discard it, or Save all parts at once.
 Parts already finished are kept if you stop the capture or switch tabs.
 
 **How does Crop work in the editor?**
+
 Crop is non-destructive: the original image and your annotations are never modified, and the crop rectangle is stored alongside them in the same Undo and Redo history.
 Drag the rectangle, resize it with its 8 handles, nudge it with the arrow keys, then apply it with Enter.
 Save and Copy export exactly the cropped region at full quality.
@@ -253,6 +262,10 @@ Save and Copy export exactly the cropped region at full quality.
 
 ImgFetch is free software: you can redistribute it and modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 See [LICENSE](LICENSE) for the full text.
+
+The GPL covers the source code. It does not grant the right to use the ImgFetch name or logo as branding for a modified version. See [TRADEMARK.md](TRADEMARK.md).
+
+Official sources: this repository, its [GitHub Releases][Releases] and the [Microsoft Edge Add-ons][Edge Add-ons] listing. A copy that uses the ImgFetch name from anywhere else is not official.
 
 ## About
 
