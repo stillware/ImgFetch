@@ -25,7 +25,8 @@ ImgFetch/
 ├── SECURITY.md # Supported versions and private vulnerability reporting
 ├── PRIVACY.md # Privacy policy: what data is handled and where it stays
 ├── TERMS.md # Terms of use
-├── TRADEMARK.md # Name and logo policy: the GPL covers the code, not the ImgFetch name 
+├── TRADEMARK.md # Name and logo policy: the GPL covers the code, not the ImgFetch name
+├── README-package.md # Short README placed inside the store and release ZIP as README.md
 ├── .gitignore # Ignores dist output, zip files, and node_modules
 ├── .github/ # Issue templates and the pull request template, named in prose below
 ├── _locales/ # 21 locale folders, 19 languages, one messages.json per folder
@@ -239,7 +240,7 @@ Support material stays out of the runtime folders: `tests/` for checks, `scripts
 
 ## Naming conventions
 
-Root documents use uppercase names: `README.md`, `TRADEMARK.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `PRIVACY.md`, `TERMS.md`, `CODE_OF_CONDUCT.md`, and the extensionless `LICENSE`.
+Root documents use uppercase names: `README.md`, `README-package.md`, `TRADEMARK.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `PRIVACY.md`, `TERMS.md`, `CODE_OF_CONDUCT.md`, and the extensionless `LICENSE`.
 Documents under `docs/` use lowercase kebab-case, for example `project-structure.md`, `security-model.md`, and `user-guide.md`.
 Decision records add a zero padded number prefix, for example `0001-manifest-v3-with-offscreen-document.md`, so they sort in reading order.
 Code files use lowercase kebab-case, and test files add the `test-` prefix, with browser suites adding the `-e2e` suffix.

@@ -140,6 +140,16 @@ The store screenshots live in `store-assets/store/` at 1280 by 800 pixels. Uploa
 
 The promotional images in `store-assets/` are `promo-marquee-1400x560.png` (marquee, 1400 by 560 pixels) and `promo-tile-440x280.png` (small promo tile, 440 by 280 pixels).
 
+## Release notes for 1.1.1
+
+Paste into the "What is new" or release notes field at submission.
+
+```text
+The About and Privacy links in Settings now point to the project's new home on GitHub.
+Documentation links were fixed and the downloaded package now carries a short README.
+No change to features.
+```
+
 ## Release notes for 1.1.0
 
 Paste into the "What is new" or release notes field at submission.

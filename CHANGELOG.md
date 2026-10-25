@@ -7,6 +7,18 @@ Last verified: 2026-10-22
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-10-25
+
+### Changed
+
+- The About and Privacy links on the Options page now point to the repository's new home, github.com/stillware/ImgFetch.
+- The Chrome and Edge ZIP now contains a short, text-only README instead of the full GitHub README, whose images did not load outside GitHub.
+
+### Fixed
+
+- Links in the user guide, permissions and limitations documents that pointed to documents not included in the ZIP now point to the files on GitHub.
+- The ZIP unit test now writes to the operating system temp folder, so the test suite also runs on Windows.
+
 ## [1.1.0] - 2026-10-22
 
 ### Added
@@ -148,5 +160,6 @@ No accounts, no analytics, no telemetry; everything stays on your device.
 - The release check script runs every test and writes the test report from real output, with no hand-typed counts.
 - All 5 icon sizes are regenerated from the single SVG master, and every silent catch carries a one-line reason.
 
+[1.1.1]: https://github.com/stillware/ImgFetch/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/stillware/ImgFetch/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/stillware/ImgFetch/releases/tag/v1.0.0

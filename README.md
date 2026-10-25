@@ -25,7 +25,7 @@
 Applies to: ImgFetch 1.1.0
 Last verified: 2026-10-22
 
-**Version 1.1.0**, released on GitHub Releases on 2026-10-22 (tag `v1.1.0`). Version 1.0.0 was released on 2026-10-12.
+**Version 1.1.1**, released on GitHub Releases on 2026-10-25 (tag `v1.1.1`). Version 1.1.0 was released on 2026-10-22 and version 1.0.0 on 2026-10-12.
 
 ![ImgFetch popup showing scan results over a web page, ready to save images in the best available quality](assets/readme/hero-scan-and-save.png)
 
@@ -36,7 +36,7 @@ Last verified: 2026-10-22
 | ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons]                                                 | Published. Version 1.1.0 is live.                                                                                                     |
 | ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7)  | [Latest release on GitHub](https://github.com/stillware/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
 | ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f)        | Firefox Add-ons                                                              | Coming soon (needs a separate port)                                                                                                   |
-| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)                  | [GitHub Releases][Releases]                                                  | Latest: 1.1.0, ZIP download for Chrome                                                                                                |
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)                  | [GitHub Releases][Releases]                                                  | Latest: 1.1.1, ZIP download for Chrome                                                                                                |
 
 ### Install in Chrome
 
@@ -215,7 +215,8 @@ Translations live in `_locales/`, one folder per locale. See [docs/translating.m
 
 ## Release history
 
-- **1.1.0, 2026-10-22:** the current release. See [CHANGELOG.md](CHANGELOG.md) for what changed and [GitHub Releases][Releases] for the downloads.
+- **1.1.1, 2026-10-25:** the current release. Link fixes and a short README inside the ZIP. See [CHANGELOG.md](CHANGELOG.md).
+- **1.1.0, 2026-10-22:** the previous release. See [CHANGELOG.md](CHANGELOG.md) for what changed and [GitHub Releases][Releases] for the downloads.
 - **1.0.0, 2026-10-12:** the first public release.
 
 ## FAQ
