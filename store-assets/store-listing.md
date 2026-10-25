@@ -12,7 +12,7 @@ Last verified: 2026-10-22
 | Microsoft Edge Add-ons | https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea | Published.  The live listing serves 1.1.0. |
 | Chrome Web Store | No URL yet | Coming soon |
 | Firefox Add-ons | No URL yet | Coming soon. Firefox needs a separate port; no date is promised. |
-| GitHub Releases | https://github.com/umr-x/ImgFetch/releases | Version 1.1.0 released on 2026-10-22, tag `v1.1.0`. Version 1.0.0 was released on 2026-10-12. |
+| GitHub Releases | https://github.com/stillware/ImgFetch/releases | Version 1.1.0 released on 2026-10-22, tag `v1.1.0`. Version 1.0.0 was released on 2026-10-12. |
 
 Do not publish a store URL before the listing is live.
 
@@ -64,7 +64,7 @@ ImgFetch has no accounts, no sign-in, no analytics, no telemetry, and no trackin
 Languages
 The interface is available in 21 locales covering 19 languages, switchable at runtime in Settings. Arabic uses a right-to-left layout.
 
-ImgFetch is free software under the GNU General Public License v3 or later. Source code: https://github.com/umr-x/ImgFetch
+ImgFetch is free software under the GNU General Public License v3 or later. Source code: https://github.com/stillware/ImgFetch
 
 ---
 
@@ -110,14 +110,14 @@ Use these answers for the data usage and privacy practice questions in both stor
 | Does the extension use remote code? | No. All code ships inside the extension package. The content security policy allows scripts from the extension itself only. |
 | Does the extension use analytics, telemetry, or crash reporting? | No. None is present in the code. |
 | Where is data processed? | Locally, in the browser on the user device. Settings and history are kept in `chrome.storage.local`. Captures are kept in IndexedDB and expire after 1 hour. |
-| Privacy policy | See `PRIVACY.md` in the repository: https://github.com/umr-x/ImgFetch/blob/main/PRIVACY.md |
+| Privacy policy | See `PRIVACY.md` in the repository: https://github.com/stillware/ImgFetch/blob/main/PRIVACY.md |
 
 ## Support and source links
 
 | Field | Value |
 |---|---|
-| Support URL | https://github.com/umr-x/ImgFetch/issues |
-| Source code | https://github.com/umr-x/ImgFetch |
+| Support URL | https://github.com/stillware/ImgFetch/issues |
+| Source code | https://github.com/stillware/ImgFetch |
 | Privacy policy file | `PRIVACY.md` in the repository root |
 | License | GNU General Public License v3 or later (`LICENSE` in the repository root) |
 

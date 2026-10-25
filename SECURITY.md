@@ -19,7 +19,7 @@ Only the newest code receives security fixes. Fixes are released in a new versio
 
 Report privately. Do not open a public issue, a public pull request, or a public discussion for a security vulnerability.
 
-1. Open the repository: https://github.com/umr-x/ImgFetch
+1. Open the repository: https://github.com/stillware/ImgFetch
 2. Open the **Security** tab.
 3. Click **Report a vulnerability** (GitHub private vulnerability reporting).
 4. Describe the problem using the list below.

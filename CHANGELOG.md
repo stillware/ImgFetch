@@ -148,5 +148,5 @@ No accounts, no analytics, no telemetry; everything stays on your device.
 - The release check script runs every test and writes the test report from real output, with no hand-typed counts.
 - All 5 icon sizes are regenerated from the single SVG master, and every silent catch carries a one-line reason.
 
-[1.1.0]: https://github.com/umr-x/ImgFetch/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/umr-x/ImgFetch/releases/tag/v1.0.0
+[1.1.0]: https://github.com/stillware/ImgFetch/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/stillware/ImgFetch/releases/tag/v1.0.0

@@ -31,7 +31,7 @@ const i18nReady = initI18n();
 const $ = (id) => document.getElementById(id);
 
 // Public repository URL. Used by the About section links.
-const GITHUB_REPO = 'https://github.com/umr-x/ImgFetch';
+const GITHUB_REPO = 'https://github.com/stillware/ImgFetch';
 
 let settings = null;
 let saveTimer = 0;

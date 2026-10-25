@@ -19,7 +19,7 @@
 <a href="#features">Features</a> ·
 <a href="#documentation">Docs</a> ·
 <a href="CHANGELOG.md">Changelog</a> ·
-<a href="https://github.com/umr-x/ImgFetch/issues">Issues</a>
+<a href="https://github.com/stillware/ImgFetch/issues">Issues</a>
 </p>
 
 Applies to: ImgFetch 1.1.0
@@ -34,7 +34,7 @@ Last verified: 2026-10-22
 | Browser                                                                                            | Install from                                                                 | Status                                                                                                                                |
 | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | ![Microsoft Edge](https://github.com/user-attachments/assets/3a7569f8-688b-4eb1-a643-8d0fe173aefe) | [Edge Add-ons][Edge Add-ons]                                                 | Published. Version 1.1.0 is live.                                                                                                     |
-| ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7)  | [Latest release on GitHub](https://github.com/umr-x/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
+| ![Google Chrome](https://github.com/user-attachments/assets/5463ef88-873b-4516-8514-5277664cfde7)  | [Latest release on GitHub](https://github.com/stillware/ImgFetch/releases/latest) | Chrome Web Store listing coming soon. For now, download the ZIP from the latest GitHub release and install it unpacked (steps below). |
 | ![Firefox](https://github.com/user-attachments/assets/b0136512-56a5-4856-8c50-4971c957a24f)        | Firefox Add-ons                                                              | Coming soon (needs a separate port)                                                                                                   |
 | ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)                  | [GitHub Releases][Releases]                                                  | Latest: 1.1.0, ZIP download for Chrome                                                                                                |
 
@@ -57,7 +57,7 @@ You can install the official extension directly from the Microsoft Edge Add-ons 
 
 ### For developers
 
-You can also clone the repository with `git clone https://github.com/umr-x/ImgFetch` and load the cloned folder with **Load unpacked** the same way.
+You can also clone the repository with `git clone https://github.com/stillware/ImgFetch` and load the cloned folder with **Load unpacked** the same way.
 
 ## Contents
 
@@ -275,18 +275,18 @@ ImgFetch is free and open source software with no accounts, no tracking and all 
 
 <!--------------------------------- Project --------------------------------->
 
-[Badge Release]: https://img.shields.io/github/v/release/umr-x/ImgFetch
+[Badge Release]: https://img.shields.io/github/v/release/stillware/ImgFetch
 [Badge License]: https://img.shields.io/badge/License-GPLv3-blue.svg
-[Badge Issues]: https://img.shields.io/github/issues/umr-x/ImgFetch
-[Badge Stars]: https://img.shields.io/github/stars/umr-x/ImgFetch
-[Badge Last commit]: https://img.shields.io/github/last-commit/umr-x/ImgFetch
+[Badge Issues]: https://img.shields.io/github/issues/stillware/ImgFetch
+[Badge Stars]: https://img.shields.io/github/stars/stillware/ImgFetch
+[Badge Last commit]: https://img.shields.io/github/last-commit/stillware/ImgFetch
 [Badge Manifest]: https://img.shields.io/badge/Manifest-V3-blue
 [Badge Edge]: https://img.shields.io/badge/Edge_Add--ons-available-0078D7?logo=microsoftedge&logoColor=white
 [Edge Add-ons]: https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea
-[Releases]: https://github.com/umr-x/ImgFetch/releases
-[Latest release]: https://github.com/umr-x/ImgFetch/releases/latest
+[Releases]: https://github.com/stillware/ImgFetch/releases
+[Latest release]: https://github.com/stillware/ImgFetch/releases/latest
 [License file]: LICENSE
 [Manifest file]: manifest.json
-[Issues]: https://github.com/umr-x/ImgFetch/issues
-[Stargazers]: https://github.com/umr-x/ImgFetch/stargazers
-[Commits]: https://github.com/umr-x/ImgFetch/commits/main
+[Issues]: https://github.com/stillware/ImgFetch/issues
+[Stargazers]: https://github.com/stillware/ImgFetch/stargazers
+[Commits]: https://github.com/stillware/ImgFetch/commits/main

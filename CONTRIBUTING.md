@@ -25,7 +25,7 @@ Contributions are accepted under the GNU General Public License v3 or later, the
 ### Clone the repository
 
 ```bash
-git clone https://github.com/umr-x/ImgFetch
+git clone https://github.com/stillware/ImgFetch
 cd ImgFetch
 ```
 
@@ -189,7 +189,7 @@ Before requesting review, confirm each item. The pull request template repeats t
 
 ## Reporting bugs
 
-Use the bug report form: [open a bug report](https://github.com/umr-x/ImgFetch/issues/new/choose) and choose **Bug report**. The form is defined in [.github/ISSUE_TEMPLATE/bug_report.yml](.github/ISSUE_TEMPLATE/bug_report.yml). Include your browser and its version, your operating system, the ImgFetch version, exact steps to reproduce the problem, what you expected, what happened instead, and whether the page was a restricted page (a browser internal page or a store page).
+Use the bug report form: [open a bug report](https://github.com/stillware/ImgFetch/issues/new/choose) and choose **Bug report**. The form is defined in [.github/ISSUE_TEMPLATE/bug_report.yml](.github/ISSUE_TEMPLATE/bug_report.yml). Include your browser and its version, your operating system, the ImgFetch version, exact steps to reproduce the problem, what you expected, what happened instead, and whether the page was a restricted page (a browser internal page or a store page).
 
 For a security vulnerability, do not open a public issue. Follow [SECURITY.md](SECURITY.md) instead.
 

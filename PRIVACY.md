@@ -63,4 +63,4 @@ ImgFetch requests only the permissions its features need. The full list, with th
 
 ## Contact
 
-Open an issue on the GitHub repository: https://github.com/umr-x/ImgFetch/issues
+Open an issue on the GitHub repository: https://github.com/stillware/ImgFetch/issues

@@ -18,8 +18,8 @@ If you publish a fork, give it a clearly different name, its own logo and icons,
 
 ## Official sources
 
-- GitHub repository: https://github.com/umr-x/ImgFetch
-- GitHub Releases: https://github.com/umr-x/ImgFetch/releases
+- GitHub repository: https://github.com/stillware/ImgFetch
+- GitHub Releases: https://github.com/stillware/ImgFetch/releases
 - Microsoft Edge Add-ons: https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea
 - Chrome Web Store: not published yet. It will be listed here when it is.
 

@@ -40,4 +40,4 @@ Changes to ImgFetch are published in the public repository. These terms may be u
 
 ## Contact
 
-Open an issue on the GitHub repository: https://github.com/umr-x/ImgFetch/issues
+Open an issue on the GitHub repository: https://github.com/stillware/ImgFetch/issues

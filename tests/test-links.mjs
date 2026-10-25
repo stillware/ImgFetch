@@ -27,7 +27,7 @@
  * internal links.
  *
  * Also pins the repository URL to exactly
- * https://github.com/umr-x/ImgFetch (owner lowercase, repo name capital
+ * https://github.com/stillware/ImgFetch (owner lowercase, repo name capital
  * I and F) and allows only the derived suffixes /blob/main/PRIVACY.md,
  * /blob/main/LICENSE, /issues and /releases.
  *
@@ -52,7 +52,7 @@ const PAGES = [
 
 const JS_DIRS = ['options', 'popup', 'pages', 'shared'];
 
-const REPO_URL = 'https://github.com/umr-x/ImgFetch';
+const REPO_URL = 'https://github.com/stillware/ImgFetch';
 const ALLOWED_SUFFIXES = new Set([
   '',
   '/blob/main/PRIVACY.md',
