@@ -9,7 +9,7 @@ Last verified: 2026-10-22
 
 | Store | Listing URL | Status |
 |---|---|---|
-| Microsoft Edge Add-ons | https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea | Published.  The live listing serves 1.1.0. |
+| Microsoft Edge Add-ons | https://microsoftedge.microsoft.com/addons/detail/obblfdlgliblmpngaidjianbkahcplea | Published.  The live listing serves 1.1.1. |
 | Chrome Web Store | No URL yet | Coming soon |
 | Firefox Add-ons | No URL yet | Coming soon. Firefox needs a separate port; no date is promised. |
 | GitHub Releases | https://github.com/stillware/ImgFetch/releases | Version 1.1.0 released on 2026-10-22, tag `v1.1.0`. Version 1.0.0 was released on 2026-10-12. |

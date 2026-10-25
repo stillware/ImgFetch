@@ -20,7 +20,7 @@ Chrome may show a developer mode notice for extensions installed this way, and i
 ### Install in Edge
 
 You can install the official extension directly from the Microsoft Edge Add-ons store.  
-*Note: The current live listing serves version **1.1.0**.*
+*Note: The current live listing serves version **1.1.1**.*
 
 There is no sign-in and no account. Everything runs on your device. See [Permissions](permissions.md) for what each permission is for.
 
