@@ -221,30 +221,37 @@ Translations live in `_locales/`, one folder per locale. See [docs/translating.m
 ## FAQ
 
 **1. Is ImgFetch free?** 
+
 Yes. ImgFetch is free software under the GNU General Public License v3 or later, with no paid tier and no accounts.
 
-**2. Does it upload my images anywhere?** 
+**2. Does it upload my images anywhere?**
+
 No. Downloads, conversions and captures happen on your device.
 The only network requests are the ones needed to fetch images you chose to save.
 
-**3. Why is the Chrome Web Store listing coming soon?** 
+**3. Why is the Chrome Web Store listing coming soon?**
+
 The Chrome Web Store listing is not live yet; until it is, install 1.1.0 from GitHub Releases as described under [Install](#install).
 
-**4. Why is AVIF sometimes unavailable?** 
+**4. Why is AVIF sometimes unavailable?**
+
 AVIF encoding depends on the browser, and ImgFetch offers it only when a real encode test succeeds.
 On older browsers it shows a clear message instead of silently saving a different format.
 
-**5. Why does a copied screenshot not appear in Windows clipboard history?** 
+**5. Why does a copied screenshot not appear in Windows clipboard history?**
+
 On Windows, clipboard history (Win+V) does not show images above roughly 4 MB.
 The copy still worked: paste it with Ctrl+V into Paint, a document or a chat.
 ImgFetch shows a short note in the editor for large images on Windows, and a longer copy toast for very large copies, so this limit does not look like a failed copy.
 
-**6. What happens when a full page is too long for one screenshot?** 
+**6. What happens when a full page is too long for one screenshot?**
+
 The capture is split into balanced parts, each up to 32767 pixels per side and about 100 megapixels, stored on your device.
 When the capture finishes, one Parts overview page opens where you can review each part and Edit, Save, Copy or Discard it, or Save all parts at once.
 Parts already finished are kept if you stop the capture or switch tabs.
 
-**7. How does Crop work in the editor?** 
+**7. How does Crop work in the editor?**
+
 Crop is non-destructive: the original image and your annotations are never modified, and the crop rectangle is stored alongside them in the same Undo and Redo history.
 Drag the rectangle, resize it with its 8 handles, nudge it with the arrow keys, then apply it with Enter.
 Save and Copy export exactly the cropped region at full quality.
