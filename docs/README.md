@@ -51,6 +51,7 @@ For a security reviewer:
 | [limitations.md](limitations.md) | Known limits by area, with the reason for each limit and any workaround | user, contributor |
 | [performance.md](performance.md) | Measured performance numbers and the design choices behind them | contributor, reviewer |
 | [build.md](build.md) | Prerequisites, check commands and packaging steps for the release zips | contributor |
+| [firefox.md](firefox.md) | Firefox port status, compatibility matrix, build and test notes, known limitations | contributor, reviewer |
 | [translating.md](translating.md) | Locale layout, message keys, placeholders and how to add a language | contributor |
 | [glossary.md](glossary.md) | Short definitions of terms used in the code and the docs | user, contributor, reviewer |
 | [tests/README.md](tests/README.md) | Test suite list, run commands, prerequisites and expected counts | contributor, reviewer |

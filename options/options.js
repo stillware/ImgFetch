@@ -22,6 +22,7 @@
 import { parseSettingsImport } from '../core/filenames.js';
 import { initI18n, t, applyI18n, onLanguageChange, setLanguage, LOCALES, LOCALE_INFO } from '../shared/i18n.js';
 import { normalizeHost } from '../core/urls.js';
+import { hasHostPermission, requestHostPermission, HOST_PERMISSION_ORIGINS } from '../shared/offscreen-bridge.js';
 import { groupByDay } from '../core/history.js';
 
 const UI = window.ImgFetchUI;
@@ -652,6 +653,60 @@ function wireAbout() {
   }
   paintAboutPrivacy();
   paintPrivacyPermNote();
+  paintHostAccess();
+}
+
+/**
+ * Translate a key, falling back to English when the key has no
+ * translation yet. The host access strings are new and have no locale
+ * keys, so t() would echo the key itself; treat that echo as missing.
+ */
+function trOrEnglish(key, english) {
+  try {
+    const s = t(key);
+    if (typeof s === 'string' && s && s !== key) return s;
+  } catch { /* fall through to English */ }
+  return english;
+}
+
+/**
+ * Persistent host permission entry point, next to the About
+ * permission list. Same behavior as the welcome page row: hidden
+ * when the hosts are already granted (always true on Chrome and
+ * Edge, where install grants them), visible with a gesture button
+ * when they are not. The button click is the user gesture the
+ * browser requires for permissions.request. If the helper is
+ * unavailable, the row stays hidden. Needs manual test in Firefox:
+ * grant, deny, and the row hidden on Chrome and Edge.
+ */
+async function paintHostAccess() {
+  const row = $('hostAccessRow');
+  const text = $('hostAccessText');
+  const btn = $('hostAccessBtn');
+  if (!row || !text || !btn) return;
+  let granted = true;
+  try {
+    granted = await hasHostPermission(chrome, HOST_PERMISSION_ORIGINS);
+    if (!granted) {
+      text.textContent = trOrEnglish('options_hostAccessDesc', 'ImgFetch needs permission to access websites before it can scan pages or save images from them. If you skipped that permission when installing, grant it here.') + ' ';
+      btn.textContent = trOrEnglish('options_hostAccessButton', 'Allow access to websites');
+      btn.onclick = async () => {
+        try {
+          const ok = await requestHostPermission(chrome, HOST_PERMISSION_ORIGINS);
+          if (ok) {
+            row.hidden = true;
+          } else {
+            text.textContent = trOrEnglish('options_hostAccessDenied', 'Access was not granted. ImgFetch can still work from the toolbar button or menu on the current page, but scanning and saving from other pages need this permission. You can grant it anytime here, in Settings, About.') + ' ';
+          }
+        } catch {
+          /* keep the row visible so the user can try again */
+        }
+      };
+    }
+  } catch {
+    granted = true;
+  }
+  row.hidden = granted;
 }
 
 /* ---------------- sidebar navigation ---------------- */

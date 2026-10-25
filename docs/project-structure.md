@@ -84,6 +84,7 @@ ImgFetch/
 │   ├── README.md # Documentation index with start here paths per reader
 │   ├── architecture.md # Components, message protocol, storage, diagrams
 │   ├── build.md # Build and packaging steps
+│   ├── firefox.md # Firefox port status, compatibility matrix, build and test notes, known limitations
 │   ├── glossary.md # Terms used in the code and the documentation
 │   ├── limitations.md # Known limits, reasons, and workarounds
 │   ├── performance.md # Performance design and measured numbers
@@ -137,6 +138,7 @@ ImgFetch/
 │   ├── check-docs-links.mjs # Offline checker for relative links between markdown files
 │   ├── check-duplicates.mjs # Single source of truth checker for shared limits and rules
 │   ├── check-i18n.mjs # Localization checker: keys, plurals, placeholders
+│   ├── make-firefox-manifest.mjs # Derives the Firefox manifest from the root manifest for the Firefox zip
 │   ├── make-icons.py # Regenerates the extension icon set
 │   ├── package.sh # Builds the store zip files after validation and tests
 │   ├── regression-diff.mjs # Behavior diff between a release tree and the current tree
@@ -146,6 +148,7 @@ ImgFetch/
 │   ├── capture-io.js # Reads capture records from IndexedDB for result pages
 │   ├── copy-shot.js # Copy action for screenshots with downscale fallback
 │   ├── i18n.js # Custom localization loader and locale list
+│   ├── offscreen-bridge.js # Single route to offscreen jobs: offscreen document in Chrome and Edge, in-process in Firefox
 │   ├── platform.js # Platform detection and the large copy clipboard rule
 │   ├── ui.css # Design system with light and dark themes
 │   ├── ui.js # Theme, toast, and messaging helpers
@@ -180,7 +183,9 @@ ImgFetch/
     ├── test-i18n-core.mjs # 125: localization core checks for fallback and plurals
     ├── test-i18n-dom.mjs # 16: localization DOM checks, including right to left layout
     ├── test-links.mjs # 22: external link target and rel attribute checks
+    ├── test-make-firefox-manifest.mjs # 27: Firefox manifest derivation checks
     ├── test-no-lossy-pipeline.mjs # 3: static scan that the capture pipeline stays lossless
+    ├── test-offscreen-bridge.mjs # 65: offscreen bridge route, sender, and host permission checks
     ├── test-overlay.mjs # 9: element picker checks
     ├── test-parts-overview.mjs # 49: Parts overview and platform helper checks
     ├── test-perf-budget.mjs # 12: performance budget checks over recorded results

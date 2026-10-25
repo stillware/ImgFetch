@@ -82,6 +82,7 @@ import { coerceScanState } from '../core/scan-state.js';
 import { bulkItemPayload, singleItemPayload, pickUpgrade } from '../core/bulk-payload.js';
 import { resolveFolder } from '../core/folders.js';
 import { initI18n, t } from '../shared/i18n.js';
+import { createOffscreenBridge, openPopupBestEffort } from '../shared/offscreen-bridge.js';
 
 const OFFSCREEN_PATH = 'offscreen/offscreen.html';
 const SETTINGS_KEY = 'imgfetch.settings';
@@ -147,9 +148,6 @@ const COUNTER_KEY = 'imgfetch.fileCounter';
 /* ------------------------------------------------------------------ */
 
 let settingsCache = null;
-let creatingOffscreen = null;
-let offscreenLastUsed = 0;
-let offscreenInflight = 0; // H4: jobs currently running in the offscreen document
 const CAPS_SESSION_KEY = 'imgfetch.caps'; // legacy session backup key (removed on write)
 const pendingCompletions = new Map(); // chrome downloadId -> { resolve, reject }
 
@@ -516,66 +514,28 @@ async function resolveBlobUrl(tabId, blobUrl, opts = {}) {
 /* Offscreen document (conversion, crop, clipboard)                     */
 /* ------------------------------------------------------------------ */
 
-async function ensureOffscreen() {
-  // B6: one shared promise around the WHOLE ensure step (check, optional
-  // close, create). Without this, two conversions starting together after
-  // 30 s idle could both close and both create, the second create fails
-  // with "only a single offscreen document".
-  if (creatingOffscreen) return creatingOffscreen;
-  creatingOffscreen = (async () => {
-    const exists = await chrome.offscreen.hasDocument?.().catch(() => false);
-    if (exists) {
-      // Don't let an idle offscreen document sit in memory: reap it after
-      // 30 s of disuse, but never while a job is still running (H4).
-      if (offscreenInflight === 0 && Date.now() - offscreenLastUsed > 30_000) {
-        try {
-          await chrome.offscreen.closeDocument();
-        } catch {
-          /* already gone */
-        }
-      } else {
-        return;
-      }
-    }
-    // B: the justification string is user-visible in chrome://extensions.
+const offscreenBridge = createOffscreenBridge({
+  offscreenPath: OFFSCREEN_PATH,
+  // The justification string is user visible in chrome://extensions,
+  // so it is localized the same way the old ensure step did: wait for
+  // i18n first, then read the string.
+  getJustification: async () => {
     await i18nReady;
-    await chrome.offscreen.createDocument({
-      url: OFFSCREEN_PATH,
-      reasons: ['BLOBS', 'CLIPBOARD'],
-      justification: t('sw_offscreenJustification'),
-    });
-  })().finally(() => {
-    creatingOffscreen = null;
-  });
-  return creatingOffscreen;
+    return t('sw_offscreenJustification');
+  },
+});
+
+/**
+ * Thin wrappers kept so every existing offscreenCall() site is
+ * untouched. All document handling, idle reaping, retry, and the
+ * in-process route live in shared/offscreen-bridge.js.
+ */
+async function ensureOffscreen() {
+  return offscreenBridge.ensure();
 }
 
 async function offscreenCall(message) {
-  await ensureOffscreen();
-  offscreenLastUsed = Date.now();
-  offscreenInflight += 1;
-  try {
-    const payload = { ...message, target: 'offscreen' };
-    let lastErr = null;
-    for (let attempt = 0; attempt < 4; attempt++) {
-      try {
-        return await chrome.runtime.sendMessage(payload);
-      } catch (err) {
-        lastErr = err;
-        // createDocument resolves before the offscreen page's scripts have
-        // registered their listener, retry instead of failing the job.
-        if (/receiving end does not exist/i.test(String((err && err.message) || '')) && attempt < 3) {
-          await new Promise((r) => setTimeout(r, 150 * (attempt + 1)));
-          continue;
-        }
-        throw err;
-      }
-    }
-    throw lastErr;
-  } finally {
-    offscreenInflight -= 1;
-    offscreenLastUsed = Date.now();
-  }
+  return offscreenBridge.call(message);
 }
 
 /* ------------------------------------------------------------------ */
@@ -3000,7 +2960,7 @@ async function handleMenuClick(info, tab) {
     broadcast({ type: 'NOTICE', code: 'queued' });
     // Show the popup with the download progress (best-effort: needs a user
     // gesture and Chrome 127+; silently ignored otherwise).
-    try { chrome.action.openPopup().catch(() => {}); } catch { /* old Chrome; ignore */ }
+    openPopupBestEffort();
   };
 
 
@@ -3154,7 +3114,7 @@ async function handleMenuClick(info, tab) {
         scanPage(tab.id).catch((err) => broadcast({ type: 'NOTICE', detail: String(err.message || err).slice(0, 200) }));
         // Best-effort: openPopup needs a user gesture and can be denied; the
         // requested action itself already ran or surfaced its own notice.
-        chrome.action.openPopup().catch(() => {});
+        openPopupBestEffort();
       }
       break;
     case MENU_IDS.shotVisible:
@@ -3598,7 +3558,7 @@ async function handleScanCommand() {
   });
   // Best-effort: openPopup needs a user gesture and can be denied; the
   // requested action itself already ran or surfaced its own notice.
-  chrome.action.openPopup().catch(() => {});
+  openPopupBestEffort();
 }
 
 /** Surface scan-command problems even when the popup is closed. */

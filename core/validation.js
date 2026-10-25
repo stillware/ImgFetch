@@ -244,7 +244,7 @@ export function friendlyError(code) {
     'blocked': 'The website did not allow this image to be saved.',
     'convert-failed': 'ImgFetch could not convert this image. The original was saved instead.',
     'gif-unavailable': "ImgFetch couldn't encode this image as GIF. Nothing was saved.",
-    'avif-unavailable': "AVIF encoding isn't available in this browser (needs Chrome/Edge 130+, update the browser to enable it). A PNG was saved instead.",
+    'avif-unavailable': "AVIF encoding is not available in this browser. A PNG was saved instead.",
     'page-too-large': 'This page is too large to capture in one image.',
     'original-unknown': 'ImgFetch could not confidently find the original. The best available version was used.',
     'scan-failed': 'ImgFetch could not scan this page. Try reloading the page and scanning again.',

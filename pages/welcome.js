@@ -34,7 +34,7 @@
       __t = t;
       applyI18n();
       paint(); // re-render the dynamic Next/Start label in the new language
-      onLanguageChange(() => { applyI18n(); paint(); });
+      onLanguageChange(() => { applyI18n(); paint(); paintHostAccess(); });
     } catch { /* English defaults remain */ }
   })();
 
@@ -44,6 +44,66 @@
       try { return __t(key, vars); } catch { /* fall through */ }
     }
     return english;
+  }
+
+  /**
+   * Translate a key, falling back to English when the key has no
+   * translation yet. The host access strings below are new and have
+   * no locale keys, so t() would echo the key itself; treat that echo
+   * as missing, exactly like the unavailable case.
+   */
+  function trOrEnglish(key, english) {
+    if (__t) {
+      try {
+        const s = __t(key);
+        if (typeof s === 'string' && s && s !== key) return s;
+      } catch { /* fall through to English */ }
+    }
+    return english;
+  }
+
+  /**
+   * Firefox host permission entry point. In Firefox, manifest host
+   * permissions are opt-in, so a user who skipped them at install
+   * sees this row on the welcome page (which opens on install) with
+   * a button that requests the permission. The request must run in
+   * the button's click handler, a user gesture, or the browser
+   * refuses it. On Chrome and Edge the hosts are granted at install,
+   * so the check passes and the row stays hidden. If the helper
+   * itself is unavailable, the row stays hidden and onboarding is
+   * unaffected. Needs manual test in Firefox: grant, deny, and the
+   * row hidden on Chrome and Edge.
+   */
+  async function paintHostAccess() {
+    const row = $('hostAccessRow');
+    const text = $('hostAccessText');
+    const btn = $('hostAccessBtn');
+    if (!row || !text || !btn) return;
+    let granted = true;
+    try {
+      const bridge = await import('../shared/offscreen-bridge.js');
+      const api = typeof chrome !== 'undefined' ? chrome : null;
+      granted = await bridge.hasHostPermission(api, bridge.HOST_PERMISSION_ORIGINS);
+      if (!granted) {
+        text.textContent = trOrEnglish('welcome_hostAccessDesc', 'ImgFetch needs permission to access websites before it can scan pages or save images from them. If you skipped that permission when installing, grant it here.');
+        btn.textContent = trOrEnglish('welcome_hostAccessButton', 'Allow access to websites');
+        btn.onclick = async () => {
+          try {
+            const ok = await bridge.requestHostPermission(api, bridge.HOST_PERMISSION_ORIGINS);
+            if (ok) {
+              row.hidden = true;
+            } else {
+              text.textContent = trOrEnglish('welcome_hostAccessDenied', 'Access was not granted. ImgFetch can still work from the toolbar button or menu on the current page, but scanning and saving from other pages need this permission. You can grant it anytime here, in Settings, About.');
+            }
+          } catch {
+            /* keep the row visible so the user can try again */
+          }
+        };
+      }
+    } catch {
+      granted = true;
+    }
+    row.hidden = granted;
   }
   let step = 0;
   let settings = null;
@@ -169,4 +229,5 @@
 
   paint();
   paintShortcuts();
+  paintHostAccess();
 })();
