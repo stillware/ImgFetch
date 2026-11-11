@@ -68,6 +68,7 @@ You can also clone the repository with `git clone https://github.com/stillware/I
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Privacy and permissions](#privacy-and-permissions)
 - [Supported browsers and languages](#supported-browsers-and-languages)
+- [Architecture](#architecture)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [Security](#security)
@@ -164,6 +165,96 @@ The interface is available in 21 locales covering 19 languages: English, Spanish
 Change it under Options, General, Language; the default is Auto, which follows the browser language.
 Arabic uses a right-to-left layout.
 Translations are AI assisted and have not been reviewed by native speakers; corrections are welcome through an issue or [docs/translating.md](docs/translating.md).
+
+## Architecture
+
+ImgFetch runs entirely on your device. The popup, the extension pages and the page scanner all send messages to one service worker. The worker validates each message, routes the work, keeps its decision logic in pure core modules, and hands heavy jobs to the offscreen document and the browser services.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 44, "rankSpacing": 70, "padding": 14}}}%%
+flowchart TB
+    user(["<b>User</b>"])
+
+    popup["<b>Popup and Options</b><br/>scan results, filters, queue,<br/>history, settings<br/><i>popup/ options/</i>"]
+    pages["<b>Extension pages</b><br/>Capture, Annotate editor,<br/>Parts overview, Info<br/>and Rename<br/><i>pages/</i>"]
+    scanner["<b>Content scripts</b><br/>Scanner finds, ranks sources<br/>Overlay picks Area or Element<br/><i>content/</i>"]
+
+    sw["<b>Service worker</b><br/>context menus, routing,<br/>download queue, screenshots,<br/>history, offscreen lifecycle<br/><i>service-worker.js</i>"]
+    core["<b>Core modules</b><br/>pure logic, no chrome.* use<br/>validation, URLs, filenames,<br/>queue, history, capture plans<br/><i>core/</i>"]
+
+    offscreen["<b>Offscreen document</b><br/>format conversion, SVG<br/>sanitizing, ZIP, stitching,<br/>clipboard writes<br/><i>offscreen/</i>"]
+    idb[("<b>IndexedDB</b><br/>screenshot captures<br/><i>background/idb.js</i>")]
+    storage[("<b>Browser storage</b><br/>settings, history,<br/>queue state")]
+    dl["<b>Downloads API</b><br/>saves files to disk"]
+
+    user -->|"1 scans, downloads"| popup
+    user -->|"1 captures, edits"| pages
+    user -->|"1 browses"| scanner
+
+    popup -->|"2 validated message"| sw
+    pages -->|"2 validated message"| sw
+    scanner <-->|"3 ranked sources"| sw
+    sw -.->|"imports"| core
+
+    sw -->|"4 convert, zip, stitch"| offscreen
+    sw -->|"5 start download"| dl
+    sw -->|"6 history, queue"| storage
+    sw -->|"writes captures"| idb
+    pages -.->|"reads captures"| idb
+
+    classDef actor fill:#eef0ff,stroke:#5b50e6,stroke-width:2px,color:#171a2e
+    classDef ui fill:#e0e7ff,stroke:#5457f3,stroke-width:1.5px,color:#171a2e
+    classDef page fill:#dbeafe,stroke:#3d6cf9,stroke-width:1.5px,color:#171a2e
+    classDef brain fill:#ede9fe,stroke:#7142e8,stroke-width:2.5px,color:#171a2e
+    classDef pure fill:#f3e8ff,stroke:#a855f7,stroke-width:1.5px,color:#171a2e
+    classDef work fill:#cffafe,stroke:#0891b2,stroke-width:1.5px,color:#171a2e
+    classDef store fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#171a2e
+
+    class user actor
+    class popup,pages ui
+    class scanner page
+    class sw brain
+    class core pure
+    class offscreen work
+    class idb,storage,dl store
+
+    linkStyle default stroke:#6c63ff,stroke-width:1.6px
+```
+
+Solid arrows are runtime messages and calls. Dotted arrows are imports and direct reads.
+
+### How one image download flows
+
+| Step | What happens |
+| --- | --- |
+| 1 | You select an image in the popup (or use the right-click menu) and start a download. |
+| 2 | The popup sends a message. The service worker checks the message and its sender in `core/validation.js` before it acts. |
+| 3 | The worker asks the scanner for the ranked, validated sources of that image and gets the best one first. |
+| 4 | If you chose another format, the offscreen document converts the image (or builds the ZIP). |
+| 5 | The worker starts the download through the browser Downloads API with a safe file name. |
+| 6 | When the download completes, the worker writes a history record and keeps the queue state in browser storage. |
+
+Screenshots follow the same pattern. The overlay returns the area or element you picked, the worker captures the page and stores the result in IndexedDB, and the extension pages (Capture, Parts overview, Annotate editor) read it from there.
+
+### What the colors mean
+
+| Color | Layer | Files |
+| --- | --- | --- |
+| Indigo | What you see and click | `popup/`, `options/`, `pages/` |
+| Blue | Runs inside the web page | `content/` |
+| Violet | Decides and routes | `background/service-worker.js` |
+| Purple | Pure logic, tested without a browser | `core/` |
+| Cyan | Heavy work off the worker | `offscreen/` |
+| Amber | Browser services and storage | IndexedDB, browser storage, Downloads API |
+
+### Design rules
+
+1. **Pure core, thin edges.** Decision logic lives in `core/` with no `chrome.*` calls, so Node unit tests run it directly.
+2. **Validate, then route.** Every runtime message is checked before the service worker acts on it.
+3. **Fail closed.** Unknown message types, unknown senders and malformed payloads are denied, never guessed at.
+4. **No remote code and no build step.** The extension ships plain JavaScript, HTML and CSS.
+
+For the full component list, message protocol and sequence diagrams, see [docs/architecture.md](docs/architecture.md).
 
 ## Documentation
 
