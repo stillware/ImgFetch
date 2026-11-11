@@ -168,84 +168,130 @@ Translations are AI assisted and have not been reviewed by native speakers; corr
 
 ## Architecture
 
-ImgFetch runs entirely on your device. The popup, the extension pages and the page scanner all send messages to one service worker. The worker validates each message, routes the work, keeps its decision logic in pure core modules, and hands heavy jobs to the offscreen document and the browser services.
+ImgFetch runs entirely on your device. The popup, the options page and the page scripts send messages to one service worker. The worker validates each message, keeps its decision logic in pure core modules, hands heavy jobs to the offscreen document, and uses the browser services to save files and data. The screenshot pages read their captures from IndexedDB.
 
 ```mermaid
-%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 44, "rankSpacing": 70, "padding": 14}}}%%
-flowchart TB
+%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 24, "rankSpacing": 56, "padding": 14}}}%%
+flowchart LR
     user(["<b>User</b>"])
 
-    popup["<b>Popup and Options</b><br/>scan results, filters, queue,<br/>history, settings<br/><i>popup/ options/</i>"]
-    pages["<b>Extension pages</b><br/>Capture, Annotate editor,<br/>Parts overview, Info<br/>and Rename<br/><i>pages/</i>"]
-    scanner["<b>Content scripts</b><br/>Scanner finds, ranks sources<br/>Overlay picks Area or Element<br/><i>content/</i>"]
+    subgraph g_ui["Interface"]
+        popup["<b>Popup</b><br/>popup.js"]
+        options["<b>Options</b><br/>options.js"]
+    end
 
-    sw["<b>Service worker</b><br/>context menus, routing,<br/>download queue, screenshots,<br/>history, offscreen lifecycle<br/><i>service-worker.js</i>"]
-    core["<b>Core modules</b><br/>pure logic, no chrome.* use<br/>validation, URLs, filenames,<br/>queue, history, capture plans<br/><i>core/</i>"]
+    subgraph g_page["Inside the web page"]
+        scanner["<b>Page scanner</b><br/>scanner.js"]
+        overlay["<b>Area and Element picker</b><br/>overlay.js"]
+    end
 
-    offscreen["<b>Offscreen document</b><br/>format conversion, SVG<br/>sanitizing, ZIP, stitching,<br/>clipboard writes<br/><i>offscreen/</i>"]
-    idb[("<b>IndexedDB</b><br/>screenshot captures<br/><i>background/idb.js</i>")]
-    storage[("<b>Browser storage</b><br/>settings, history,<br/>queue state")]
-    dl["<b>Downloads API</b><br/>saves files to disk"]
+    subgraph g_shots["Screenshot pages"]
+        capture["<b>Capture page</b><br/>capture.js"]
+        parts["<b>Parts overview</b><br/>parts.js"]
+        annotate["<b>Editor</b><br/>annotate.js"]
+        captureio["<b>Capture access</b><br/>capture-io.js"]
+        copyshot["<b>Copy screenshot</b><br/>copy-shot.js"]
+    end
 
-    user -->|"1 scans, downloads"| popup
-    user -->|"1 captures, edits"| pages
-    user -->|"1 browses"| scanner
+    sw{{"<b>Service worker</b><br/>service-worker.js<br/>validates every message,<br/>routes all work"}}
 
-    popup -->|"2 validated message"| sw
-    pages -->|"2 validated message"| sw
-    scanner <-->|"3 ranked sources"| sw
-    sw -.->|"imports"| core
+    subgraph g_core["Core logic (pure, no chrome.* calls)"]
+        rules["<b>Rules and safety</b><br/>validation.js, urls.js,<br/>filenames.js"]
+        state["<b>Queue, settings, history</b><br/>queue.js, settings.js,<br/>history.js"]
+        plan["<b>Capture planning</b><br/>fullpage-capture.js,<br/>capture-storage.js"]
+    end
 
-    sw -->|"4 convert, zip, stitch"| offscreen
-    sw -->|"5 start download"| dl
-    sw -->|"6 history, queue"| storage
-    sw -->|"writes captures"| idb
-    pages -.->|"reads captures"| idb
+    subgraph g_off["Offscreen document"]
+        offscreen["<b>Heavy work</b><br/>format conversion, SVG,<br/>ZIP (zip.js), stitching,<br/>clipboard<br/>offscreen.js"]
+    end
+
+    subgraph g_browser["Browser services"]
+        downloads["<b>Downloads API</b><br/>saves files"]
+        storage[("<b>Browser storage</b><br/>settings, history")]
+        idb[("<b>IndexedDB</b><br/>captures, idb.js")]
+    end
+
+    user -->|"scans"| popup
+    user -->|"settings"| options
+    user -->|"browses"| scanner
+    user -->|"captures"| capture
+
+    popup -->|"messages"| sw
+    options -->|"messages"| sw
+    scanner <-->|"sources"| sw
+    overlay -->|"area"| sw
+    scanner --- overlay
+    parts -->|"save"| sw
+
+    sw -->|"validates"| rules
+    sw -->|"tracks"| state
+    sw -->|"plans"| plan
+    sw -->|"convert, ZIP"| offscreen
+    sw -->|"downloads"| downloads
+    sw -->|"persists"| storage
+    sw -->|"captures"| idb
+
+    capture -->|"reads"| captureio
+    parts -->|"reads"| captureio
+    annotate -->|"reads"| captureio
+    captureio -.->|"loads"| idb
+    parts -->|"editor"| annotate
+    annotate -->|"Copy"| copyshot
 
     classDef actor fill:#eef0ff,stroke:#5b50e6,stroke-width:2px,color:#171a2e
     classDef ui fill:#e0e7ff,stroke:#5457f3,stroke-width:1.5px,color:#171a2e
     classDef page fill:#dbeafe,stroke:#3d6cf9,stroke-width:1.5px,color:#171a2e
-    classDef brain fill:#ede9fe,stroke:#7142e8,stroke-width:2.5px,color:#171a2e
+    classDef brain fill:#ddd6fe,stroke:#6d28d9,stroke-width:3px,color:#171a2e
     classDef pure fill:#f3e8ff,stroke:#a855f7,stroke-width:1.5px,color:#171a2e
     classDef work fill:#cffafe,stroke:#0891b2,stroke-width:1.5px,color:#171a2e
+    classDef shot fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#171a2e
     classDef store fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#171a2e
 
     class user actor
-    class popup,pages ui
-    class scanner page
+    class popup,options ui
+    class scanner,overlay page
     class sw brain
-    class core pure
+    class rules,state,plan pure
     class offscreen work
-    class idb,storage,dl store
+    class capture,parts,annotate,captureio,copyshot shot
+    class downloads,storage,idb store
 
-    linkStyle default stroke:#6c63ff,stroke-width:1.6px
+    style g_ui fill:none,stroke:#5457f3,stroke-width:1.5px,stroke-dasharray:6 4
+    style g_page fill:none,stroke:#3d6cf9,stroke-width:1.5px,stroke-dasharray:6 4
+    style g_core fill:none,stroke:#a855f7,stroke-width:1.5px,stroke-dasharray:6 4
+    style g_off fill:none,stroke:#0891b2,stroke-width:1.5px,stroke-dasharray:6 4
+    style g_shots fill:none,stroke:#16a34a,stroke-width:1.5px,stroke-dasharray:6 4
+    style g_browser fill:none,stroke:#d97706,stroke-width:1.5px,stroke-dasharray:6 4
+
+    linkStyle default stroke:#6c63ff,stroke-width:1.5px
 ```
 
-Solid arrows are runtime messages and calls. Dotted arrows are imports and direct reads.
+Solid arrows are messages and calls. Dotted arrows are direct reads.
 
 ### How one image download flows
 
 | Step | What happens |
 | --- | --- |
 | 1 | You select an image in the popup (or use the right-click menu) and start a download. |
-| 2 | The popup sends a message. The service worker checks the message and its sender in `core/validation.js` before it acts. |
-| 3 | The worker asks the scanner for the ranked, validated sources of that image and gets the best one first. |
-| 4 | If you chose another format, the offscreen document converts the image (or builds the ZIP). |
-| 5 | The worker starts the download through the browser Downloads API with a safe file name. |
+| 2 | The popup sends a message. The service worker checks the message and its sender with `validation.js` before it acts. |
+| 3 | The worker asks the page scanner for the ranked, validated sources of that image and gets the best one first. |
+| 4 | If you chose another format, the offscreen document converts the image, or builds the ZIP with `zip.js`. |
+| 5 | The worker starts the download through the browser Downloads API with a safe file name from `filenames.js`. |
 | 6 | When the download completes, the worker writes a history record and keeps the queue state in browser storage. |
 
-Screenshots follow the same pattern. The overlay returns the area or element you picked, the worker captures the page and stores the result in IndexedDB, and the extension pages (Capture, Parts overview, Annotate editor) read it from there.
+Screenshots follow the same pattern. The picker returns the area or element you chose, the worker captures the page and stores the result in IndexedDB, and the screenshot pages (Capture, Parts overview, Editor) read it from there through `capture-io.js`.
 
 ### What the colors mean
 
-| Color | Layer | Files |
+| Color | Layer | Folders |
 | --- | --- | --- |
-| Indigo | What you see and click | `popup/`, `options/`, `pages/` |
+| Indigo | What you see and click | `popup/`, `options/` |
 | Blue | Runs inside the web page | `content/` |
-| Violet | Decides and routes | `background/service-worker.js` |
+| Violet (hexagon) | Decides and routes | `background/service-worker.js` |
 | Purple | Pure logic, tested without a browser | `core/` |
 | Cyan | Heavy work off the worker | `offscreen/` |
-| Amber | Browser services and storage | IndexedDB, browser storage, Downloads API |
+| Green | Screenshot result pages | `pages/`, `shared/` |
+| Amber | Browser services and storage | Downloads API, browser storage, IndexedDB |
 
 ### Design rules
 
