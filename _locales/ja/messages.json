@@ -71,9 +71,17 @@
     "message": "あらゆるページから画像を取得",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "見つける。選ぶ。ダウンロード。",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "ページをスキャンし、必要なものを選んで、利用可能な最高のバージョンを保存します。",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "任意のページをスキャンして、各画像の最良バージョンを保存します。",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "このページをスキャン",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "スクリーンショット",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "キャプチャ",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "表示中のページをキャプチャ",
@@ -127,9 +139,21 @@
     "message": "画像を検索しています",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "背景を含め、画像を探しています。",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar": {
     "message": "これまでに {done} 件見つかりました…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "これまでに見つかった数",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount": {
+    "message": "{count} 枚の画像",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "結果",
@@ -166,6 +190,14 @@
   "popup_formatAll": {
     "message": "すべての形式",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "すべて",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "大きいもののみ",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "向きフィルター",
@@ -267,6 +299,10 @@
     "message": "{count} 件の画像をダウンロード",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages": {
+    "message": "{count}枚の画像をすべて表示",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "選択を ZIP でダウンロード",
     "description": "Button: pack the selection into one zip file."
@@ -282,6 +318,22 @@
   "results_titleFound": {
     "message": "{count} 件の画像が見つかりました",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "スキャン完了",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "見つかった画像",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "保存可能",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "小さいか重複",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "このページには画像が見つかりませんでした。",
@@ -338,6 +390,10 @@
   "home_viewResults": {
     "message": "結果を表示",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "前回のスキャン",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "画像プレビュー",
@@ -499,6 +555,14 @@
     "message": "まだダウンロードがありません。保存した画像はここに表示されます。",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "まだダウンロードがありません",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "ダウンロードした画像がここに表示されます。",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "ここにはまだ何もありません。",
     "description": "Short empty state of the options history list."
@@ -514,6 +578,22 @@
   "history_yesterday": {
     "message": "昨日",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "たった今",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "昨日",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes": {
+    "message": "{count} 分前",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours": {
+    "message": "{count} 時間前",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "ImgFetch のダウンロードキューに追加しました。",

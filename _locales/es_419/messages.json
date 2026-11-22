@@ -71,9 +71,17 @@
     "message": "Toma imágenes de cualquier página",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "Buscar. Seleccionar. Descargar.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "Escanea la página, elige lo que quieras y guarda la mejor versión disponible.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "Escanea cualquier página y guarda la mejor versión de cada imagen.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "Escanear esta página",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "Captura de pantalla",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "Captura",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "Capturar la página visible",
@@ -127,6 +139,10 @@
     "message": "Buscando imágenes",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "Buscando imágenes, incluidos los fondos.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar_one": {
     "message": "Encontrada {done} hasta ahora…",
     "description": "Scan progress. Singular: one image found so far."
@@ -134,6 +150,18 @@
   "scan_foundSoFar_other": {
     "message": "Encontradas {done} hasta ahora…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "Encontradas hasta ahora",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount_one": {
+    "message": "{count} imagen",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_other": {
+    "message": "{count} imágenes",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "Resultados",
@@ -170,6 +198,14 @@
   "popup_formatAll": {
     "message": "Todos los formatos",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "Todos",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "Solo grandes",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "Filtro de orientación",
@@ -275,6 +311,14 @@
     "message": "Descargar {count} imágenes",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages_one": {
+    "message": "Ver la {count} imagen",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_other": {
+    "message": "Ver las {count} imágenes",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "Descargar la selección como ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -294,6 +338,22 @@
   "results_titleFound_other": {
     "message": "{count} imágenes encontradas",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "Escaneo completado",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "Imágenes encontradas",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "Listas para guardar",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "Pequeñas o duplicadas",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "No se encontraron imágenes en esta página.",
@@ -374,6 +434,10 @@
   "home_viewResults": {
     "message": "Ver resultados",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "Último escaneo",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "Vista previa de la imagen",
@@ -535,6 +599,14 @@
     "message": "Aún no hay descargas. Tus imágenes guardadas aparecerán aquí.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "Aún no hay descargas",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "Tus imágenes descargadas aparecerán aquí.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "Nada aquí todavía.",
     "description": "Short empty state of the options history list."
@@ -550,6 +622,30 @@
   "history_yesterday": {
     "message": "Ayer",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "Ahora mismo",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "Ayer",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes_one": {
+    "message": "hace {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_other": {
+    "message": "hace {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours_one": {
+    "message": "hace {count} h",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_other": {
+    "message": "hace {count} h",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "Añadido a la cola de descargas de ImgFetch.",

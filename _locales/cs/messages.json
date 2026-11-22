@@ -71,9 +71,17 @@
     "message": "Stahujte obrázky z libovolné stránky",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "Najít. Vybrat. Stáhnout.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "Naskenujte stránku, vyberte co chcete a uložte nejlepší dostupnou verzi.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "Naskenujte libovolnou stránku a uložte nejlepší verzi každého obrázku.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "Skenovat tuto stránku",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "Snímek obrazovky",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "Snímek",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "Zachytit viditelnou stránku",
@@ -127,6 +139,10 @@
     "message": "Hledání obrázků",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "Hledám obrázky, včetně pozadí.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar_one": {
     "message": "Nalezeno {done}…",
     "description": "Scan progress. Singular: one image found so far."
@@ -142,6 +158,26 @@
   "scan_foundSoFar_other": {
     "message": "Nalezeno {done}…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "Zatím nalezeno",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount_one": {
+    "message": "{count} obrázek",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_few": {
+    "message": "{count} obrázky",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_many": {
+    "message": "{count} obrázků",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_other": {
+    "message": "{count} obrázku",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "Výsledky",
@@ -178,6 +214,14 @@
   "popup_formatAll": {
     "message": "Všechny formáty",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "Vše",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "Pouze velké",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "Filtr orientace",
@@ -291,6 +335,22 @@
     "message": "Stáhnout {count} obrázky",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages_one": {
+    "message": "Zobrazit {count} obrázek",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_few": {
+    "message": "Zobrazit {count} obrázky",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_many": {
+    "message": "Zobrazit {count} obrázků",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_other": {
+    "message": "Zobrazit {count} obrázku",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "Stáhnout výběr jako ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -318,6 +378,22 @@
   "results_titleFound_other": {
     "message": "Nalezeny {count} obrázky",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "Skenování dokončeno",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "Nalezené obrázky",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "Připraveno k uložení",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "Malé nebo duplicitní",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "Na této stránce nebyly nalezeny žádné obrázky.",
@@ -446,6 +522,10 @@
   "home_viewResults": {
     "message": "Zobrazit výsledky",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "Poslední skenování",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "Náhled obrázku",
@@ -607,6 +687,14 @@
     "message": "Zatím žádná stahování. Vaše uložené obrázky se objeví zde.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "Zatím žádné stažené soubory",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "Stažené obrázky se zobrazí zde.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "Zatím tu nic není.",
     "description": "Short empty state of the options history list."
@@ -622,6 +710,46 @@
   "history_yesterday": {
     "message": "Včera",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "Právě teď",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "Včera",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes_one": {
+    "message": "před {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_few": {
+    "message": "před {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_many": {
+    "message": "před {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_other": {
+    "message": "před {count} min",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours_one": {
+    "message": "před {count} hodinou",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_few": {
+    "message": "před {count} hodinami",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_many": {
+    "message": "před {count} hodinami",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_other": {
+    "message": "před {count} hodinou",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "Přidáno do fronty stahování ImgFetch.",

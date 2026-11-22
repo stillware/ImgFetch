@@ -71,9 +71,17 @@
     "message": "Lấy ảnh từ mọi trang",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "Tìm. Chọn. Tải xuống.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "Quét trang, chọn những gì bạn muốn và lưu phiên bản tốt nhất có sẵn.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "Quét mọi trang và lưu phiên bản tốt nhất của mỗi hình ảnh.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "Quét trang này",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "Ảnh chụp màn hình",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "Chụp",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "Chụp trang đang xem",
@@ -127,9 +139,21 @@
     "message": "Đang tìm ảnh",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "Đang tìm hình ảnh, bao gồm cả hình nền.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar": {
     "message": "Đã tìm thấy {done}…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "Đã tìm thấy",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount": {
+    "message": "{count} hình ảnh",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "Kết quả",
@@ -166,6 +190,14 @@
   "popup_formatAll": {
     "message": "Mọi định dạng",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "Tất cả",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "Chỉ ảnh lớn",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "Bộ lọc hướng",
@@ -267,6 +299,10 @@
     "message": "Tải xuống {count} ảnh",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages": {
+    "message": "Xem tất cả {count} hình ảnh",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "Tải xuống mục đã chọn dưới dạng ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -282,6 +318,22 @@
   "results_titleFound": {
     "message": "Tìm thấy {count} ảnh",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "Quét xong",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "Hình ảnh đã tìm thấy",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "Sẵn sàng lưu",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "Nhỏ hoặc trùng lặp",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "Không tìm thấy ảnh nào trên trang này.",
@@ -338,6 +390,10 @@
   "home_viewResults": {
     "message": "Xem kết quả",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "Lần quét gần nhất",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "Xem trước ảnh",
@@ -499,6 +555,14 @@
     "message": "Chưa có lượt tải nào. Ảnh bạn lưu sẽ hiện ở đây.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "Chưa có lượt tải xuống nào",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "Hình ảnh bạn đã tải xuống sẽ xuất hiện tại đây.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "Chưa có gì ở đây.",
     "description": "Short empty state of the options history list."
@@ -514,6 +578,22 @@
   "history_yesterday": {
     "message": "Hôm qua",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "Vừa xong",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "Hôm qua",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes": {
+    "message": "{count} phút trước",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours": {
+    "message": "{count} giờ trước",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "Đã thêm vào hàng đợi tải xuống của ImgFetch.",

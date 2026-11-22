@@ -71,9 +71,17 @@
     "message": "Ambil gambar dari halaman mana pun",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "Temukan. Pilih. Unduh.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "Pindai halaman, pilih yang Anda mau, dan simpan versi terbaik yang tersedia.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "Pindai halaman apa pun dan simpan versi terbaik dari setiap gambar.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "Pindai halaman ini",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "Tangkapan layar",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "Tangkapan",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "Ambil halaman yang terlihat",
@@ -127,9 +139,21 @@
     "message": "Mencari gambar",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "Mencari gambar, termasuk latar.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar": {
     "message": "Sejauh ini ditemukan {done}…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "Ditemukan sejauh ini",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount": {
+    "message": "{count} gambar",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "Hasil",
@@ -166,6 +190,14 @@
   "popup_formatAll": {
     "message": "Semua format",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "Semua",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "Hanya besar",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "Filter orientasi",
@@ -267,6 +299,10 @@
     "message": "Unduh {count} gambar",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages": {
+    "message": "Lihat semua {count} gambar",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "Unduh pilihan sebagai ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -282,6 +318,22 @@
   "results_titleFound": {
     "message": "Ditemukan {count} gambar",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "Pemindaian selesai",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "Gambar ditemukan",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "Siap disimpan",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "Kecil atau duplikat",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "Tidak ada gambar yang ditemukan di halaman ini.",
@@ -338,6 +390,10 @@
   "home_viewResults": {
     "message": "Lihat hasil",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "Pemindaian terakhir",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "Pratinjau gambar",
@@ -499,6 +555,14 @@
     "message": "Belum ada unduhan. Gambar yang Anda simpan akan muncul di sini.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "Belum ada unduhan",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "Gambar yang Anda unduh akan muncul di sini.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "Belum ada apa pun di sini.",
     "description": "Short empty state of the options history list."
@@ -514,6 +578,22 @@
   "history_yesterday": {
     "message": "Kemarin",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "Baru saja",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "Kemarin",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes": {
+    "message": "{count} mnt lalu",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours": {
+    "message": "{count} jam lalu",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "Ditambahkan ke antrean unduhan ImgFetch.",

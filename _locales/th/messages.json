@@ -71,9 +71,17 @@
     "message": "ดึงรูปภาพจากหน้าใดก็ได้",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "ค้นหา เลือก ดาวน์โหลด",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "สแกนหน้า เลือกสิ่งที่ต้องการ และบันทึกเวอร์ชันที่ดีที่สุดที่มี",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "สแกนหน้าใดก็ได้และบันทึกเวอร์ชันที่ดีที่สุดของแต่ละภาพ",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "สแกนหน้านี้",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "ภาพหน้าจอ",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "จับภาพ",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "จับภาพหน้าที่เห็น",
@@ -127,9 +139,21 @@
     "message": "กำลังค้นหารูปภาพ",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "กำลังค้นหาภาพ รวมถึงภาพพื้นหลัง",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar": {
     "message": "พบแล้ว {done}…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "พบแล้ว",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount": {
+    "message": "{count} ภาพ",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "ผลลัพธ์",
@@ -166,6 +190,14 @@
   "popup_formatAll": {
     "message": "ทุกรูปแบบ",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "ทั้งหมด",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "เฉพาะภาพใหญ่",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "ตัวกรองทิศทาง",
@@ -267,6 +299,10 @@
     "message": "ดาวน์โหลด {count} รูป",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages": {
+    "message": "ดูภาพทั้งหมด {count} ภาพ",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "ดาวน์โหลดที่เลือกเป็น ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -282,6 +318,22 @@
   "results_titleFound": {
     "message": "พบ {count} รูป",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "สแกนเสร็จแล้ว",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "ภาพที่พบ",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "พร้อมบันทึก",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "เล็กหรือซ้ำ",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "ไม่พบรูปภาพในหน้านี้",
@@ -338,6 +390,10 @@
   "home_viewResults": {
     "message": "ดูผลลัพธ์",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "การสแกนล่าสุด",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "ตัวอย่างรูปภาพ",
@@ -499,6 +555,14 @@
     "message": "ยังไม่มีการดาวน์โหลด รูปภาพที่คุณบันทึกจะปรากฏที่นี่",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "ยังไม่มีการดาวน์โหลด",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "ภาพที่คุณดาวน์โหลดจะปรากฏที่นี่",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "ยังไม่มีอะไรที่นี่",
     "description": "Short empty state of the options history list."
@@ -514,6 +578,22 @@
   "history_yesterday": {
     "message": "เมื่อวาน",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "เมื่อสักครู่",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "เมื่อวาน",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes": {
+    "message": "{count} นาทีที่แล้ว",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours": {
+    "message": "{count} ชั่วโมงที่แล้ว",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "เพิ่มเข้าคิวการดาวน์โหลด ImgFetch แล้ว",

@@ -155,12 +155,15 @@ ImgFetch/
 │   ├── assets/ # Bundled interface assets: fonts, icons, third-party licences
 │   │   ├── INTER-OFL-1.1.txt # SIL Open Font License 1.1 for the Inter typeface
 │   │   ├── LUCIDE-ISC.txt # ISC License for the Lucide icon set
+│   │   ├── hero-g1.svg # Popup hero illustration, centre card of the fanned stack (kit g1)
+│   │   ├── hero-g2.svg # Popup hero illustration, left card of the fanned stack (kit g2)
+│   │   ├── hero-g4.svg # Popup hero illustration, right card of the fanned stack (kit g4)
 │   │   ├── inter-cyrillic-wght-normal.woff2 # Inter variable font, Cyrillic subset
 │   │   ├── inter-greek-wght-normal.woff2 # Inter variable font, Greek subset
 │   │   ├── inter-latin-wght-normal.woff2 # Inter variable font, Latin subset
 │   │   ├── inter-latin-ext-wght-normal.woff2 # Inter variable font, Latin Extended subset
 │   │   ├── inter-vietnamese-wght-normal.woff2 # Inter variable font, Vietnamese subset
-│   │   └── lucide-sprite.svg # Lucide icon sprite, one outline family, 40 symbols
+│   │   └── lucide-sprite.svg # Lucide icon sprite, one outline family, 42 symbols
 │   ├── ui.js # Theme, toast, and messaging helpers
 │   └── undo-redo.js # Undo and redo stack carrying strokes and crop
 ├── store-assets/

@@ -22,6 +22,7 @@
  */
 import {
   applyFilters,
+  formatGroup,
   matchesQuery,
   sortImages,
   sizeChipForPreset,
@@ -46,6 +47,30 @@ const state = {
   gridShown: 0,       // M11: how many grid items are currently rendered (windowed)
   view: 'home',        // 'home' | 'history'
   pane: 'idle',        // home sub-view: 'idle' | 'scanning' | 'results' | 'queue'
+};
+
+/**
+ * Cancel flag for a scan the popup itself started. The worker has no
+ * CANCEL_SCAN message, so Cancel cannot abort the scan in the page; it
+ * returns the popup to the dashboard and discards that scan's result
+ * when it arrives (see cancelScan). A new scan clears the flag.
+ */
+let scanDismissed = false;
+
+/** Display order of the format chips, matching the mockup. */
+const FORMAT_CHIP_ORDER = ['png', 'jpg', 'webp', 'gif', 'avif'];
+/** Chip and thumbnail labels: WebP keeps its mixed case, the rest are caps. */
+const FORMAT_LABELS = { png: 'PNG', jpg: 'JPG', webp: 'WebP', gif: 'GIF', avif: 'AVIF' };
+/** History format badge classes per format group. PNG, JPG and GIF reuse
+ * the existing badge tints; WebP uses the cyan token (see .hist-fmt-webp
+ * in popup.html); AVIF shares the PNG accent family. Unknown and other
+ * formats get no badge. */
+const HIST_FMT_BADGE_CLASS = {
+  png: 'badge badge-accent hist-fmt',
+  jpg: 'badge badge-warn hist-fmt',
+  webp: 'badge hist-fmt hist-fmt-webp',
+  gif: 'badge badge-ok hist-fmt',
+  avif: 'badge badge-accent hist-fmt',
 };
 
 /* ------------------------------------------------------------------ */
@@ -157,7 +182,7 @@ async function init() {
   await i18nReady;
   applyI18n();
   applyDynamicTitles();
-  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); renderCaptureProgress(); });
+  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); renderCaptureProgress(); refreshResultsChrome(); });
   try {
     const { settings } = await UI.send('GET_SETTINGS');
     state.settings = settings;
@@ -241,14 +266,26 @@ function onRuntimeMessage(msg, sender) {
   if (!sender || sender.id !== chrome.runtime.id) return;
   if (!msg || typeof msg.type !== 'string') return;
   switch (msg.type) {
-    case 'SCAN_PROGRESS':
+    case 'SCAN_PROGRESS': {
       // A scan started by the global shortcut while this popup sat on its
       // dashboard: follow it live instead of waiting for another click.
-      if (state.view === 'home' && state.pane === 'idle') navigate('home', 'scanning');
-      updateScanProgress(msg.done, msg.total);
+      // Only the opening broadcast (0 done, no real total yet) starts a
+      // new scan, so only it clears a previous Cancel. Later progress
+      // from the scan the user just cancelled must not resurrect it:
+      // clearing the flag on every message let the next progress yank
+      // the popup back to the scanning pane after Cancel (see cancelScan).
+      const starting = msg.done === 0 && msg.total <= 1;
+      if (starting) {
+        scanDismissed = false;
+        if (state.view === 'home' && state.pane === 'idle') navigate('home', 'scanning');
+      }
+      if (!scanDismissed) updateScanProgress(msg.done, msg.total);
       break;
+    }
     case 'SCAN_DONE':
-      if (msg.scan) showScan(msg.scan, true);
+      // A scan the user cancelled stays discarded: the worker has no abort
+      // path, so its late result must not yank the popup to the results.
+      if (msg.scan && !scanDismissed) showScan(msg.scan, true);
       break;
     case 'QUEUE_UPDATE':
       if (msg.snapshot) {
@@ -451,14 +488,28 @@ async function renderHomeStatus(snapshot) {
       () => navigate('home', 'queue'),
     ));
   } else if (state.scan && state.scan.images && state.scan.images.length) {
-    const n = state.scan.images.length;
-    box.append(homeStatusCard(
-      t('home_imagesFound', { count: n }),
-      t('home_viewResults'),
-      () => navigate('home', 'results'),
-    ));
+    box.append(lastScanRow());
   }
   box.hidden = box.childNodes.length === 0;
+}
+
+/**
+ * Dashed "Last scan" row: the real host and the real image count from the
+ * stored scan, never mockup data. The whole row opens the results, which
+ * is what the old View results button did.
+ */
+function lastScanRow() {
+  const n = state.scan.images.length;
+  const host = state.scan.pageHost || '';
+  const row = UI.el('button', null, 'last-scan-row');
+  row.type = 'button';
+  row.append(UI.icon('history', { size: 16 }));
+  const label = UI.el('span', null, 'last-scan-text');
+  label.append(UI.el('b', t('popup_lastScan')));
+  if (host) label.append(document.createTextNode(` \u00b7 ${host}`));
+  row.append(label, UI.el('span', t('popup_scanFoundCount', { count: n }), 'last-scan-count'));
+  row.addEventListener('click', () => navigate('home', 'results'));
+  return row;
 }
 
 /* ------------------------------------------------------------------ */
@@ -607,25 +658,51 @@ function wireHome() {
     // this button and unlocks the shot buttons.
     try { await UI.send('CANCEL_CAPTURE'); } catch { /* the end signal still unlocks */ }
   });
+  $('btnScanCancel').addEventListener('click', cancelScan);
 }
 
 async function doScan() {
+  scanDismissed = false;
   navigate('home', 'scanning');
   updateScanProgress(0, 1);
   try {
     const { scan } = await UI.send('SCAN_PAGE');
     // SCAN_DONE broadcast will also arrive; render directly for snappiness.
-    if (scan) showScan(scan, true);
+    // A Cancel in the meantime discards this result (see cancelScan).
+    if (scan && !scanDismissed) showScan(scan, true);
   } catch (err) {
+    if (scanDismissed) return;
     navigate('home', 'idle');
     UI.toast(err.message);
   }
 }
 
+/**
+ * Cancel the scan from the popup's side. The worker has no CANCEL_SCAN
+ * message and background/ is out of scope for this phase, so the scan in
+ * the page itself runs to completion; what Cancel stops is the popup
+ * following it: the flag discards the late SCAN_DONE result and the
+ * direct SCAN_PAGE result (see doScan), and the popup returns to the
+ * dashboard at once. Verified live: after Cancel the popup stays on the
+ * dashboard when the scan finishes.
+ */
+function cancelScan() {
+  scanDismissed = true;
+  navigate('home', 'idle');
+}
+
 function updateScanProgress(done, total) {
-  const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
-  $('scanBar').style.width = `${pct}%`;
-  $('scanStatus').textContent = total > 1 ? t('scan_foundSoFar', { count: done, done }) : t('popup_scanningStatus');
+  // done/total come from the content scanner (candidates found / elements
+  // to scan), so the percentage is real. The worker's opening broadcast
+  // (0/1) carries no real total yet: show the indeterminate bar instead
+  // of a fake 0%.
+  const wrap = $('scanProgressWrap');
+  const known = total > 1;
+  if (wrap) wrap.classList.toggle('indeterminate', !known);
+  // The indeterminate style sets the bar width in CSS; an inline width
+  // would override it, so only set one for a known total.
+  $('scanBar').style.width = known ? `${Math.min(100, Math.round((done / total) * 100))}%` : '';
+  $('scanStatus').textContent = t('popup_scanFoundCount', { count: done });
 }
 
 /* ------------------------------------------------------------------ */
@@ -634,21 +711,12 @@ function updateScanProgress(done, total) {
 
 function wireResults() {
   document.querySelectorAll('[data-size]').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('[data-size]').forEach((c) => c.setAttribute('aria-pressed', 'false'));
-      chip.setAttribute('aria-pressed', 'true');
-      state.filters.size = chip.getAttribute('data-size');
-      refreshVisible();
-    });
+    chip.addEventListener('click', () => setSizeFilter(chip.getAttribute('data-size')));
   });
   $('search').addEventListener('input', UI.debounce((e) => {
     state.filters.query = e.target.value;
     refreshVisible();
   }));
-  $('filterFormat').addEventListener('change', (e) => {
-    state.filters.formats = e.target.value ? [e.target.value] : [];
-    refreshVisible();
-  });
   $('filterOrient').addEventListener('change', (e) => {
     state.filters.orientations = e.target.value ? [e.target.value] : [];
     refreshVisible();
@@ -657,6 +725,7 @@ function wireResults() {
     state.filters.sort = e.target.value;
     refreshVisible();
   });
+  $('btnViewAll').addEventListener('click', viewAll);
   $('selAll').addEventListener('click', () => {
     state.visible.forEach((img) => state.selected.add(img.id));
     paintSelection();
@@ -693,9 +762,10 @@ function showScan(scan, selectAll) {
   if (selectAll) {
     scan.images.forEach((img) => state.selected.add(img.id));
   }
-  const n = scan.images.length;
-  $('resTitle').textContent = t('results_titleFound', { count: n });
+  $('resTitle').textContent = t('popup_resultsComplete');
   $('resSub').textContent = (scan.title || '').slice(0, 70);
+  renderResSummary();
+  renderFormatChips();
   if (!scan.images.length) {
     navigate('home', 'idle');
     const dropped = Number(scan.droppedBySize) || 0;
@@ -707,6 +777,116 @@ function showScan(scan, selectAll) {
     return;
   }
   navigate('home', 'results');
+}
+
+/**
+ * Summary cards from real scan numbers only. The scanner reports what it
+ * kept, what it deduped and what it dropped, so:
+ * found = kept + deduped + dropped by size + dropped as interface assets
+ * (everything the scanner encountered), ready = kept, small or duplicate
+ * = dropped by size + deduped. When the worker hid interface assets the
+ * footer already says so, which is why the three cards need not sum.
+ */
+function renderResSummary() {
+  const box = $('resSummary');
+  if (!box || !state.scan) return;
+  const kept = state.scan.images.length;
+  const deduped = Number(state.scan.deduped) || 0;
+  const bySize = Number(state.scan.droppedBySize) || 0;
+  const byRelevance = Number(state.scan.droppedByRelevance) || 0;
+  const cards = [
+    { value: kept + deduped + bySize + byRelevance, label: t('popup_resultsFoundLabel'), big: true },
+    { value: kept, label: t('popup_resultsReadyLabel'), big: false },
+    { value: deduped + bySize, label: t('popup_resultsSmallDupLabel'), big: false },
+  ];
+  box.textContent = '';
+  for (const c of cards) {
+    const card = UI.el('div', null, 'res-stat' + (c.big ? ' res-stat-big' : ''));
+    card.append(UI.el('b', String(c.value)));
+    card.append(UI.el('span', c.label));
+    box.append(card);
+  }
+}
+
+/**
+ * Format chips: All plus the formats actually present in this scan, in
+ * the mockup order, plus Large only, which is the existing 1200px+ size
+ * filter shown in the same row. One format at a time, like the select was.
+ * A format the user picked on a previous scan but absent here shows no
+ * pressed chip; the grid then reports no match until All is picked.
+ */
+function renderFormatChips() {
+  const box = $('formatChips');
+  if (!box || !state.scan) return;
+  const present = new Set();
+  for (const img of state.scan.images) {
+    const g = formatGroup(img.format);
+    if (FORMAT_CHIP_ORDER.includes(g)) present.add(g);
+  }
+  box.textContent = '';
+  const mkChip = (label, pressed, onClick) => {
+    const chip = UI.el('button', label, 'chip');
+    chip.type = 'button';
+    chip.setAttribute('aria-pressed', String(pressed));
+    chip.addEventListener('click', onClick);
+    box.append(chip);
+    return chip;
+  };
+  mkChip(t('popup_filterAll'), state.filters.formats.length === 0, () => {
+    state.filters.formats = [];
+    renderFormatChips();
+    refreshVisible();
+  });
+  for (const fmt of FORMAT_CHIP_ORDER) {
+    if (!present.has(fmt)) continue;
+    mkChip(FORMAT_LABELS[fmt], state.filters.formats.includes(fmt), () => {
+      state.filters.formats = [fmt];
+      renderFormatChips();
+      refreshVisible();
+    });
+  }
+  mkChip(t('popup_filterLargeOnly'), state.filters.size === 'large', () => {
+    setSizeFilter(state.filters.size === 'large' ? 'any' : 'large');
+  });
+}
+
+/** Set the size filter from the size chips or the Large only chip. */
+function setSizeFilter(size) {
+  state.filters.size = size;
+  document.querySelectorAll('[data-size]').forEach((c) =>
+    c.setAttribute('aria-pressed', String(c.getAttribute('data-size') === size)));
+  renderFormatChips();
+  refreshVisible();
+}
+
+/**
+ * "View all N images": no new feature, it clears every filter (search,
+ * size, format, orientation, sort) so the grid shows each found image.
+ * The selection is untouched; images hidden by the old filters simply
+ * stay unselected.
+ */
+function viewAll() {
+  state.filters.query = '';
+  state.filters.formats = [];
+  state.filters.orientations = [];
+  state.filters.sort = 'order';
+  const search = $('search');
+  if (search) search.value = '';
+  const orient = $('filterOrient');
+  if (orient) orient.value = '';
+  const sort = $('sortMode');
+  if (sort) sort.value = 'order';
+  setSizeFilter('any');
+  $('viewHome').scrollTop = 0;
+}
+
+/** Re-apply localized results chrome after a language change. */
+function refreshResultsChrome() {
+  if (!state.scan) return;
+  $('resTitle').textContent = t('popup_resultsComplete');
+  renderResSummary();
+  renderFormatChips();
+  updateFooter();
 }
 
 function refreshVisible() {
@@ -878,9 +1058,14 @@ function makeThumbBtn(img) {
     // Thumbnails: never hand page HTML to the DOM as markup, src only.
     setThumbSource(thumb, img, false);
     thumb.referrerPolicy = 'no-referrer';
-    const tick = UI.el('span', '✓', 'tick');
+    const tick = UI.el('span', null, 'tick');
     tick.setAttribute('aria-hidden', 'true');
-    const dims = UI.el('span', UI.formatDims(img.width, img.height), 'dims');
+    tick.append(UI.icon('check'));
+    // Format label, bottom-left like the mockup; hidden when unknown.
+    const fmt = formatGroup(img.format);
+    const dims = fmt && fmt !== 'unknown' && fmt !== 'other'
+      ? UI.el('span', FORMAT_LABELS[fmt] || fmt.toUpperCase(), 'dims')
+      : null;
     const zoom = UI.el('button', null, 'zoom-btn');
     zoom.type = 'button';
     zoom.setAttribute('aria-label', t('preview_zoomAria', { name: img.filename || t('ui_fallbackName') }));
@@ -905,7 +1090,8 @@ function makeThumbBtn(img) {
     line.setAttribute('d', 'm21 21-4.3-4.3');
     svg.append(circle, line);
     zoom.append(svg);
-    btn.append(thumb, tick, dims);
+    if (dims) btn.append(thumb, tick, dims);
+    else btn.append(thumb, tick);
     wrap.append(btn, zoom);
     btn.addEventListener('click', () => {
       toggleSelect(img.id);
@@ -948,9 +1134,14 @@ function updateFooter() {
   const hidden = total - state.visible.length;
   const hiddenTxt = hidden > 0 ? ` · ${t('results_hiddenByFilters', { count: hidden })}` : '';
   $('resultCount').textContent = `${t('results_shownFound', { shown: state.visible.length, total })}${deduped}${uiHidden}${hiddenTxt}`;
-  $('btnDownload').textContent = n === 0 ? t('popup_download') : t('popup_downloadCount', { count: n });
+  // The label span carries the text; the download icon beside it is static
+  // markup, so localizing never wipes it.
+  $('btnDownloadLabel').textContent = n === 0 ? t('popup_download') : t('popup_downloadCount', { count: n });
   $('btnDownload').disabled = n === 0;
   $('btnZip').disabled = n === 0;
+  if (state.scan) {
+    $('btnViewAllLabel').textContent = t('popup_viewAllImages', { count: total });
+  }
 }
 
 async function selectedFiles() {
@@ -1238,28 +1429,78 @@ async function loadHistory() {
     // Only the latest overlapping load may paint (see options loadOptHistory).
     if (seq !== historyLoadSeq) return;
     if (!records || !records.length) {
-      const empty = UI.el('div', null, 'empty');
-      empty.append(UI.el('div', '◷', 'glyph'));
-      empty.append(UI.el('p', t('history_empty')));
-      list.append(empty);
+      list.append(UI.emptyState({
+        icon: 'history',
+        title: t('history_emptyTitle'),
+        description: t('history_emptyDesc'),
+      }));
       return;
     }
     const frag = document.createDocumentFragment();
     for (const group of groupByDay(records, t)) {
-      frag.append(UI.el('div', t('history_groupLine', { label: group.label, count: group.count }), 'hist-day'));
+      const head = UI.el('div', null, 'hist-day');
+      head.append(UI.el('span', group.label), UI.el('span', String(group.count), 'hist-count'));
+      frag.append(head);
       for (const r of group.items) {
-        const row = UI.el('div', null, 'hist-item');
-        row.append(UI.el('span', (r.format || '').toUpperCase(), 'fmt'));
-        const name = UI.el('span', r.filename || t('ui_fallbackName'));
-        name.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
-        name.title = r.filename || '';
-        const dims = UI.el('span', UI.formatHistorySize(r), 'muted small');
-        row.append(name, dims);
-        frag.append(row);
+        frag.append(historyRow(r));
       }
     }
     list.append(frag);
   } catch (err) {
     list.append(UI.el('p', err.message, 'muted small'));
   }
+}
+
+/**
+ * One history row: neutral icon tile, filename with its extension and a
+ * format badge from the record's own `format` field, second
+ * line "site · time", size on the right. The tile is a 38 px rounded box
+ * with object-fit cover semantics, so a real thumbnail can replace the
+ * icon later without a layout change. No hover actions: the records
+ * carry no URL or download id, so those actions do not exist.
+ */
+function historyRow(r) {
+  const row = UI.el('div', null, 'hist-item');
+  const kindIcon = r.kind === 'bulk' ? 'images' : r.kind === 'screenshot' ? 'camera' : 'image';
+  const tile = UI.el('div', null, 'hist-tile');
+  tile.append(UI.icon(kindIcon, { size: 20 }));
+  const main = UI.el('div', null, 'hist-main');
+  const name = UI.el('div', null, 'hist-name');
+  name.title = r.filename || '';
+  name.append(UI.el('span', r.filename || t('ui_fallbackName'), 'hist-name-text'));
+  // Format badge from the record's own format field, hidden when the
+  // format is unknown or outside the five badged formats.
+  const fmt = formatGroup(r.format);
+  const fmtClass = HIST_FMT_BADGE_CLASS[fmt];
+  if (fmtClass) name.append(UI.el('span', FORMAT_LABELS[fmt], fmtClass));
+  const site = r.pageHost || r.site || '';
+  const sub = site ? `${site} \u00b7 ${formatHistoryTime(r.at)}` : formatHistoryTime(r.at);
+  main.append(name, UI.el('div', sub, 'hist-sub'));
+  row.append(tile, main);
+  // Size on the right, hidden when the record has no measured size.
+  if (Number(r.bytes) > 0) {
+    row.append(UI.el('span', UI.formatHistorySize(r), 'hist-size'));
+  }
+  return row;
+}
+
+/**
+ * Relative time for a history record: "Just now", "N min ago", "N h ago",
+ * "Yesterday", otherwise a short date. Every value comes from the
+ * record's own `at` field.
+ */
+function formatHistoryTime(at) {
+  const stamp = Number(at) || 0;
+  const age = Date.now() - stamp;
+  if (!stamp || age < 60000) return t('history_timeNow');
+  const mins = Math.floor(age / 60000);
+  if (mins < 60) return t('history_timeMinutes', { count: mins });
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return t('history_timeHours', { count: hours });
+  const day = new Date(stamp);
+  const yesterday = new Date(Date.now() - 86400000);
+  const sameDay = (a, b) => a.getFullYear() === b.getFullYear()
+    && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  if (sameDay(day, yesterday)) return t('history_timeYesterday');
+  return day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }

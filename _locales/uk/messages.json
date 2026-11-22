@@ -71,9 +71,17 @@
     "message": "Забирайте зображення з будь-якої сторінки",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "Знайти. Вибрати. Завантажити.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "Проскануйте сторінку, виберіть потрібне та збережіть найкращу доступну версію.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "Скануйте будь-яку сторінку та зберігайте найкращу версію кожного зображення.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "Сканувати цю сторінку",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "Скриншот",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "Знімок",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "Зняти видиму частину сторінки",
@@ -127,6 +139,10 @@
     "message": "Пошук зображень",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "Шукаємо зображення, включно з фоновими.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar_one": {
     "message": "Знайдено: {done}…",
     "description": "Scan progress. Singular: one image found so far."
@@ -142,6 +158,26 @@
   "scan_foundSoFar_other": {
     "message": "Знайдено: {done}…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "Знайдено поки",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount_one": {
+    "message": "{count} зображення",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_few": {
+    "message": "{count} зображення",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_many": {
+    "message": "{count} зображень",
+    "description": "Number of images found so far while scanning."
+  },
+  "popup_scanFoundCount_other": {
+    "message": "{count} зображення",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "Результати",
@@ -178,6 +214,14 @@
   "popup_formatAll": {
     "message": "Усі формати",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "Всі",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "Лише великі",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "Фільтр орієнтації",
@@ -291,6 +335,22 @@
     "message": "Завантажити {count} зображення",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages_one": {
+    "message": "Показати {count} зображення",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_few": {
+    "message": "Показати {count} зображення",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_many": {
+    "message": "Показати {count} зображень",
+    "description": "Button that clears all filters to show every found image."
+  },
+  "popup_viewAllImages_other": {
+    "message": "Показати {count} зображення",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "Завантажити вибране як ZIP",
     "description": "Button: pack the selection into one zip file."
@@ -318,6 +378,22 @@
   "results_titleFound_other": {
     "message": "Знайдено {count} зображення",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "Сканування завершено",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "Зображень знайдено",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "Готові до збереження",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "Малі або дубльовані",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "На цій сторінці зображень не знайдено.",
@@ -446,6 +522,10 @@
   "home_viewResults": {
     "message": "Переглянути результати",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "Останнє сканування",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "Перегляд зображення",
@@ -607,6 +687,14 @@
     "message": "Завантажень поки немає. Ваші збережені зображення з’являться тут.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "Поки немає завантажень",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "Завантажені зображення з’являться тут.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "Тут поки нічого немає.",
     "description": "Short empty state of the options history list."
@@ -622,6 +710,46 @@
   "history_yesterday": {
     "message": "Вчора",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "Щойно",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "Вчора",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes_one": {
+    "message": "{count} хв тому",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_few": {
+    "message": "{count} хв тому",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_many": {
+    "message": "{count} хв тому",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeMinutes_other": {
+    "message": "{count} хв тому",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours_one": {
+    "message": "{count} годину тому",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_few": {
+    "message": "{count} години тому",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_many": {
+    "message": "{count} годин тому",
+    "description": "Relative time: hours ago."
+  },
+  "history_timeHours_other": {
+    "message": "{count} годину тому",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "Додано до черги завантажень ImgFetch.",

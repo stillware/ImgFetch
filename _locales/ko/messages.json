@@ -71,9 +71,17 @@
     "message": "어떤 페이지에서든 이미지 가져오기",
     "description": "Popup home hero heading."
   },
+  "popup_heroTitleNew": {
+    "message": "찾기. 선택. 다운로드.",
+    "description": "Popup home hero heading, redesign."
+  },
   "popup_heroDesc": {
     "message": "페이지를 스캔하고 원하는 것을 선택한 뒤, 사용 가능한 최고 버전을 저장하세요.",
     "description": "Popup home hero paragraph."
+  },
+  "popup_heroDescNew": {
+    "message": "어떤 페이지든 스캔하여 각 이미지의 최적 버전을 저장하세요.",
+    "description": "Popup home hero paragraph, redesign."
   },
   "popup_scanButton": {
     "message": "이 페이지 스캔",
@@ -82,6 +90,10 @@
   "popup_screenshotGroup": {
     "message": "스크린샷",
     "description": "Accessibility label of the screenshot button group."
+  },
+  "popup_captureLabel": {
+    "message": "캡처",
+    "description": "Section label above the screenshot tiles."
   },
   "popup_shotVisible": {
     "message": "보이는 페이지 캡처",
@@ -127,9 +139,21 @@
     "message": "이미지 찾는 중",
     "description": "Status line before the first scan result arrives."
   },
+  "popup_scanningDesc": {
+    "message": "배경을 포함하여 이미지를 찾고 있습니다.",
+    "description": "Subline shown while a page scan runs."
+  },
   "scan_foundSoFar": {
     "message": "지금까지 {done}개 찾음…",
     "description": "Scan progress. Plural: several images found so far."
+  },
+  "popup_scanFoundLabel": {
+    "message": "지금까지 찾은 수",
+    "description": "Label of the found-so-far count while scanning."
+  },
+  "popup_scanFoundCount": {
+    "message": "{count}개의 이미지",
+    "description": "Number of images found so far while scanning."
   },
   "popup_resultsTitle": {
     "message": "결과",
@@ -166,6 +190,14 @@
   "popup_formatAll": {
     "message": "모든 형식",
     "description": "Format filter: show every format."
+  },
+  "popup_filterAll": {
+    "message": "전체",
+    "description": "Format filter chip: show all formats."
+  },
+  "popup_filterLargeOnly": {
+    "message": "큰 이미지만",
+    "description": "Filter chip: large images only."
   },
   "popup_orientFilterAria": {
     "message": "방향 필터",
@@ -267,6 +299,10 @@
     "message": "{count}개 이미지 다운로드",
     "description": "Download button. Plural: several images selected."
   },
+  "popup_viewAllImages": {
+    "message": "{count}개의 이미지를 모두 보기",
+    "description": "Button that clears all filters to show every found image."
+  },
   "popup_downloadZip": {
     "message": "선택 항목을 ZIP으로 다운로드",
     "description": "Button: pack the selection into one zip file."
@@ -282,6 +318,22 @@
   "results_titleFound": {
     "message": "{count}개 이미지 찾음",
     "description": "Results heading. Plural."
+  },
+  "popup_resultsComplete": {
+    "message": "스캔 완료",
+    "description": "Results heading when a scan finishes."
+  },
+  "popup_resultsFoundLabel": {
+    "message": "찾은 이미지",
+    "description": "Summary card label: images found."
+  },
+  "popup_resultsReadyLabel": {
+    "message": "저장 준비 완료",
+    "description": "Summary card label: images ready to save."
+  },
+  "popup_resultsSmallDupLabel": {
+    "message": "작거나 중복됨",
+    "description": "Summary card label: small or duplicate images."
   },
   "results_noImages": {
     "message": "이 페이지에서 이미지를 찾지 못했습니다.",
@@ -338,6 +390,10 @@
   "home_viewResults": {
     "message": "결과 보기",
     "description": "Home status card button: open the results."
+  },
+  "popup_lastScan": {
+    "message": "마지막 스캔",
+    "description": "Label of the last-scan row on the home screen."
   },
   "preview_imagePreview": {
     "message": "이미지 미리보기",
@@ -499,6 +555,14 @@
     "message": "아직 다운로드가 없습니다. 저장한 이미지가 여기에 표시됩니다.",
     "description": "Empty state of the download history."
   },
+  "history_emptyTitle": {
+    "message": "아직 다운로드가 없습니다",
+    "description": "History empty state title."
+  },
+  "history_emptyDesc": {
+    "message": "다운로드한 이미지가 여기에 표시됩니다.",
+    "description": "History empty state description."
+  },
   "history_emptyShort": {
     "message": "아직 아무것도 없습니다.",
     "description": "Short empty state of the options history list."
@@ -514,6 +578,22 @@
   "history_yesterday": {
     "message": "어제",
     "description": "History group label for yesterday."
+  },
+  "history_timeNow": {
+    "message": "방금",
+    "description": "Relative time: just now."
+  },
+  "history_timeYesterday": {
+    "message": "어제",
+    "description": "Relative time: yesterday."
+  },
+  "history_timeMinutes": {
+    "message": "{count}분 전",
+    "description": "Relative time: minutes ago."
+  },
+  "history_timeHours": {
+    "message": "{count}시간 전",
+    "description": "Relative time: hours ago."
   },
   "notice_queued": {
     "message": "ImgFetch 다운로드 대기열에 추가되었습니다.",
