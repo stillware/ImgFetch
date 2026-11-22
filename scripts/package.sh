@@ -55,6 +55,7 @@ mkdir -p "$DIST"
 INCLUDE=(
   manifest.json
   background content core offscreen options pages popup shared icons _locales
+  shared/assets/inter-latin-wght-normal.woff2 shared/assets/inter-latin-ext-wght-normal.woff2 shared/assets/inter-cyrillic-wght-normal.woff2 shared/assets/inter-greek-wght-normal.woff2 shared/assets/inter-vietnamese-wght-normal.woff2 shared/assets/lucide-sprite.svg shared/assets/INTER-OFL-1.1.txt shared/assets/LUCIDE-ISC.txt
   LICENSE README.md PRIVACY.md TERMS.md CHANGELOG.md
   docs/user-guide.md docs/permissions.md docs/limitations.md
 )

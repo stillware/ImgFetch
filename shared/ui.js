@@ -55,7 +55,10 @@
     if (resolved === 'system') {
       resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    if (root.getAttribute('data-theme') === resolved) return resolved;
+    if (root.getAttribute('data-theme') === resolved) {
+      storeThemeMirror(theme || 'system');
+      return resolved;
+    }
     // Smooth cross-fade so switching themes never flashes or jerks.
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce) {
@@ -64,7 +67,23 @@
     }
     root.setAttribute('data-theme', resolved);
     try { root.style.colorScheme = resolved; } catch { /* old browser; ignore */ }
+    storeThemeMirror(theme || 'system');
     return resolved;
+  }
+
+  /**
+   * Fast theme mirror for shared/theme-init.js. chrome.storage.local is
+   * async, so it cannot be read before first paint; this plain value in
+   * localStorage can, and theme-init.js applies it from <head>. It only
+   * ever holds the theme choice, never settings or history.
+   */
+  const THEME_MIRROR_KEY = 'imgfetch-theme';
+  function storeThemeMirror(theme) {
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        localStorage.setItem(THEME_MIRROR_KEY, theme);
+      }
+    } catch { /* storage unavailable; the async path still applies */ }
   }
 
   function watchSystemTheme(getTheme) {
@@ -113,22 +132,13 @@
     return new Promise((resolve) => {
       const prevFocus = document.activeElement;
       const backdrop = el('div', null, 'confirm-backdrop');
-      backdrop.style.cssText =
-        'position:fixed;inset:0;background:rgba(10,12,25,.5);z-index:9999;' +
-        'display:flex;align-items:center;justify-content:center;padding:20px;';
       const dialog = el('div', null, 'confirm-dialog');
       dialog.setAttribute('role', 'alertdialog');
       dialog.setAttribute('aria-modal', 'true');
       dialog.setAttribute('aria-label', title);
-      dialog.style.cssText =
-        'background:var(--surface);border:1px solid var(--border);border-radius:14px;' +
-        'padding:18px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.3);';
-      const h = el('h3', title);
-      h.style.cssText = 'margin:0 0 8px;font-size:15px;';
-      const p = el('p', message);
-      p.style.cssText = 'margin:0 0 16px;color:var(--muted);font-size:13px;line-height:1.5;';
-      const row = el('div', null, 'row');
-      row.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;';
+      const h = el('h3', title, 'confirm-title');
+      const p = el('p', message, 'confirm-message');
+      const row = el('div', null, 'confirm-actions');
       const cancelBtn = el('button', tr('ui_cancel', 'Cancel'), 'btn');
       cancelBtn.type = 'button';
       const okBtn = el('button', confirmLabel || tr('ui_confirm', 'Confirm'), danger ? 'btn btn-danger' : 'btn btn-primary');
@@ -208,6 +218,97 @@
     return '-';
   }
 
+  /**
+   * Lucide icon from the bundled sprite (shared/assets/lucide-sprite.svg).
+   * Returns an <svg> with a <use> reference; stroke, size and color come
+   * from ui.css (.icon). Pass flip for directional icons (chevrons,
+   * arrows, undo, redo) so they mirror in RTL. Pass label only when the
+   * icon carries meaning on its own; decorative icons stay aria-hidden.
+   */
+  const SPRITE_PATH = 'shared/assets/lucide-sprite.svg';
+  function spriteUrl() {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
+        return chrome.runtime.getURL(SPRITE_PATH);
+      }
+    } catch { /* fall through to the relative path */ }
+    return '../' + SPRITE_PATH;
+  }
+  function icon(name, opts) {
+    const o = opts || {};
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'icon' + (o.size === 20 ? ' icon-20' : o.size === 16 ? ' icon-16' : '') + (o.flip ? ' flip-rtl' : ''));
+    if (o.label) {
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', o.label);
+    } else {
+      svg.setAttribute('aria-hidden', 'true');
+    }
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', spriteUrl() + '#' + name);
+    svg.appendChild(use);
+    return svg;
+  }
+
+  /**
+   * Button loading state: swaps in a spinning loader icon, disables the
+   * button, and restores it. The button keeps its size while loading.
+   */
+  function setButtonLoading(button, loading) {
+    if (!button) return;
+    const loader = button.querySelector('.icon-loader');
+    if (loading) {
+      button.classList.add('is-loading');
+      button.disabled = true;
+      if (!loader) {
+        const spin = icon('loader-circle', { size: 16 });
+        spin.classList.add('icon-loader');
+        button.prepend(spin);
+      }
+    } else {
+      button.classList.remove('is-loading');
+      button.disabled = false;
+      if (loader) loader.remove();
+    }
+  }
+
+  /**
+   * Paint a range slider track fill from its value. Call on input and once
+   * after wiring a slider. Sets --fill, which ui.css uses for the track.
+   */
+  function paintRange(input) {
+    if (!input) return;
+    const min = Number(input.min || 0);
+    const max = Number(input.max || 100);
+    const v = Number(input.value);
+    const pct = max > min ? Math.min(100, Math.max(0, ((v - min) / (max - min)) * 100)) : 0;
+    input.style.setProperty('--fill', pct.toFixed(1) + '%');
+  }
+
+  /** Skeleton block for loading states; add .skeleton-text or
+   * .skeleton-thumb for the shape. Static under reduced motion (CSS).
+   */
+  function skeleton(kind) {
+    return el('div', null, 'skeleton' + (kind ? ' skeleton-' + kind : ''));
+  }
+
+  /**
+   * Empty state block: icon, title and description, all set as text.
+   * Callers pass already-localized strings; this helper adds no strings.
+   */
+  function emptyState(opts) {
+    const o = opts || {};
+    const box = el('div', null, 'empty');
+    if (o.icon) {
+      const holder = el('div', null, 'empty-icon');
+      holder.appendChild(icon(o.icon));
+      box.appendChild(holder);
+    }
+    if (o.title) box.appendChild(el('p', o.title, 'empty-title'));
+    if (o.description) box.appendChild(el('p', o.description, 'empty-desc'));
+    return box;
+  }
+
   function debounce(fn, ms) {
     let timer = 0;
     return (...args) => {
@@ -227,5 +328,10 @@
     formatDims,
     formatHistorySize,
     debounce,
+    icon,
+    setButtonLoading,
+    paintRange,
+    skeleton,
+    emptyState,
   };
 })();

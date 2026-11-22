@@ -148,6 +148,16 @@ ImgFetch/
 │   ├── i18n.js # Custom localization loader and locale list
 │   ├── platform.js # Platform detection and the large copy clipboard rule
 │   ├── ui.css # Design system with light and dark themes
+│   ├── theme-init.js # Applies the saved theme before first paint from the fast theme mirror
+│   ├── assets/ # Bundled interface assets: fonts, icons, third-party licences
+│   │   ├── INTER-OFL-1.1.txt # SIL Open Font License 1.1 for the Inter typeface
+│   │   ├── LUCIDE-ISC.txt # ISC License for the Lucide icon set
+│   │   ├── inter-cyrillic-wght-normal.woff2 # Inter variable font, Cyrillic subset
+│   │   ├── inter-greek-wght-normal.woff2 # Inter variable font, Greek subset
+│   │   ├── inter-latin-wght-normal.woff2 # Inter variable font, Latin subset
+│   │   ├── inter-latin-ext-wght-normal.woff2 # Inter variable font, Latin Extended subset
+│   │   ├── inter-vietnamese-wght-normal.woff2 # Inter variable font, Vietnamese subset
+│   │   └── lucide-sprite.svg # Lucide icon sprite, one outline family, 40 symbols
 │   ├── ui.js # Theme, toast, and messaging helpers
 │   └── undo-redo.js # Undo and redo stack carrying strokes and crop
 ├── store-assets/
@@ -176,7 +186,7 @@ ImgFetch/
     ├── test-data-url.mjs # 13: chunked data URL decoder checks
     ├── test-fullpage-parts.mjs # 93: part split, limit, and no truncation checks
     ├── test-fuzz-url-guard.mjs # 3000: seeded URL guard fuzz cases
-    ├── test-html-modules.mjs # 24: page script module loading checks
+    ├── test-html-modules.mjs # 31: page script module loading checks
     ├── test-i18n-core.mjs # 125: localization core checks for fallback and plurals
     ├── test-i18n-dom.mjs # 16: localization DOM checks, including right to left layout
     ├── test-links.mjs # 22: external link target and rel attribute checks

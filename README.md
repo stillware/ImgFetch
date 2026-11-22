@@ -399,6 +399,8 @@ Save and Copy export exactly the cropped region at full quality.
 ImgFetch is free software: you can redistribute it and modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 See [LICENSE](LICENSE) for the full text.
 
+Third-party parts bundled with the interface: the Inter typeface, licensed under the SIL Open Font License 1.1 (see `shared/assets/INTER-OFL-1.1.txt`), and the Lucide icon set, licensed under the ISC License (see `shared/assets/LUCIDE-ISC.txt`). Both ship locally with the extension; nothing is fetched from the network.
+
 The GPL covers the source code. It does not grant the right to use the ImgFetch name or logo as branding for a modified version. See [TRADEMARK.md](TRADEMARK.md).
 
 Official sources: this repository, its [GitHub Releases][Releases] and the [Microsoft Edge Add-ons][Edge Add-ons] listing. A copy that uses the ImgFetch name from anywhere else is not official.
