@@ -110,6 +110,22 @@ python3 scripts/validate.py
 
 The validator must end with `ALL CHECKS PASSED`. It checks the manifest, permissions, forbidden patterns such as `innerHTML` and remote code, and the claims made in the documentation.
 
+### Firefox build and lint
+
+Firefox is in development, not released. The full packaging run builds a Firefox zip alongside the Chrome and Edge zips, and a Firefox only staging build is available for local testing:
+
+```bash
+bash scripts/package.sh --firefox-only
+```
+
+That builds only `dist/firefox-staging/`, with the derived Firefox manifest at the staging root. Point web-ext lint at that folder:
+
+```bash
+npx web-ext lint --source-dir dist/firefox-staging
+```
+
+Lint output must be clean, or every warning must be documented in [docs/firefox.md](docs/firefox.md). Do not claim Firefox availability in a contribution, a pull request description, or a store listing until that lint run and the Firefox manual test checklist have both been completed. See [docs/firefox.md](docs/firefox.md) for the compatibility matrix and known limitations.
+
 ### End to end tests
 
 The suites in `tests/test-e2e/` run the real extension in Chromium through Playwright. Prerequisites:

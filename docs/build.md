@@ -16,6 +16,7 @@ from the source tree as it is. You need:
 | Node.js | The unit suites and the checker scripts |
 | A zip tool | Packaging in `scripts/package.sh` |
 | Google Chrome or Microsoft Edge | Loading the unpacked extension |
+| Firefox 142 or later | Loading the Firefox staging build for testing |
 | Pillow (optional) | Regenerating icons with `scripts/make-icons.py` |
 
 PowerShell variants are translations of the bash commands and were not run in the build sandbox (no PowerShell there).
@@ -82,14 +83,15 @@ The script does the following, in order:
 3. Runs `node scripts/check-duplicates.mjs` and
    `node scripts/regression-diff.mjs`.
 4. Reads the version from `manifest.json` and clears and recreates `dist/`.
-5. Builds two store zips in `dist/`, named with the target and the version:
-   `imgfetch-chrome-1.1.0.zip` and `imgfetch-edge-1.1.0.zip`.
-6. Extracts both zips and compares them with `diff -r`. The build fails if
+5. Builds three store zips in `dist/`, named with the target and the version:
+   `imgfetch-chrome-<version>.zip`, `imgfetch-edge-<version>.zip`, and `imgfetch-firefox-<version>.zip`.
+6. Extracts the Chrome and Edge zips and compares them with `diff -r`. The build fails if
    their contents differ. Only the file names differ.
+7. Builds the Firefox zip from a staging tree with the same file list, but with the derived Firefox manifest at the root (see the Firefox section below). The build fails if the Firefox zip differs from the Chrome zip anywhere except `manifest.json`.
 
 ### What the store zips contain
 
-Both zips contain identical files. The include list is:
+The Chrome and Edge zips contain identical files. The include list is:
 
 | Included | Notes |
 |---|---|
@@ -106,6 +108,30 @@ from the zips even inside included folders.
 The store zips do not contain `tests/`, `scripts/`, `store-assets/`,
 `assets/`, `docs/history`, `docs/tests`, the other files under `docs/`,
 or `dist/` itself.
+
+## Firefox zip
+
+Firefox is in development, not released. The Firefox zip is built by the same normal run that builds the Chrome and Edge zips, plus a Firefox only staging mode for local testing. See [the Firefox document](firefox.md) for the full status, compatibility matrix, and manual test notes.
+
+```bash
+bash scripts/package.sh
+```
+
+The normal run builds `dist/imgfetch-firefox-<version>.zip` alongside the Chrome and Edge zips. The Firefox zip uses the same INCLUDE file list as the Chrome and Edge zips, with one difference: the manifest at the zip root is the derived Firefox manifest from `scripts/make-firefox-manifest.mjs`, not the root manifest. The README inside all three zips is the repository `README.md`, byte-identical across the three zips. Note that `scripts/package.sh` ships the repository `README.md`, not `README-package.md`, in all three zips. The packaging check extracts the Chrome and Firefox zips and fails the build if they differ anywhere except `manifest.json`, or if their entry lists differ.
+
+Firefox only staging, which runs no tests and is the folder to point web-ext at:
+
+```bash
+bash scripts/package.sh --firefox-only
+```
+
+This builds only `dist/firefox-staging/`, with the same file list and the derived Firefox manifest at the staging root. Run web-ext lint against that folder before any Firefox claim is repeated outside the Firefox document:
+
+```bash
+npx web-ext lint --source-dir dist/firefox-staging
+```
+
+CRLF note: `scripts/package.sh` keeps CRLF line endings and cannot run under Linux bash. The owner uses Git Bash or WSL for packaging. The Firefox staging in this round was verified with an LF copy of the script in a `/tmp` sandbox plus a Python replication of the INCLUDE logic: 91 files, Chrome compared with Edge identical, Firefox differing only in `manifest.json`.
 
 ## Release flow
 

@@ -1052,7 +1052,86 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     }
   }
 
-  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  async function dispatchOffscreenMessage(msg) {
+    let result;
+    switch (msg.type) {
+      case 'CONVERT_IMAGE':
+        result = await convertImage(msg);
+        break;
+      case 'STRIP_METADATA':
+        result = await stripMetadata(msg);
+        break;
+      case 'SNIFF_TYPE':
+        result = await sniffType(msg);
+        break;
+      case 'CLIPBOARD_WRITE':
+        result = await clipboardWrite(msg);
+        break;
+      case 'CLIPBOARD_IMAGE':
+        result = await clipboardImage(msg);
+        break;
+      case 'BUILD_ZIP':
+        result = await buildZip(msg);
+        break;
+      case 'ZIP_ABORT':
+        // N2: the worker sends this on any chunk failure or cancel so
+        // accumulated chunks are released immediately, not kept until
+        // the offscreen document closes.
+        result = zipAbort(msg);
+        break;
+      case 'REVOKE_URL':
+        result = revokeObjectUrl(msg);
+        break;
+      case 'CONVERT_BMP':
+        result = await convertBmp(msg);
+        break;
+      case 'CONVERT_SVG':
+        result = await convertSvg(msg);
+        break;
+      case 'SANITIZE_SVG':
+        result = await sanitizeSvg(msg);
+        break;
+      case 'CONVERT_GIF':
+        result = await convertGif(msg);
+        break;
+      case 'STITCH_BEGIN':
+        result = stitchBegin(msg);
+        break;
+      case 'STITCH_TILE':
+        result = await stitchTile(msg);
+        break;
+      case 'STITCH_END':
+        result = stitchEnd(msg);
+        break;
+      case 'STITCH_END_BLOB':
+        result = await stitchEndBlob(msg);
+        break;
+      case 'STITCH_PROBE':
+        result = await stitchProbe(msg);
+        break;
+      case 'STITCH_EXTEND':
+        result = stitchExtend(msg);
+        break;
+      case 'CAPTURE_GROUP_FINALIZE':
+        result = await captureGroupFinalize(msg);
+        break;
+      case 'STITCH_ABORT':
+        result = stitchAbort();
+        break;
+      case 'SUPPORTS_AVIF':
+        result = await supportsAvif();
+        break;
+      case 'MEMORY_SAMPLE':
+        // FIX 4.3: heap sample for memory measurement (e2e + diagnostics).
+        result = memorySample();
+        break;
+      default:
+        throw new Error('unknown');
+    }
+    return result;
+  }
+
+  function handleOffscreenMessage(msg, sender, sendResponse) {
     if (!msg || msg.target !== 'offscreen' || typeof msg.type !== 'string') return false;
     // M6: the offscreen document only takes orders from our own extension.
     if (!sender || sender.id !== chrome.runtime.id) {
@@ -1061,86 +1140,25 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     }
     (async () => {
       try {
-        let result;
-        switch (msg.type) {
-          case 'CONVERT_IMAGE':
-            result = await convertImage(msg);
-            break;
-          case 'STRIP_METADATA':
-            result = await stripMetadata(msg);
-            break;
-          case 'SNIFF_TYPE':
-            result = await sniffType(msg);
-            break;
-          case 'CLIPBOARD_WRITE':
-            result = await clipboardWrite(msg);
-            break;
-          case 'CLIPBOARD_IMAGE':
-            result = await clipboardImage(msg);
-            break;
-          case 'BUILD_ZIP':
-            result = await buildZip(msg);
-            break;
-          case 'ZIP_ABORT':
-            // N2: the worker sends this on any chunk failure or cancel so
-            // accumulated chunks are released immediately, not kept until
-            // the offscreen document closes.
-            result = zipAbort(msg);
-            break;
-          case 'REVOKE_URL':
-            result = revokeObjectUrl(msg);
-            break;
-          case 'CONVERT_BMP':
-            result = await convertBmp(msg);
-            break;
-          case 'CONVERT_SVG':
-            result = await convertSvg(msg);
-            break;
-          case 'SANITIZE_SVG':
-            result = await sanitizeSvg(msg);
-            break;
-          case 'CONVERT_GIF':
-            result = await convertGif(msg);
-            break;
-          case 'STITCH_BEGIN':
-            result = stitchBegin(msg);
-            break;
-          case 'STITCH_TILE':
-            result = await stitchTile(msg);
-            break;
-          case 'STITCH_END':
-            result = stitchEnd(msg);
-            break;
-          case 'STITCH_END_BLOB':
-            result = await stitchEndBlob(msg);
-            break;
-          case 'STITCH_PROBE':
-            result = await stitchProbe(msg);
-            break;
-          case 'STITCH_EXTEND':
-            result = stitchExtend(msg);
-            break;
-          case 'CAPTURE_GROUP_FINALIZE':
-            result = await captureGroupFinalize(msg);
-            break;
-          case 'STITCH_ABORT':
-            result = stitchAbort();
-            break;
-          case 'SUPPORTS_AVIF':
-            result = await supportsAvif();
-            break;
-          case 'MEMORY_SAMPLE':
-            // FIX 4.3: heap sample for memory measurement (e2e + diagnostics).
-            result = memorySample();
-            break;
-          default:
-            throw new Error('unknown');
-        }
-        sendResponse(result);
+        sendResponse(await dispatchOffscreenMessage(msg));
       } catch (err) {
         sendResponse({ ok: false, error: String((err && err.message) || err).slice(0, 200) });
       }
     })();
     return true;
-  });
+  }
+
+  // In-process mode: when the background page loads this module (the
+  // flag is set by shared/offscreen-bridge.js before the import), do
+  // NOT register the runtime listener. The background page already
+  // runs the service worker code, so a second listener for the same
+  // messages would double-handle them. Instead, expose the dispatch
+  // function for the bridge to call directly. The offscreen document
+  // path is unchanged: the flag is unset there, so only the listener
+  // is registered and no in-process handler exists.
+  if (typeof globalThis !== 'undefined' && globalThis.__imgfetchOffscreenInProcess === true) {
+    globalThis.__imgfetchOffscreenHandle = dispatchOffscreenMessage;
+  } else {
+    chrome.runtime.onMessage.addListener(handleOffscreenMessage);
+  }
 })();

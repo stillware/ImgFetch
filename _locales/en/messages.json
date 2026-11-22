@@ -620,7 +620,7 @@
     "description": "Error: GIF encoding unavailable."
   },
   "error_avifUnavailable": {
-    "message": "AVIF encoding isn't available in this browser (needs Chrome/Edge 130+, update the browser to enable it). A PNG was saved instead.",
+    "message": "AVIF encoding is not available in this browser. A PNG was saved instead.",
     "description": "Error: AVIF encoding unavailable, PNG saved."
   },
   "error_pageTooLarge": {

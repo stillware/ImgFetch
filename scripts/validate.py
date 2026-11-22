@@ -19,6 +19,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -191,6 +192,104 @@ for perm, api in {
     if api in code and perm not in declared:
         fail(f"code uses chrome.{api} but '{perm}' not declared")
 ok("permission usage matches declarations")
+
+# 5b. Firefox manifest: derive it to a temp location (never into the
+# repo root) and check it against the root manifest. Skipped for
+# extracted store zips, which ship no scripts/ folder.
+firefox_generator = ROOT / "scripts" / "make-firefox-manifest.mjs"
+if IS_ZIP:
+    ok("Firefox manifest check skipped for extracted zip (no generator shipped)")
+elif not firefox_generator.exists():
+    fail("scripts/make-firefox-manifest.mjs is missing")
+else:
+    firefox_manifest = {}
+    with tempfile.TemporaryDirectory(prefix="imgfetch-firefox-") as firefox_tmp:
+        firefox_path = Path(firefox_tmp) / "manifest.json"
+        gen = subprocess.run(
+            ["node", str(firefox_generator), str(manifest_path), str(firefox_path)],
+            capture_output=True, text=True)
+        if gen.returncode != 0:
+            fail(f"Firefox manifest generator failed: {(gen.stderr or '').strip()[:300]}")
+        else:
+            try:
+                firefox_manifest = json.loads(firefox_path.read_text(encoding='utf-8'))
+                ok("derived Firefox manifest is valid JSON")
+            except Exception as e:
+                fail(f"derived Firefox manifest invalid: {e}")
+    if firefox_manifest:
+        firefox_refs = []
+        firefox_bg = firefox_manifest.get("background", {})
+        if isinstance(firefox_bg, dict):
+            firefox_refs.extend(firefox_bg.get("scripts", []) or [])
+            if "service_worker" in firefox_bg:
+                fail("Firefox manifest still has a service_worker key")
+            if firefox_bg.get("scripts") != ([bg.get("service_worker")] if isinstance(bg, dict) else []):
+                fail("Firefox background scripts do not match the root service_worker")
+            if isinstance(bg, dict) and "type" in bg and firefox_bg.get("type") != bg["type"]:
+                fail("Firefox background type does not match the root background type")
+        firefox_action = firefox_manifest.get("action", {})
+        if isinstance(firefox_action, dict):
+            if firefox_action.get("default_popup"):
+                firefox_refs.append(firefox_action["default_popup"])
+            firefox_refs.extend((firefox_action.get("default_icon") or {}).values())
+        if firefox_manifest.get("options_page"):
+            firefox_refs.append(firefox_manifest["options_page"])
+        firefox_refs.extend((firefox_manifest.get("icons") or {}).values())
+        for path in firefox_refs:
+            if not (ROOT / path).exists():
+                fail(f"Firefox manifest references missing file: {path}")
+        if firefox_refs:
+            ok(f"all {len(firefox_refs)} Firefox manifest file references exist")
+        firefox_perms = firefox_manifest.get("permissions", [])
+        expected_firefox_perms = [p for p in manifest.get("permissions", []) if p != "offscreen"]
+        if firefox_perms != expected_firefox_perms:
+            fail(f"Firefox permissions {firefox_perms} do not equal root permissions minus offscreen")
+        if "offscreen" in firefox_perms:
+            fail("Firefox manifest still has the offscreen permission")
+        if "minimum_chrome_version" in firefox_manifest:
+            fail("Firefox manifest still has minimum_chrome_version")
+        for perm, api in {
+            "contextMenus": "contextMenus",
+            "downloads": "downloads.download",
+            "storage": "storage.local",
+            "scripting": "scripting.executeScript",
+            "notifications": "notifications.create",
+        }.items():
+            if api in code and perm not in firefox_perms:
+                fail(f"code uses chrome.{api} but '{perm}' not declared in Firefox manifest")
+        ok("Firefox permission usage matches declarations")
+        gecko = ((firefox_manifest.get("browser_specific_settings") or {}).get("gecko") or {})
+        if gecko.get("id") != "imgfetch@stillware":
+            fail(f"Firefox gecko id is {gecko.get('id')!r}, expected 'imgfetch@stillware'")
+        if gecko.get("strict_min_version") != "142.0":
+            fail(f"Firefox strict_min_version is {gecko.get('strict_min_version')!r}, expected '142.0'")
+        if gecko.get("data_collection_permissions") != {"required": ["none"]}:
+            fail("Firefox data_collection_permissions is not {'required': ['none']}")
+        if gecko.get("id") == "imgfetch@stillware" and gecko.get("strict_min_version") == "142.0":
+            ok("Firefox gecko id, strict_min_version and data collection declaration are correct")
+        stripped_root = {k: v for k, v in manifest.items()
+                         if k not in ("background", "permissions", "minimum_chrome_version", "commands")}
+        stripped_firefox = {k: v for k, v in firefox_manifest.items()
+                            if k not in ("background", "permissions", "browser_specific_settings",
+                                         "commands", "optional_host_permissions")}
+        if stripped_firefox != stripped_root:
+            fail("Firefox manifest other fields do not match the root manifest")
+        else:
+            ok("Firefox manifest preserves all other root fields")
+        if firefox_manifest.get("optional_host_permissions") != manifest.get("host_permissions", []):
+            fail("Firefox optional_host_permissions do not equal root host_permissions")
+        else:
+            ok("Firefox optional_host_permissions match host_permissions")
+        expected_commands = json.loads(json.dumps(manifest.get("commands", {})))
+        for name, key in {"imgfetch-scan-page": "Alt+Shift+S",
+                          "imgfetch-capture-element": "Alt+Shift+C"}.items():
+            if name in expected_commands and "suggested_key" in expected_commands[name]:
+                expected_commands[name]["suggested_key"]["default"] = key
+        if firefox_manifest.get("commands") != expected_commands:
+            fail("Firefox commands do not match root commands with Firefox key overrides")
+        else:
+            ok("Firefox commands match root commands with Firefox key overrides")
+
 
 # 6. Brand check: user-visible name should be ImgFetch, either directly or
 # through the chrome.i18n manifest key __MSG_appName__.
