@@ -168,7 +168,7 @@
     "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
-    "message": "تم العثور عليه حتى الآن",
+    "message": "تم العثور عليها حتى الآن",
     "description": "Label of the found-so-far count while scanning."
   },
   "popup_scanFoundCount_zero": {
@@ -471,6 +471,14 @@
     "message": "المعروض {shown} · الموجود {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "الإجمالي المحدد: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "الإجمالي المحدد: نحو {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_zero": {
     "message": "عدد النسخ المكررة المزالة: {count}",
     "description": "Status line fragment. Plural."
@@ -767,9 +775,17 @@
     "message": "مسح السجل",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "تأكيد المسح؟",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "تم مسح السجل.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "تم النسخ!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "لا توجد تنزيلات بعد. ستظهر صورك المحفوظة هنا.",
@@ -778,6 +794,34 @@
   "history_emptyTitle": {
     "message": "لا توجد تنزيلات بعد",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "تعذر العثور على الملف",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_zero": {
+    "message": "{count} ملفات",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_one": {
+    "message": "{count} ملف",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_two": {
+    "message": "{count} ملفان",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_few": {
+    "message": "{count} ملفات",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_many": {
+    "message": "{count} ملفا",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} ملف",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "ستظهر صورك المنزّلة هنا.",
@@ -790,6 +834,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "فتح رابط المصدر",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "اليوم",
@@ -907,6 +955,10 @@
     "message": "رابط الصورة هذا يبدو غير آمن، فتخطاه ImgFetch.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "تعذر عرض الملف. ربما تم نقله أو حذفه.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "لم يعثر ImgFetch على صورة صالحة هنا.",
     "description": "Error: no usable image at the target."
@@ -974,6 +1026,14 @@
   "options_sectionsAria": {
     "message": "أقسام الإعدادات",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "ابحث في الإعدادات",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "لا يوجد إعداد يطابق بحثك.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "عام",
@@ -1091,10 +1151,6 @@
     "message": "داكن",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "بعد انتهاء التنزيل",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "البقاء صامتًا",
     "description": "Post-download: do nothing."
@@ -1147,10 +1203,6 @@
     "message": "اختيار الجودة الذكي",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "تنزيل ذكي (موصى به)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "يفحص كل مصدر متاح ويحفظ أفضل نسخة حقيقية يمكنه التحقق منها.",
     "description": "Hint for smart mode."
@@ -1186,6 +1238,14 @@
   "q_webpHint": {
     "message": "تُستخدم عند التحويل إلى WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "النتيجة التقديرية",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "تستخدم التحويلات JPG {jpg} وWebP {webp} وPNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "صيغ أخرى",
@@ -1250,10 +1310,6 @@
   "fn_tokens": {
     "message": "الرموز المتاحة",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "السماح لي بإعادة تسمية الملفات قبل التنزيل",
@@ -1491,10 +1547,6 @@
     "message": "نسخ رابط صفحة الاختصارات",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "لتغيير اختصار، افتح chrome://extensions/shortcuts (أو edge://extensions/shortcuts في Edge)، وابحث عن ImgFetch وعيّن مفاتيحك المفضلة. على Mac، استخدم ⌘ بدل Ctrl. إذا أظهر اختصار “غير معيّن”، فالمفتاح المقترح تعارض مع المتصفح أو إضافة أخرى، عيّنه يدويًا هنا.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "تعذّر قراءة الاختصارات.",
     "description": "Error state of the shortcut list."
@@ -1564,7 +1616,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "يخزن اسم الملف والموقع والصيغة والحجم لكل تنزيل.",
+    "message": "يخزن اسم الملف والموقع والصيغة والحجم ومعاينة صغيرة ورابط المصدر ومعرف التنزيل لكل تنزيل.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1703,10 +1755,6 @@
     "message": "لا يملك ImgFetch خادمًا ولا يجمع شيئًا. تُجلب فقط الصور التي تختار تنزيلها، وGoogle Lens (فقط إذا نقرت) يفتح Google مع عنوان الصورة. انظر PRIVACY.md في المستودع للبيان الكامل.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "يحتفظ ImgFetch بكل شيء على جهازك. لا حسابات، لا تتبع، لا تحليلات.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ما يخزنه ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1738,10 +1786,6 @@
   "pr_never4": {
     "message": "تُجلب الصور مباشرة من المواقع التي تزورها، باستخدام جلسة متصفحك العادية. لا يضيف ImgFetch معاملات تتبع.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "سبب طلب ImgFetch كل إذن مشروح في قسم “حول”، والبيان الكامل في PRIVACY.md في المستودع العام.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "التعليق على لقطة الشاشة",
@@ -1854,10 +1898,6 @@
   "annotate_discard": {
     "message": "تجاهل",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "تلميح: اسحب على الصورة للرسم. أداة النص: انقر حيث يجب أن يذهب النص، واكتب، واضغط Enter. انقر النص الموضوع لتحديده، واسحب لتحريكه، واضغط Delete أو Backspace لإزالته. التمويه: اسحب فوق المنطقة المراد إخفاؤها.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "البكسلة تخفي التفاصيل عن الأعين الفضولية، لكن يمكن عكسها أحيانًا، فلا تعتمد عليها للنص الحساس.",

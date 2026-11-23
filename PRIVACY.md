@@ -17,7 +17,7 @@ All of the following stays in your browser, on your device:
 | Data | Where it is stored | Notes |
 |---|---|---|
 | Settings and per-site preferences | `chrome.storage.local` | Your choices in Settings, saved locally |
-| Download history | `chrome.storage.local` | File names, source hosts, formats, and sizes. No image bytes. At most 200 records are kept, for the retention period you set in Settings (30 days by default) |
+| Download history | `chrome.storage.local` | File names, source hosts, formats, sizes, a small preview image, the source link and the browser download id. The preview is a 120 px thumbnail made only from image data already in memory, never by fetching the image again. All of it stays on this device only. At most 200 records are kept, for the retention period you set in Settings (30 days by default). Previews take at most 3 MB in total, and Clear history removes everything, including the previews, links and ids. |
 | The file counter | `chrome.storage.local` | Used for automatic file naming |
 | The last page scan | `chrome.storage.session` | Kept for the browser session only |
 | Screenshots and full page capture parts waiting in a preview or editor page | IndexedDB in the browser | Capture records expire after 1 hour, and at most 60 records are kept. Saving a capture downloads it through the browser like any other download |
@@ -58,7 +58,7 @@ ImgFetch requests only the permissions its features need. The full list, with th
 ## Your controls
 
 - **Settings, Privacy:** disable history, shorten its retention (1 to 365 days), export or import settings as JSON, or reset everything.
-- **Popup, History:** clear history at any time.
+- **Popup, History:** clear history at any time; clearing also removes the previews, source links and download ids.
 - Uninstalling ImgFetch removes its on-device storage with it.
 
 ## Contact

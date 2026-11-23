@@ -103,11 +103,25 @@
   --r1: 8px;
   --r2: 12px;
   --r3: 16px;
-  /* Motion. */
-  --dur-fast: 120ms;
-  --dur: 200ms;
-  --dur-slow: 320ms;
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Motion: one token per use. Durations: stagger 40ms, micro 80ms,
+     quick 150ms (hover in), fast 250ms (dialog and view opens),
+     medium 350ms (dialog and panel closes), slow 400ms (panel opens),
+     very slow 500ms. Easing: default for surfaces, ease-in-out for
+     swaps and text, linear only for shimmer, pulse and the scan line,
+     overshoot only for entrances. --dur stays as the quick alias for
+     per-page styles that reference it. */
+  --dur-stagger: 40ms;
+  --dur-micro: 80ms;
+  --dur-quick: 150ms;
+  --dur-fast: 250ms;
+  --dur-medium: 350ms;
+  --dur-slow: 400ms;
+  --dur-vslow: 500ms;
+  --dur: var(--dur-quick);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-linear: linear;
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
   /* Legacy aliases: per-page inline styles still reference these names. */
   --primary: var(--accent);
   --primary-strong: #4a3fd1;
@@ -148,6 +162,11 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+/* Paint the root with the app background too: any area the body does
+   not cover (short pages, popup edges) must be --bg, never the
+   browser default. The body background alone is not enough, because
+   the canvas only inherits it where the body paints. */
+html { background-color: var(--bg); }
 body {
   font-family: var(--font);
   background-color: var(--bg);
@@ -170,14 +189,25 @@ body {
   outline-offset: 2px;
 }
 
+/* ---------- links: accent text in both themes, never browser blue ---------- */
+/* Plain anchors (options About and Privacy, welcome, info) use the accent
+   text token, so they stay readable in dark and light. :visited keeps
+   the same accent, so visited links never fall back to browser purple.
+   Button-styled anchors (a.btn) and the designed .privacy-link are
+   excluded: their own rules already own their colours. */
+a:not(.btn):not(.privacy-link) { color: var(--accentText); text-decoration: underline; text-underline-offset: 2px; }
+a:not(.btn):not(.privacy-link):visited { color: var(--accentText); }
+a:not(.btn):not(.privacy-link):hover { color: var(--accent2); }
+a:not(.btn):not(.privacy-link):focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
+
 /* ---------- smooth theme cross-fade (applied briefly by UI.applyTheme) ---------- */
 .theme-fade body,
 .theme-fade body *,
 .theme-fade body *::before,
 .theme-fade body *::after {
-  transition: background-color 0.28s ease, color 0.28s ease,
-    border-color 0.28s ease, outline-color 0.28s ease,
-    fill 0.28s ease, stroke 0.28s ease !important;
+  transition: background-color var(--dur-fast) var(--ease-in-out), color var(--dur-fast) var(--ease-in-out),
+    border-color var(--dur-fast) var(--ease-in-out), outline-color var(--dur-fast) var(--ease-in-out),
+    fill var(--dur-fast) var(--ease-in-out), stroke var(--dur-fast) var(--ease-in-out) !important;
 }
 
 /* ---------- icons: Lucide, one family, outline, 1.75 px stroke ---------- */
@@ -243,7 +273,7 @@ img.brand-mark { display: block; }
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--cyan), transparent);
   box-shadow: 0 0 18px 3px rgba(34, 211, 238, 0.35);
-  animation: sx-scan 1.6s ease-in-out infinite alternate;
+  animation: sx-scan 1.6s linear infinite alternate;
   pointer-events: none;
 }
 @keyframes sx-scan {
@@ -257,7 +287,7 @@ img.brand-mark { display: block; }
   font: 600 13.5px/1.2 var(--font); padding: 9px 14px; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 32px;
-  transition: transform var(--dur-fast) ease, box-shadow var(--dur) ease, background-color var(--dur) ease, border-color var(--dur) ease, color var(--dur) ease;
+  transition: transform var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease);
   text-decoration: none; color: var(--text); background: var(--surface);
 }
 .btn:hover { background: var(--hover); border-color: var(--line2); }
@@ -290,7 +320,7 @@ img.brand-mark { display: block; }
   width: 32px; height: 32px; min-width: 32px; min-height: 32px;
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; color: var(--muted); font-size: 16px; padding: 0;
-  transition: background-color var(--dur) ease, color var(--dur) ease, transform var(--dur-fast) ease;
+  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
 }
 .icon-btn:hover { background: var(--hover); color: var(--text); }
 .icon-btn:active { transform: scale(0.98); }
@@ -307,7 +337,7 @@ input[type="text"], input[type="number"], select, textarea {
   font: 400 13.5px var(--font); color: var(--text);
   background: var(--surface); border: 1px solid var(--line2);
   border-radius: var(--r1); padding: 9px 11px; width: 100%;
-  transition: border-color var(--dur) ease, box-shadow var(--dur) ease;
+  transition: border-color var(--dur-quick) var(--ease);
 }
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--accent2); outline-offset: 2px; border-color: var(--accent);
@@ -390,13 +420,13 @@ input.switch {
   width: 44px; height: 26px; margin: 0; padding: 0; border: none;
   border-radius: 999px; background: var(--line2);
   position: relative; cursor: pointer; outline: none;
-  transition: background-color 0.18s ease;
+  transition: background-color var(--dur-quick) var(--ease);
 }
 input.switch::after {
   content: ""; position: absolute; top: 3px; inset-inline-start: 3px;
   width: 20px; height: 20px; border-radius: 50%;
   background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform 0.18s ease;
+  transition: transform var(--dur-quick) var(--ease);
 }
 input.switch:checked { background: var(--accent); }
 input.switch:checked::after { transform: translateX(18px); }
@@ -413,7 +443,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 0; background: transparent; color: var(--muted); font: 600 12.5px var(--font);
   padding: 7px 12px; border-radius: var(--r1); cursor: pointer; white-space: nowrap;
   min-height: 32px;
-  transition: background-color var(--dur) ease, color var(--dur) ease, box-shadow var(--dur) ease;
+  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease);
 }
 .segmented button:hover { color: var(--text); }
 .segmented button[aria-pressed="true"] {
@@ -427,7 +457,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid var(--line2); background: var(--surface); color: var(--muted);
   font: 600 12.5px var(--font); border-radius: 999px; padding: 6px 12px; cursor: pointer;
   display: inline-flex; align-items: center; gap: 6px; min-height: 32px;
-  transition: background-color var(--dur) ease, color var(--dur) ease, border-color var(--dur) ease;
+  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease);
 }
 .chip:hover { color: var(--text); border-color: var(--line2); background: var(--hover); }
 .chip:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
@@ -485,12 +515,12 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   display: flex; gap: 12px; align-items: flex-start;
   background: var(--surface); border: 1px solid var(--line2);
   border-radius: var(--r2); padding: 12px 16px;
-  transition: border-color var(--dur) ease, background-color var(--dur) ease;
+  transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease);
 }
 .radio-card-body::before {
   content: ""; flex: none; width: 18px; height: 18px; margin-top: 2px;
   border-radius: 50%; border: 2px solid var(--line2); background: var(--surface);
-  transition: border-color var(--dur) ease, background-color var(--dur) ease;
+  transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease);
 }
 .radio-card:hover .radio-card-body { border-color: var(--line2); background: var(--hover); }
 .radio-card > input[type="radio"]:checked + .radio-card-body {
@@ -512,11 +542,14 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ---------- progress ---------- */
 .progress { height: 8px; border-radius: 999px; background: var(--raised); overflow: hidden; }
-.progress > i { display: block; height: 100%; width: 0%; border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), var(--cyan)); transition: width 0.25s ease; }
+.progress > i { display: block; height: 100%; width: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan)); transform: scaleX(0); transform-origin: left center;
+  transition: transform var(--dur-fast) var(--ease-in-out); }
+[dir="rtl"] .progress > i { transform-origin: right center; }
 .progress.indeterminate > i {
   width: 40%;
-  animation: sx-progress-slide 1.2s ease-in-out infinite;
+  transform: none;
+  animation: sx-progress-slide 1.2s linear infinite;
 }
 @keyframes sx-progress-slide {
   0% { margin-inline-start: -40%; }
@@ -538,7 +571,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .thumb {
   position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
   background: var(--raised); border: 2px solid transparent; cursor: pointer; padding: 0;
-  transition: transform var(--dur-fast) ease, border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+  transition: transform var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease);
   width: 100%;
 }
 .thumb-wrap:hover .thumb { transform: translateY(-2px); box-shadow: var(--shadow); }
@@ -546,7 +579,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 /* Blob: thumbnails resolve async, shimmer until the preview arrives. */
 @keyframes sx-shimmer { 0% { opacity: .45; } 50% { opacity: 1; } 100% { opacity: .45; } }
 .thumb img.thumb-loading {
-  animation: sx-shimmer 1.2s ease-in-out infinite;
+  animation: sx-shimmer 1.2s linear infinite;
   background: linear-gradient(100deg, var(--raised) 40%, var(--surface) 50%, var(--raised) 60%);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -565,7 +598,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   position: absolute; bottom: 6px; inset-inline-end: 6px; width: 32px; height: 32px; border-radius: 50%;
   background: rgba(10, 12, 25, 0.72); color: #fff; border: 0; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity .15s ease;
+  opacity: 0; transition: opacity var(--dur-quick) var(--ease);
 }
 .thumb-wrap:hover .zoom-btn, .thumb-wrap:focus-within .zoom-btn { opacity: 1; }
 @media (hover: none) {
@@ -611,7 +644,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   display: flex; align-items: center; gap: 8px;
   background: var(--raised); color: var(--text); font-size: 13.5px; padding: 10px 16px; border-radius: 10px;
   border: 1px solid var(--line2);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); animation: sx-toast-in 0.25s ease;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); animation: sx-toast-in var(--dur-fast) var(--ease);
   max-width: 92vw; text-align: start;
 }
 .toast .icon { width: 16px; height: 16px; color: var(--ok); }
@@ -641,7 +674,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 /* ---------- skeleton ---------- */
 .skeleton {
   border-radius: var(--r1); background: var(--raised);
-  animation: sx-shimmer 1.2s ease-in-out infinite;
+  animation: sx-shimmer 1.2s linear infinite;
 }
 .skeleton-text { height: 13px; }
 .skeleton-thumb { aspect-ratio: 1; border-radius: 10px; }
@@ -661,7 +694,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid var(--line2); border-radius: var(--r1);
   font: 600 12px/1.3 var(--font); padding: 5px 8px; white-space: nowrap;
   box-shadow: var(--shadow); opacity: 0; pointer-events: none;
-  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) ease;
+  transition: opacity var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
   z-index: 60;
 }
 [dir="rtl"] [data-tip]::after { transform: translateX(50%) translateY(2px); }
@@ -677,17 +710,31 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
    flips from none), so view/pane switches feel smooth instead of instant.
    Honors prefers-reduced-motion via the block below. */
 @keyframes sx-pane-in { from { opacity: 0; transform: translateY(5px); } }
-.pane-anim { animation: sx-pane-in 0.18s ease; }
+.pane-anim { animation: sx-pane-in var(--dur-fast) var(--ease); }
 
 /* Download-complete check draw, 300 ms. Applied to the check icon shown
    after a download finishes. */
 @keyframes sx-check-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
-.check-draw { stroke-dasharray: 24; animation: sx-check-draw 0.3s var(--ease) forwards; }
+.check-draw { stroke-dasharray: 24; animation: sx-check-draw var(--dur-fast) var(--ease) forwards; }
+
+/* Results grid: thumbnails enter with a 40 ms stagger, capped at the
+   first four per page (popup.js sets --stagger-i), so the last staggered
+   thumb starts at 120 ms and the whole entrance stays under 300 ms. */
+.grid .thumb-wrap { animation: sx-grid-in var(--dur-quick) var(--ease) both; animation-delay: calc(var(--stagger-i, 0) * var(--dur-stagger)); }
+@keyframes sx-grid-in { from { opacity: 0; transform: translateY(6px); } }
+/* Dialogs: open 250 ms with overshoot, close 150 ms ease-in-out. The
+   closing class is added by JS before removal (shared/ui.js and
+   popup/popup.js); under reduced motion the block below collapses both. */
+.modal, .confirm-dialog { animation: sx-dialog-in var(--dur-fast) var(--ease-overshoot); }
+@keyframes sx-dialog-in { from { opacity: 0; transform: translateY(6px) scale(0.97); } }
+.modal-backdrop.is-closing .modal, .confirm-backdrop.is-closing .confirm-dialog { animation: sx-dialog-out var(--dur-quick) var(--ease-in-out) forwards; }
+@keyframes sx-dialog-out { to { opacity: 0; transform: translateY(4px) scale(0.97); } }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .scan-line { animation: none; }
   .progress.indeterminate > i { animation: none; margin-inline-start: 0; width: 100%; }
   .check-draw { animation: none; stroke-dasharray: none; }
+  .grid .thumb-wrap, .modal, .confirm-dialog { animation: none; }
   [data-tip]::after { transition: none; }
 }

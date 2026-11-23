@@ -351,6 +351,14 @@
     "message": "แสดง {shown} · พบ {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "ยอดรวมที่เลือก: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "ยอดรวมที่เลือก: ประมาณ {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "ลบรูปซ้ำ {count} รูปแล้ว",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "ล้างประวัติ",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "ยืนยันการล้างหรือไม่?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "ล้างประวัติแล้ว",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "คัดลอกแล้ว!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "ยังไม่มีการดาวน์โหลด รูปภาพที่คุณบันทึกจะปรากฏที่นี่",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "ยังไม่มีการดาวน์โหลด",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "ไม่พบไฟล์",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count} ไฟล์",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "ภาพที่คุณดาวน์โหลดจะปรากฏที่นี่",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "เปิดลิงก์ต้นฉบับ",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "วันนี้",
@@ -647,6 +675,10 @@
     "message": "ลิงก์รูปภาพนี้ดูไม่ปลอดภัย ImgFetch จึงข้ามไป",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "ไม่สามารถแสดงไฟล์ได้ ไฟล์อาจถูกย้ายหรือลบไปแล้ว",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch ไม่พบรูปภาพที่ใช้ได้ที่นี่",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "ส่วนการตั้งค่า",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "ค้นหาการตั้งค่า",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "ไม่มีการตั้งค่าที่ตรงกับการค้นหาของคุณ",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "ทั่วไป",
@@ -831,10 +871,6 @@
     "message": "มืด",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "หลังจากดาวน์โหลดเสร็จ",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "เงียบไว้",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "การเลือกคุณภาพอัจฉริยะ",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "ดาวน์โหลดอัจฉริยะ (แนะนำ)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "ตรวจสอบทุกแหล่งที่มาที่มีและบันทึกเวอร์ชันจริงที่ดีที่สุดที่สามารถตรวจสอบได้",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "ใช้เมื่อแปลงเป็น WebP",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "ผลลัพธ์โดยประมาณ",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "การแปลงใช้ JPG {jpg}, WebP {webp} และ PNG {png}",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "รูปแบบอื่น",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "โทเค็นที่ใช้ได้",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "ให้ฉันเปลี่ยนชื่อไฟล์ก่อนดาวน์โหลด",
@@ -1231,10 +1267,6 @@
     "message": "คัดลอกลิงก์หน้าแป้นลัด",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "หากต้องการเปลี่ยนแป้นลัด เปิด chrome://extensions/shortcuts (หรือ edge://extensions/shortcuts ใน Edge) ค้นหา ImgFetch และตั้งค่าปุ่มที่ต้องการ บน Mac ใช้ ⌘ แทน Ctrl หากแป้นลัดแสดง “ไม่ได้ตั้งค่า” แสดงว่าปุ่มที่แนะนำชนกับเบราว์เซอร์หรือส่วนขยายอื่น ตั้งค่าด้วยตนเองที่นี่",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "ไม่สามารถอ่านแป้นลัดได้",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "เก็บชื่อไฟล์ เว็บไซต์ รูปแบบ และขนาดของแต่ละการดาวน์โหลด",
+    "message": "จัดเก็บชื่อไฟล์ เว็บไซต์ รูปแบบ ขนาด ตัวอย่างขนาดเล็ก ลิงก์ต้นฉบับ และรหัสดาวน์โหลดของการดาวน์โหลดแต่ละครั้ง",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch ไม่มีเซิร์ฟเวอร์และไม่เก็บอะไรเลย จะดึงเฉพาะรูปภาพที่คุณเลือกดาวน์โหลด และ Google Lens (เฉพาะเมื่อคุณคลิก) จะเปิด Google พร้อมที่อยู่รูปภาพ ดู PRIVACY.md ในที่เก็บสำหรับคำชี้แจงฉบับเต็ม",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch เก็บทุกอย่างไว้ในอุปกรณ์ของคุณ ไม่มีบัญชี ไม่ติดตาม ไม่วิเคราะห์",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "สิ่งที่ ImgFetch เก็บ",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "รูปภาพถูกดึงตรงจากเว็บไซต์ที่คุณเยี่ยมชม ด้วยเซสชันเบราว์เซอร์ปกติของคุณ ImgFetch ไม่เพิ่มพารามิเตอร์ติดตาม",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "เหตุผลที่ ImgFetch ขอแต่ละสิทธิ์อธิบายไว้ในส่วนเกี่ยวกับ และคำชี้แจงฉบับเต็มอยู่ใน PRIVACY.md ในที่เก็บสาธารณะ",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "ใส่คำอธิบายภาพหน้าจอ",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "ทิ้ง",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "เคล็ดลับ: ลากบนรูปเพื่อวาด เครื่องมือข้อความ: คลิกตรงที่ข้อความควรอยู่ พิมพ์ กด Enter คลิกข้อความที่วางเพื่อเลือก ลากเพื่อย้าย กด Delete หรือ Backspace เพื่อลบ เบลอ: ลากบนพื้นที่ที่ซ่อน",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "การทำพิกเซลซ่อนรายละเอียดจากสายตาอยากรู้ แต่บางครั้งย้อนกลับได้ อย่าพึ่งพาสำหรับข้อความที่ละเอียดอ่อน",

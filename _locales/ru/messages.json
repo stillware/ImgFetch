@@ -423,6 +423,14 @@
     "message": "Показано {shown} · найдено {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Выбрано всего: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Выбрано всего: около {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "удалён {count} дубликат",
     "description": "Status line fragment. Singular."
@@ -679,9 +687,17 @@
     "message": "Очистить историю",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Подтвердить очистку?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "История очищена.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Скопировано!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Загрузок пока нет. Ваши сохранённые изображения появятся здесь.",
@@ -690,6 +706,26 @@
   "history_emptyTitle": {
     "message": "Пока нет загрузок",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Файл не найден",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} файл",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_few": {
+    "message": "{count} файла",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_many": {
+    "message": "{count} файлов",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} файла",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Загруженные изображения появятся здесь.",
@@ -702,6 +738,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Открыть ссылку на источник",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Сегодня",
@@ -803,6 +843,10 @@
     "message": "Эта ссылка на изображение выглядит небезопасно, ImgFetch пропустил её.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Не удалось показать файл. Возможно, он был перемещён или удалён.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch не нашёл здесь пригодного изображения.",
     "description": "Error: no usable image at the target."
@@ -870,6 +914,14 @@
   "options_sectionsAria": {
     "message": "Разделы настроек",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Поиск по настройкам",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Ни одна настройка не соответствует запросу.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Общие",
@@ -987,10 +1039,6 @@
     "message": "Тёмная",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "После завершения загрузки",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Молчать",
     "description": "Post-download: do nothing."
@@ -1043,10 +1091,6 @@
     "message": "Умный выбор качества",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Умная загрузка (рекомендуется)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Проверяет каждый доступный источник и сохраняет лучшую подлинную версию, которую может проверить.",
     "description": "Hint for smart mode."
@@ -1082,6 +1126,14 @@
   "q_webpHint": {
     "message": "Используется при преобразовании в WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Ожидаемый результат",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Конвертация использует JPG {jpg}, WebP {webp} и PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Другие форматы",
@@ -1146,10 +1198,6 @@
   "fn_tokens": {
     "message": "Доступные токены",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Позволять переименовывать файлы перед загрузкой",
@@ -1387,10 +1435,6 @@
     "message": "Скопировать ссылку на страницу горячих клавиш",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Чтобы изменить горячую клавишу, откройте chrome://extensions/shortcuts (или edge://extensions/shortcuts в Edge), найдите ImgFetch и задайте нужные клавиши. На Mac используйте ⌘ вместо Ctrl. Если клавиша показывает «Не задано», предложенная клавиша конфликтовала с браузером или другим расширением, задайте её вручную здесь.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Не удалось прочитать горячие клавиши.",
     "description": "Error state of the shortcut list."
@@ -1460,7 +1504,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Хранит имя файла, сайт, формат и размер каждой загрузки.",
+    "message": "Хранит имя файла, сайт, формат, размер, небольшое превью, ссылку на источник и идентификатор загрузки каждой загрузки.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1599,10 +1643,6 @@
     "message": "У ImgFetch нет сервера, он ничего не собирает. Загружаются только выбранные вами изображения, а Google Lens (только если вы кликнете) открывает Google с адресом изображения. Полное заявление см. в PRIVACY.md в репозитории.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch хранит всё на вашем устройстве. Никаких аккаунтов, слежки и аналитики.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Что хранит ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1634,10 +1674,6 @@
   "pr_never4": {
     "message": "Изображения получаются напрямую с посещаемых вами сайтов, с вашей обычной сессией браузера. ImgFetch не добавляет трекинговых параметров.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Зачем ImgFetch каждое разрешение, объяснено в разделе «О программе», а полное заявление см. в PRIVACY.md в публичном репозитории.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Аннотировать скриншот",
@@ -1750,10 +1786,6 @@
   "annotate_discard": {
     "message": "Отбросить",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Совет: перетаскивайте по изображению, чтобы рисовать. Инструмент «Текст»: кликните, где должен быть текст, введите его, нажмите Enter. Кликните размещённый текст, чтобы выбрать, перетащите, чтобы переместить, нажмите Delete или Backspace, чтобы удалить. Размытие: перетащите по скрываемой области.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Пикселизация скрывает детали от любопытных глаз, но иногда её можно обратить, поэтому не полагайтесь на неё для чувствительного текста.",

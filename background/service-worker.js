@@ -75,7 +75,7 @@ import {
   isValidCaptureId,
   isValidCaptureGroupId,
 } from '../core/validation.js';
-import { addRecord, pruneRecords, MAX_RECORDS } from '../core/history.js';
+import { addRecord, pruneRecords, MAX_RECORDS, makeHistoryThumb } from '../core/history.js';
 import { dedupeImages } from '../core/dedupe.js';
 import { pickBestImageUrl } from '../core/image-url.js';
 import { coerceScanState } from '../core/scan-state.js';
@@ -260,6 +260,7 @@ async function restoreQueueState() {
         // write must not break adoption of the running download.
         if (done && done.history) {
           done.history.bytes = await downloadFileSize(s.chromeDownloadId);
+          done.history.dlId = s.chromeDownloadId;
           recordHistory(done.history).catch(() => {});
         }
       },
@@ -831,6 +832,9 @@ async function performDownload(item) {
   if (downloadId == null) throw new Error(friendlyError('download-failed'));
 
   // Wait for the download to actually finish so the queue reflects reality.
+  // The source URL is kept for the history actions (validated to http(s)
+  // by addRecord); the thumbnail source is only the image data already
+  // in memory (a converted or data: download), never a second fetch.
   await trackDownload(item, downloadId, {
     filename: path.split('/').pop(),
     site: sanitizeSegment(getHostLabel(pageUrl || url)),
@@ -839,7 +843,8 @@ async function performDownload(item) {
     width,
     height,
     kind: kind || 'single',
-  });
+    url,
+  }, finalUrl.startsWith('data:image/') ? finalUrl : null);
 
   if (settings.afterDownload === 'notify') {
     chrome.notifications.create({
@@ -982,13 +987,26 @@ async function downloadFileSize(downloadId) {
  * to the still-running browser download instead of losing the work,
  * and records the history entry the dead worker never got to write.
  */
-function trackDownload(item, downloadId, historyEntry) {
+function trackDownload(item, downloadId, historyEntry, thumbSource) {
   queue.updateItem(item.id, { chromeDownloadId: downloadId, history: historyEntry || null });
   persistQueueNow(); // N4: the id must be on disk before the worker can die
   return waitForDownloadComplete(downloadId)
     .then(async () => {
       if (historyEntry) {
         historyEntry.bytes = await downloadFileSize(downloadId);
+        historyEntry.dlId = downloadId;
+        // Thumbnail last, after the download has succeeded: a failure
+        // here must never break or slow the download itself, and the
+        // source is only ever image data already in memory. The source
+        // stays in this closure, never in the persisted queue item.
+        if (thumbSource) {
+          try {
+            const thumb = await makeHistoryThumb(thumbSource);
+            if (thumb) historyEntry.thumb = thumb;
+          } catch {
+            /* no thumbnail, the row keeps its icon tile */
+          }
+        }
         await recordHistory(historyEntry);
       }
     })
@@ -1145,7 +1163,8 @@ async function attemptSmartCandidate(item, candidate, wantFormat, settings, say)
     width,
     height,
     kind: kind || 'single',
-  });
+    url: candidate.url,
+  }, finalUrl.startsWith('data:image/') ? finalUrl : null);
 
   if (settings.afterDownload === 'notify') {
     chrome.notifications.create({
@@ -1856,6 +1875,9 @@ async function saveCapture(id) {
   const downloadId = await saveToDownloads({ url: dataUrl, path, saveAs: settings.saveAsDialog });
   if (downloadId == null) throw new Error(friendlyError('download-failed'));
   await forgetCapture(id);
+  // Thumbnail from the capture data already in memory; the download
+  // is queued already, so a failure here only drops the thumbnail.
+  const thumb = await makeHistoryThumb(dataUrl).catch(() => null);
   await recordHistory({
     filename: path.split('/').pop(),
     site: 'screenshot',
@@ -1865,6 +1887,8 @@ async function saveCapture(id) {
     height: cap.height,
     bytes: await downloadFileSize(downloadId),
     kind: 'screenshot',
+    dlId: downloadId,
+    ...(thumb ? { thumb } : {}),
   });
   return { filename: path };
 }
@@ -3332,6 +3356,7 @@ async function routeMessage(msg, kind, sender) {
       const path = joinDownloadPath(folder, filename);
       const downloadId = await saveToDownloads({ url: stripped.dataUrl, path, saveAs: settings.saveAsDialog });
       if (downloadId == null) throw new Error(friendlyError('download-failed'));
+      const strippedThumb = await makeHistoryThumb(stripped.dataUrl).catch(() => null);
       await recordHistory({
         filename: path.split('/').pop(),
         url: srcUrl,
@@ -3340,6 +3365,8 @@ async function routeMessage(msg, kind, sender) {
         height: stripped.height || 0,
         bytes: await downloadFileSize(downloadId),
         format: ext,
+        dlId: downloadId,
+        ...(strippedThumb ? { thumb: strippedThumb } : {}),
       });
       return { ok: true };
     }
@@ -3493,12 +3520,25 @@ async function routeMessage(msg, kind, sender) {
       return {};
 
     case 'SHOW_DOWNLOAD': {
-      // B6: reveal a finished download in the file manager.
+      // B6: reveal a finished download in the file manager. A missing
+      // download is a real failure now, so the row can say so instead
+      // of silently doing nothing (browser.downloads.show on Firefox).
       const downloadId = Number(msg.downloadId);
       if (!Number.isInteger(downloadId) || downloadId < 0) {
         throw new Error(friendlyError('bad-url'));
       }
-      chrome.downloads.show(downloadId);
+      let found = null;
+      try {
+        found = await chrome.downloads.search({ id: downloadId });
+      } catch {
+        found = null;
+      }
+      if (!found || !found.length) throw new Error(friendlyError('show-failed'));
+      try {
+        await chrome.downloads.show(downloadId);
+      } catch {
+        throw new Error(friendlyError('show-failed'));
+      }
       return {};
     }
 

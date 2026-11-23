@@ -423,6 +423,14 @@
     "message": "Показано {shown} · знайдено {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Усього вибрано: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Усього вибрано: близько {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "вилучено {count} дублікат",
     "description": "Status line fragment. Singular."
@@ -679,9 +687,17 @@
     "message": "Очистити історію",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Підтвердити очищення?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Історію очищено.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Скопійовано!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Завантажень поки немає. Ваші збережені зображення з’являться тут.",
@@ -690,6 +706,26 @@
   "history_emptyTitle": {
     "message": "Поки немає завантажень",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Файл не знайдено",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} файл",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_few": {
+    "message": "{count} файли",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_many": {
+    "message": "{count} файлів",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} файли",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Завантажені зображення з’являться тут.",
@@ -702,6 +738,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Відкрити посилання на джерело",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Сьогодні",
@@ -803,6 +843,10 @@
     "message": "Це посилання на зображення виглядає небезпечно, ImgFetch пропустив його.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Не вдалося показати файл. Можливо, його переміщено або видалено.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch не знайшов тут придатного зображення.",
     "description": "Error: no usable image at the target."
@@ -870,6 +914,14 @@
   "options_sectionsAria": {
     "message": "Розділи налаштувань",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Пошук у налаштуваннях",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Жодне налаштування не відповідає запиту.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Загальні",
@@ -987,10 +1039,6 @@
     "message": "Темна",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Після завершення завантаження",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Мовчати",
     "description": "Post-download: do nothing."
@@ -1043,10 +1091,6 @@
     "message": "Розумний вибір якості",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Розумне завантаження (рекомендовано)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Перевіряє кожне доступне джерело та зберігає найкращу справжню версію, яку може перевірити.",
     "description": "Hint for smart mode."
@@ -1082,6 +1126,14 @@
   "q_webpHint": {
     "message": "Використовується при перетворенні в WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Очікуваний результат",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Конвертація використовує JPG {jpg}, WebP {webp} і PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Інші формати",
@@ -1146,10 +1198,6 @@
   "fn_tokens": {
     "message": "Доступні токени",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Дозволяти перейменовувати файли перед завантаженням",
@@ -1387,10 +1435,6 @@
     "message": "Скопіювати посилання на сторінку гарячих клавіш",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Щоб змінити гарячу клавішу, відкрийте chrome://extensions/shortcuts (або edge://extensions/shortcuts в Edge), знайдіть ImgFetch і задайте потрібні клавіші. На Mac використовуйте ⌘ замість Ctrl. Якщо клавіша показує «Не задано», запропонована клавіша конфліктувала з браузером або іншим розширенням, задайте її вручну тут.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Не вдалося прочитати гарячі клавіші.",
     "description": "Error state of the shortcut list."
@@ -1460,7 +1504,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Зберігає ім’я файлу, сайт, формат і розмір кожного завантаження.",
+    "message": "Зберігає ім’я файлу, сайт, формат, розмір, невеликий попередній перегляд, посилання на джерело та ідентифікатор завантаження кожного завантаження.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1599,10 +1643,6 @@
     "message": "ImgFetch не має сервера і нічого не збирає. Завантажуються лише вибрані вами зображення, а Google Lens (лише якщо ви клікнете) відкриває Google з адресою зображення. Повну заяву див. у PRIVACY.md в репозиторії.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch зберігає все на вашому пристрої. Жодних акаунтів, стеження й аналітики.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Що зберігає ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1634,10 +1674,6 @@
   "pr_never4": {
     "message": "Зображення беруться безпосередньо з відвідуваних вами сайтів, з вашою звичайною сесією браузера. ImgFetch не додає трекінгових параметрів.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Навіщо ImgFetch кожен дозвіл, пояснено в розділі «Про програму», а повну заяву див. у PRIVACY.md в публічному репозиторії.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Анотувати скриншот",
@@ -1750,10 +1786,6 @@
   "annotate_discard": {
     "message": "Відхилити",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Порада: перетягуйте по зображенню, щоб малювати. Інструмент «Текст»: клікніть, де має бути текст, введіть його, натисніть Enter. Клікніть розміщений текст, щоб вибрати, перетягніть, щоб перемістити, натисніть Delete або Backspace, щоб видалити. Розмиття: перетягніть по приховуваній області.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Пікселізація приховує деталі від сторонніх очей, але іноді її можна обернути, тому не покладайтеся на неї для чутливого тексту.",

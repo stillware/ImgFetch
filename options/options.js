@@ -24,6 +24,7 @@ import { initI18n, t, applyI18n, onLanguageChange, setLanguage, LOCALES, LOCALE_
 import { normalizeHost } from '../core/urls.js';
 import { hasHostPermission, requestHostPermission, HOST_PERMISSION_ORIGINS } from '../shared/offscreen-bridge.js';
 import { groupByDay } from '../core/history.js';
+import { buildHistoryRow, historyCountLabel, wireClearHistory } from '../shared/history-ui.js';
 
 const UI = window.ImgFetchUI;
 
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
   await i18nReady;
   applyI18n();
-  onLanguageChange(() => { applyI18n(); paintAboutPrivacy(); paintPrivacyPermNote(); });
+  onLanguageChange(() => { applyI18n(); paintAboutPrivacy(); paintPrivacyPermNote(); buildSettingsSearchIndex(); applySettingsSearchFilter(false); });
   try {
     const res = await UI.send('GET_SETTINGS');
     settings = res.settings;
@@ -129,6 +130,22 @@ function paintFilenamePreview() {
   preview.textContent = buildFilename('custom', { ...FILENAME_PREVIEW_CTX, custom: template });
 }
 
+/**
+ * Estimated result line (Quality): the mockup shows a sample photo size,
+ * but no source image exists on this page, so no size can be computed
+ * honestly. The line instead states the live conversion qualities
+ * from settings, and updates on every slider move.
+ */
+function paintQualityEstimate() {
+  const el = $('qualityEstimateText');
+  if (!el || !settings) return;
+  el.textContent = t('q_estimateLine', {
+    jpg: `${Math.round(settings.jpgQuality * 100)}%`,
+    webp: `${Math.round(settings.webpQuality * 100)}%`,
+    png: `${Math.round(settings.pngQuality * 100)}%`,
+  });
+}
+
 /** Token chips insert their token at the cursor in the template field. */
 function wireFilenameTokens() {
   document.querySelectorAll('#tokenChips .token-chip').forEach((chip) => {
@@ -184,6 +201,7 @@ function paintAll() {
   $('webpQuality').value = settings.webpQuality;
   $('webpQVal').textContent = `${Math.round(settings.webpQuality * 100)}%`;
   syncRangeFill($('webpQuality'));
+  paintQualityEstimate();
   $('screenshotQuality').value = settings.screenshotQuality;
   $('shotQVal').textContent = `${Math.round(settings.screenshotQuality * 100)}%`;
   syncRangeFill($('screenshotQuality'));
@@ -270,18 +288,21 @@ function wireAll() {
     settings.jpgQuality = Number(e.target.value);
     $('jpgQVal').textContent = `${Math.round(e.target.value * 100)}%`;
     syncRangeFill(e.target);
+    paintQualityEstimate();
     scheduleSave();
   });
   $('pngQuality').addEventListener('input', (e) => {
     settings.pngQuality = Number(e.target.value);
     $('pngQVal').textContent = `${Math.round(e.target.value * 100)}%`;
     syncRangeFill(e.target);
+    paintQualityEstimate();
     scheduleSave();
   });
   $('webpQuality').addEventListener('input', (e) => {
     settings.webpQuality = Number(e.target.value);
     $('webpQVal').textContent = `${Math.round(e.target.value * 100)}%`;
     syncRangeFill(e.target);
+    paintQualityEstimate();
     scheduleSave();
   });
   $('screenshotQuality').addEventListener('input', (e) => {
@@ -331,6 +352,7 @@ function wireAll() {
   wireShortcuts();
   wireAbout();
   wireSidebar();
+  wireSidebarSearch();
 }
 
 /* ---------------- language ---------------- */
@@ -447,21 +469,11 @@ function wireSites() {
 
 function wireHistorySection() {
   loadOptHistory();
-  $('btnClearHistory').addEventListener('click', async () => {
-    const ok = await UI.confirmDialog({
-      title: t('history_clearTitle'),
-      message: t('history_clearMessage'),
-      confirmLabel: t('history_clearConfirm'),
-      danger: true,
-    });
-    if (!ok) return;
-    try {
-      await UI.send('CLEAR_HISTORY');
-      UI.toast(t('history_cleared'));
-      loadOptHistory();
-    } catch (err) {
-      UI.toast(err.message || t('hi_clearFailed'));
-    }
+  wireClearHistory($('btnClearHistory'), {
+    t,
+    toast: (msg) => UI.toast(msg),
+    clear: () => UI.send('CLEAR_HISTORY'),
+    onCleared: () => loadOptHistory(),
   });
 }
 
@@ -481,15 +493,14 @@ async function loadOptHistory() {
     }
     const frag = document.createDocumentFragment();
     for (const group of groupByDay(records, t)) {
-      frag.append(UI.el('div', t('history_groupLine', { label: group.label, count: group.count }), 'hist-day'));
+      const head = UI.el('div', null, 'hist-day'); head.append(UI.el('span', `${group.label} · `), UI.el('span', historyCountLabel(group.count, t), 'hist-count')); frag.append(head);
       for (const r of group.items) {
-        const row = UI.el('div', null, 'hist-item');
-        row.append(UI.el('span', (r.format || '').toUpperCase(), 'fmt'));
-        const name = UI.el('span', r.filename || t('ui_fallbackName'));
-        name.style.cssText = 'flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
-        name.title = r.filename || '';
-        row.append(name, UI.el('span', UI.formatHistorySize(r), 'muted small'));
-        frag.append(row);
+        frag.append(buildHistoryRow(r, {
+          t,
+          formatSize: (rec) => UI.formatHistorySize(rec),
+          showDownload: (dlId) => UI.send('SHOW_DOWNLOAD', { downloadId: String(dlId) }),
+          toast: (msg) => UI.toast(msg),
+        }));
       }
     }
     list.append(frag);
@@ -780,6 +791,113 @@ async function paintHostAccess() {
     granted = true;
   }
   row.hidden = granted;
+}
+
+/* ---------------- settings search ---------------- */
+
+/**
+ * Sidebar search. The index is built from the already loaded i18n
+ * strings (sidebar label, group label and the section's own text), so a
+ * query matches in every locale without hard-coded English. Rebuilt on
+ * every language change.
+ */
+let settingsSearchIndex = [];
+let slashFocusPending = false;
+
+function normSearchText(s) {
+  return (s || '').toLowerCase();
+}
+
+function buildSettingsSearchIndex() {
+  settingsSearchIndex = SECTION_IDS.map((id) => {
+    const btn = document.querySelector(`.side-nav button[data-section="${id}"]`);
+    const section = $(id);
+    let groupLabel = '';
+    let prev = btn ? btn.previousElementSibling : null;
+    while (prev) {
+      if (prev.classList && prev.classList.contains('side-group')) {
+        groupLabel = prev.textContent || '';
+        break;
+      }
+      prev = prev.previousElementSibling;
+    }
+    const hay = [btn ? btn.textContent : '', groupLabel, section ? section.textContent : ''].join(' ');
+    return { id, hay: normSearchText(hay) };
+  });
+}
+
+/**
+ * Filter the sidebar to sections whose titles, labels or descriptions
+ * contain the query. When jump is true, open the single matching
+ * section, or the first match when the open section no longer matches.
+ */
+function applySettingsSearchFilter(jump) {
+  const input = $('sideSearch');
+  const empty = $('sideSearchEmpty');
+  const q = normSearchText(input ? input.value.trim() : '');
+  const matches = [];
+  for (const entry of settingsSearchIndex) {
+    const btn = document.querySelector(`.side-nav button[data-section="${entry.id}"]`);
+    if (!btn) continue;
+    const hit = !q || entry.hay.includes(q);
+    btn.style.display = hit ? '' : 'none';
+    if (hit) matches.push(entry.id);
+  }
+  // A group label shows only while at least one of its items matches.
+  document.querySelectorAll('.side-nav .side-group').forEach((g) => {
+    let next = g.nextElementSibling;
+    let any = false;
+    while (next && !(next.classList && next.classList.contains('side-group'))) {
+      if (next.tagName === 'BUTTON' && next.style.display !== 'none') { any = true; break; }
+      next = next.nextElementSibling;
+    }
+    g.style.display = any ? '' : 'none';
+  });
+  if (empty) empty.hidden = q === '' || matches.length > 0;
+  if (!q || !jump || matches.length === 0) return;
+  const current = document.querySelector('.side-nav button[aria-current="true"]');
+  const currentId = current ? current.dataset.section : '';
+  if (matches.length === 1) {
+    if (currentId !== matches[0]) showSection(matches[0]);
+  } else if (!matches.includes(currentId)) {
+    showSection(matches[0]);
+  }
+}
+
+function wireSidebarSearch() {
+  const input = $('sideSearch');
+  if (!input) return;
+  buildSettingsSearchIndex();
+  input.addEventListener('input', () => {
+    // A "/" keypress that focused the box can still deliver its
+    // character to the newly focused input; drop that one leading
+    // slash so focusing never becomes a query for "/".
+    if (slashFocusPending) {
+      slashFocusPending = false;
+      if (input.value.startsWith('/')) input.value = input.value.slice(1);
+    }
+    applySettingsSearchFilter(true);
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      input.value = '';
+      applySettingsSearchFilter(false);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      applySettingsSearchFilter(true);
+    }
+  });
+  // "/" focuses the box when no text field is focused; typing "/" inside
+  // a field keeps its normal meaning.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+    const target = e.target;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) return;
+    e.preventDefault();
+    slashFocusPending = true;
+    input.focus();
+    input.select();
+  });
 }
 
 /* ---------------- sidebar navigation ---------------- */

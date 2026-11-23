@@ -19,10 +19,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title data-i18n="appName">ImgFetch</title>
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
+    /* The popup is 400px wide, fixed. Do NOT cap it with max-width:
+       100vw (or any viewport-relative width): Chrome sizes the real
+       popup window from this fixed width, and a viewport cap shrinks
+       the real popup to the initial viewport width (measured 228px,
+       with the capture tiles and nav clipped) instead of 400px.
+       In a narrower tab the page scrolls horizontally; that is the
+       same behaviour as the shipped product. */
     html, body { width: 400px; }
     body { max-height: 600px; display: flex; flex-direction: column; }
     .topbar {
@@ -42,6 +50,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     main { overflow-y: auto; padding: 4px 16px 16px; flex: 1; scrollbar-width: thin; scrollbar-color: var(--line2) transparent; }
     main::-webkit-scrollbar { width: 8px; }
     main::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+    /* Same styling for the document scrollbar, so a height-capped
+       popup never shows the browser-default grey strip on the right. */
+    html { scrollbar-width: thin; scrollbar-color: var(--line2) transparent; }
+    html::-webkit-scrollbar { width: 8px; }
+    html::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
     /* Hero: viewfinder card with corner brackets and the fixed brand art. */
     .hero { text-align: start; padding: 0; }
     .hero-viewfinder {
@@ -55,7 +68,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .vf-corner.bl { inset-inline-start: 12px; bottom: 12px; border-inline-end: 0; border-top: 0; border-end-start-radius: 6px; }
     .vf-corner.br { inset-inline-end: 12px; bottom: 12px; border-inline-start: 0; border-top: 0; border-end-end-radius: 6px; }
     .hero-stack { position: relative; width: 150px; height: 84px; }
-    .hero-art { position: absolute; width: 76px; height: 56px; border-radius: 9px; border: 1px solid var(--line2); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); object-fit: cover; }
+    /* Hero art: the browser rasterises an <img> at its natural size,
+       so a rotated small SVG looked soft. The art now has a 600px
+       intrinsic size (see shared/assets), each <img> carries
+       width/height attributes, and the rotation lives on a wrapper
+       span, not on the <img>, so the raster stays sharp at every DPR. */
+    .hero-art-wrap { position: absolute; width: 76px; height: 56px; }
+    .hero-art { display: block; width: 76px; height: 56px; border-radius: 9px; border: 1px solid var(--line2); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); object-fit: cover; }
     .hero-art-left { inset-inline-start: 0; top: 14px; transform: rotate(-8deg); }
     .hero-art-right { inset-inline-start: 72px; top: 18px; transform: rotate(7deg); }
     .hero-art-center { inset-inline-start: 36px; top: 0; }
@@ -67,7 +86,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
        8px on top so the chips and the grid stay where they were. */
     #resTitle { margin-top: 2px; line-height: 1.45; }
     .hero p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 2px 2px 0; }
-    .pane-sub { color: var(--muted); font-size: 13px; margin: 2px 2px 0; }
+    .pane-sub { color: var(--muted); font-size: 13px; margin: 2px 2px 0; line-height: 1.45; }
     #btnScan { margin-top: 14px; min-height: 44px; border-radius: var(--r2); font-size: 14px; }
     .popup-sec-label { margin: 18px 2px 8px; font-size: 11px; font-weight: 600; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
     /* D1: screenshot group as one row of four icon buttons with labels. */
@@ -77,7 +96,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       padding: 16px 6px 14px; border: 1px solid var(--border); border-radius: 12px;
       background: var(--surface); color: var(--text); cursor: pointer;
       font-size: 12px; font-weight: 600; line-height: 1.45;
-      transition: border-color .15s ease, background .15s ease, transform .15s ease;
+      transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
     }
     .shot-btn:hover { border-color: var(--primary); background: var(--surface-2); }
     .shot-btn:active { transform: translateY(1px); }
@@ -98,7 +117,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       padding: 10px 12px; border: 1px dashed var(--line2); border-radius: 10px;
       background: transparent; color: var(--faint); font: 500 12px var(--font);
       cursor: pointer; text-align: start;
-      transition: background-color var(--dur) ease;
+      transition: background-color var(--dur-quick) var(--ease);
     }
     .last-scan-row:hover { background: var(--hover); }
     .last-scan-row .last-scan-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
@@ -107,7 +126,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .last-scan-row .icon { width: 16px; height: 16px; color: var(--faint); }
     /* Scanning pane: same hero as home, found-so-far card, cancel. */
     .scan-found-card { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
-    .scan-found-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+    .scan-found-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); padding: 9px 10px; line-height: 1.45; }
     .scan-found-row b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
     #scanProgressWrap { height: 6px; margin-top: 10px; }
     #btnScanCancel { margin-top: 10px; min-height: 44px; border-radius: var(--r2); font-size: 14px; }
@@ -118,6 +137,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .res-stat span { font-size: 11.5px; color: var(--muted); }
     .res-stat-big { background: linear-gradient(180deg, rgba(34, 211, 160, 0.1), rgba(34, 211, 160, 0.03)); border-color: rgba(34, 211, 160, 0.25); }
     .res-stat-big b { color: var(--ok); }
+    .res-selected-size { font-size: 12.5px; color: var(--muted); padding: 10px 2px 0; font-variant-numeric: tabular-nums; }
+    .res-selected-size[hidden] { display: none; }
     .toolbar { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 8px; }
     .toolbar .row { flex-wrap: wrap; }
     /* Below-grid controls: orientation/sort, select all/none/invert,
@@ -127,14 +148,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .res-more { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
     .res-more .row { flex-wrap: wrap; }
     #grid { grid-template-columns: repeat(4, 1fr); }
-    .grid-wrap { margin: 4px -2px; }
+    /* The results pane always scrolls, so the 10px scrollbar leaves
+       358px of content; -5px each side restores the reference 368px
+       grid (4 x 86px thumbs + 3 x 8px gaps). */
+    .grid-wrap { margin: 4px -5px; }
     /* Sticky footer: Download + View all only, the mockup's two buttons.
        The rest of the old footer (quality, best-quality checkbox, ZIP,
        Scan again) lives in .res-more below the grid, so this bar stays
        short and never covers the filter chips on first paint. */
     .footerbar {
-      position: sticky; bottom: 0; z-index: 2; background: var(--bg); padding: 10px 0 2px;
-      border-top: 1px solid var(--border); margin-top: 10px;
+      position: sticky; bottom: 0; z-index: 2; background: var(--bg); padding: 10px 16px 2px;
+      border-top: 1px solid var(--border); margin-top: 10px; margin-inline: -16px;
       display: flex; flex-direction: column; gap: 8px;
     }
     /* Fade above the sticky bar: grid content fades out over 20px, then
@@ -147,20 +171,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* Solid block under the sticky bar: main's 16px bottom padding leaves
        a strip below the bar where grid content shows through while
        scrolling. This paints that strip with the bar background without
-       moving the bar or its buttons. It runs 2px wider than the bar on
-       each side because the grid's -2px side margins make the grid 2px
-       wider than the bar, and the selected thumbs' accent borders would
-       otherwise peek out at the strip's left and right edges. */
+       moving the bar or its buttons. The bar breaks out of main's side
+       padding, so the strip runs at the viewport edges (inset-inline 0)
+       and no grid sliver shows at the left or right edge. */
     .footerbar::after {
-      content: ""; position: absolute; inset-inline: -2px; top: 100%; height: 16px;
+      content: ""; position: absolute; inset-inline: 0; top: 100%; height: 16px;
       background: var(--bg); pointer-events: none;
     }
     .footerbar .btn-block { min-height: 44px; border-radius: var(--r2); font-size: 14px; }
+    #btnDownload { min-height: 44px; }
+    #btnViewAll { min-height: 40px; }
     .q-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .q-item:last-child { border-bottom: 0; }
     .q-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
     .q-pending { background: var(--muted); }
-    .q-active { background: var(--primary); animation: sx-pulse 1s ease infinite; }
+    .q-active { background: var(--primary); animation: sx-pulse 1s linear infinite; }
     .q-done { background: var(--success); }
     .q-failed { background: var(--danger); }
     #homeStatus { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
@@ -180,27 +205,46 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .status-card-title { font-weight: 600; }
     .q-cancelled { background: var(--warning); }
     @keyframes sx-pulse { 50% { opacity: 0.4; } }
-    /* History: sticky group headers with true counts, neutral icon tiles. */
+    /* History: sticky group headers with true counts, 40 px thumbnail tiles. */
     #viewHistory .spread { margin: 4px 2px 4px; }
     .hist-day { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 11px; color: var(--faint); margin: 14px 2px 6px; padding: 6px 2px; text-transform: uppercase; letter-spacing: 0.08em; position: sticky; top: 0; background: var(--bg); z-index: 1; }
-    .hist-day .hist-count { font-variant-numeric: tabular-nums; }
-    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; }
-    .hist-item:hover { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-    .hist-tile { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--line2); background: var(--raised); color: var(--muted); display: grid; place-items: center; flex: none; overflow: hidden; }
+    .hist-day .hist-count { font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: normal; }
+    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--dur-quick) var(--ease); }
+    .hist-item:hover, .hist-item:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+    .hist-tile { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line2); background: var(--raised); color: var(--muted); display: grid; place-items: center; flex: none; overflow: hidden; position: relative; }
     .hist-tile .icon { width: 20px; height: 20px; }
+    .hist-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: auto; display: block; }
     .hist-main { flex: 1; min-width: 0; }
     .hist-name { display: flex; align-items: center; font-size: 13.5px; font-weight: 600; overflow: hidden; white-space: nowrap; }
     .hist-name-text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    /* Format badge: the mockup's small pill right after the filename
-       (10px bold, 2px 6px, 5px radius, 6px gap; about 16px tall in the
-       mockup). PNG, JPG and GIF reuse the existing badge tints; WebP
-       uses the cyan token on the raised surface (no cyan badge tint
-       exists); AVIF shares the PNG accent family. The reference defines
-       tints only for PNG, JPG and WebP. */
+    /* Format badge: the small pill right after the filename
+       (10px bold, 2px 6px, 5px radius, 6px gap). Height is 16px,
+       measured from the approved history design
+       (popup_history_v2_dark.png: PNG, GIF and JPG badges are all
+       32 device px tall at 2x); the line-height stays at the .badge
+       base of 1, so 10 + 4 padding + 2 border = 16. PNG, JPG, GIF
+       and AVIF reuse the existing badge tints, which match the
+       design's measured dark values (GIF exact; PNG and JPG within
+       2 RGB units; all three texts exact); WebP uses a translucent
+       cyan tint with lighter text. The design shows PNG, JPG and GIF. */
     .hist-fmt { flex: none; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 5px; margin-left: 6px; }
-    .hist-fmt-webp { color: var(--cyan); background: var(--raised); border-color: transparent; }
+    /* WebP: a translucent cyan tint with lighter text, not the solid
+       raised surface. Dark values are the reference's own; light
+       uses the --cyan token so the text stays readable. */
+    .hist-fmt-webp { color: var(--cyan); background: rgba(14, 116, 144, 0.12); border-color: transparent; }
+    [data-theme="dark"] .hist-fmt-webp { color: #67e0f3; background: rgba(34, 211, 238, 0.13); }
     .hist-sub { font-size: 11.5px; color: var(--faint); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .hist-size { font-size: 12px; color: var(--muted); text-align: end; flex: none; font-variant-numeric: tabular-nums; }
+    .hist-side { display: grid; flex: none; }
+    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--dur-quick) var(--ease); }
+    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); }
+    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; }
+    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; }
+    .hist-action { position: relative; }
+    .hist-action .icon { width: 16px; height: 16px; }
+    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); z-index: 2; }
+    .hist-copied.is-visible { opacity: 1; }
+    #btnClearHistory.is-confirm { color: var(--danger); }
+    @media (prefers-reduced-motion: reduce) { .hist-size, .hist-actions, .hist-copied { transition: none; } }
     .preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
     .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; margin: 10px 0; }
     .kv dt { color: var(--muted); } .kv dd { margin: 0; word-break: break-all; }
@@ -235,9 +279,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         <div class="hero-viewfinder">
           <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
           <div class="hero-stack">
-            <img class="hero-art hero-art-left" src="../shared/assets/hero-g2.svg" alt="" aria-hidden="true">
-            <img class="hero-art hero-art-right" src="../shared/assets/hero-g4.svg" alt="" aria-hidden="true">
-            <img class="hero-art hero-art-center" src="../shared/assets/hero-g1.svg" alt="" aria-hidden="true">
+            <span class="hero-art-wrap hero-art-left"><img class="hero-art" src="../shared/assets/hero-g2.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+            <span class="hero-art-wrap hero-art-right"><img class="hero-art" src="../shared/assets/hero-g4.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+            <span class="hero-art-wrap hero-art-center"><img class="hero-art" src="../shared/assets/hero-g1.svg" width="76" height="56" alt="" aria-hidden="true"></span>
           </div>
         </div>
         <h1 data-i18n="popup_heroTitleNew">Find. Select. Download.</h1>
@@ -277,9 +321,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <div class="hero-viewfinder">
         <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
         <div class="hero-stack">
-          <img class="hero-art hero-art-left" src="../shared/assets/hero-g2.svg" alt="" aria-hidden="true">
-          <img class="hero-art hero-art-right" src="../shared/assets/hero-g4.svg" alt="" aria-hidden="true">
-          <img class="hero-art hero-art-center" src="../shared/assets/hero-g1.svg" alt="" aria-hidden="true">
+          <span class="hero-art-wrap hero-art-left"><img class="hero-art" src="../shared/assets/hero-g2.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+          <span class="hero-art-wrap hero-art-right"><img class="hero-art" src="../shared/assets/hero-g4.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+          <span class="hero-art-wrap hero-art-center"><img class="hero-art" src="../shared/assets/hero-g1.svg" width="76" height="56" alt="" aria-hidden="true"></span>
         </div>
         <div class="scan-line" aria-hidden="true"></div>
       </div>
@@ -300,6 +344,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         </div>
       </div>
       <div id="resSummary" class="res-summary"></div>
+      <div id="resSelectedSize" class="res-selected-size" hidden></div>
       <div class="toolbar">
         <div class="row" id="formatChips" role="group" data-i18n-attr="aria-label:popup_formatFilterAria" aria-label="Format filter"></div>
       </div>

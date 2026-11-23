@@ -68,7 +68,7 @@ ImgFetch/
 │   ├── folders.js # Download folder resolution for the organize modes
 │   ├── fullpage-capture.js # Full page part planner: balanced parts and tile layout
 │   ├── gif.js # Pure JavaScript GIF encoder
-│   ├── history.js # Download history records, pruning, and grouping
+│   ├── history.js # Download history records, pruning, grouping, thumbnails and actions
 │   ├── image-url.js # Best image URL selection for Copy Image Link
 │   ├── png-quantize.js # PNG color reduction for the explicit quality path
 │   ├── queue-persist.js # Throttled and immediate queue persistence
@@ -148,6 +148,7 @@ ImgFetch/
 │   ├── capture-io.js # Reads capture records from IndexedDB for result pages
 │   ├── copy-shot.js # Copy action for screenshots with downscale fallback
 │   ├── i18n.js # Custom localization loader and locale list
+│   ├── history-ui.js # Shared download-history row: thumbnail tile, title, badge, actions, two-step Clear
 │   ├── offscreen-bridge.js # Single route to offscreen jobs: offscreen document in Chrome and Edge, in-process in Firefox
 │   ├── platform.js # Platform detection and the large copy clipboard rule
 │   ├── ui.css # Design system with light and dark themes
@@ -188,6 +189,7 @@ ImgFetch/
     ├── test-contract-settings.mjs # 8: settings schema contract checks
     ├── test-copy-shot.mjs # 48: Copy button behavior checks
     ├── test-core.mjs # 110: core logic checks for queue, settings, URLs, validation
+    ├── test-history-thumbs.mjs # 15: history thumbnail whitelist, caps, budget, extension strip, plurals
     ├── test-crop-rect.mjs # 87: Crop geometry and crop undo history checks
     ├── test-data-url.mjs # 13: chunked data URL decoder checks
     ├── test-fullpage-parts.mjs # 93: part split, limit, and no truncation checks

@@ -423,6 +423,14 @@
     "message": "Zobrazeno {shown} · nalezeno {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Celkem vybráno: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Celkem vybráno: přibližně {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "odstraněn {count} duplikát",
     "description": "Status line fragment. Singular."
@@ -679,9 +687,17 @@
     "message": "Vymazat historii",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Potvrdit vymazání?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Historie vymazána.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Zkopírováno!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Zatím žádná stahování. Vaše uložené obrázky se objeví zde.",
@@ -690,6 +706,26 @@
   "history_emptyTitle": {
     "message": "Zatím žádné stažené soubory",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Soubor nenalezen",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} soubor",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_few": {
+    "message": "{count} soubory",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_many": {
+    "message": "{count} souborů",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} soubor",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Stažené obrázky se zobrazí zde.",
@@ -702,6 +738,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Otevřít odkaz na zdroj",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Dnes",
@@ -803,6 +843,10 @@
     "message": "Tento odkaz na obrázek vypadá nebezpečně, ImgFetch ho přeskočil.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Soubor se nepodařilo zobrazit. Mohl být přesunut nebo odstraněn.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch zde nenašel použitelný obrázek.",
     "description": "Error: no usable image at the target."
@@ -870,6 +914,14 @@
   "options_sectionsAria": {
     "message": "Oddíly nastavení",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Hledat v nastavení",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Žádné nastavení neodpovídá hledání.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Obecné",
@@ -987,10 +1039,6 @@
     "message": "Tmavý",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Po dokončení stahování",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Zůstat potichu",
     "description": "Post-download: do nothing."
@@ -1043,10 +1091,6 @@
     "message": "Chytrá volba kvality",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Chytré stahování (doporučeno)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Zkontroluje každý dostupný zdroj a uloží nejlepší skutečnou verzi, kterou dokáže ověřit.",
     "description": "Hint for smart mode."
@@ -1082,6 +1126,14 @@
   "q_webpHint": {
     "message": "Použito při převodu do WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Odhadovaný výsledek",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Převody používají JPG {jpg}, WebP {webp} a PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Ostatní formáty",
@@ -1146,10 +1198,6 @@
   "fn_tokens": {
     "message": "Dostupné tokeny",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Nechat mě přejmenovat soubory před stažením",
@@ -1387,10 +1435,6 @@
     "message": "Kopírovat odkaz na stránku zkratek",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Pro změnu zkratky otevřete chrome://extensions/shortcuts (nebo edge://extensions/shortcuts v Edge), najděte ImgFetch a nastavte preferované klávesy. Na Macu použijte ⌘ místo Ctrl. Pokud zkratka ukazuje „Nenastaveno“, navržená klávesa kolidovala s prohlížečem nebo jiným rozšířením, nastavte ji zde ručně.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Zkratky se nepodařilo přečíst.",
     "description": "Error state of the shortcut list."
@@ -1460,7 +1504,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Ukládá název souboru, web, formát a velikost každého stahování.",
+    "message": "Ukládá název souboru, web, formát, velikost, malý náhled, odkaz na zdroj a ID stažení každého stažení.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1599,10 +1643,6 @@
     "message": "ImgFetch nemá server a nic nesbírá. Stahují se jen obrázky, které si vyberete, a Google Lens (jen když kliknete) otevře Google s adresou obrázku. Úplné prohlášení viz PRIVACY.md v repozitáři.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch drží vše na vašem zařízení. Žádné účty, žádné sledování, žádná analytika.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Co ImgFetch ukládá",
     "description": "Privacy: stored data heading."
@@ -1634,10 +1674,6 @@
   "pr_never4": {
     "message": "Obrázky se berou přímo z webů, které navštěvujete, s vaší běžnou relací prohlížeče. ImgFetch nepřidává žádné sledovací parametry.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Proč ImgFetch žádá každé oprávnění, je vysvětleno v oddílu O aplikaci, a úplné prohlášení je v PRIVACY.md ve veřejném repozitáři.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Anotovat snímek",
@@ -1750,10 +1786,6 @@
   "annotate_discard": {
     "message": "Zahodit",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Tip: tažením po obrázku kreslete. Nástroj text: klikněte, kam má text patřit, napište ho, stiskněte Enter. Kliknutím na umístěný text ho vyberete, tažením přesunete, Delete nebo Backspace ho odstraní. Rozmazání: táhněte přes skrývanou oblast.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Pixelizace skryje detaily před zvědavými pohledy, ale někdy ji lze zvrátit, nespoléhejte na ni u citlivého textu.",
@@ -2576,7 +2608,7 @@
     "description": "Settings: title of the change-shortcut card."
   },
   "kb_changeDesc": {
-    "message": "Otevřete stránku klávesových zkratek rozšíření v prohlížeči, najdněte ImgFetch a nastavte klávesy. Pokud se zkratka zobrazuje jako Nenastaveno, klávesa kolidovala s prohlížečem nebo jiným rozšířením.",
+    "message": "Otevřete stránku klávesových zkratek rozšíření v prohlížeči, najděte ImgFetch a nastavte klávesy. Pokud se zkratka zobrazuje jako Nenastaveno, klávesa kolidovala s prohlížečem nebo jiným rozšířením.",
     "description": "Settings: instructions for changing a shortcut."
   },
   "pr_heroTitle": {

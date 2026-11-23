@@ -351,6 +351,14 @@
     "message": "{shown}개 표시 · {total}개 찾음",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "선택 합계: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "선택 합계: 약 {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "{count}개 중복 제거됨",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "기록 지우기",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "지우기를 확인하시겠습니까?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "기록이 지워졌습니다.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "복사했습니다!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "아직 다운로드가 없습니다. 저장한 이미지가 여기에 표시됩니다.",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "아직 다운로드가 없습니다",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "파일을 찾을 수 없습니다",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count}개의 파일",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "다운로드한 이미지가 여기에 표시됩니다.",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "원본 링크 열기",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "오늘",
@@ -647,6 +675,10 @@
     "message": "이 이미지 링크는 안전하지 않아 보입니다. ImgFetch가 건너뛰었습니다.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "파일을 표시할 수 없습니다. 이동되거나 삭제되었을 수 있습니다.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch가 여기에서 사용 가능한 이미지를 찾지 못했습니다.",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "설정 섹션",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "설정 검색",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "검색과 일치하는 설정이 없습니다.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "일반",
@@ -831,10 +871,6 @@
     "message": "어둡게",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "다운로드 완료 후",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "조용히 유지",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "스마트 품질 선택",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "스마트 다운로드 (권장)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "사용 가능한 모든 원본을 검사하고 검증할 수 있는 최고의 실제 버전을 저장합니다.",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "WebP로 변환할 때 사용됩니다.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "예상 결과",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "변환은 JPG {jpg}, WebP {webp}, PNG {png}을 사용합니다.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "기타 형식",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "사용 가능한 토큰",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "다운로드 전에 파일 이름 변경 허용",
@@ -1231,10 +1267,6 @@
     "message": "단축키 페이지 링크 복사",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "단축키를 변경하려면 chrome://extensions/shortcuts (Edge에서는 edge://extensions/shortcuts)를 열고 ImgFetch를 찾아 원하는 키로 설정하세요. Mac에서는 Ctrl 대신 ⌘을 사용하세요. 단축키가 “설정 안 됨”으로 표시되면 제안된 키가 브라우저나 다른 확장 프로그램과 충돌한 것이므로 여기에서 수동으로 설정하세요.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "단축키를 읽지 못했습니다.",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "각 다운로드의 파일 이름, 사이트, 형식, 크기를 저장합니다.",
+    "message": "다운로드마다 파일 이름, 사이트, 형식, 크기, 작은 미리보기, 원본 링크, 다운로드 ID를 저장합니다.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch에는 서버가 없으며 아무것도 수집하지 않습니다. 다운로드하기로 선택한 이미지만 가져오고, Google Lens(클릭했을 때만)는 이미지 주소로 Google을 엽니다. 전체 설명은 리포지토리의 PRIVACY.md를 참조하세요.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch는 모든 것을 기기에 보관합니다. 계정 없음, 추적 없음, 분석 없음.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ImgFetch가 저장하는 항목",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "이미지는 일반 브라우저 세션을 사용해 방문한 사이트에서 직접 가져옵니다. ImgFetch는 추적 매개변수를 추가하지 않습니다.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "ImgFetch가 각 권한을 요청하는 이유는 정보 섹션에 설명되어 있으며, 전체 설명은 공개 리포지토리의 PRIVACY.md에 있습니다.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "스크린샷에 주석 달기",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "버리기",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "팁: 이미지 위에 드래그해 그립니다. 텍스트 도구: 텍스트가 들어갈 곳을 클릭하고 입력한 뒤 Enter를 누릅니다. 배치된 텍스트를 클릭해 선택하고, 드래그해 이동하며, Delete나 Backspace로 삭제합니다. 흐리게: 숨길 영역 위에 드래그합니다.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "모자이크는 호기심 많은 눈으로부터 세부 정보를 숨기지만, 되돌릴 수 있는 경우가 있으니 민감한 텍스트에는 사용하지 마세요.",

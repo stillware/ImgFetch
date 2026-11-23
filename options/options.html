@@ -19,6 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title data-i18n="options_title">ImgFetch Settings</title>
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
@@ -49,6 +50,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .side-brand .brand-mark { width: 32px; height: 32px; }
     .side-brand strong { font-size: 15px; font-weight: 650; display: block; line-height: 1.1; }
     .side-brand > div span { font-size: 11.5px; color: var(--faint); display: block; }
+    /* ---------- settings search: 36 px box, mockup position/size ---------- */
+    .side-search {
+      display: flex; align-items: center; gap: 8px;
+      height: 36px; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--line);
+      padding: 0 10px; color: var(--faint); font-size: 13px; margin: 0 0 6px;
+    }
+    .side-search:focus-within { border-color: var(--accent2); }
+    .side-nav .side-search input {
+      flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
+      color: var(--text); font: 400 13px var(--font); padding: 0;
+    }
+    .side-nav .side-search input::placeholder { color: var(--faint); }
+    .side-search .keycap { flex: none; }
+    .side-search-empty { font-size: 12.5px; color: var(--muted); padding: 10px 12px; margin: 0; }
     .side-group {
       font-size: 10.5px; font-weight: 600; letter-spacing: .09em;
       text-transform: uppercase; color: var(--faint);
@@ -104,6 +120,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       font-size: 12.5px; color: var(--muted);
       background: var(--surface); border: 1px solid var(--line);
       padding: 7px 12px; border-radius: 99px; box-shadow: var(--shadow);
+      animation: sx-toast-in var(--dur-fast) var(--ease);
     }
     .save-pill[hidden] { display: none; }
     .save-pill .icon { width: 14px; height: 14px; color: var(--ok); stroke-width: 2.5; }
@@ -225,6 +242,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       font-size: 13px; background: var(--raised); border: 1px solid var(--line);
       border-radius: 8px; padding: 9px 11px; overflow-wrap: anywhere;
     }
+    /* ---------- estimated result: dashed box, mockup placement ---------- */
+    .opt-estimate { padding: 16px 20px; }
+    .opt-estimate-label { display: block; font-size: 14px; font-weight: 600; }
+    .quality-estimate {
+      display: flex; gap: 14px; align-items: center;
+      margin-top: 12px; padding: 12px 14px; border-radius: 10px;
+      background: var(--bg); border: 1px dashed var(--line2);
+      font-size: 13px; color: var(--muted);
+    }
+    .quality-estimate .icon { width: 18px; height: 18px; flex: none; color: var(--faint); }
     /* ---------- other-formats list ---------- */
     .opt-subblock { padding: 16px 20px; }
     .opt-subblock-title { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
@@ -311,21 +338,47 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
     .privacy-link .icon { width: 16px; height: 16px; }
     /* ---------- download history rows ---------- */
-    .hist-day { font-weight: 700; font-size: 12.5px; color: var(--muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .hist-day { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-weight: 700; font-size: 12.5px; color: var(--muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.4px; } .hist-day .hist-count { font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: normal; }
     .hist-day:first-child { margin-top: 0; }
-    .hist-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-    .hist-item:last-child { border-bottom: 0; }
-    .hist-item .fmt { font-size: 10px; font-weight: 700; background: var(--surface-2); border-radius: 6px; padding: 3px 7px; color: var(--muted); text-transform: uppercase; }
+    /* Same row design as the popup history screen: 40 px thumbnail tile,
+       extension-stripped title with format badge, size giving way to
+       three icon buttons on hover and on keyboard focus-within. */
+    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--dur-quick) var(--ease); }
+    .hist-item:hover, .hist-item:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+    .hist-tile { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line2); background: var(--raised); color: var(--muted); display: grid; place-items: center; flex: none; overflow: hidden; position: relative; }
+    .hist-tile .icon { width: 20px; height: 20px; }
+    .hist-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: auto; display: block; }
+    .hist-main { flex: 1; min-width: 0; }
+    .hist-name { display: flex; align-items: center; font-size: 13.5px; font-weight: 600; overflow: hidden; white-space: nowrap; }
+    .hist-name-text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hist-fmt { flex: none; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 5px; margin-left: 6px; }
+    .hist-fmt-webp { color: var(--cyan); background: rgba(14, 116, 144, 0.12); border-color: transparent; }
+    [data-theme="dark"] .hist-fmt-webp { color: #67e0f3; background: rgba(34, 211, 238, 0.13); }
+    .hist-sub { font-size: 11.5px; color: var(--faint); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hist-side { display: grid; flex: none; }
+    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--dur-quick) var(--ease); }
+    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); }
+    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; }
+    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; }
+    .hist-action { position: relative; }
+    .hist-action .icon { width: 16px; height: 16px; }
+    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); z-index: 2; }
+    .hist-copied.is-visible { opacity: 1; }
+    #btnClearHistory.is-confirm { color: var(--danger); }
+    @media (prefers-reduced-motion: reduce) { .hist-size, .hist-actions, .hist-copied { transition: none; } }
     /* Gentle entrance when switching sections, no jank, respects reduced motion */
     @media (prefers-reduced-motion: no-preference) {
-      .opt-section:not([hidden]) { animation: section-in 0.22s ease; }
+      .opt-section:not([hidden]) { animation: section-in var(--dur-slow) var(--ease); }
       @keyframes section-in {
         from { opacity: 0; transform: translateY(6px); }
         to { opacity: 1; transform: none; }
       }
     }
     @media (max-width: 900px) {
-      .settings-shell { grid-template-columns: 1fr; }
+      /* minmax(0, 1fr), not 1fr: the 1fr track's automatic minimum is
+         the 720px sections inside main, which made the page 720px
+         wide at a 360/400px viewport. */
+      .settings-shell { grid-template-columns: minmax(0, 1fr); }
       .side-nav { display: none; }
       .nav-compact { display: block; width: 720px; max-width: calc(100% - 32px); margin: 0 auto 16px; }
       .settings-main { padding: 20px 0 60px; }
@@ -349,6 +402,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
       <div><strong>ImgFetch</strong><span data-i18n="options_settings">Settings</span></div>
     </div>
+    <div class="side-search">
+      <svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#search"/></svg>
+      <input type="text" id="sideSearch" data-i18n-attr="placeholder:options_searchSettings;aria-label:options_searchSettings" placeholder="Search settings" aria-label="Search settings" autocomplete="off">
+      <kbd class="keycap" aria-hidden="true">/</kbd>
+    </div>
+    <p class="side-search-empty" id="sideSearchEmpty" hidden data-i18n="options_searchNoResults">No settings match your search.</p>
     <div class="side-group" data-i18n="options_navBasics">Basics</div>
     <button type="button" data-section="general" aria-current="true"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#sliders-horizontal"/></svg><span data-i18n="options_secGeneral">General</span></button>
     <button type="button" data-section="downloads" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg><span data-i18n="options_secDownloads">Downloads</span></button>
@@ -370,7 +429,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   </nav>
 
   <main class="settings-main">
-    <div class="save-pill" id="savePill" hidden>
+    <div class="save-pill" id="savePill" role="status" hidden>
       <svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg>
       <span id="saveState" data-i18n="options_saved">All changes saved</span>
     </div>
@@ -514,6 +573,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
               <div><dt>BMP</dt><dd data-i18n="q_bmpDesc">Uncompressed, always 100%.</dd></div>
               <div><dt>SVG</dt><dd data-i18n="q_svgDesc">Vector wrapper around the image.</dd></div>
             </dl>
+          </div>
+          <div class="opt-estimate">
+            <span class="opt-estimate-label" data-i18n="q_estimateTitle">Estimated result</span>
+            <div class="quality-estimate">
+              <svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#image"/></svg>
+              <span id="qualityEstimateText"></span>
+            </div>
           </div>
         </div>
       </div>

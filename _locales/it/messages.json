@@ -375,6 +375,14 @@
     "message": "{shown} mostrate · {total} trovate",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Totale selezionato: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Totale selezionato: circa {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "{count} duplicato rimosso",
     "description": "Status line fragment. Singular."
@@ -591,9 +599,17 @@
     "message": "Cancella cronologia",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Confermare eliminazione?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Cronologia cancellata.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Copiato!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Ancora nessun download. Le tue immagini salvate appariranno qui.",
@@ -602,6 +618,18 @@
   "history_emptyTitle": {
     "message": "Ancora nessun download",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "File non trovato",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} file salvato",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} file salvati",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Le immagini scaricate appariranno qui.",
@@ -614,6 +642,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Apri il link di origine",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Oggi",
@@ -699,6 +731,10 @@
     "message": "Questo link immagine sembra pericoloso, ImgFetch lo ha saltato.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Non è stato possibile mostrare il file. Potrebbe essere stato spostato o eliminato.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch non ha trovato un’immagine utilizzabile qui.",
     "description": "Error: no usable image at the target."
@@ -766,6 +802,14 @@
   "options_sectionsAria": {
     "message": "Sezioni impostazioni",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Cerca nelle impostazioni",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Nessuna impostazione corrisponde alla ricerca.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Generale",
@@ -883,10 +927,6 @@
     "message": "Scuro",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Al termine di un download",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Resta in silenzio",
     "description": "Post-download: do nothing."
@@ -939,10 +979,6 @@
     "message": "Selezione intelligente qualità",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Download intelligente (consigliato)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Controlla ogni fonte disponibile e salva la migliore versione genuina verificabile.",
     "description": "Hint for smart mode."
@@ -978,6 +1014,14 @@
   "q_webpHint": {
     "message": "Usato convertendo in WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Risultato stimato",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Le conversioni usano JPG {jpg}, WebP {webp} e PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Altri formati",
@@ -1042,10 +1086,6 @@
   "fn_tokens": {
     "message": "Token disponibili",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Fammi rinominare i file prima di scaricare",
@@ -1283,10 +1323,6 @@
     "message": "Copia il link della pagina scorciatoie",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Per cambiare una scorciatoia, apri chrome://extensions/shortcuts (o edge://extensions/shortcuts in Edge), trova ImgFetch e imposta i tasti che preferisci. Su Mac, usa ⌘ invece di Ctrl. Se una scorciatoia mostra “Non impostata”, il tasto suggerito era in conflitto con il browser o un’altra estensione, impostalo manualmente qui.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Impossibile leggere le scorciatoie.",
     "description": "Error state of the shortcut list."
@@ -1356,7 +1392,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Memorizza nome file, sito, formato e dimensione di ogni download.",
+    "message": "Memorizza nome file, sito, formato, dimensioni, una piccola anteprima, il link di origine e l’ID di download di ogni download.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1495,10 +1531,6 @@
     "message": "ImgFetch non ha server e non raccoglie nulla. Solo le immagini che scegli di scaricare vengono recuperate, e Google Lens (solo se ci clicchi) apre Google con l’indirizzo dell’immagine. Vedi PRIVACY.md nel repository per la dichiarazione completa.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch tiene tutto sul tuo dispositivo. Niente account, niente tracciamento, niente analisi.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Cosa memorizza ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1530,10 +1562,6 @@
   "pr_never4": {
     "message": "Le immagini vengono prese direttamente dai siti che visiti, usando la tua normale sessione browser. ImgFetch non aggiunge parametri di tracciamento.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Perché ImgFetch chiede ogni permesso è spiegato nella sezione Informazioni, e la dichiarazione completa è in PRIVACY.md nel repository pubblico.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Annota screenshot",
@@ -1646,10 +1674,6 @@
   "annotate_discard": {
     "message": "Scarta",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Suggerimento: trascina sull’immagine per disegnare. Strumento testo: clicca dove deve andare il testo, digita, premi Invio. Clicca il testo posizionato per selezionarlo, trascina per spostare, premi Canc o Backspace per rimuovere. Sfocatura: trascina sull’area da nascondere.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "La pixelazione nasconde i dettagli agli occhi curiosi, ma a volte può essere invertita, non fidarti per testo delicato.",

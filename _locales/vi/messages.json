@@ -351,6 +351,14 @@
     "message": "Hiển thị {shown} · tìm thấy {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Tổng đã chọn: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Tổng đã chọn: khoảng {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "Đã xóa {count} ảnh trùng",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "Xóa lịch sử",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Xác nhận xóa?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Đã xóa lịch sử.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Đã sao chép!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Chưa có lượt tải nào. Ảnh bạn lưu sẽ hiện ở đây.",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "Chưa có lượt tải xuống nào",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Không tìm thấy tệp",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count} tệp",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Hình ảnh bạn đã tải xuống sẽ xuất hiện tại đây.",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Mở liên kết gốc",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Hôm nay",
@@ -647,6 +675,10 @@
     "message": "Liên kết ảnh này trông không an toàn, ImgFetch đã bỏ qua.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Không thể hiển thị tệp. Tệp có thể đã bị di chuyển hoặc xóa.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch không tìm thấy ảnh dùng được ở đây.",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "Các mục cài đặt",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Tìm kiếm cài đặt",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Không có cài đặt nào khớp với tìm kiếm của bạn.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Chung",
@@ -831,10 +871,6 @@
     "message": "Tối",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Sau khi tải xong",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Giữ im lặng",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "Chọn chất lượng thông minh",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Tải xuống thông minh (khuyên dùng)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Kiểm tra mọi nguồn có sẵn và lưu phiên bản gốc tốt nhất mà nó có thể xác minh.",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "Dùng khi chuyển sang WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Kết quả ước tính",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Chuyển đổi dùng JPG {jpg}, WebP {webp} và PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Định dạng khác",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "Các mã thông báo khả dụng",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Cho phép tôi đổi tên tệp trước khi tải",
@@ -1231,10 +1267,6 @@
     "message": "Sao chép liên kết trang phím tắt",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Để thay đổi phím tắt, mở chrome://extensions/shortcuts (hoặc edge://extensions/shortcuts trên Edge), tìm ImgFetch và đặt phím bạn muốn. Trên Mac, dùng ⌘ thay cho Ctrl. Nếu phím tắt hiển thị “Chưa đặt”, phím đề xuất đã xung đột với trình duyệt hoặc tiện ích khác, hãy đặt thủ công tại đây.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Không đọc được các phím tắt.",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Lưu tên tệp, trang web, định dạng và kích thước của mỗi lượt tải.",
+    "message": "Lưu tên tệp, trang web, định dạng, kích thước, ảnh xem trước nhỏ, liên kết gốc và id tải xuống của mỗi lần tải xuống.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch không có máy chủ và không thu thập gì cả. Chỉ các ảnh bạn chọn tải mới được lấy, và Google Lens (chỉ khi bạn nhấp) mở Google với địa chỉ ảnh. Xem PRIVACY.md trong kho để biết tuyên bố đầy đủ.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch giữ mọi thứ trên thiết bị của bạn. Không tài khoản, không theo dõi, không phân tích.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ImgFetch lưu gì",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "Ảnh được lấy trực tiếp từ các trang bạn ghé thăm, bằng phiên trình duyệt bình thường của bạn. ImgFetch không thêm tham số theo dõi nào.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Lý do ImgFetch yêu cầu mỗi quyền được giải thích trong mục Giới thiệu, và tuyên bố đầy đủ nằm trong PRIVACY.md ở kho công khai.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Chú thích ảnh chụp màn hình",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "Bỏ",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Mẹo: kéo trên ảnh để vẽ. Công cụ văn bản: nhấp vào nơi văn bản cần đặt, nhập, nhấn Enter. Nhấp vào văn bản đã đặt để chọn, kéo để di chuyển, nhấn Delete hoặc Backspace để xóa. Làm mờ: kéo trên vùng cần ẩn.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Làm mờ điểm ảnh che chi tiết khỏi con mắt tò mò, nhưng đôi khi có thể đảo ngược, đừng dựa vào nó cho văn bản nhạy cảm.",

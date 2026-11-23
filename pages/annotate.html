@@ -19,6 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title data-i18n="annotate_subtitle">ImgFetch, Annotate screenshot</title>
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
@@ -43,7 +44,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     [data-theme="dark"] .toolbar { background: rgba(20, 24, 41, 0.92); }
     .tb-group { display: flex; gap: 2px; align-items: center; flex: none; }
     .tb-sep { width: 1px; height: 24px; background: var(--line2); margin: 0 6px; flex: none; }
-    .tool { display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer; flex: none; }
+    .tool { display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer; flex: none; transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease); }
     .tool:hover { background: var(--hover); color: var(--text); }
     .tool .icon { width: 18px; height: 18px; }
     .tool[data-tool][aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: 0 4px 12px rgba(106, 92, 242, 0.4); }
@@ -58,7 +59,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .tool[data-width][aria-pressed="true"] .wd-line { background: var(--text); }
     /* Color swatches: 22 px, selected one gets an outer accent ring.
        Black and white get a visible edge so they show on either theme. */
-    .swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line2); margin: 0 4px; cursor: pointer; padding: 0; position: relative; flex: none; }
+    .swatch { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line2); margin: 0 4px; cursor: pointer; padding: 0; position: relative; flex: none; transition: transform var(--dur-micro) var(--ease); }
     .swatch[aria-pressed="true"]::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--accent2); }
     [data-theme="dark"] .swatch[data-color="#111111"], [data-theme="dark"] .swatch[data-color="#ffffff"] { border-color: rgba(255, 255, 255, 0.4); }
     .swatch[data-color="#ffffff"] { border-color: rgba(23, 26, 44, 0.25); }
@@ -68,7 +69,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #editor { display: block; max-width: 100%; height: auto; cursor: crosshair; touch-action: none; }
     #textWrap { position: absolute; display: none; z-index: 5; }
     #textInput { font-size: 16px; padding: 4px 8px; border: 2px solid var(--primary); border-radius: 6px; background: var(--surface); color: var(--text); }
-    #textClose { position: absolute; top: -11px; inset-inline-end: -11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+    #textClose { position: absolute; top: -12px; inset-inline-end: -12px; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
     #textClose:hover { background: var(--danger,#e5484d); color: #fff; border-color: var(--danger,#e5484d); }
     .crop-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
     .crop-box { position: absolute; box-sizing: border-box; border: 1.5px solid #fff; outline: 1px solid rgba(15,20,28,.5); box-shadow: 0 0 0 9999px rgba(12,16,24,.55); pointer-events: auto; cursor: move; touch-action: none; }
@@ -77,6 +78,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .crop-size { position: absolute; left: -2px; top: -30px; direction: ltr; background: rgba(12,16,24,.88); color: #fff; font-size: 12px; line-height: 1.5; padding: 2px 8px; border-radius: 6px; white-space: nowrap; pointer-events: none; }
     .crop-size.is-inside { top: 4px; }
     .crop-handle { position: absolute; box-sizing: border-box; width: 13px; height: 13px; margin: -7px 0 0 -7px; padding: 0; background: #fff; border: 1.5px solid rgba(15,20,28,.6); border-radius: 3px; pointer-events: auto; touch-action: none; z-index: 2; }
+    /* Crop handles stay 13 px visually, but the hit area is 24 px: the
+       invisible ::after extends 6 px on every side (WCAG 2.5.8). */
+    .crop-handle::after { content: ""; position: absolute; inset: -6px; }
     .crop-handle[data-handle="nw"] { left: 0; top: 0; cursor: nwse-resize; }
     .crop-handle[data-handle="n"] { left: 50%; top: 0; cursor: ns-resize; }
     .crop-handle[data-handle="ne"] { left: 100%; top: 0; cursor: nesw-resize; }

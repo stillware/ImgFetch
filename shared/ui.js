@@ -168,9 +168,15 @@
       const finish = (value) => {
         if (done) return;
         done = true;
-        backdrop.remove();
-        if (prevFocus && prevFocus.focus) prevFocus.focus();
-        resolve(value);
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const settle = () => {
+          backdrop.remove();
+          if (prevFocus && prevFocus.focus) prevFocus.focus();
+          resolve(value);
+        };
+        if (reduce) { settle(); return; }
+        backdrop.classList.add('is-closing');
+        setTimeout(settle, 150);
       };
       cancelBtn.addEventListener('click', () => finish(false));
       okBtn.addEventListener('click', () => finish(true));

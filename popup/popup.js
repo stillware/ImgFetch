@@ -28,6 +28,12 @@ import {
   sizeChipForPreset,
 } from '../core/filters.js';
 import { groupByDay } from '../core/history.js';
+import {
+  buildHistoryRow,
+  historyCountLabel,
+  wireClearHistory,
+  HISTORY_FORMAT_LABELS as FORMAT_LABELS,
+} from '../shared/history-ui.js';
 import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
 
 const UI = window.ImgFetchUI;
@@ -59,19 +65,7 @@ let scanDismissed = false;
 
 /** Display order of the format chips, matching the mockup. */
 const FORMAT_CHIP_ORDER = ['png', 'jpg', 'webp', 'gif', 'avif'];
-/** Chip and thumbnail labels: WebP keeps its mixed case, the rest are caps. */
-const FORMAT_LABELS = { png: 'PNG', jpg: 'JPG', webp: 'WebP', gif: 'GIF', avif: 'AVIF' };
-/** History format badge classes per format group. PNG, JPG and GIF reuse
- * the existing badge tints; WebP uses the cyan token (see .hist-fmt-webp
- * in popup.html); AVIF shares the PNG accent family. Unknown and other
- * formats get no badge. */
-const HIST_FMT_BADGE_CLASS = {
-  png: 'badge badge-accent hist-fmt',
-  jpg: 'badge badge-warn hist-fmt',
-  webp: 'badge hist-fmt hist-fmt-webp',
-  gif: 'badge badge-ok hist-fmt',
-  avif: 'badge badge-accent hist-fmt',
-};
+/** Format labels and history badge classes live in shared/history-ui.js. */
 
 /* ------------------------------------------------------------------ */
 /* Page blob: thumbnails, blob: URLs only resolve inside the page, so the */
@@ -544,9 +538,9 @@ function renderCaptureProgress() {
   const wrap = $('captureProgressBarWrap');
   wrap.setAttribute('aria-valuemax', String(p.tileCount));
   wrap.setAttribute('aria-valuenow', String(p.tile));
-  $('captureProgressBar').style.width = p.tileCount > 0
-    ? `${Math.round((p.tile / p.tileCount) * 100)}%`
-    : '0%';
+  $('captureProgressBar').style.transform = p.tileCount > 0
+    ? `scaleX(${p.tile / p.tileCount})`
+    : 'scaleX(0)';
 }
 
 function armCaptureWatchdog() {
@@ -587,7 +581,7 @@ function endCaptureProgress() {
     wrap.setAttribute('aria-valuenow', '0');
   }
   const bar = $('captureProgressBar');
-  if (bar) bar.style.width = '0%';
+  if (bar) bar.style.transform = 'scaleX(0)';
   const stop = $('btnCaptureStop');
   if (stop) {
     stop.disabled = false;
@@ -699,9 +693,9 @@ function updateScanProgress(done, total) {
   const wrap = $('scanProgressWrap');
   const known = total > 1;
   if (wrap) wrap.classList.toggle('indeterminate', !known);
-  // The indeterminate style sets the bar width in CSS; an inline width
-  // would override it, so only set one for a known total.
-  $('scanBar').style.width = known ? `${Math.min(100, Math.round((done / total) * 100))}%` : '';
+  // The indeterminate style sets the bar width in CSS; an inline
+  // transform would shrink it, so only set one for a known total.
+  $('scanBar').style.transform = known ? `scaleX(${Math.min(100, Math.round((done / total) * 100)) / 100})` : '';
   $('scanStatus').textContent = t('popup_scanFoundCount', { count: done });
 }
 
@@ -979,6 +973,9 @@ function appendGridPage() {
 function makeThumbAt(i) {
   const el = makeThumbBtn(state.visible[i]);
   el.querySelector('.thumb').dataset.vindex = String(i);
+  // Stage 4 stagger: at most the first four thumbs of a page are
+  // delayed (0, 40, 80, 120 ms), so the entrance stays under 300 ms.
+  el.style.setProperty('--stagger-i', String(Math.min(i % GRID_PAGE, 3)));
   return el;
 }
 
@@ -1126,6 +1123,69 @@ function paintSelection() {
   });
 }
 
+/**
+ * Byte size of a data: image URL, computed arithmetically from the URL
+ * itself: base64 payload length for base64 URLs, decoded length
+ * otherwise. The scanner reports no byte size for http(s) images, and
+ * thumbnails are downscaled re-encodes, so only data: images have a
+ * known size here. Returns null when the size cannot be computed.
+ */
+function dataUrlByteSize(url) {
+  if (typeof url !== 'string' || !url.startsWith('data:')) return null;
+  const comma = url.indexOf(',');
+  if (comma < 0) return null;
+  const header = url.slice(5, comma);
+  const payload = url.slice(comma + 1);
+  if (!payload) return 0;
+  if (/;base64$/i.test(header)) {
+    const clean = payload.replace(/\s/g, '');
+    if (/[^A-Za-z0-9+/=]/.test(clean)) return null;
+    const pad = clean.endsWith('==') ? 2 : clean.endsWith('=') ? 1 : 0;
+    return Math.floor((clean.length * 3) / 4) - pad;
+  }
+  try {
+    return new TextEncoder().encode(decodeURIComponent(payload)).length;
+  } catch {
+    return null;
+  }
+}
+
+/** Known byte size of one scanned image, or null when unknown. */
+function knownImageBytes(img) {
+  const direct = img && Number(img.bytes);
+  if (direct > 0) return direct;
+  // Scan images carry the address as .src (see setThumbSource).
+  if (img && typeof img.src === 'string') return dataUrlByteSize(img.src);
+  if (img && typeof img.url === 'string') return dataUrlByteSize(img.url);
+  return null;
+}
+
+/**
+ * Selected total size, under the summary cards. Shown only when at
+ * least one selected image has a known size; marked approximate when
+ * some selected images have unknown sizes. Hidden otherwise.
+ */
+function paintSelectedSize() {
+  const el = $('resSelectedSize');
+  if (!el || !state.scan) return;
+  if (state.selected.size === 0) { el.hidden = true; el.textContent = ''; return; }
+  let total = 0;
+  let known = 0;
+  let unknown = 0;
+  for (const img of state.scan.images) {
+    if (!state.selected.has(img.id)) continue;
+    const b = knownImageBytes(img);
+    if (b == null) unknown += 1;
+    else { total += b; known += 1; }
+  }
+  if (known === 0 || total <= 0) { el.hidden = true; el.textContent = ''; return; }
+  const size = UI.formatBytes(total);
+  el.textContent = unknown > 0
+    ? t('results_selectedSizeApprox', { size })
+    : t('results_selectedSize', { size });
+  el.hidden = false;
+}
+
 function updateFooter() {
   const n = state.selected.size;
   const total = state.scan ? state.scan.images.length : 0;
@@ -1142,6 +1202,7 @@ function updateFooter() {
   if (state.scan) {
     $('btnViewAllLabel').textContent = t('popup_viewAllImages', { count: total });
   }
+  paintSelectedSize();
 }
 
 async function selectedFiles() {
@@ -1198,6 +1259,7 @@ function openPreview(img) {
   const backdrop = UI.el('div', null, 'modal-backdrop');
   const modal = UI.el('div', null, 'modal');
   modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
   modal.setAttribute('aria-label', t('preview_imageInfo'));
 
   const closeBtn = UI.el('button', '✕', 'icon-btn');
@@ -1280,14 +1342,34 @@ function openPreview(img) {
   infoBtn.classList.add('btn-sm');
   moreRow.append(openBtn, infoBtn);
 
+  const prevFocus = document.activeElement;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const close = () => {
-    root.textContent = '';
-    document.removeEventListener('keydown', onEsc);
+    if (backdrop.classList.contains('is-closing')) return;
+    document.removeEventListener('keydown', onKey);
+    if (reduceMotion) {
+      root.textContent = '';
+      if (prevFocus && prevFocus.focus) prevFocus.focus();
+      return;
+    }
+    backdrop.classList.add('is-closing');
+    setTimeout(() => {
+      root.textContent = '';
+      if (prevFocus && prevFocus.focus) prevFocus.focus();
+    }, 150);
   };
-  const onEsc = (e) => {
-    if (e.key === 'Escape') close();
+  const onKey = (e) => {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    const focusable = [...modal.querySelectorAll('button:not([disabled]), [href], img[tabindex]')]
+      .filter((n) => n.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   };
-  document.addEventListener('keydown', onEsc);
+  document.addEventListener('keydown', onKey);
   backdrop.addEventListener('click', (e) => {
     if (e.target === backdrop) close();
   });
@@ -1360,7 +1442,7 @@ function renderQueue(snapshot) {
     total === 0
       ? t('queue_empty')
       : t('queue_summaryDone', { done, total }) + (failed ? ` · ${t('queue_summaryFailed', { failed })}` : '');
-  $('queueBar').style.width = total ? `${Math.round((done / total) * 100)}%` : '0%';
+  $('queueBar').style.transform = total ? `scaleX(${done / total})` : 'scaleX(0)';
 
   const list = $('queueList');
   list.textContent = '';
@@ -1401,21 +1483,11 @@ function renderQueue(snapshot) {
 /* ------------------------------------------------------------------ */
 
 function wireHistory() {
-  $('btnClearHistory').addEventListener('click', async () => {
-    const ok = await UI.confirmDialog({
-      title: t('history_clearTitle'),
-      message: t('history_clearMessage'),
-      confirmLabel: t('history_clearConfirm'),
-      danger: true,
-    });
-    if (!ok) return;
-    try {
-      await UI.send('CLEAR_HISTORY');
-      loadHistory();
-      UI.toast(t('history_cleared'));
-    } catch (err) {
-      UI.toast(err.message);
-    }
+  wireClearHistory($('btnClearHistory'), {
+    t,
+    toast: (msg) => UI.toast(msg),
+    clear: () => UI.send('CLEAR_HISTORY'),
+    onCleared: () => loadHistory(),
   });
 }
 
@@ -1439,7 +1511,7 @@ async function loadHistory() {
     const frag = document.createDocumentFragment();
     for (const group of groupByDay(records, t)) {
       const head = UI.el('div', null, 'hist-day');
-      head.append(UI.el('span', group.label), UI.el('span', String(group.count), 'hist-count'));
+      head.append(UI.el('span', group.label), UI.el('span', historyCountLabel(group.count, t), 'hist-count'));
       frag.append(head);
       for (const r of group.items) {
         frag.append(historyRow(r));
@@ -1451,56 +1523,12 @@ async function loadHistory() {
   }
 }
 
-/**
- * One history row: neutral icon tile, filename with its extension and a
- * format badge from the record's own `format` field, second
- * line "site · time", size on the right. The tile is a 38 px rounded box
- * with object-fit cover semantics, so a real thumbnail can replace the
- * icon later without a layout change. No hover actions: the records
- * carry no URL or download id, so those actions do not exist.
- */
+/** One history row: the shared design from shared/history-ui.js. */
 function historyRow(r) {
-  const row = UI.el('div', null, 'hist-item');
-  const kindIcon = r.kind === 'bulk' ? 'images' : r.kind === 'screenshot' ? 'camera' : 'image';
-  const tile = UI.el('div', null, 'hist-tile');
-  tile.append(UI.icon(kindIcon, { size: 20 }));
-  const main = UI.el('div', null, 'hist-main');
-  const name = UI.el('div', null, 'hist-name');
-  name.title = r.filename || '';
-  name.append(UI.el('span', r.filename || t('ui_fallbackName'), 'hist-name-text'));
-  // Format badge from the record's own format field, hidden when the
-  // format is unknown or outside the five badged formats.
-  const fmt = formatGroup(r.format);
-  const fmtClass = HIST_FMT_BADGE_CLASS[fmt];
-  if (fmtClass) name.append(UI.el('span', FORMAT_LABELS[fmt], fmtClass));
-  const site = r.pageHost || r.site || '';
-  const sub = site ? `${site} \u00b7 ${formatHistoryTime(r.at)}` : formatHistoryTime(r.at);
-  main.append(name, UI.el('div', sub, 'hist-sub'));
-  row.append(tile, main);
-  // Size on the right, hidden when the record has no measured size.
-  if (Number(r.bytes) > 0) {
-    row.append(UI.el('span', UI.formatHistorySize(r), 'hist-size'));
-  }
-  return row;
-}
-
-/**
- * Relative time for a history record: "Just now", "N min ago", "N h ago",
- * "Yesterday", otherwise a short date. Every value comes from the
- * record's own `at` field.
- */
-function formatHistoryTime(at) {
-  const stamp = Number(at) || 0;
-  const age = Date.now() - stamp;
-  if (!stamp || age < 60000) return t('history_timeNow');
-  const mins = Math.floor(age / 60000);
-  if (mins < 60) return t('history_timeMinutes', { count: mins });
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return t('history_timeHours', { count: hours });
-  const day = new Date(stamp);
-  const yesterday = new Date(Date.now() - 86400000);
-  const sameDay = (a, b) => a.getFullYear() === b.getFullYear()
-    && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-  if (sameDay(day, yesterday)) return t('history_timeYesterday');
-  return day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  return buildHistoryRow(r, {
+    t,
+    formatSize: (rec) => UI.formatHistorySize(rec),
+    showDownload: (dlId) => UI.send('SHOW_DOWNLOAD', { downloadId: String(dlId) }),
+    toast: (msg) => UI.toast(msg),
+  });
 }

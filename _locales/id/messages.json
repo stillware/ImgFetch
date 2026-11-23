@@ -351,6 +351,14 @@
     "message": "Menampilkan {shown} · ditemukan {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Total yang dipilih: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Total yang dipilih: sekitar {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "{count} duplikat dihapus",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "Hapus riwayat",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Konfirmasi hapus?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Riwayat dihapus.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Disalin!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Belum ada unduhan. Gambar yang Anda simpan akan muncul di sini.",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "Belum ada unduhan",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "File tidak ditemukan",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count} berkas",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Gambar yang Anda unduh akan muncul di sini.",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Buka tautan sumber",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Hari ini",
@@ -647,6 +675,10 @@
     "message": "Tautan gambar ini terlihat tidak aman, ImgFetch melewatinya.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "File tidak dapat ditampilkan. File mungkin telah dipindahkan atau dihapus.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch tidak menemukan gambar yang bisa dipakai di sini.",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "Bagian pengaturan",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Cari pengaturan",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Tidak ada pengaturan yang cocok dengan pencarian Anda.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Umum",
@@ -831,10 +871,6 @@
     "message": "Gelap",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Setelah unduhan selesai",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Tetap diam",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "Pemilihan kualitas pintar",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Unduhan Pintar (disarankan)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Memeriksa setiap sumber yang tersedia dan menyimpan versi asli terbaik yang dapat diverifikasinya.",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "Dipakai saat mengonversi ke WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Hasil perkiraan",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Konversi menggunakan JPG {jpg}, WebP {webp}, dan PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Format lain",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "Token yang tersedia",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Biarkan saya mengganti nama file sebelum mengunduh",
@@ -1231,10 +1267,6 @@
     "message": "Salin tautan halaman pintasan",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Untuk mengubah pintasan, buka chrome://extensions/shortcuts (atau edge://extensions/shortcuts di Edge), temukan ImgFetch dan atur tombol pilihan Anda. Di Mac, gunakan ⌘ sebagai pengganti Ctrl. Jika pintasan menunjukkan “Tidak diatur”, tombol yang disarankan bertabrakan dengan browser atau ekstensi lain, atur secara manual di sini.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Pintasan tidak dapat dibaca.",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Menyimpan nama file, situs, format, dan ukuran setiap unduhan.",
+    "message": "Menyimpan nama file, situs, format, ukuran, pratinjau kecil, tautan sumber, dan id unduhan setiap unduhan.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch tidak memiliki server dan tidak mengumpulkan apa pun. Hanya gambar yang Anda pilih untuk diunduh yang diambil, dan Google Lens (hanya jika Anda mengklik) membuka Google dengan alamat gambar. Lihat PRIVACY.md di repositori untuk pernyataan lengkap.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch menyimpan semuanya di perangkat Anda. Tanpa akun, tanpa pelacakan, tanpa analitik.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Apa yang disimpan ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "Gambar diambil langsung dari situs yang Anda kunjungi, dengan sesi browser normal Anda. ImgFetch tidak menambahkan parameter pelacakan.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Alasan ImgFetch meminta setiap izin dijelaskan di bagian Tentang, dan pernyataan lengkap ada di PRIVACY.md di repositori publik.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Anotasi tangkapan layar",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "Buang",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Tips: seret pada gambar untuk menggambar. Alat teks: klik di mana teks harus ditempatkan, ketik, tekan Enter. Klik teks yang ditempatkan untuk memilihnya, seret untuk memindahkannya, tekan Delete atau Backspace untuk menghapusnya. Buramkan: seret pada area yang disembunyikan.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Pikselisasi menyembunyikan detail dari mata yang ingin tahu, tetapi terkadang dapat dibalik, jangan andalkan untuk teks sensitif.",

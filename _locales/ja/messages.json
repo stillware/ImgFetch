@@ -351,6 +351,14 @@
     "message": "{shown} 件表示 · 見つかったのは {total} 件",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "選択中の合計: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "選択中の合計: 約 {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "{count} 件の重複を削除しました",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "履歴をクリア",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "消去を確認しますか？",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "履歴をクリアしました。",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "コピーしました！",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "まだダウンロードがありません。保存した画像はここに表示されます。",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "まだダウンロードがありません",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "ファイルが見つかりません",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count}件のファイル",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "ダウンロードした画像がここに表示されます。",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "ソースリンクを開く",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "今日",
@@ -647,6 +675,10 @@
     "message": "この画像リンクは安全ではないようです。ImgFetch はスキップしました。",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "ファイルを表示できませんでした。移動または削除された可能性があります。",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch はここで使用可能な画像を見つけられませんでした。",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "設定セクション",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "設定を検索",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "検索に一致する設定がありません。",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "一般",
@@ -831,10 +871,6 @@
     "message": "ダーク",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "ダウンロード完了後",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "通知しない",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "スマート品質選択",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "スマートダウンロード（推奨）",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "利用可能なすべてのソースを調べ、検証できる最高の実バージョンを保存します。",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "WebP への変換時に使用します。",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "推定結果",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "変換は JPG {jpg}、WebP {webp}、PNG {png} を使用します。",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "その他の形式",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "利用可能なトークン",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "ダウンロード前にファイル名を変更させてほしい",
@@ -1231,10 +1267,6 @@
     "message": "ショートカットページのリンクをコピー",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "ショートカットを変更するには、chrome://extensions/shortcuts（Edge では edge://extensions/shortcuts）を開き、ImgFetch を見つけて好みのキーに設定してください。Mac では Ctrl の代わりに ⌘ を使います。ショートカットが「未設定」と表示されている場合、提案されたキーがブラウザや他の拡張機能と競合したため、ここで手動で設定してください。",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "ショートカットを読み取れませんでした。",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "各ダウンロードのファイル名、サイト、形式、サイズを保存します。",
+    "message": "ダウンロードごとに、ファイル名、サイト、形式、サイズ、小さなプレビュー、ソースリンク、ダウンロード ID を保存します。",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch にはサーバーがなく、何も収集しません。ダウンロードを選択した画像のみ取得し、Google Lens（クリックした場合のみ）は画像のアドレスで Google を開きます。完全な声明はリポジトリの PRIVACY.md をご覧ください。",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch はすべてをデバイス上に保持します。アカウントなし、追跡なし、分析なし。",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ImgFetch が保存するもの",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "画像は通常のブラウザセッションで、訪問したサイトから直接取得されます。ImgFetch は追跡パラメーターを追加しません。",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "ImgFetch が各権限を要求する理由は「この拡張機能について」セクションで説明されており、完全な声明は公開リポジトリの PRIVACY.md にあります。",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "スクリーンショットに注釈",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "破棄",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "ヒント：画像上でドラッグして描画します。テキストツール：テキストを置く場所をクリックし、入力して Enter を押します。配置したテキストをクリックで選択し、ドラッグで移動、Delete または Backspace で削除します。ぼかし：隠したい領域上でドラッグします。",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "モザイクは好奇の目から詳細を隠しますが、逆変換されることがあります。機密性の高いテキストには使用しないでください。",

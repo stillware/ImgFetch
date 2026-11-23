@@ -351,6 +351,14 @@
     "message": "{shown} gösteriliyor · {total} bulundu",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Seçilen toplam: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Seçilen toplam: yaklaşık {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "{count} yineleme kaldırıldı",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "Geçmişi temizle",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Temizlemeyi onayla?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Geçmiş temizlendi.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Kopyalandı!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Henüz indirme yok. Kaydedilen görüntüleriniz burada görünecek.",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "Henüz indirme yok",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Dosya bulunamadı",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count} dosya",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "İndirdiğiniz görseller burada görünecek.",
@@ -571,6 +595,10 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openSource": {
+    "message": "Kaynak bağlantısını aç",
+    "description": "History row button: open the source link in a new tab."
+  },
   "history_today": {
     "message": "Bugün",
     "description": "History group label for today."
@@ -580,7 +608,7 @@
     "description": "History group label for yesterday."
   },
   "history_timeNow": {
-    "message": "Şimdi",
+    "message": "Az önce",
     "description": "Relative time: just now."
   },
   "history_timeYesterday": {
@@ -646,6 +674,10 @@
   "error_badUrl": {
     "message": "Bu görüntü bağlantısı güvensiz görünüyor, ImgFetch atladı.",
     "description": "Error: the image URL failed safety checks."
+  },
+  "error_showFailed": {
+    "message": "Dosya gösterilemedi. Taşınmış veya silinmiş olabilir.",
+    "description": "Error: showing a finished download in the file manager failed."
   },
   "error_notImage": {
     "message": "ImgFetch burada kullanılabilir bir görüntü bulamadı.",
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "Ayar bölümleri",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Ayarlarda ara",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Aramanızla eşleşen ayar yok.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Genel",
@@ -831,10 +871,6 @@
     "message": "Koyu",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "İndirme bittikten sonra",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Sessiz kal",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "Akıllı kalite seçimi",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Akıllı İndirme (önerilen)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Her kullanılabilir kaynağı denetler ve doğrulayabildiği en iyi gerçek sürümü kaydeder.",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "WebP'ye dönüştürürken kullanılır.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Tahmini sonuç",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Dönüştürmeler JPG {jpg}, WebP {webp} ve PNG {png} kullanır.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Diğer biçimler",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "Kullanılabilir jetonlar",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "İndirmeden önce dosyaları yeniden adlandırmama izin ver",
@@ -1231,10 +1267,6 @@
     "message": "Kısayol sayfası bağlantısını kopyala",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Bir kısayolu değiştirmek için chrome://extensions/shortcuts (Edge'de edge://extensions/shortcuts) adresini açın, ImgFetch'i bulun ve tercih ettiğiniz tuşları ayarlayın. Mac'te Ctrl yerine ⌘ kullanın. Bir kısayol “Ayarlanmadı” gösteriyorsa önerilen tuş tarayıcıyla veya başka bir uzantıyla çakışmış demektir, buradan elle ayarlayın.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Kısayol bağlantıları okunamadı.",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Her indirmenin dosya adını, sitesini, biçimini ve boyutunu saklar.",
+    "message": "Her indirmenin dosya adını, sitesini, biçimini, boyutunu, küçük bir önizlemesini, kaynak bağlantısını ve indirme kimliğini saklar.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch'in sunucusu yoktur ve hiçbir şey toplamaz. Yalnızca indirmeyi seçtiğiniz görüntüler alınır ve Google Lens (yalnızca tıklarsanız) görüntünün adresiyle Google'ı açar. Tam açıklama için depodaki PRIVACY.md dosyasına bakın.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch her şeyi cihazınızda tutar. Hesap yok, izleme yok, analiz yok.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ImgFetch ne saklar",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "Görüntüler, normal tarayıcı oturumunuz kullanılarak ziyaret ettiğiniz sitelerden doğrudan alınır. ImgFetch izleme parametresi eklemez.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "ImgFetch'in her izni neden istediği Hakkında bölümünde açıklanmıştır, tam açıklama herkese açık depodaki PRIVACY.md dosyasıdır.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Ekran görüntüsüne açıklama ekle",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "Vazgeç",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "İpucu: çizmek için görüntü üzerinde sürükleyin. Metin aracı: metnin gideceği yere tıklayın, yazın, Enter'a basın. Yerleştirilen metne tıklayarak seçin, taşımak için sürükleyin, silmek için Delete veya Backspace'e basın. Bulanıklaştırma: gizlenecek alan üzerinde sürükleyin.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Pikselleştirme detayları meraklı gözlerden gizler ama bazen geri alınabilir, hassas metin için güvenmeyin.",

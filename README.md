@@ -150,7 +150,7 @@ The full policy is in [PRIVACY.md](PRIVACY.md), and [docs/permissions.md](docs/p
 - No tracking: there is no analytics, no telemetry, no advertising and no data collection of any kind.
 - No remote code: the extension runs only the code shipped in the package and loads no scripts from the network.
 - Permissions are used only for the feature they support, such as downloads for saving files, scripting for scanning pages and clipboardWrite for the Copy actions; [docs/permissions.md](docs/permissions.md) lists each one.
-- Your data stays on your device: settings, download history and captures are stored locally in your browser and are never sent anywhere by ImgFetch.
+- Your data stays on your device: settings, download history and captures are stored locally in your browser and are never sent anywhere by ImgFetch. Each history record also keeps a small preview image, the source link and the download id, all made and stored locally; Clear history removes them.
 
 ## Supported browsers and languages
 
@@ -277,7 +277,7 @@ Solid arrows are messages and calls. Dotted arrows are direct reads.
 | 3 | The worker asks the page scanner for the ranked, validated sources of that image and gets the best one first. |
 | 4 | If you chose another format, the offscreen document converts the image, or builds the ZIP with `zip.js`. |
 | 5 | The worker starts the download through the browser Downloads API with a safe file name from `filenames.js`. |
-| 6 | When the download completes, the worker writes a history record and keeps the queue state in browser storage. |
+| 6 | When the download completes, the worker writes a history record (file name, source host, format, size, and, when the image data was already in memory, a small preview, plus the source link and the download id) and keeps the queue state in browser storage. |
 
 Screenshots follow the same pattern. The picker returns the area or element you chose, the worker captures the page and stores the result in IndexedDB, and the screenshot pages (Capture, Parts overview, Editor) read it from there through `capture-io.js`.
 

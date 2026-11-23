@@ -423,6 +423,14 @@
     "message": "Pokazano {shown} · znaleziono {total}",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Razem zaznaczone: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Razem zaznaczone: około {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "usunięto {count} duplikat",
     "description": "Status line fragment. Singular."
@@ -679,9 +687,17 @@
     "message": "Wyczyść historię",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Potwierdzić wyczyszczenie?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Historia wyczyszczona.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Skopiowano!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Brak pobrań. Twoje zapisane obrazy pojawią się tutaj.",
@@ -690,6 +706,26 @@
   "history_emptyTitle": {
     "message": "Brak pobranych plików",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Nie znaleziono pliku",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} plik",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_few": {
+    "message": "{count} pliki",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_many": {
+    "message": "{count} plików",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} pliki",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Pobrane obrazy pojawią się tutaj.",
@@ -702,6 +738,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Otwórz link źródłowy",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Dziś",
@@ -803,6 +843,10 @@
     "message": "Ten link obrazu wygląda na niebezpieczny, ImgFetch go pominął.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Nie można pokazać pliku. Mógł zostać przeniesiony lub usunięty.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch nie znalazł tu użytecznego obrazu.",
     "description": "Error: no usable image at the target."
@@ -870,6 +914,14 @@
   "options_sectionsAria": {
     "message": "Sekcje ustawień",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Szukaj w ustawieniach",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Żadne ustawienie nie pasuje do wyszukiwania.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Ogólne",
@@ -987,10 +1039,6 @@
     "message": "Ciemny",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Po zakończeniu pobierania",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Zachowaj ciszę",
     "description": "Post-download: do nothing."
@@ -1043,10 +1091,6 @@
     "message": "Inteligentny wybór jakości",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Inteligentne pobieranie (zalecane)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Sprawdza każde dostępne źródło i zapisuje najlepszą prawdziwą wersję, jaką może zweryfikować.",
     "description": "Hint for smart mode."
@@ -1082,6 +1126,14 @@
   "q_webpHint": {
     "message": "Używane przy konwersji do WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Szacowany wynik",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Konwersje używają JPG {jpg}, WebP {webp} i PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Inne formaty",
@@ -1146,10 +1198,6 @@
   "fn_tokens": {
     "message": "Dostępne tokeny",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Pozwól mi zmieniać nazwy plików przed pobraniem",
@@ -1387,10 +1435,6 @@
     "message": "Kopiuj link do strony skrótów",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Aby zmienić skrót, otwórz chrome://extensions/shortcuts (lub edge://extensions/shortcuts w Edge), znajdź ImgFetch i ustaw preferowane klawisze. Na Macu użyj ⌘ zamiast Ctrl. Jeśli skrót pokazuje „Nie ustawiono”, sugerowany klawisz kolidował z przeglądarką lub innym rozszerzeniem, ustaw go ręcznie tutaj.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Nie udało się odczytać skrótów.",
     "description": "Error state of the shortcut list."
@@ -1460,7 +1504,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Przechowuje nazwę pliku, stronę, format i rozmiar każdego pobrania.",
+    "message": "Przechowuje nazwę pliku, witrynę, format, rozmiar, mały podgląd, link źródłowy oraz identyfikator pobierania każdego pobrania.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1599,10 +1643,6 @@
     "message": "ImgFetch nie ma serwera i nic nie zbiera. Pobierane są tylko wybrane przez ciebie obrazy, a Google Lens (tylko po kliknięciu) otwiera Google z adresem obrazu. Pełne oświadczenie zobacz w PRIVACY.md w repozytorium.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch trzyma wszystko na twoim urządzeniu. Bez kont, bez śledzenia, bez analityki.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Co przechowuje ImgFetch",
     "description": "Privacy: stored data heading."
@@ -1634,10 +1674,6 @@
   "pr_never4": {
     "message": "Obrazy pobierane są bezpośrednio ze stron, które odwiedzasz, przy użyciu twojej zwykłej sesji przeglądarki. ImgFetch nie dodaje parametrów śledzących.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Dlaczego ImgFetch prosi o każde uprawnienie, wyjaśniono w sekcji O programie, a pełne oświadczenie jest w PRIVACY.md w publicznym repozytorium.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Opisz zrzut ekranu",
@@ -1750,10 +1786,6 @@
   "annotate_discard": {
     "message": "Odrzuć",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Wskazówka: przeciągnij po obrazie, aby rysować. Narzędzie tekstowe: kliknij, gdzie tekst ma się znaleźć, wpisz, naciśnij Enter. Kliknij umieszczony tekst, aby go zaznaczyć, przeciągnij, aby przenieść, naciśnij Delete lub Backspace, aby usunąć. Rozmycie: przeciągnij po obszarze do ukrycia.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Pikselowanie ukrywa szczegóły przed ciekawskimi spojrzeniami, ale czasem da się je odwrócić, nie polegaj na nim przy wrażliwym tekście.",
@@ -2576,7 +2608,7 @@
     "description": "Settings: title of the change-shortcut card."
   },
   "kb_changeDesc": {
-    "message": "Otwórz stronę skrótów rozszerzeń w przeglądarce, znajdziesz ImgFetch i ustaw klawisze. Jeśli skrót jest wyświetlany jako Nie ustawiono, klawisz kolidował z przeglądarką lub innym rozszerzeniem.",
+    "message": "Otwórz stronę skrótów rozszerzeń w przeglądarce, znajdź ImgFetch i ustaw klawisze. Jeśli skrót jest wyświetlany jako Nie ustawiono, klawisz kolidował z przeglądarką lub innym rozszerzeniem.",
     "description": "Settings: instructions for changing a shortcut."
   },
   "pr_heroTitle": {

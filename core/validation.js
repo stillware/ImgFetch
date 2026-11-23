@@ -250,6 +250,7 @@ export function friendlyError(code) {
     'scan-failed': 'ImgFetch could not scan this page. Try reloading the page and scanning again.',
     'capture-failed': 'ImgFetch could not capture this page.',
     'download-failed': 'The download did not start. Please try again.',
+    'show-failed': 'The file could not be shown. It may have been moved or deleted.',
     'cancelled': 'Cancelled.',
     'timeout': 'This took too long. Please try again.',
     'private-network': 'ImgFetch blocked a request to a private network address (like localhost or a router page) to protect your local network.',

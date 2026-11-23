@@ -19,6 +19,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title data-i18n="welcome_title">Welcome to ImgFetch</title>
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
@@ -30,7 +31,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .welcome-mark { width: 72px; height: 72px; border-radius: 20px; margin: 0 auto 18px; }
     h1 { font-size: 26px; margin: 0 0 8px; letter-spacing: -0.02em; line-height: 1.2; }
     .step { display: none; }
-    .step.active { display: block; animation: sx-fade 0.25s ease; }
+    .step.active { display: block; animation: sx-fade var(--dur-fast) var(--ease); }
     @keyframes sx-fade { from { opacity: 0; transform: translateY(6px); } }
     .step p { color: var(--muted); font-size: 14px; max-width: 420px; margin: 0 auto 18px; }
     .dots { display: flex; gap: 6px; justify-content: center; margin: 22px 0; }

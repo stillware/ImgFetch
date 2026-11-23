@@ -351,6 +351,14 @@
     "message": "顯示 {shown} 張 · 共找到 {total} 張",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "已選總計：{size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "已選總計：約 {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved": {
     "message": "已刪除 {count} 個重複項目",
     "description": "Status line fragment. Plural."
@@ -547,9 +555,17 @@
     "message": "清除紀錄",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "確認清除？",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "紀錄已清除。",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "已複製！",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "尚無下載。您儲存的圖片將顯示在這裡。",
@@ -558,6 +574,14 @@
   "history_emptyTitle": {
     "message": "尚無下載",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "找不到檔案",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files": {
+    "message": "{count} 個檔案",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "您下載的圖片將顯示在這裡。",
@@ -570,6 +594,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "開啟來源連結",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "今天",
@@ -647,6 +675,10 @@
     "message": "此圖片連結看起來不安全，ImgFetch 已略過。",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "無法顯示該檔案。它可能已被移動或刪除。",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch 在此未找到可用的圖片。",
     "description": "Error: no usable image at the target."
@@ -714,6 +746,14 @@
   "options_sectionsAria": {
     "message": "設定區段",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "搜尋設定",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "沒有符合您搜尋的設定。",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "一般",
@@ -831,10 +871,6 @@
     "message": "深色",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "下載完成後",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "保持靜默",
     "description": "Post-download: do nothing."
@@ -887,10 +923,6 @@
     "message": "智慧品質選擇",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "智慧下載（建議）",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "檢查每個可用來源，儲存它能驗證的最佳真實版本。",
     "description": "Hint for smart mode."
@@ -926,6 +958,14 @@
   "q_webpHint": {
     "message": "轉換為 WebP 時使用。",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "預估結果",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "轉換使用 JPG {jpg}、WebP {webp} 和 PNG {png}。",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "其他格式",
@@ -990,10 +1030,6 @@
   "fn_tokens": {
     "message": "可用標記",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "下載前讓我重新命名檔案",
@@ -1231,10 +1267,6 @@
     "message": "複製快速鍵頁面連結",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "要變更快速鍵，請開啟 chrome://extensions/shortcuts（Edge 中為 edge://extensions/shortcuts），找到 ImgFetch 並設定偏好的按鍵。Mac 上請使用 ⌘ 代替 Ctrl。如果某個快速鍵顯示「未設定」，表示建議的按鍵與瀏覽器或其他擴充功能衝突，請在此手動設定。",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "無法讀取快速鍵。",
     "description": "Error state of the shortcut list."
@@ -1304,7 +1336,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "儲存每次下載的檔案名稱、網站、格式和大小。",
+    "message": "儲存每次下載的檔案名稱、網站、格式、大小、小型預覽、來源連結和下載 ID。",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1443,10 +1475,6 @@
     "message": "ImgFetch 沒有伺服器，也不收集任何內容。只會取得您選擇下載的圖片，Google Lens（僅當您點選時）會使用圖片網址開啟 Google。完整聲明請參閱存放庫中的 PRIVACY.md。",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch 將所有內容保存在您的裝置上。無帳號、無追蹤、無分析。",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "ImgFetch 儲存的內容",
     "description": "Privacy: stored data heading."
@@ -1478,10 +1506,6 @@
   "pr_never4": {
     "message": "圖片使用您的一般瀏覽器工作階段直接從您造訪的網站取得，ImgFetch 不新增任何追蹤參數。",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "ImgFetch 要求每項權限的原因在「關於」區段有說明，完整聲明在公開存放庫的 PRIVACY.md 中。",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "標註螢幕截圖",
@@ -1594,10 +1618,6 @@
   "annotate_discard": {
     "message": "捨棄",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "提示：在圖片上拖曳進行繪製。文字工具：點選文字應放置的位置，輸入文字，按 Enter。點選已放置的文字可選取，拖曳可移動，按 Delete 或 Backspace 可刪除。模糊：在要隱藏的區域上拖曳。",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "馬賽克可以讓細節躲過好奇的目光，但有時可以被逆轉，請勿用於敏感文字。",

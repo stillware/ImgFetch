@@ -375,6 +375,14 @@
     "message": "{shown} getoond · {total} gevonden",
     "description": "Results status line: visible count and total."
   },
+  "results_selectedSize": {
+    "message": "Totaal geselecteerd: {size}",
+    "description": "Results: total size of the selected images."
+  },
+  "results_selectedSizeApprox": {
+    "message": "Totaal geselecteerd: ongeveer {size}",
+    "description": "Results: total size of the selected images when some sizes are unknown."
+  },
   "results_duplicatesRemoved_one": {
     "message": "{count} duplicaat verwijderd",
     "description": "Status line fragment. Singular."
@@ -591,9 +599,17 @@
     "message": "Geschiedenis wissen",
     "description": "Confirm dialog button."
   },
+  "history_clearConfirmInline": {
+    "message": "Wissen bevestigen?",
+    "description": "Clear history button, armed state: second click confirms."
+  },
   "history_cleared": {
     "message": "Geschiedenis gewist.",
     "description": "Toast after clearing history."
+  },
+  "history_copied": {
+    "message": "Gekopieerd!",
+    "description": "Small tooltip on the history copy button."
   },
   "history_empty": {
     "message": "Nog geen downloads. Je opgeslagen afbeeldingen verschijnen hier.",
@@ -602,6 +618,18 @@
   "history_emptyTitle": {
     "message": "Nog geen downloads",
     "description": "History empty state title."
+  },
+  "history_fileNotFound": {
+    "message": "Bestand niet gevonden",
+    "description": "Toast when showing a finished download fails because the file is gone."
+  },
+  "history_files_one": {
+    "message": "{count} bestand",
+    "description": "History group count: files in the group. Plural."
+  },
+  "history_files_other": {
+    "message": "{count} bestanden",
+    "description": "History group count: files in the group. Plural."
   },
   "history_emptyDesc": {
     "message": "Je gedownloade afbeeldingen verschijnen hier.",
@@ -614,6 +642,10 @@
   "history_groupLine": {
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
+  },
+  "history_openSource": {
+    "message": "Bronlink openen",
+    "description": "History row button: open the source link in a new tab."
   },
   "history_today": {
     "message": "Vandaag",
@@ -699,6 +731,10 @@
     "message": "Deze afbeeldingslink ziet er onveilig uit, ImgFetch heeft hem overgeslagen.",
     "description": "Error: the image URL failed safety checks."
   },
+  "error_showFailed": {
+    "message": "Het bestand kon niet worden getoond. Het is mogelijk verplaatst of verwijderd.",
+    "description": "Error: showing a finished download in the file manager failed."
+  },
   "error_notImage": {
     "message": "ImgFetch kon hier geen bruikbare afbeelding vinden.",
     "description": "Error: no usable image at the target."
@@ -766,6 +802,14 @@
   "options_sectionsAria": {
     "message": "Instellingensecties",
     "description": "Accessibility label of the options sidebar."
+  },
+  "options_searchSettings": {
+    "message": "Instellingen doorzoeken",
+    "description": "Options sidebar search box placeholder and label."
+  },
+  "options_searchNoResults": {
+    "message": "Geen enkele instelling past bij uw zoekopdracht.",
+    "description": "Options sidebar: shown when no section matches the search."
   },
   "options_secGeneral": {
     "message": "Algemeen",
@@ -883,10 +927,6 @@
     "message": "Donker",
     "description": "Theme: dark mode."
   },
-  "gen_afterDownload": {
-    "message": "Nadat een download is voltooid",
-    "description": "General: post-download behavior label."
-  },
   "gen_silent": {
     "message": "Stil blijven",
     "description": "Post-download: do nothing."
@@ -939,10 +979,6 @@
     "message": "Slimme kwaliteitskeuze",
     "description": "Quality: mode fieldset legend."
   },
-  "q_smart": {
-    "message": "Slimme download (aanbevolen)",
-    "description": "Quality: smart mode option."
-  },
   "q_smartHint": {
     "message": "Controleert elke beschikbare bron en slaat de beste echte versie op die het kan verifiëren.",
     "description": "Hint for smart mode."
@@ -978,6 +1014,14 @@
   "q_webpHint": {
     "message": "Gebruikt bij converteren naar WebP.",
     "description": "Hint for the WebP slider."
+  },
+  "q_estimateTitle": {
+    "message": "Geschat resultaat",
+    "description": "Quality: Estimated result label."
+  },
+  "q_estimateLine": {
+    "message": "Conversies gebruiken JPG {jpg}, WebP {webp} en PNG {png}.",
+    "description": "Quality: live conversion qualities, shown as the estimated result."
   },
   "q_otherFormats": {
     "message": "Andere formaten",
@@ -1042,10 +1086,6 @@
   "fn_tokens": {
     "message": "Beschikbare tokens",
     "description": "Summary of the template tokens details."
-  },
-  "fn_tokensList": {
-    "message": "{site} {name} {date} {time} {width} {height} {dimensions} {num}",
-    "description": "List of template tokens. Identical in every language."
   },
   "fn_askRename": {
     "message": "Laat me bestanden hernoemen voor het downloaden",
@@ -1283,10 +1323,6 @@
     "message": "Link naar sneltoetsenpagina kopiëren",
     "description": "Button: copy the browser shortcuts page link."
   },
-  "kb_changeHint": {
-    "message": "Om een sneltoets te wijzigen, open chrome://extensions/shortcuts (of edge://extensions/shortcuts in Edge), zoek ImgFetch en stel je gewenste toetsen in. Gebruik op Mac ⌘ in plaats van Ctrl. Als een sneltoets “Niet ingesteld” toont, botste de voorgestelde toets met de browser of een andere extensie, stel hem hier handmatig in.",
-    "description": "Hint explaining how to change shortcuts."
-  },
   "kb_readFailed": {
     "message": "Kon sneltoetsen niet lezen.",
     "description": "Error state of the shortcut list."
@@ -1356,7 +1392,7 @@
     "description": "History: keep history toggle."
   },
   "hi_enabledHint": {
-    "message": "Bewaard bestandsnaam, site, formaat en grootte van elke download.",
+    "message": "Bewahrt bestandsnaam, site, formaat, grootte, een kleine voorbeeldweergave, de bronlink en de download-id van elke download.",
     "description": "Hint for the history toggle."
   },
   "hi_retention": {
@@ -1495,10 +1531,6 @@
     "message": "ImgFetch heeft geen server en verzamelt niets. Alleen de afbeeldingen die je kiest te downloaden worden opgehaald, en Google Lens (alleen als je erop klikt) opent Google met het afbeeldingsadres. Zie PRIVACY.md in de repository voor de volledige verklaring.",
     "description": "About: privacy paragraph."
   },
-  "pr_desc": {
-    "message": "ImgFetch houdt alles op je apparaat. Geen accounts, geen tracking, geen analytics.",
-    "description": "Privacy section description."
-  },
   "pr_stores": {
     "message": "Wat ImgFetch bewaart",
     "description": "Privacy: stored data heading."
@@ -1530,10 +1562,6 @@
   "pr_never4": {
     "message": "Afbeeldingen worden rechtstreeks opgehaald van de sites die je bezoekt, met je normale browsersessie. ImgFetch voegt geen trackingparameters toe.",
     "description": "Privacy: never-does, fourth item."
-  },
-  "pr_permNote": {
-    "message": "Waarom ImgFetch elke machtiging vraagt staat in de sectie Over, en de volledige verklaring is PRIVACY.md in de openbare repository.",
-    "description": "Privacy: note pointing at the About section."
   },
   "annotate_subtitle": {
     "message": "Screenshot annoteren",
@@ -1646,10 +1674,6 @@
   "annotate_discard": {
     "message": "Verwerpen",
     "description": "Annotate: discard button."
-  },
-  "annotate_kbdHint": {
-    "message": "Tip: sleep over de afbeelding om te tekenen. Teksttool: klik waar de tekst moet komen, typ, druk op Enter. Klik op geplaatste tekst om te selecteren, sleep om te verplaatsen, druk op Delete of Backspace om te verwijderen. Vervagen: sleep over het te verbergen gebied.",
-    "description": "Annotate: keyboard and mouse hints."
   },
   "annotate_pixelateWarning": {
     "message": "Pixeleren verbergt details voor nieuwsgierige blikken, maar kan soms worden teruggedraaid, vertrouw er niet op voor gevoelige tekst.",
