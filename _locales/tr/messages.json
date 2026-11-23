@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "Not: Tam sayfalar gibi büyük ekran görüntüleri doğru şekilde kopyalanır ancak Windows pano geçmişinde (Win+V) görünmez. Bu, Windows'un bir sınırıdır, kopyalama sorunu değildir. Görüntüyü istediğiniz yere yapıştırmak için Ctrl+V tuşlarına basın.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Kopyalandı. Yapıştırmak için Ctrl+V tuşlarına basın. Windows pano geçmişi (Win+V) büyük görüntüleri göstermez.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "{count} görüntü · farklı boyutlar",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Açılır pencere ve ayarlar için arayüz dili.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "İndirmeden sonra",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Bildirim",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "İndirme bittiğinde ImgFetch size haber versin mi, seçin.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Akıllı İndirme",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Kaynak seçimi",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Dönüştürme kalitesi",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Önerilen",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Kısayol değiştir",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Tarayıcınızın uzantı kısayolları sayfasını açın, ImgFetch uygulamasını bulun ve tuşlarınızı ayarlayın. Biri Ayarlanmadı olarak görünüyorsa tuş, tarayıcıyla veya başka bir uzantıyla çakışmıştır.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Hesap yok. Analitik yok. İzleme yok.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Sunucu yok. Kaydettiğiniz hiçbir şey cihazınızdan ayrılmaz.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Tam gizlilik bildirimi",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Her iznin neden gerekli olduğu Hakkında bölümünde açıklanmıştır.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Temel",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Yakalama",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Kitaplık",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Uygulama",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Önizleme",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Yukarıdaki şablonu kullanan örnek dosya adı.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Kaydetme",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Görsel bulma",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Yakalama varsayılanları",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Web siteleri",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Düzen",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Geçmiş",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Yedekleme",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Tehlikeli bölge",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch her şeyi cihazınızda tutar.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Çizmek için görüntünün üzerinde sürükleyin.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Ok çizmek için görüntünün üzerinde sürükleyin.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Dikdörtgen çizmek için görüntünün üzerinde sürükleyin.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Daire çizmek için görüntünün üzerinde sürükleyin.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Metnin olmasını istediğiniz yere tıklayın, yazın ve Enter tuşuna basın. Yerleştirilen metni sürüklemek için tıklayın, kaldırmak için Delete tuşuna basın.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Gizlemek için alanın üzerinde sürükleyin.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Korunacak alanı seçmek için görüntünün üzerinde sürükleyin. Uygulamak için Enter, iptal etmek için Esc tuşuna basın.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Açıklamalar temizlensin mi?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Bu, bu ekran görüntüsündeki tüm çizimleri ve metinleri kaldırır. Görüntünün kendisi değişmeden kalır.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "{count} görüntü · {width} px genişliğinde · toplam {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Tüm parçalar silinsin mi?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Bu, bu ekran görüntüsünün tüm parçalarını siler. Hiçbir şey kaydedilmez.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Bu parça silinsin mi?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Bu, bu ekran görüntüsünün bu parçasını siler. Kaydedilmez.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch, sayfaları tarayabilmek veya bu sayfalardaki görüntüleri kaydedebilmek için web sitelerine erişim iznine ihtiyaç duyar. Kurulum sırasında bu izni atladıysanız burada verin.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Web sitelerine erişime izin ver",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Erişim verilmedi. ImgFetch araç çubuğu düğmesinden veya geçerli sayfadaki menüden çalışmaya devam eder, ancak diğer sayfalardan tarama ve kaydetme için bu izin gereklidir. Bu izni istediğiniz zaman burada, Ayarlar, Hakkında bölümünde verebilirsiniz.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch, sayfaları tarayabilmek veya bu sayfalardaki görüntüleri kaydedebilmek için web sitelerine erişim iznine ihtiyaç duyar. Kurulum sırasında bu izni atladıysanız burada verin.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Web sitelerine erişime izin ver",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Erişim verilmedi. ImgFetch araç çubuğu düğmesinden veya geçerli sayfadaki menüden çalışmaya devam eder, ancak diğer sayfalardan tarama ve kaydetme için bu izin gereklidir. Bu izni istediğiniz zaman burada, Ayarlar, Hakkında bölümünde verebilirsiniz.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

@@ -19,7 +19,7 @@
  * ImgFetch, options/options.js
  * Settings page controller. Every change saves automatically (debounced).
  */
-import { parseSettingsImport } from '../core/filenames.js';
+import { parseSettingsImport, buildFilename } from '../core/filenames.js';
 import { initI18n, t, applyI18n, onLanguageChange, setLanguage, LOCALES, LOCALE_INFO } from '../shared/i18n.js';
 import { normalizeHost } from '../core/urls.js';
 import { hasHostPermission, requestHostPermission, HOST_PERMISSION_ORIGINS } from '../shared/offscreen-bridge.js';
@@ -36,6 +36,7 @@ const GITHUB_REPO = 'https://github.com/stillware/ImgFetch';
 
 let settings = null;
 let saveTimer = 0;
+let savePillTimer = 0;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -56,6 +57,7 @@ async function init() {
   paintAll();
   wireAll();
   $('aboutVersion').textContent = chrome.runtime.getManifest().version;
+  $('optionsVersion').textContent = `${t('about_version')} ${chrome.runtime.getManifest().version}`;
   $('aboutLicenceLink').href = GITHUB_REPO + '/blob/main/LICENSE';
   $('aboutRepoLink').href = GITHUB_REPO;
   $('aboutRepoLink').textContent = GITHUB_REPO.replace('https://', '');
@@ -64,19 +66,24 @@ async function init() {
 
 function scheduleSave() {
   const el = $('saveState');
+  const pill = $('savePill');
   el.textContent = t('options_saving');
-  el.className = 'saving';
+  pill.hidden = false;
+  pill.className = 'save-pill saving';
   clearTimeout(saveTimer);
+  clearTimeout(savePillTimer);
   saveTimer = setTimeout(async () => {
     try {
       const res = await UI.send('SAVE_SETTINGS', { settings });
       settings = res.settings;
       UI.applyTheme(settings.theme);
       el.textContent = t('options_saved');
-      el.className = '';
+      pill.className = 'save-pill';
+      // The pill appears briefly after a save, then hides again.
+      savePillTimer = setTimeout(() => { pill.hidden = true; }, 2600);
     } catch (err) {
       el.textContent = t('options_saveFailed');
-      el.className = 'error';
+      pill.className = 'save-pill error';
       UI.toast(err.message);
     }
   }, 350);
@@ -87,6 +94,58 @@ function scheduleSave() {
 function seg(id, value) {
   document.querySelectorAll(`#${id} button`).forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.v === value));
+  });
+}
+
+/**
+ * The slider track fill is a CSS gradient driven by --fill (see
+ * shared/ui.css): set it from the value so the filled part matches the
+ * thumb position in both themes.
+ */
+function syncRangeFill(input) {
+  if (!input) return;
+  const min = Number(input.min || 0);
+  const max = Number(input.max || 100);
+  const pct = max > min ? ((Number(input.value) - min) / (max - min)) * 100 : 0;
+  input.style.setProperty('--fill', `${pct}%`);
+}
+
+/** Example values for the live file name preview (clearly an example). */
+const FILENAME_PREVIEW_CTX = {
+  site: 'example',
+  name: 'sunset',
+  date: new Date(2026, 9, 2, 10, 30, 0),
+  num: 1,
+  width: 1920,
+  height: 1080,
+  ext: 'jpg',
+};
+
+function paintFilenamePreview() {
+  const preview = $('fnPreview');
+  if (!preview) return;
+  const input = $('customTemplate');
+  const template = input ? input.value : '';
+  preview.textContent = buildFilename('custom', { ...FILENAME_PREVIEW_CTX, custom: template });
+}
+
+/** Token chips insert their token at the cursor in the template field. */
+function wireFilenameTokens() {
+  document.querySelectorAll('#tokenChips .token-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const input = $('customTemplate');
+      if (!input) return;
+      const token = chip.dataset.token || '';
+      const start = input.selectionStart == null ? input.value.length : input.selectionStart;
+      const end = input.selectionEnd == null ? input.value.length : input.selectionEnd;
+      input.value = input.value.slice(0, start) + token + input.value.slice(end);
+      const pos = start + token.length;
+      input.focus();
+      input.setSelectionRange(pos, pos);
+      settings.customTemplate = input.value;
+      paintFilenamePreview();
+      scheduleSave();
+    });
   });
 }
 
@@ -102,12 +161,14 @@ function paintAll() {
   $('autoRetryOnce').checked = settings.autoRetryOnce;
   $('maxConcurrent').value = settings.maxConcurrent;
   $('maxConcVal').textContent = settings.maxConcurrent;
+  syncRangeFill($('maxConcurrent'));
 
   document.querySelectorAll('input[name="filenameMode"]').forEach((r) => {
     r.checked = r.value === settings.filenameMode;
   });
   $('customTemplate').value = settings.customTemplate;
   $('customTemplateWrap').hidden = settings.filenameMode !== 'custom';
+  paintFilenamePreview();
 
   $('folderMode').value = settings.folderMode;
   $('subfolder').value = settings.subfolder;
@@ -116,12 +177,16 @@ function paintAll() {
 
   $('jpgQuality').value = settings.jpgQuality;
   $('jpgQVal').textContent = `${Math.round(settings.jpgQuality * 100)}%`;
+  syncRangeFill($('jpgQuality'));
   $('pngQuality').value = settings.pngQuality;
   $('pngQVal').textContent = `${Math.round(settings.pngQuality * 100)}%`;
+  syncRangeFill($('pngQuality'));
   $('webpQuality').value = settings.webpQuality;
   $('webpQVal').textContent = `${Math.round(settings.webpQuality * 100)}%`;
+  syncRangeFill($('webpQuality'));
   $('screenshotQuality').value = settings.screenshotQuality;
   $('shotQVal').textContent = `${Math.round(settings.screenshotQuality * 100)}%`;
+  syncRangeFill($('screenshotQuality'));
 
   $('minSizePreset').value = settings.minSizePreset;
   $('includeBackgrounds').checked = settings.includeBackgrounds;
@@ -166,6 +231,7 @@ function syncSubfolderField() {
 
 function wireAll() {
   wireSeg('themeSeg', 'theme');
+  wireFilenameTokens();
   wireSeg('afterDlSeg', 'afterDownload');
   wireSeg('shotFormatSeg', 'screenshotFormat');
   document.querySelectorAll('input[name="qualityPreference"]').forEach((r) => {
@@ -197,26 +263,31 @@ function wireAll() {
   $('maxConcurrent').addEventListener('input', (e) => {
     settings.maxConcurrent = Number(e.target.value);
     $('maxConcVal').textContent = e.target.value;
+    syncRangeFill(e.target);
     scheduleSave();
   });
   $('jpgQuality').addEventListener('input', (e) => {
     settings.jpgQuality = Number(e.target.value);
     $('jpgQVal').textContent = `${Math.round(e.target.value * 100)}%`;
+    syncRangeFill(e.target);
     scheduleSave();
   });
   $('pngQuality').addEventListener('input', (e) => {
     settings.pngQuality = Number(e.target.value);
     $('pngQVal').textContent = `${Math.round(e.target.value * 100)}%`;
+    syncRangeFill(e.target);
     scheduleSave();
   });
   $('webpQuality').addEventListener('input', (e) => {
     settings.webpQuality = Number(e.target.value);
     $('webpQVal').textContent = `${Math.round(e.target.value * 100)}%`;
+    syncRangeFill(e.target);
     scheduleSave();
   });
   $('screenshotQuality').addEventListener('input', (e) => {
     settings.screenshotQuality = Number(e.target.value);
     $('shotQVal').textContent = `${Math.round(e.target.value * 100)}%`;
+    syncRangeFill(e.target);
     scheduleSave();
   });
 
@@ -224,11 +295,13 @@ function wireAll() {
     r.addEventListener('change', () => {
       settings.filenameMode = document.querySelector('input[name="filenameMode"]:checked').value;
       $('customTemplateWrap').hidden = settings.filenameMode !== 'custom';
+      paintFilenamePreview();
       scheduleSave();
     });
   });
   $('customTemplate').addEventListener('input', UI.debounce((e) => {
     settings.customTemplate = e.target.value;
+    paintFilenamePreview();
     scheduleSave();
   }));
   $('subfolder').addEventListener('input', UI.debounce((e) => {
@@ -508,31 +581,40 @@ const COMMAND_LABEL_KEYS = {
   'imgfetch-capture-element': 'kb_captureElement',
 };
 
+// Mockup order for the shortcuts list (getAll() order is not stable).
+const COMMAND_ORDER = [
+  'imgfetch-scan-page',
+  'imgfetch-capture-area',
+  'imgfetch-select-element',
+  'imgfetch-capture-element',
+  'imgfetch-scan-page-alt',
+];
+
 async function wireShortcuts() {
   const list = $('shortcutList');
   try {
     const commands = await chrome.commands.getAll();
-    const known = commands.filter((c) => COMMAND_LABEL_KEYS[c.name]);
+    const byName = new Map(commands.map((c) => [c.name, c]));
+    // Render in the mockup order, not the getAll() order.
+    const known = COMMAND_ORDER.map((name) => byName.get(name)).filter((c) => c && COMMAND_LABEL_KEYS[c.name]);
     list.textContent = '';
     if (!known.length) {
       list.append(UI.el('p', t('kb_none'), 'small muted'));
     } else {
-      const dl = UI.el('dl', null, 'kv');
       for (const c of known) {
-        dl.append(UI.el('dt', t(COMMAND_LABEL_KEYS[c.name])));
-        const dd = document.createElement('dd');
+        const row = UI.el('div', null, 'kb-row');
+        row.append(UI.el('span', t(COMMAND_LABEL_KEYS[c.name]), 'kb-label'));
+        const keys = UI.el('span', null, 'kb-keys');
         if (c.shortcut) {
           for (const part of String(c.shortcut).split('+')) {
-            dd.append(UI.el('kbd', part.trim()));
-            dd.append(document.createTextNode(' + '));
+            keys.append(UI.el('kbd', part.trim(), 'keycap'));
           }
-          dd.removeChild(dd.lastChild);
         } else {
-          dd.append(UI.el('span', t('kb_notSet'), 'muted small'));
+          keys.append(UI.el('span', t('kb_notSet'), 'badge badge-warn'));
         }
-        dl.append(dd);
+        row.append(keys);
+        list.append(row);
       }
-      list.append(dl);
     }
   } catch {
     list.textContent = '';
@@ -599,37 +681,26 @@ function paintAboutPrivacy() {
 }
 
 /**
- * B: the Privacy section note carries a live PRIVACY.md link inside a
- * translated sentence. Rebuild the paragraph from t('pr_permNote'),
- * splitting on the (never translated) file name so the link survives
- * applyI18n(), which would otherwise wipe the anchor. The <bdi> wrapper
- * isolates the Latin file name so RTL layouts stay correct. Called at
- * init (wireAbout) and on every language change; the English default is
- * byte-identical.
+ * The Privacy section links to the full statement in the public
+ * repository. The link is built here (not hard-coded in HTML) so the
+ * repository URL stays a single source of truth. Called at init
+ * (wireAbout) and on every language change. The old function name is
+ * kept so its call sites are unchanged.
  */
 function paintPrivacyPermNote() {
-  const p = $('privacyPermNote');
-  if (!p) return;
-  const full = t('pr_permNote');
-  const a = document.createElement('a');
+  const a = $('privacyFullLink');
+  if (!a) return;
   a.href = GITHUB_REPO + '/blob/main/PRIVACY.md';
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  a.textContent = PRIVACY_LINK_TEXT;
-  const wrap = document.createElement('bdi');
-  wrap.append(a);
-  p.textContent = '';
-  const i = full.indexOf(PRIVACY_LINK_TEXT);
-  if (i >= 0) {
-    p.append(
-      document.createTextNode(full.slice(0, i)),
-      wrap,
-      document.createTextNode(full.slice(i + PRIVACY_LINK_TEXT.length)),
-    );
-  } else {
-    // A translation that drops the file name: keep the link anyway.
-    p.append(document.createTextNode(full + ' '), wrap);
-  }
+}
+
+function aboutPermIcon() {
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.setAttribute('class', 'icon');
+  icon.setAttribute('aria-hidden', 'true');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', '../shared/assets/lucide-sprite.svg#check');
+  icon.append(use);
+  return icon;
 }
 
 function wireAbout() {
@@ -643,12 +714,14 @@ function wireAbout() {
   for (const p of perms) {
     if (p === 'offscreen') continue; // implementation detail, covered by "convert"
     const li = document.createElement('li');
-    li.textContent = (PERMISSION_DESCRIPTION_KEYS[p] && t(PERMISSION_DESCRIPTION_KEYS[p])) || p;
+    li.append(aboutPermIcon());
+    li.append(document.createTextNode((PERMISSION_DESCRIPTION_KEYS[p] && t(PERMISSION_DESCRIPTION_KEYS[p])) || p));
     ul.append(li);
   }
   if (hosts.length) {
     const li = document.createElement('li');
-    li.textContent = t('perm_hosts');
+    li.append(aboutPermIcon());
+    li.append(document.createTextNode(t('perm_hosts')));
     ul.append(li);
   }
   paintAboutPrivacy();
@@ -712,8 +785,19 @@ async function paintHostAccess() {
 /* ---------------- sidebar navigation ---------------- */
 
 const SECTION_IDS = [
-  'general', 'downloads', 'quality', 'filenames', 'scanning', 'screenshots',
-  'sites', 'shortcuts', 'folders', 'history', 'backup', 'about', 'privacy',
+  'general',
+  'downloads',
+  'quality',
+  'filenames',
+  'scanning',
+  'screenshots',
+  'shortcuts',
+  'sites',
+  'folders',
+  'history',
+  'backup',
+  'about',
+  'privacy',
 ];
 
 function showSection(id) {

@@ -2502,7 +2502,7 @@
   "copy_windowsNote": {
     "message": "Примечание: большие снимки, например целые страницы, копируются правильно, но не появляются в истории буфера обмена Windows (Win+V). Это ограничение Windows, а не проблема копирования. Нажмите Ctrl+V, чтобы вставить изображение в нужное место.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Скопировано. Нажмите Ctrl+V, чтобы вставить. История буфера обмена Windows (Win+V) не показывает большие изображения.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2538,5 +2538,213 @@
   "parts_summaryVaried_other": {
     "message": "{count} изображения · размеры различаются",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Язык интерфейса всплывающего окна и настроек.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "После загрузки",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Уведомление",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Выберите, будет ли ImgFetch сообщать о завершении загрузки.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Умная загрузка",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Выбор источника",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Качество преобразования",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Рекомендуется",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Изменить сочетание клавиш",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Откройте страницу сочетаний клавиш расширений в браузере, найдите ImgFetch и задайте клавиши. Если сочетание показано как Не задано, клавиша конфликтовала с браузером или другим расширением.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Без учётных записей. Без аналитики. Без отслеживания.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Сервера нет. Ничего из сохранённого не покидает ваше устройство.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Полное заявление о конфиденциальности",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Зачем нужно каждое разрешение, объяснено в разделе О программе.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Основы",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Захват",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Библиотека",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Приложение",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Предпросмотр",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Пример имени файла по шаблону выше.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Сохранение",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Поиск изображений",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Параметры захвата",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Веб-сайты",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Организация",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "История",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Резервная копия",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Опасная зона",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch хранит всё на вашем устройстве.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Проведите по изображению, чтобы нарисовать.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Проведите по изображению, чтобы нарисовать стрелку.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Проведите по изображению, чтобы нарисовать прямоугольник.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Проведите по изображению, чтобы нарисовать круг.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Щёлкните там, где должен быть текст, введите его и нажмите Enter. Щёлкните размещённый текст, чтобы перетащить его, и нажмите Delete, чтобы удалить его.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Проведите по области, чтобы скрыть её.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Проведите по изображению, чтобы выбрать область для сохранения. Нажмите Enter, чтобы применить, Esc, чтобы отменить.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Очистить пометки?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Это удалит все рисунки и текст на этом снимке экрана. Само изображение не изменится.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_few": {
+    "message": "{count} изображения · {width} пкс в ширину · всего {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_many": {
+    "message": "{count} изображений · {width} пкс в ширину · всего {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} изображение · {width} пкс в ширину · всего {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} изображения · {width} пкс в ширину · всего {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Удалить все части?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Это удалит все части этого снимка. Ничего не будет сохранено.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Удалить эту часть?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Это удалит эту часть снимка. Она не будет сохранена.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch нужно разрешение на доступ к сайтам, прежде чем он сможет сканировать страницы или сохранять с них изображения. Если при установке вы пропустили это разрешение, выдайте его здесь.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Разрешить доступ к сайтам",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Доступ не предоставлен. ImgFetch по-прежнему работает с кнопки на панели инструментов или из меню на текущей странице, но для сканирования и сохранения с других страниц нужно это разрешение. Вы можете выдать его в любое время здесь, в разделе «Настройки», «О программе».",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch нужно разрешение на доступ к сайтам, прежде чем он сможет сканировать страницы или сохранять с них изображения. Если при установке вы пропустили это разрешение, выдайте его здесь.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Разрешить доступ к сайтам",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Доступ не предоставлен. ImgFetch по-прежнему работает с кнопки на панели инструментов или из меню на текущей странице, но для сканирования и сохранения с других страниц нужно это разрешение. Вы можете выдать его в любое время здесь, в разделе «Настройки», «О программе».",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

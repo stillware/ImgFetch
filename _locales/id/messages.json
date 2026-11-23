@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "Catatan: Tangkapan layar besar, seperti halaman penuh, tersalin dengan benar tetapi tidak muncul di riwayat papan klip Windows (Win+V). Ini adalah batasan Windows, bukan masalah penyalinan. Tekan Ctrl+V untuk menempelkan gambar di tempat yang Anda perlukan.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Disalin. Tekan Ctrl+V untuk menempel. Riwayat papan klip Windows (Win+V) tidak menampilkan gambar besar.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "{count} gambar · ukuran berbeda-beda",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Bahasa antarmuka untuk popup dan pengaturan.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Setelah unduhan",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Notifikasi",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Pilih apakah ImgFetch memberi tahu Anda saat unduhan selesai.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Unduhan Pintar",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Pemilihan sumber",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Kualitas konversi",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Disarankan",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Ubah pintasan",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Buka halaman pintasan ekstensi di browser Anda, temukan ImgFetch, dan atur tombol Anda. Jika ada yang menampilkan Belum diatur, tombol itu bertentangan dengan browser atau ekstensi lain.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Tanpa akun. Tanpa analitik. Tanpa pelacakan.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Tidak ada server. Apa pun yang Anda simpan tidak pernah meninggalkan perangkat Anda.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Pernyataan privasi lengkap",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Alasan setiap izin diperlukan dijelaskan di Tentang.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Dasar",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Tangkapan",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Pustaka",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Aplikasi",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Pratinjau",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Contoh nama file menggunakan templat di atas.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Menyimpan",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Mencari gambar",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Default tangkapan",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Situs web",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Pengaturan",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Riwayat",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Cadangan",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Zona berbahaya",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch menyimpan semuanya di perangkat Anda.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Seret pada gambar untuk menggambar.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Seret pada gambar untuk menggambar panah.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Seret pada gambar untuk menggambar persegi panjang.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Seret pada gambar untuk menggambar lingkaran.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Klik di tempat teks seharusnya berada, ketik, lalu tekan Enter. Klik teks yang sudah ditempatkan untuk menyeretnya, tekan Delete untuk menghapusnya.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Seret di atas area untuk menyembunyikannya.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Seret pada gambar untuk memilih area yang dipertahankan. Tekan Enter untuk menerapkan, Esc untuk membatalkan.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Hapus anotasi?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Ini akan menghapus semua gambar dan teks pada tangkapan layar ini. Gambar itu sendiri tidak berubah.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "{count} gambar · lebar {width} px · total {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Buang semua bagian?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Tindakan ini menghapus semua bagian dari tangkapan layar ini. Tidak ada yang disimpan.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Buang bagian ini?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Tindakan ini menghapus bagian ini dari tangkapan layar. Bagian ini tidak disimpan.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch memerlukan izin untuk mengakses situs web sebelum dapat memindai halaman atau menyimpan gambar darinya. Jika Anda melewati izin tersebut saat pemasangan, berikan di sini.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Izinkan akses ke situs web",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Akses tidak diberikan. ImgFetch tetap berfungsi dari tombol bilah alat atau menu pada halaman saat ini, tetapi pemindaian dan penyimpanan dari halaman lain memerlukan izin ini. Anda dapat memberikannya kapan saja di sini, di Pengaturan, Tentang.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch memerlukan izin untuk mengakses situs web sebelum dapat memindai halaman atau menyimpan gambar darinya. Jika Anda melewati izin tersebut saat pemasangan, berikan di sini.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Izinkan akses ke situs web",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Akses tidak diberikan. ImgFetch tetap berfungsi dari tombol bilah alat atau menu pada halaman saat ini, tetapi pemindaian dan penyimpanan dari halaman lain memerlukan izin ini. Anda dapat memberikannya kapan saja di sini, di Pengaturan, Tentang.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

@@ -2670,7 +2670,7 @@
   "copy_windowsNote": {
     "message": "ملاحظة: لقطات الشاشة الكبيرة، مثل الصفحات الكاملة، تُنسخ بشكل صحيح لكنها لا تظهر في سجل حافظة Windows (Win+V). هذا حد من حدود Windows وليس مشكلة في النسخ. اضغط على Ctrl+V للصق الصورة حيث تحتاجها.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "تم النسخ. اضغط على Ctrl+V للصق. سجل حافظة Windows (Win+V) لا يعرض الصور الكبيرة.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2722,5 +2722,221 @@
   "parts_summaryVaried_other": {
     "message": "{count} صورة · أحجام مختلفة",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "لغة الواجهة للنافذة المنبثقة والإعدادات.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "بعد التنزيل",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "إشعار",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "اختر ما إذا كان ImgFetch يخبرك عند اكتمال التنزيل.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "تنزيل ذكي",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "اختيار المصدر",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "جودة التحويل",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "موصى به",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "تغيير اختصار",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "افتح صفحة اختصارات الإضافات في متصفحك، وابحث عن ImgFetch وعيّن مفاتيحك. إذا ظهر أحدها على أنه غير معيّن، فهذا يعني أن المفتاح تعارض مع المتصفح أو إضافة أخرى.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "لا حسابات. لا تحليلات. لا تتبّع.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "لا يوجد خادم. لا يغادر جهازك أي شيء تحفظه.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "بيان الخصوصية الكامل",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "سبب الحاجة إلى كل إذن موضّح في قسم حول.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "الأساسيات",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "الالتقاط",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "المكتبة",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "التطبيق",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "معاينة",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "اسم ملف مثال باستخدام القالب أعلاه.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "الحفظ",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "البحث عن الصور",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "إعدادات الالتقاط الافتراضية",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "مواقع الويب",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "التنظيم",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "السجل",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "النسخ الاحتياطي",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "منطقة الخطر",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "يحتفظ ImgFetch بكل شيء على جهازك.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "اسحب على الصورة للرسم.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "اسحب على الصورة لرسم سهم.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "اسحب على الصورة لرسم مستطيل.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "اسحب على الصورة لرسم دائرة.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "انقر حيث يجب أن يكون النص، واكتب، ثم اضغط Enter. انقر على النص الموضوع لسحبه، واضغط Delete لإزالته.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "اسحب فوق المنطقة لإخفائها.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "اسحب على الصورة لاختيار المنطقة التي تريد الاحتفاظ بها. اضغط Enter للتطبيق، وEsc للإلغاء.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "مسح التعليقات التوضيحية؟",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "سيؤدي هذا إلى إزالة جميع الرسومات والنصوص من لقطة الشاشة هذه. وتبقى الصورة نفسها دون تغيير.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_few": {
+    "message": "{count} صور · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_many": {
+    "message": "{count} صورة · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} صورة · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} صورة · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_two": {
+    "message": "{count} صورتان · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_zero": {
+    "message": "{count} صورة · بعرض {width} بكسل · {total} في المجموع",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "تجاهل كل الأجزاء؟",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "سيؤدي هذا إلى حذف كل أجزاء هذه اللقطة. لن يتم حفظ أي شيء.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "تجاهل هذا الجزء؟",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "سيؤدي هذا إلى حذف هذا الجزء من اللقطة. لن يتم حفظه.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "يحتاج ImgFetch إلى إذن للوصول إلى المواقع قبل أن يتمكن من فحص الصفحات أو حفظ الصور منها. إذا تخطيت هذا الإذن أثناء التثبيت، فامنحه هنا.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "السماح بالوصول إلى المواقع",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "لم يتم منح الوصول. ما زال ImgFetch يعمل من زر شريط الأدوات أو القائمة في الصفحة الحالية، لكن الفحص والحفظ من صفحات أخرى يحتاجان إلى هذا الإذن. يمكنك منحه في أي وقت هنا، في الإعدادات، حول.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "يحتاج ImgFetch إلى إذن للوصول إلى المواقع قبل أن يتمكن من فحص الصفحات أو حفظ الصور منها. إذا تخطيت هذا الإذن أثناء التثبيت، فامنحه هنا.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "السماح بالوصول إلى المواقع",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "لم يتم منح الوصول. ما زال ImgFetch يعمل من زر شريط الأدوات أو القائمة في الصفحة الحالية، لكن الفحص والحفظ من صفحات أخرى يحتاجان إلى هذا الإذن. يمكنك منحه في أي وقت هنا، في الإعدادات، حول.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

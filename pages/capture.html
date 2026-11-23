@@ -24,9 +24,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
-    .shot-frame { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); }
+    /* Brand header: larger mark, same shared .brand component as the editor. */
+    .brand-mark { width: 40px; height: 40px; border-radius: 11px; }
+    .brand-name { font-size: 18px; }
+    /* Viewfinder corners are the brand motif (popup hero, editor, parts).
+       background-color (not the background shorthand) so the corner
+       gradients from .viewfinder-corners in shared/ui.css still show. */
+    .shot-frame { background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); }
     .shot-frame img { width: 100%; border-radius: 8px; display: block; background: var(--surface-2); }
     .actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .actions .btn-danger { margin-inline-start: auto; }
   </style>
 </head>
 <body>
@@ -44,16 +51,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   </div>
 
   <div id="content" hidden>
-    <div class="shot-frame">
+    <div class="shot-frame viewfinder-corners">
       <img id="shot" data-i18n-attr="alt:capture_imgAlt" alt="Screenshot preview">
     </div>
     <p class="muted small" id="meta" style="margin:10px 2px 0;"></p>
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary" data-i18n="capture_save">Save screenshot</button>
-      <button id="btnCopyShot" class="btn btn-ghost" data-i18n="capture_copy">Copy to clipboard</button>
-      <button id="btnRetakeVisible" class="btn btn-ghost" data-i18n="capture_retakeVisible">Retake visible page</button>
-      <button id="btnRetakeArea" class="btn btn-ghost" data-i18n="capture_retakeArea">Retake area</button>
-      <button id="btnDiscard" class="btn btn-danger" style="margin-inline-start:auto;" data-i18n="capture_discard">Discard</button>
+      <button id="btnSave" class="btn btn-primary" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg> <span data-i18n="capture_save">Save screenshot</span></button>
+      <button id="btnCopyShot" class="btn btn-ghost" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#copy"/></svg> <span data-i18n="capture_copy">Copy to clipboard</span></button>
+      <button id="btnRetakeVisible" class="btn btn-ghost" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#monitor"/></svg> <span data-i18n="capture_retakeVisible">Retake visible page</span></button>
+      <button id="btnRetakeArea" class="btn btn-ghost" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#crop"/></svg> <span data-i18n="capture_retakeArea">Retake area</span></button>
+      <button id="btnDiscard" class="btn btn-danger" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#trash-2"/></svg> <span data-i18n="capture_discard">Discard</span></button>
     </div>
   </div>
 

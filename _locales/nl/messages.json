@@ -2334,7 +2334,7 @@
   "copy_windowsNote": {
     "message": "Opmerking: grote schermafbeeldingen, zoals volledige pagina's, worden correct gekopieerd maar verschijnen niet in de klembordgeschiedenis van Windows (Win+V). Dit is een beperking van Windows, geen probleem met de kopie. Druk op Ctrl+V om de afbeelding te plakken waar je die nodig hebt.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Gekopieerd. Druk op Ctrl+V om te plakken. De klembordgeschiedenis van Windows (Win+V) toont geen grote afbeeldingen.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2354,5 +2354,205 @@
   "parts_summaryVaried_other": {
     "message": "{count} afbeeldingen · verschillende formaten",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Taal van de interface voor de pop-up en instellingen.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Na een download",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Melding",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Kies of ImgFetch u meldt wanneer een download is voltooid.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Slimme download",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Bronselectie",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Conversiekwaliteit",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Aanbevolen",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Een sneltoets wijzigen",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Open de pagina met extensiesneltoetsen van uw browser, zoek ImgFetch en stel uw toetsen in. Als er een als Niet ingesteld wordt weergegeven, botste de toets met de browser of een andere extensie.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Geen accounts. Geen analyses. Geen tracking.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Er is geen server. Niets wat u opslaat verlaat uw apparaat.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Volledige privacyverklaring",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Waarom elke machtiging nodig is, staat bij Over.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Basis",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Opname",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Bibliotheek",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Applicatie",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Voorbeeld",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Voorbeeld van een bestandsnaam met de sjabloon hierboven.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Opslaan",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Afbeeldingen zoeken",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Standaarden voor opname",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Sites",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Organisatie",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Geschiedenis",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Back-up",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Gevarenzone",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch houdt alles op uw apparaat.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Sleep over de afbeelding om te tekenen.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Sleep over de afbeelding om een pijl te tekenen.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Sleep over de afbeelding om een rechthoek te tekenen.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Sleep over de afbeelding om een cirkel te tekenen.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Klik waar de tekst moet komen, typ en druk op Enter. Klik op geplaatste tekst om deze te verslepen en druk op Delete om deze te verwijderen.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Sleep over het gebied om het te verbergen.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Sleep over de afbeelding om het te behouden gebied te kiezen. Druk op Enter om toe te passen en op Esc om te annuleren.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Annotaties wissen?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Hiermee verwijder je alle tekeningen en tekst op deze schermafbeelding. De afbeelding zelf blijft ongewijzigd.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} afbeelding · {width} px breed · {total} in totaal",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} afbeeldingen · {width} px breed · {total} in totaal",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Alle onderdelen verwijderen?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Hiermee worden alle onderdelen van deze schermafbeelding verwijderd. Er wordt niets opgeslagen.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Dit onderdeel verwijderen?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Hiermee wordt dit onderdeel van de schermafbeelding verwijderd. Het wordt niet opgeslagen.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch heeft toestemming nodig om websites te openen voordat het pagina’s kan scannen of er afbeeldingen van kan opslaan. Als je die toestemming bij de installatie hebt overgeslagen, geef je deze hier.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Toegang tot websites toestaan",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "De toegang is niet verleend. ImgFetch blijft werken via de werkbalkknop of het menu op de huidige pagina, maar voor scannen en opslaan vanaf andere pagina’s is deze toestemming nodig. Je kunt deze hier altijd geven, in Instellingen, Over.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch heeft toestemming nodig om websites te openen voordat het pagina’s kan scannen of er afbeeldingen van kan opslaan. Als je die toestemming bij de installatie hebt overgeslagen, geef je deze hier.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Toegang tot websites toestaan",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "De toegang is niet verleend. ImgFetch blijft werken via de werkbalkknop of het menu op de huidige pagina, maar voor scannen en opslaan vanaf andere pagina’s is deze toestemming nodig. Je kunt deze hier altijd geven, in Instellingen, Over.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

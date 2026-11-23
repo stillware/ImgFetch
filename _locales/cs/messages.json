@@ -2502,7 +2502,7 @@
   "copy_windowsNote": {
     "message": "Poznámka: velké snímky, například celé stránky, se kopírují správně, ale nezobrazují se v historii schránky Windows (Win+V). Jde o omezení systému Windows, ne o problém s kopírováním. Stisknutím Ctrl+V vložíte obrázek na požadované místo.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Zkopírováno. Stisknutím Ctrl+V obrázek vložíte. Historie schránky Windows (Win+V) velké obrázky nezobrazuje.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2538,5 +2538,213 @@
   "parts_summaryVaried_other": {
     "message": "{count} obrázku · různé velikosti",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Jazyk rozhraní pro vyskakovací okno a nastavení.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Po stažení",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Oznámení",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Zvolte, zda vás má ImgFetch upozornit na dokončení stahování.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Chytré stahování",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Výběr zdroje",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Kvalita převodu",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Doporučeno",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Změnit klávesovou zkratku",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Otevřete stránku klávesových zkratek rozšíření v prohlížeči, najdněte ImgFetch a nastavte klávesy. Pokud se zkratka zobrazuje jako Nenastaveno, klávesa kolidovala s prohlížečem nebo jiným rozšířením.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Žádné účty. Žádná analytika. Žádné sledování.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Neexistuje žádný server. Nic z toho, co uložíte, neopustí vaše zařízení.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Úplné prohlášení o ochraně soukromí",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Proč je každé oprávnění potřeba, je vysvětleno v části O aplikaci.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Základy",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Zachycení",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Knihovna",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Aplikace",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Náhled",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Ukázkový název souboru podle výše uvedené šablony.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Ukládání",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Hledání obrázků",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Výchozí nastavení zachycení",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Weby",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Uspořádání",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Historie",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Záloha",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Nebezpečná zóna",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch uchovává vše ve vašem zařízení.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Tažením po obrázku nakreslíte čáru.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Tažením po obrázku nakreslíte šipku.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Tažením po obrázku nakreslíte obdélník.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Tažením po obrázku nakreslíte kruh.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Klikněte tam, kam má text patřit, napište ho a stiskněte Enter. Kliknutím na vložený text jej přetáhnete, stisknutím Delete jej odstraníte.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Tažením po oblasti ji skryjete.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Tažením po obrázku vyberte oblast, kterou chcete ponechat. Stisknutím Enter použijete výběr, stisknutím Esc jej zrušíte.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Vymazat poznámky?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Tím se odstraní všechny kresby a text z tohoto snímku obrazovky. Samotný obrázek zůstane beze změny.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_few": {
+    "message": "{count} obrázky · {width} px široké · celkem {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_many": {
+    "message": "{count} obrázků · {width} px širokých · celkem {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} obrázek · {width} px široký · celkem {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} obrázku · {width} px širokého · celkem {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Zahodit všechny části?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Tím se odstraní všechny části tohoto snímku. Nic se neuloží.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Zahodit tuto část?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Tím se odstraní tato část snímku. Neuloží se.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch potřebuje oprávnění k přístupu na weby, než bude moci skenovat stránky nebo z nich ukládat obrázky. Pokud jste toto oprávnění při instalaci přeskočili, udělte je zde.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Povolit přístup na weby",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Přístup nebyl udělen. ImgFetch nadále funguje z tlačítka na panelu nástrojů nebo z nabídky na aktuální stránce, ale ke skenování a ukládání z jiných stránek je toto oprávnění potřeba. Můžete je udělit kdykoli zde, v Nastavení, O aplikaci.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch potřebuje oprávnění k přístupu na weby, než bude moci skenovat stránky nebo z nich ukládat obrázky. Pokud jste toto oprávnění při instalaci přeskočili, udělte je zde.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Povolit přístup na weby",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Přístup nebyl udělen. ImgFetch nadále funguje z tlačítka na panelu nástrojů nebo z nabídky na aktuální stránce, ale ke skenování a ukládání z jiných stránek je toto oprávnění potřeba. Můžete je udělit kdykoli zde, v Nastavení, O aplikaci.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

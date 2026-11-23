@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "注意：大型截圖（例如整頁截圖）可以正確複製，但不會出現在 Windows 剪貼簿歷史記錄（Win+V）中。這是 Windows 的限制，不是複製出了問題。按 Ctrl+V 即可將影像貼到需要的位置。",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "已複製。按 Ctrl+V 貼上。Windows 剪貼簿歷史記錄（Win+V）不會顯示大型影像。",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "{count} 張影像 · 尺寸各不相同",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "彈出視窗和設定介面的語言。",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "下載後",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "通知",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "選擇下載完成時 ImgFetch 是否通知您。",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "智慧下載",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "來源選擇",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "轉換品質",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "推薦",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "變更快捷鍵",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "開啟瀏覽器的擴充功能快捷鍵頁面，找到 ImgFetch 並設定按鍵。如果某個顯示為未設定，表示該按鍵與瀏覽器或其他擴充功能衝突。",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "沒有帳號。沒有分析。沒有追蹤。",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "沒有伺服器。您儲存的任何內容都不會離開您的裝置。",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "完整隱私權聲明",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "每項權限的用途已在關於頁面中說明。",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "基礎",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "擷取",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "資料庫",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "應用程式",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "預覽",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "使用上方範本的範例檔案名稱。",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "儲存",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "尋找圖片",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "擷取預設值",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "網站",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "整理",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "歷史記錄",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "備份",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "危險區域",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch 將所有內容保留在您的裝置上。",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "在圖片上拖動即可繪製。",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "在圖片上拖動即可繪製箭頭。",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "在圖片上拖動即可繪製矩形。",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "在圖片上拖動即可繪製圓形。",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "點按文字應放置的位置，輸入後按 Enter。點按已放置的文字可拖曳，按 Delete 可刪除。",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "在需要隱藏的區域上拖動。",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "在圖片上拖動以選擇要保留的區域。按 Enter 套用，按 Esc 取消。",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "清除標註？",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "這將刪除此螢幕截圖上的所有繪圖和文字。圖片本身保持不變。",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "{count} 張影像 · 寬 {width} 像素 · 總計 {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "捨棄所有部分？",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "這將刪除此截圖的所有部分，不會儲存任何內容。",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "捨棄此部分？",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "這將刪除此截圖的這一部分，不會儲存。",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch 需要取得存取網站的權限，才能掃描頁面或從中儲存圖片。如果您在安裝時略過了該權限，請在此授予。",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "允許存取網站",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "未授予存取權限。ImgFetch 仍可透過目前頁面上的工具列按鈕或選單使用，但從其他頁面掃描與儲存需要此權限。您可以隨時在此的「設定」「關於」中授予。",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch 需要取得存取網站的權限，才能掃描頁面或從中儲存圖片。如果您在安裝時略過了該權限，請在此授予。",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "允許存取網站",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "未授予存取權限。ImgFetch 仍可透過目前頁面上的工具列按鈕或選單使用，但從其他頁面掃描與儲存需要此權限。您可以隨時在此的「設定」「關於」中授予。",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

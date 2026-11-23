@@ -24,10 +24,11 @@
  * so a huge part is never drawn into a big canvas) and the four
  * per-part actions: Edit (the annotate editor in a new tab), Save (the
  * worker's SAVE_CAPTURE flow, honouring the user's PNG/JPG settings),
- * Copy (shared/copy-shot.js, bitmap-resize path) and Discard (the
- * worker's DISCARD_CAPTURE, group membership verified there). The
- * header saves every part in order (one download per part, no zip) or
- * discards the whole group. Saving a capture removes its record (the
+ * Copy (shared/copy-shot.js, bitmap-resize path) and Discard as a
+ * close icon button (the worker's DISCARD_CAPTURE, group membership
+ * verified there, after a confirm dialog). The header saves every
+ * part in order (one download per part, no zip) or discards the whole
+ * group, also after a confirm dialog. Saving a capture removes its record (the
  * existing SAVE_CAPTURE semantics), so a group whose parts are all
  * saved or discarded ends on a short empty state with no storage left.
  *
@@ -46,6 +47,10 @@
       await initI18n();
       __t = t;
       applyI18n();
+      // init() may already have rendered the texts while __t was still
+      // null (English defaults); re-render them now that the locale is
+      // loaded. Before init runs this is a no-op (no parts yet).
+      refreshTexts();
       onLanguageChange(() => { applyI18n(); refreshTexts(); });
     } catch { /* English defaults remain */ }
   })();
@@ -84,20 +89,17 @@
     return tr('part_title', `Part ${idx} of ${total}`, { count: idx, total });
   }
 
-  function metaText(rec, bytes) {
-    const size = UI.formatBytes(bytes);
-    if (size) {
-      return tr('parts_metaLine', `${rec.width} \u00d7 ${rec.height} pixels \u00b7 ${size}`,
-        { width: rec.width, height: rec.height, size });
-    }
-    return tr('capture_metaPixels', `${rec.width} \u00d7 ${rec.height} pixels`,
-      { width: rec.width, height: rec.height });
-  }
-
   function summaryText() {
     const count = parts.length;
     if (!count) return '';
     const first = parts[0].rec;
+    const uniformWidth = parts.every((p) => p.rec.width === first.width);
+    const totalBytes = parts.reduce((sum, p) => sum + (Number(p.bytes) || 0), 0);
+    if (uniformWidth && first.width > 0 && totalBytes > 0) {
+      return tr('parts_summaryTotal',
+        `${count} images \u00b7 ${first.width} px wide \u00b7 ${UI.formatBytes(totalBytes)} in total`,
+        { count, width: first.width, total: UI.formatBytes(totalBytes) });
+    }
     const uniform = parts.every((p) => p.rec.width === first.width && p.rec.height === first.height);
     if (uniform && first.width > 0 && first.height > 0) {
       return tr('parts_summarySame',
@@ -126,7 +128,15 @@
     $('partList').setAttribute('aria-label', tr('parts_listAria', 'Parts of the full-page screenshot'));
     for (const p of parts) {
       p.titleEl.textContent = partLabel(p.rec);
-      p.metaEl.textContent = metaText(p.rec, p.bytes);
+      p.chipEl.textContent = `${Number(p.rec.partIndex) || 0} / ${partTotalOf(p.rec)}`;
+      p.dimsEl.textContent = tr('capture_metaPixels', `${p.rec.width} \u00d7 ${p.rec.height} pixels`,
+        { width: p.rec.width, height: p.rec.height });
+      const size = UI.formatBytes(p.bytes);
+      p.sizeEl.textContent = size || '';
+      p.sizeEl.hidden = !size;
+      p.editLabel.textContent = tr('parts_edit', 'Edit');
+      p.saveLabel.textContent = tr('parts_save', 'Save');
+      p.copyLabel.textContent = tr('copyButton', 'Copy');
       p.canvas.setAttribute('aria-label', tr('parts_thumbAlt', `Preview of part ${p.rec.partIndex} of ${partTotalOf(p.rec)}`,
         { count: Number(p.rec.partIndex) || 0, total: partTotalOf(p.rec) }));
       p.editBtn.setAttribute('aria-label', tr('parts_editAria', `Edit part ${p.rec.partIndex} of ${partTotalOf(p.rec)}`,
@@ -231,6 +241,13 @@
   }
 
   async function discardPart(p) {
+    const ok = await UI.confirmDialog({
+      title: tr('parts_discardTitle', 'Discard this part?'),
+      message: tr('parts_discardMessage', 'This deletes this part of the screenshot. It is not saved.'),
+      confirmLabel: tr('capture_discard', 'Discard'),
+      danger: true,
+    });
+    if (!ok) return false;
     setCardBusy(p, true);
     try {
       await UI.send('DISCARD_CAPTURE', { id: p.rec.id, groupId });
@@ -268,47 +285,61 @@
     const card = document.createElement('article');
     card.className = 'part-card';
     card.setAttribute('role', 'listitem');
+    const thumbWrap = document.createElement('div');
+    thumbWrap.className = 'part-thumb-wrap';
     const canvas = document.createElement('canvas');
     canvas.className = 'part-thumb';
     canvas.width = 440;
     canvas.height = 240;
     canvas.setAttribute('role', 'img');
+    const chipEl = document.createElement('span');
+    chipEl.className = 'part-chip';
+    thumbWrap.append(canvas, chipEl);
     const main = document.createElement('div');
     main.className = 'part-main';
     const titleEl = document.createElement('h2');
     titleEl.className = 'part-title';
     const metaEl = document.createElement('p');
     metaEl.className = 'part-meta';
+    const dimsEl = document.createElement('span');
+    const sizeEl = document.createElement('span');
+    metaEl.append(dimsEl, sizeEl);
     const actions = document.createElement('div');
     actions.className = 'part-actions';
 
     const editBtn = document.createElement('a');
-    editBtn.className = 'btn btn-ghost';
+    editBtn.className = 'btn';
     editBtn.href = `annotate.html#${rec.id}`;
     editBtn.target = '_blank';
     editBtn.rel = 'noopener noreferrer';
-    editBtn.textContent = tr('parts_edit', 'Edit');
+    editBtn.append(UI.icon('pen', { size: 16 }));
+    const editLabel = document.createElement('span');
+    editBtn.append(editLabel);
 
     const saveBtn = document.createElement('button');
     saveBtn.className = 'btn btn-primary';
     saveBtn.type = 'button';
-    saveBtn.textContent = tr('parts_save', 'Save');
+    saveBtn.append(UI.icon('download', { size: 16 }));
+    const saveLabel = document.createElement('span');
+    saveBtn.append(saveLabel);
 
     const copyBtn = document.createElement('button');
-    copyBtn.className = 'btn btn-ghost';
+    copyBtn.className = 'btn';
     copyBtn.type = 'button';
-    copyBtn.textContent = tr('copyButton', 'Copy');
+    copyBtn.append(UI.icon('copy', { size: 16 }));
+    const copyLabel = document.createElement('span');
+    copyBtn.append(copyLabel);
 
     const discardBtn = document.createElement('button');
-    discardBtn.className = 'btn btn-danger';
+    discardBtn.className = 'icon-btn danger part-discard';
     discardBtn.type = 'button';
-    discardBtn.textContent = tr('capture_discard', 'Discard');
+    discardBtn.append(UI.icon('x', { size: 16 }));
 
-    actions.append(editBtn, saveBtn, copyBtn, discardBtn);
+    actions.append(editBtn, saveBtn, copyBtn);
     main.append(titleEl, metaEl, actions);
-    card.append(canvas, main);
+    card.append(thumbWrap, main, discardBtn);
 
-    const p = { rec, bytes, card, canvas, titleEl, metaEl, editBtn, saveBtn, copyBtn, discardBtn, thumbDone: false };
+    const p = { rec, bytes, card, canvas, thumbWrap, chipEl, titleEl, metaEl, dimsEl, sizeEl, editBtn, saveBtn, copyBtn, discardBtn, editLabel, saveLabel, copyLabel, thumbDone: false };
     saveBtn.addEventListener('click', () => { if (!busy) savePart(p); });
     discardBtn.addEventListener('click', () => { if (!busy) discardPart(p); });
     copyBtn.addEventListener('click', () => copyPart(p));
@@ -401,6 +432,13 @@
     });
     $('btnDiscardAll').addEventListener('click', async () => {
       if (busy) return;
+      const ok = await UI.confirmDialog({
+        title: tr('parts_discardAllTitle', 'Discard all parts?'),
+        message: tr('parts_discardAllMessage', 'This deletes every part of this screenshot. Nothing is saved.'),
+        confirmLabel: tr('parts_discardAll', 'Discard all'),
+        danger: true,
+      });
+      if (!ok) return;
       $('btnDiscardAll').disabled = true;
       $('btnSaveAll').disabled = true;
       try {

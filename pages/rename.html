@@ -24,9 +24,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
     body { max-width: 560px; margin: 0 auto; padding: 28px 20px 60px; }
-    .preview { width: 100%; border-radius: 8px; background: var(--surface-2); max-height: 300px; object-fit: contain; }
+    /* Brand header: larger mark, same shared .brand component as the editor. */
+    .brand-mark { width: 40px; height: 40px; border-radius: 11px; }
+    .brand-name { font-size: 18px; }
+    .preview { width: 100%; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); max-height: 300px; object-fit: contain; }
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
-    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    /* The format hint below the field uses the shared .field .hint rule
+       in shared/ui.css; no page-local hint rule is needed. */
   </style>
 </head>
 <body>
@@ -46,8 +50,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <div class="hint" id="formatHint"></div>
     </div>
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary" data-i18n="rename_download">Download</button>
-      <button id="btnCancel" class="btn btn-ghost" data-i18n="ui_cancel">Cancel</button>
+      <button id="btnSave" class="btn btn-primary" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg> <span data-i18n="rename_download">Download</span></button>
+      <button id="btnCancel" class="btn btn-ghost" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg> <span data-i18n="ui_cancel">Cancel</span></button>
     </div>
   </div>
 

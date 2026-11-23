@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "참고: 전체 페이지와 같은 큰 스크린샷은 올바르게 복사되지만 Windows 클립보드 기록(Win+V)에는 나타나지 않습니다. 이는 복사의 문제가 아니라 Windows의 제한입니다. Ctrl+V를 눌러 필요한 곳에 이미지를 붙여 넣으세요.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "복사되었습니다. Ctrl+V를 눌러 붙여 넣으세요. Windows 클립보드 기록(Win+V)에는 큰 이미지가 표시되지 않습니다.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "이미지 {count}개 · 크기가 서로 다름",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "팝업 및 설정의 인터페이스 언어입니다.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "다운로드 후",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "알림",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "다운로드가 완료되면 ImgFetch가 알려줄지 선택하세요.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "스마트 다운로드",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "소스 선택",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "변환 품질",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "권장",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "단축키 변경",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "브라우저의 확장 프로그램 단축키 페이지를 열고 ImgFetch를 찾아 키를 설정하세요. 설정 안 됨으로 표시되면 해당 키가 브라우저나 다른 확장 프로그램과 충돌한 것입니다.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "계정 없음. 분석 없음. 추적 없음.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "서버가 없습니다. 저장한 내용은 기기를 벗어나지 않습니다.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "전체 개인정보 보호정책",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "각 권한이 필요한 이유는 정보에서 설명합니다.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "기본",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "캡처",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "보관함",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "앱",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "미리 보기",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "위 템플릿을 사용한 예시 파일 이름입니다.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "저장",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "이미지 찾기",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "캡처 기본값",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "웹사이트",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "정리",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "기록",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "백업",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "위험 영역",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch는 모든 것을 기기에 보관합니다.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "이미지 위를 드래그하여 그립니다.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "이미지 위를 드래그하여 화살표를 그립니다.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "이미지 위를 드래그하여 사각형을 그립니다.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "이미지 위를 드래그하여 원을 그립니다.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "텍스트를 넣을 위치를 클릭하고 입력한 뒤 Enter를 누르세요. 배치된 텍스트를 클릭하면 드래그할 수 있고 Delete를 누르면 삭제됩니다.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "숨길 영역 위를 드래그하세요.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "이미지 위를 드래그하여 유지할 영역을 선택하세요. Enter를 누르면 적용되고 Esc를 누르면 취소됩니다.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "주석을 지우시겠습니까?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "이 스크린샷의 모든 그림과 텍스트가 제거됩니다. 이미지 자체는 변경되지 않습니다.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "이미지 {count}개 · 너비 {width}px · 합계 {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "모든 부분을 삭제할까요?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "이 스크린샷의 모든 부분이 삭제됩니다. 저장되는 것은 없습니다.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "이 부분을 삭제할까요?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "이 스크린샷의 이 부분이 삭제됩니다. 저장되지 않습니다.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch는 페이지를 스캔하거나 이미지를 저장하기 전에 웹사이트에 액세스할 권한이 필요합니다. 설치할 때 이 권한을 건너뛰었다면 여기서 허용해 주세요.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "웹사이트 액세스 허용",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "액세스가 허용되지 않았습니다. ImgFetch는 현재 페이지의 도구 모음 단추나 메뉴에서는 계속 사용할 수 있지만, 다른 페이지에서 스캔하고 저장하려면 이 권한이 필요합니다. 설정의 정보에서 언제든지 허용할 수 있습니다.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch는 페이지를 스캔하거나 이미지를 저장하기 전에 웹사이트에 액세스할 권한이 필요합니다. 설치할 때 이 권한을 건너뛰었다면 여기서 허용해 주세요.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "웹사이트 액세스 허용",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "액세스가 허용되지 않았습니다. ImgFetch는 현재 페이지의 도구 모음 단추나 메뉴에서는 계속 사용할 수 있지만, 다른 페이지에서 스캔하고 저장하려면 이 권한이 필요합니다. 설정의 정보에서 언제든지 허용할 수 있습니다.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

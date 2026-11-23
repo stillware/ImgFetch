@@ -100,7 +100,13 @@
     return node;
   }
 
-  function toast(message, ms) {
+  /**
+   * Toast with an optional leading icon (a Lucide sprite id, e.g. 'check'
+   * for a success toast). Callers that pass no icon get the plain text
+   * toast exactly as before. The icon is decorative: the dedupe below
+   * still compares textContent, which an svg child does not change.
+   */
+  function toast(message, ms, icon) {
     let stack = document.querySelector('.toast-stack');
     if (!stack) {
       stack = el('div', null, 'toast-stack');
@@ -117,7 +123,17 @@
         return;
       }
     }
-    const t = el('div', message, 'toast');
+    const t = el('div', null, 'toast');
+    if (icon) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'icon');
+      svg.setAttribute('aria-hidden', 'true');
+      const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', '../shared/assets/lucide-sprite.svg#' + icon);
+      svg.appendChild(use);
+      t.appendChild(svg);
+    }
+    t.appendChild(document.createTextNode(message));
     stack.appendChild(t);
     t._toastTimer = setTimeout(() => t.remove(), ms || 2600);
     while (stack.children.length > 3) stack.firstChild.remove();

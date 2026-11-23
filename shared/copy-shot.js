@@ -49,10 +49,10 @@ import {
   LARGE_COPY_TOAST_MS,
 } from './platform.js';
 
-function defaultToast(message, ms) {
+function defaultToast(message, ms, icon) {
   try {
     const ui = typeof window !== 'undefined' ? window.ImgFetchUI : null;
-    if (ui && typeof ui.toast === 'function') ui.toast(message, ms);
+    if (ui && typeof ui.toast === 'function') ui.toast(message, ms, icon);
   } catch {
     /* toast is best-effort; the copy result must not depend on it */
   }
@@ -72,7 +72,7 @@ function toastCopySuccess(t, toast, pngBlob) {
     toast(t('copy_windowsToast'), LARGE_COPY_TOAST_MS);
     return;
   }
-  toast(t('copySuccess'));
+  toast(t('copySuccess'), undefined, 'check');
 }
 
 /**

@@ -2502,7 +2502,7 @@
   "copy_windowsNote": {
     "message": "Примітка: великі знімки, наприклад цілі сторінки, копіюються правильно, але не з'являються в історії буфера обміну Windows (Win+V). Це обмеження Windows, а не проблема копіювання. Натисніть Ctrl+V, щоб вставити зображення в потрібне місце.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Скопійовано. Натисніть Ctrl+V, щоб вставити. Історія буфера обміну Windows (Win+V) не показує великі зображення.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2538,5 +2538,213 @@
   "parts_summaryVaried_other": {
     "message": "{count} зображення · розміри відрізняються",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Мова інтерфейсу спливного вікна та налаштувань.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Після завантаження",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Сповіщення",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Виберіть, чи повідомлятиме ImgFetch про завершення завантаження.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Розумне завантаження",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Вибір джерела",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Якість перетворення",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Рекомендовано",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Змінити сполучення клавіш",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Відкрийте сторінку сполучень клавіш розширень у браузері, знайдіть ImgFetch і задайте клавіші. Якщо сполучення показано як Не задано, клавіша конфліктувала з браузером або іншим розширенням.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Без облікових записів. Без аналітики. Без відстеження.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Сервера немає. Ніщо зі збереженого не покидає ваш пристрій.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Повна заява про конфіденційність",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Навіщо потрібен кожен дозвіл, пояснено в розділі Про програму.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Основи",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Захоплення",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Бібліотека",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Програма",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Попередній перегляд",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Приклад імені файлу за шаблоном вище.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Збереження",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Пошук зображень",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Параметри захоплення",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Веб-сайти",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Організація",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Історія",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Резервна копія",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Небезпечна зона",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch зберігає все на вашому пристрої.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Проведіть по зображенню, щоб намалювати.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Проведіть по зображенню, щоб намалювати стрілку.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Проведіть по зображенню, щоб намалювати прямокутник.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Проведіть по зображенню, щоб намалювати коло.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Клацніть там, де має бути текст, введіть його та натисніть Enter. Клацніть розміщений текст, щоб перетягнути його, і натисніть Delete, щоб видалити його.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Проведіть по області, щоб приховати її.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Проведіть по зображенню, щоб вибрати область для збереження. Натисніть Enter, щоб застосувати, Esc, щоб скасувати.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Очистити позначки?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Це видалить усі малюнки та текст на цьому знімку екрана. Саме зображення не зміниться.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_few": {
+    "message": "{count} зображення · {width} пкс завширшки · загалом {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_many": {
+    "message": "{count} зображень · {width} пкс завширшки · загалом {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} зображення · {width} пкс завширшки · загалом {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} зображення · {width} пкс завширшки · загалом {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Відкинути всі частини?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Це видалить усі частини цього знімка. Нічого не буде збережено.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Відкинути цю частину?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Це видалить цю частину знімка. Її не буде збережено.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch потрібен дозвіл на доступ до сайтів, перш ніж він зможе сканувати сторінки або зберігати з них зображення. Якщо під час встановлення ви пропустили цей дозвіл, надайте його тут.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Дозволити доступ до сайтів",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Доступ не надано. ImgFetch і далі працює з кнопки на панелі інструментів або з меню на поточній сторінці, але для сканування та збереження з інших сторінок потрібен цей дозвіл. Ви можете надати його будь-коли тут, у розділі «Налаштування», «Про програму».",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch потрібен дозвіл на доступ до сайтів, перш ніж він зможе сканувати сторінки або зберігати з них зображення. Якщо під час встановлення ви пропустили цей дозвіл, надайте його тут.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Дозволити доступ до сайтів",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Доступ не надано. ImgFetch і далі працює з кнопки на панелі інструментів або з меню на поточній сторінці, але для сканування та збереження з інших сторінок потрібен цей дозвіл. Ви можете надати його будь-коли тут, у розділі «Налаштування», «Про програму».",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

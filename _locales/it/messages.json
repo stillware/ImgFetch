@@ -2334,7 +2334,7 @@
   "copy_windowsNote": {
     "message": "Nota: gli screenshot grandi, come le pagine intere, vengono copiati correttamente ma non compaiono nella cronologia degli appunti di Windows (Win+V). È un limite di Windows, non un problema della copia. Premi Ctrl+V per incollare l'immagine dove ti serve.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Copiato. Premi Ctrl+V per incollare. La cronologia degli appunti di Windows (Win+V) non mostra le immagini grandi.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2354,5 +2354,205 @@
   "parts_summaryVaried_other": {
     "message": "{count} immagini · dimensioni diverse",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Lingua dell’interfaccia per il popup e le impostazioni.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Dopo un download",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Notifica",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Scegli se ImgFetch ti avvisa quando un download finisce.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Download intelligente",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Selezione della sorgente",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Qualità di conversione",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Consigliato",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Modifica una scorciatoia",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Apri la pagina delle scorciatoie delle estensioni del browser, trova ImgFetch e imposta i tasti. Se una mostra Non impostato, il tasto era in conflitto con il browser o un’altra estensione.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Nessun account. Nessuna statistica. Nessun tracciamento.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Non c’è nessun server. Niente di ciò che salvi lascia il tuo dispositivo.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Informativa sulla privacy completa",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Il motivo di ogni autorizzazione è spiegato in Informazioni.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Nozioni di base",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Acquisizione",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Libreria",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Applicazione",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Anteprima",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Nome di file di esempio con il modello sopra.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Salvataggio",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Ricerca di immagini",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Impostazioni predefinite di acquisizione",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Siti web",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Organizzazione",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Cronologia",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Copia di backup",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Zona pericolosa",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch tiene tutto sul tuo dispositivo.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Trascina sull’immagine per disegnare.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Trascina sull’immagine per disegnare una freccia.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Trascina sull’immagine per disegnare un rettangolo.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Trascina sull’immagine per disegnare un cerchio.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Fai clic dove deve andare il testo, scrivi e premi Invio. Fai clic sul testo inserito per trascinarlo, premi Canc per rimuoverlo.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Trascina sull’area da nascondere.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Trascina sull’immagine per scegliere l’area da tenere. Premi Invio per applicare, Esc per annullare.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Cancellare le annotazioni?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Questo rimuove tutti i disegni e il testo da questo screenshot. L’immagine in sé resta invariata.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal_one": {
+    "message": "{count} immagine · {width} px di larghezza · {total} in totale",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_summaryTotal_other": {
+    "message": "{count} immagini · {width} px di larghezza · {total} in totale",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Eliminare tutte le parti?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Questa azione elimina tutte le parti di questo screenshot. Non viene salvato nulla.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Eliminare questa parte?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Questa azione elimina questa parte dello screenshot. Non viene salvata.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch ha bisogno dell’autorizzazione ad accedere ai siti web prima di poter analizzare le pagine o salvare immagini da essi. Se hai ignorato questa autorizzazione durante l’installazione, concedila qui.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Consenti l’accesso ai siti web",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "L’accesso non è stato concesso. ImgFetch continua a funzionare dal pulsante della barra degli strumenti o dal menu nella pagina corrente, ma per analizzare e salvare da altre pagine serve questa autorizzazione. Puoi concederla in qualsiasi momento qui, in Impostazioni, Informazioni.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch ha bisogno dell’autorizzazione ad accedere ai siti web prima di poter analizzare le pagine o salvare immagini da essi. Se hai ignorato questa autorizzazione durante l’installazione, concedila qui.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Consenti l’accesso ai siti web",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "L’accesso non è stato concesso. ImgFetch continua a funzionare dal pulsante della barra degli strumenti o dal menu nella pagina corrente, ma per analizzare e salvare da altre pagine serve questa autorizzazione. Puoi concederla in qualsiasi momento qui, in Impostazioni, Informazioni.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

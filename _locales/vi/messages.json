@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "Lưu ý: Ảnh chụp lớn, chẳng hạn như toàn trang, sao chép đúng nhưng không xuất hiện trong lịch sử bảng tạm của Windows (Win+V). Đây là giới hạn của Windows, không phải lỗi sao chép. Nhấn Ctrl+V để dán hình ảnh vào nơi bạn cần.",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "Đã sao chép. Nhấn Ctrl+V để dán. Lịch sử bảng tạm của Windows (Win+V) không hiển thị hình ảnh lớn.",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "{count} hình ảnh · kích thước khác nhau",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "Ngôn ngữ giao diện cho cửa sổ bật lên và cài đặt.",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "Sau khi tải xuống",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "Thông báo",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "Chọn xem ImgFetch có thông báo cho bạn khi quá trình tải xuống hoàn tất hay không.",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "Tải xuống thông minh",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "Lựa chọn nguồn",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "Chất lượng chuyển đổi",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "Được đề xuất",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "Thay đổi phím tắt",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "Mở trang phím tắt của tiện ích mở rộng trong trình duyệt, tìm ImgFetch và đặt phím của bạn. Nếu phím nào hiển thị Chưa đặt, phím đó xung đột với trình duyệt hoặc tiện ích mở rộng khác.",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "Không tài khoản. Không phân tích. Không theo dõi.",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "Không có máy chủ. Mọi thứ bạn lưu sẽ không bao giờ rời khỏi thiết bị của bạn.",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "Tuyên bố quyền riêng tư đầy đủ",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "Lý do cần mỗi quyền được giải thích trong Giới thiệu.",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "Cơ bản",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "Chụp",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "Thư viện",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "Ứng dụng",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "Xem trước",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "Tên tệp ví dụ dùng mẫu ở trên.",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "Lưu",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "Tìm hình ảnh",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "Mặc định chụp",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "Trang web",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "Tổ chức",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "Lịch sử",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "Sao lưu",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "Vùng nguy hiểm",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch giữ mọi thứ trên thiết bị của bạn.",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "Kéo trên ảnh để vẽ.",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "Kéo trên ảnh để vẽ mũi tên.",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "Kéo trên ảnh để vẽ hình chữ nhật.",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "Kéo trên ảnh để vẽ hình tròn.",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "Nhấp vào nơi cần đặt văn bản, nhập rồi nhấn Enter. Nhấp vào văn bản đã đặt để kéo, nhấn Delete để xóa.",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "Kéo qua vùng cần ẩn.",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "Kéo trên ảnh để chọn vùng cần giữ. Nhấn Enter để áp dụng, Esc để hủy.",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "Xóa chú thích?",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "Thao tác này sẽ xóa mọi hình vẽ và văn bản trên ảnh chụp màn hình này. Bản thân hình ảnh vẫn không thay đổi.",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "{count} hình ảnh · rộng {width} px · tổng cộng {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "Hủy tất cả các phần?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "Thao tác này xóa mọi phần của ảnh chụp này. Không có gì được lưu.",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "Hủy phần này?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "Thao tác này xóa phần này của ảnh chụp. Phần này không được lưu.",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch cần quyền truy cập trang web trước khi quét trang hoặc lưu hình ảnh từ đó. Nếu bạn đã bỏ qua quyền này khi cài đặt, hãy cấp quyền tại đây.",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "Cho phép truy cập trang web",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "Quyền truy cập chưa được cấp. ImgFetch vẫn hoạt động từ nút trên thanh công cụ hoặc menu trên trang hiện tại, nhưng việc quét và lưu từ các trang khác cần quyền này. Bạn có thể cấp quyền bất cứ lúc nào tại đây, trong Cài đặt, Giới thiệu.",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch cần quyền truy cập trang web trước khi quét trang hoặc lưu hình ảnh từ đó. Nếu bạn đã bỏ qua quyền này khi cài đặt, hãy cấp quyền tại đây.",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "Cho phép truy cập trang web",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "Quyền truy cập chưa được cấp. ImgFetch vẫn hoạt động từ nút trên thanh công cụ hoặc menu trên trang hiện tại, nhưng việc quét và lưu từ các trang khác cần quyền này. Bạn có thể cấp quyền bất cứ lúc nào tại đây, trong Cài đặt, Giới thiệu.",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

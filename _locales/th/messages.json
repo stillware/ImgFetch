@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "หมายเหตุ: ภาพหน้าจอขนาดใหญ่ เช่น แบบเต็มหน้า จะคัดลอกได้อย่างถูกต้อง แต่จะไม่ปรากฏในประวัติคลิปบอร์ดของ Windows (Win+V) นี่เป็นข้อจำกัดของ Windows ไม่ใช่ปัญหาในการคัดลอก กด Ctrl+V เพื่อวางรูปภาพในตำแหน่งที่ต้องการ",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "คัดลอกแล้ว กด Ctrl+V เพื่อวาง ประวัติคลิปบอร์ดของ Windows (Win+V) จะไม่แสดงรูปภาพขนาดใหญ่",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "รูปภาพ {count} รูป · ขนาดแตกต่างกัน",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "ภาษาของอินเทอร์เฟซสำหรับป๊อปอัปและการตั้งค่า",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "หลังการดาวน์โหลด",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "การแจ้งเตือน",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "เลือกว่า ImgFetch จะแจ้งเตือนคุณเมื่อดาวน์โหลดเสร็จหรือไม่",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "ดาวน์โหลดอัจฉริยะ",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "การเลือกแหล่งที่มา",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "คุณภาพการแปลง",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "แนะนำ",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "เปลี่ยนทางลัด",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "เปิดหน้าทางลัดของส่วนขยายในเบราว์เซอร์ ค้นหา ImgFetch แล้วตั้งค่าปุ่มของคุณ หากรายการใดแสดงว่าไม่ได้ตั้งค่า แสดงว่าปุ่มนั้นขัดแย้งกับเบราว์เซอร์หรือส่วนขยายอื่น",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "ไม่มีบัญชี ไม่มีการวิเคราะห์ ไม่มีการติดตาม",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "ไม่มีเซิร์ฟเวอร์ สิ่งที่คุณบันทึกไว้จะไม่หลุดออกจากอุปกรณ์ของคุณ",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "คำชี้แจงความเป็นส่วนตัวฉบับเต็ม",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "เหตุผลที่ต้องใช้สิทธิ์แต่ละรายการอธิบายไว้ในเกี่ยวกับ",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "พื้นฐาน",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "จับภาพ",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "คลัง",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "แอป",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "แสดงตัวอย่าง",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "ชื่อไฟล์ตัวอย่างที่ใช้เทมเพลตด้านบน",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "การบันทึก",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "ค้นหาภาพ",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "ค่าเริ่มต้นการจับภาพ",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "เว็บไซต์",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "การจัดระเบียบ",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "ประวัติ",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "สำรองข้อมูล",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "โซนอันตราย",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch เก็บทุกอย่างไว้ในอุปกรณ์ของคุณ",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "ลากบนภาพเพื่อวาด",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "ลากบนภาพเพื่อวาดลูกศร",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "ลากบนภาพเพื่อวาดสี่เหลี่ยมผืนผ้า",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "ลากบนภาพเพื่อวาดวงกลม",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "คลิกตรงตำแหน่งที่ต้องการวางข้อความ พิมพ์ แล้วกด Enter คลิกข้อความที่วางไว้เพื่อลาก กด Delete เพื่อลบ",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "ลากเหนือพื้นที่เพื่อซ่อน",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "ลากบนภาพเพื่อเลือกพื้นที่ที่จะเก็บไว้ กด Enter เพื่อใช้ กด Esc เพื่อยกเลิก",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "ล้างคำอธิบายประกอบใช่ไหม",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "การดำเนินการนี้จะลบภาพวาดและข้อความทั้งหมดบนภาพหน้าจอนี้ ภาพต้นฉบับจะไม่เปลี่ยนแปลง",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "รูปภาพ {count} รูป · กว้าง {width} px · รวม {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "ทิ้งทุกส่วน?",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "การดำเนินการนี้จะลบทุกส่วนของภาพหน้าจอนี้ จะไม่มีการบันทึกสิ่งใด",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "ทิ้งส่วนนี้?",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "การดำเนินการนี้จะลบส่วนนี้ของภาพหน้าจอ ส่วนนี้จะไม่ถูกบันทึก",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch ต้องการสิทธิ์เข้าถึงเว็บไซต์ก่อนจึงจะสแกนหน้าหรือบันทึกภาพจากเว็บไซต์ได้ หากคุณข้ามสิทธิ์นี้ตอนติดตั้ง ให้ให้สิทธิ์ที่นี่",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "อนุญาตให้เข้าถึงเว็บไซต์",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "ไม่ได้รับสิทธิ์เข้าถึง ImgFetch ยังคงใช้งานได้จากปุ่มแถบเครื่องมือหรือเมนูบนหน้าปัจจุบัน แต่การสแกนและบันทึกจากหน้าอื่นต้องใช้สิทธิ์นี้ คุณสามารถให้สิทธิ์ได้ทุกเมื่อที่นี่ ใน การตั้งค่า เกี่ยวกับ",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch ต้องการสิทธิ์เข้าถึงเว็บไซต์ก่อนจึงจะสแกนหน้าหรือบันทึกภาพจากเว็บไซต์ได้ หากคุณข้ามสิทธิ์นี้ตอนติดตั้ง ให้ให้สิทธิ์ที่นี่",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "อนุญาตให้เข้าถึงเว็บไซต์",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "ไม่ได้รับสิทธิ์เข้าถึง ImgFetch ยังคงใช้งานได้จากปุ่มแถบเครื่องมือหรือเมนูบนหน้าปัจจุบัน แต่การสแกนและบันทึกจากหน้าอื่นต้องใช้สิทธิ์นี้ คุณสามารถให้สิทธิ์ได้ทุกเมื่อที่นี่ ใน การตั้งค่า เกี่ยวกับ",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

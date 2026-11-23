@@ -210,6 +210,7 @@
     parts.forEach((part, i) => {
       if (i > 0) el.append(document.createTextNode(isMac ? ' ' : ' + '));
       const k = document.createElement('kbd');
+      k.className = 'keycap';
       k.textContent = part.trim();
       el.append(k);
     });

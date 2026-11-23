@@ -35,7 +35,8 @@ let __t = null;
     applyI18n();
     applyPartLabel();
     refreshWindowsNote();
-    onLanguageChange(() => { applyI18n(); applyPartLabel(); refreshWindowsNote(); renderCropOverlay(); });
+    updateHint();
+    onLanguageChange(() => { applyI18n(); applyPartLabel(); refreshWindowsNote(); renderCropOverlay(); updateHint(); });
   } catch { /* English defaults remain */ }
 })();
 
@@ -85,6 +86,27 @@ function tr(key, english, vars) {
     try { return __t(key, vars); } catch { /* fall through */ }
   }
   return english;
+}
+
+/* Phase 3 Screen 2: the hint pill under the canvas. One short sentence
+ * per tool, from the annotate_hint* strings; the tool name is bold.
+ * The pill is plain text nodes only, never innerHTML. */
+const HINTS = {
+  pen: { tool: ['tool_pen', 'Pen'], hint: ['annotate_hintPen', 'Drag on the image to draw.'] },
+  arrow: { tool: ['tool_arrow', 'Arrow'], hint: ['annotate_hintArrow', 'Drag on the image to draw an arrow.'] },
+  rect: { tool: ['tool_rect', 'Rectangle'], hint: ['annotate_hintRect', 'Drag on the image to draw a rectangle.'] },
+  circle: { tool: ['tool_circle', 'Circle'], hint: ['annotate_hintCircle', 'Drag on the image to draw a circle.'] },
+  text: { tool: ['tool_text', 'Text'], hint: ['annotate_hintText', 'Click where the text should go, type, press Enter. Click placed text to drag it, press Delete to remove it.'] },
+  pixelate: { tool: ['tool_pixelate', 'Pixelate'], hint: ['annotate_hintPixelate', 'Drag over the area to hide it.'] },
+  crop: { tool: ['tool_crop', 'Crop'], hint: ['annotate_hintCrop', 'Drag on the image to choose the area to keep. Press Enter to apply, Esc to cancel.'] },
+};
+function updateHint() {
+  const toolEl = $('hintTool');
+  const textEl = $('hintText');
+  if (!toolEl || !textEl) return;
+  const h = HINTS[state.tool] || HINTS.pen;
+  toolEl.textContent = tr(h.tool[0], h.tool[1]);
+  textEl.textContent = tr(h.hint[0], h.hint[1]);
 }
 
 const $ = (id) => document.getElementById(id);
@@ -842,6 +864,7 @@ document.querySelectorAll('.tool[data-tool]').forEach((b) => {
       x.setAttribute('aria-pressed', String(x === b)));
     if (state.tool === 'crop') startCropSession();
     else endCropSession();
+    updateHint();
   });
 });
 document.querySelectorAll('.swatch').forEach((b) => {
@@ -861,7 +884,18 @@ document.querySelectorAll('.tool[data-width]').forEach((b) => {
 $('btnUndo').addEventListener('click', doUndo);
 $('btnRedo').addEventListener('click', doRedo);
 updateHistoryButtons(); // both disabled on an empty canvas
-$('btnClear').addEventListener('click', () => {
+$('btnClear').addEventListener('click', async () => {
+  // Clear asks first when annotations exist; with an empty canvas it
+  // just clears. The crop itself is untouched, only the strokes go.
+  if (state.strokes.length > 0) {
+    const ok = await UI.confirmDialog({
+      title: tr('annotate_clearTitle', 'Clear annotations?'),
+      message: tr('annotate_clearMessage', 'This removes all drawings and text on this screenshot. The image itself stays unchanged.'),
+      confirmLabel: tr('annotate_clear', 'Clear'),
+      danger: true,
+    });
+    if (!ok) return;
+  }
   // Clear resets the canvas; history is discarded (undo was already a
   // no-op after Clear before redo existed).
   undoHistory.reset();
@@ -1045,6 +1079,7 @@ async function init() {
     redraw();
     $('loading').hidden = true;
     $('content').hidden = false;
+    updateHint();
   };
   img.onerror = () => fail(tr('annotate_loadFailed', 'Could not load the screenshot.'));
   try {

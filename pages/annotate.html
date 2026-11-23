@@ -23,12 +23,53 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
-    body { max-width: 1100px; margin: 0 auto; padding: 20px 20px 60px; }
-    .toolbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 12px 0; }
-    .tool { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; color: var(--text); }
-    .tool svg { width: 16px; height: 16px; flex: none; }
-    .tool[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
-    .tool:disabled { opacity: 0.45; cursor: default; }
+    /* Phase 3 Screen 2 (editor): top bar, floating toolbar pill, dotted
+       stage, hint pill. Page-specific layout only; the shared components
+       (buttons, toast, dialog, focus ring) live in shared/ui.css. */
+    body { position: relative; display: flex; flex-direction: column; min-height: 100vh; }
+    /* Top bar: brand on the left, actions visually on the right (see the
+       .actions note below for why the buttons stay later in the DOM). */
+    .annotate-top { height: 64px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+    .annotate-top .brand { gap: 12px; }
+    .annotate-top .brand-mark { width: 28px; height: 28px; border-radius: 8px; }
+    .annotate-top .brand-name { font-size: 15px; font-weight: 650; }
+    .annotate-top .sep { width: 1px; height: 20px; background: var(--line2); margin: 0 6px; flex: none; }
+    .annotate-top .brand-sub { font-size: 14px; font-weight: 500; margin-top: 0; }
+    #content { flex: 1; display: flex; flex-direction: column; align-items: center; min-height: 0; background-image: radial-gradient(circle, rgba(23, 26, 44, 0.07) 1px, transparent 1.5px); background-size: 22px 22px; }
+    [data-theme="dark"] #content { background-image: radial-gradient(circle, rgba(255, 255, 255, 0.055) 1px, transparent 1.5px); }
+    #content[hidden] { display: none; }
+    /* Floating toolbar pill: one row, never wraps, groups split by dividers. */
+    .toolbar { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; margin: 18px 16px 0; background: var(--surface); border: 1px solid var(--line2); border-radius: 16px; padding: 6px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); position: relative; z-index: 2; max-width: calc(100% - 32px); overflow-x: auto; scrollbar-width: none; }
+    [data-theme="dark"] .toolbar { background: rgba(20, 24, 41, 0.92); }
+    .tb-group { display: flex; gap: 2px; align-items: center; flex: none; }
+    .tb-sep { width: 1px; height: 24px; background: var(--line2); margin: 0 6px; flex: none; }
+    .tool { display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer; flex: none; }
+    .tool:hover { background: var(--hover); color: var(--text); }
+    .tool .icon { width: 18px; height: 18px; }
+    .tool[data-tool][aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: 0 4px 12px rgba(106, 92, 242, 0.4); }
+    .tool[data-tool][aria-pressed="true"]:hover { background: var(--accent); color: #fff; }
+    .tool:disabled { opacity: 0.35; cursor: default; }
+    /* Stroke width: the button shows the real line thickness, not text. */
+    .wd-line { display: block; width: 20px; border-radius: 99px; background: var(--muted); }
+    .wd-thin { height: 2px; }
+    .wd-med { height: 4px; }
+    .wd-thick { height: 7px; }
+    .tool[data-width][aria-pressed="true"] { background: var(--raised); box-shadow: inset 0 0 0 1px var(--line2); }
+    .tool[data-width][aria-pressed="true"] .wd-line { background: var(--text); }
+    /* Color swatches: 22 px, selected one gets an outer accent ring.
+       Black and white get a visible edge so they show on either theme. */
+    .swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line2); margin: 0 4px; cursor: pointer; padding: 0; position: relative; flex: none; }
+    .swatch[aria-pressed="true"]::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--accent2); }
+    [data-theme="dark"] .swatch[data-color="#111111"], [data-theme="dark"] .swatch[data-color="#ffffff"] { border-color: rgba(255, 255, 255, 0.4); }
+    .swatch[data-color="#ffffff"] { border-color: rgba(23, 26, 44, 0.25); }
+    /* Canvas stage: centered, 10 px radius, 1 px light outline, soft shadow. */
+    .stage { position: relative; display: inline-block; max-width: 100%; border-radius: 10px; overflow: hidden; background: var(--surface-2); margin-top: 26px; box-shadow: 0 0 0 1px var(--line2), 0 30px 70px rgba(0, 0, 0, 0.28); }
+    [data-theme="dark"] .stage { box-shadow: 0 0 0 1px var(--line2), 0 30px 70px rgba(0, 0, 0, 0.55); }
+    #editor { display: block; max-width: 100%; height: auto; cursor: crosshair; touch-action: none; }
+    #textWrap { position: absolute; display: none; z-index: 5; }
+    #textInput { font-size: 16px; padding: 4px 8px; border: 2px solid var(--primary); border-radius: 6px; background: var(--surface); color: var(--text); }
+    #textClose { position: absolute; top: -11px; inset-inline-end: -11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+    #textClose:hover { background: var(--danger,#e5484d); color: #fff; border-color: var(--danger,#e5484d); }
     .crop-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
     .crop-box { position: absolute; box-sizing: border-box; border: 1.5px solid #fff; outline: 1px solid rgba(15,20,28,.5); box-shadow: 0 0 0 9999px rgba(12,16,24,.55); pointer-events: auto; cursor: move; touch-action: none; }
     .crop-thirds-v { position: absolute; top: 0; bottom: 0; left: 33.333%; right: 33.333%; border-left: 1px solid rgba(255,255,255,.5); border-right: 1px solid rgba(255,255,255,.5); pointer-events: none; }
@@ -49,26 +90,39 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .crop-box.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 0; }
     .crop-box.actions-inside.actions-start .crop-actions { inset-inline-end: auto; inset-inline-start: 6px; }
     .crop-size.is-end { left: auto; right: -2px; }
-    .swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; }
-    .swatch[aria-pressed="true"] { border-color: var(--text); }
-    .stage { position: relative; display: inline-block; max-width: 100%; border-radius: 8px; overflow: hidden; background: var(--surface-2); }
-    #editor { display: block; max-width: 100%; height: auto; cursor: crosshair; touch-action: none; }
-    #textWrap { position: absolute; display: none; z-index: 5; }
-    #textInput { font-size: 16px; padding: 4px 8px; border: 2px solid var(--primary); border-radius: 6px; background: var(--surface); color: var(--text); }
-    #textClose { position: absolute; top: -11px; inset-inline-end: -11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; line-height: 1; cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
-    #textClose:hover { background: var(--danger,#e5484d); color: #fff; border-color: var(--danger,#e5484d); }
-    .actions { display: flex; gap: 8px; margin-top: 14px; }
-    .kbd-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    /* Contextual hint pill under the canvas: tool name in bold plus the
+       per-tool sentence. Replaces the old tip paragraph. */
+    .annotate-hint { margin: 16px 16px 0; display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 14px; font-size: 12.5px; color: var(--muted); max-width: 700px; }
+    .annotate-hint .icon { width: 16px; height: 16px; color: var(--accentText); flex: none; }
+    .annotate-hint b { color: var(--text); font-weight: 600; }
+    #windowsNote { font-size: 12px; color: var(--muted); margin: 12px 16px 24px; max-width: 700px; text-align: center; }
+    /* Actions live visually in the top bar (absolute, top right), but stay
+       after the stage in the DOM so keyboard Tab order still walks the
+       crop controls first and reaches Save next. Visual order is set with
+       flex order only: Discard, Copy, Save. In RTL the row mirrors. */
+    .actions { position: absolute; top: 13px; inset-inline-end: 24px; z-index: 5; display: flex; gap: 8px; margin: 0; }
+    .actions .btn { height: 38px; padding: 0 14px; border-radius: 10px; font-size: 13.5px; }
+    .actions #btnCancel { order: -2; }
+    .actions #btnCopy { order: -1; }
+    .actions .btn-ghost { border-color: transparent; color: var(--muted); }
+    @media (max-width: 860px) {
+      .annotate-top { padding: 0 16px; }
+      .actions { inset-inline-end: 16px; }
+      .toolbar { gap: 4px; padding: 5px; }
+      .tool { width: 34px; height: 34px; }
+      .swatch { margin: 0 2px; }
+    }
   </style>
 </head>
 <body>
-  <div class="brand" style="margin-bottom:8px;">
-    <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
-    <div>
+  <header class="annotate-top">
+    <div class="brand">
+      <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
       <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub" data-i18n="annotate_subtitle">Annotate screenshot</div>
     </div>
-  </div>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="brand-sub" data-i18n="annotate_subtitle">Annotate screenshot</span>
+  </header>
 
   <div id="loading" class="empty">
     <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
@@ -77,28 +131,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
   <div id="content" hidden>
     <div class="toolbar" role="toolbar" data-i18n-attr="aria-label:annotate_toolbarAria" aria-label="Annotation tools">
-      <button class="tool" data-tool="pen" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg><span data-i18n="tool_pen">Pen</span></button>
-      <button class="tool" data-tool="arrow" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg><span data-i18n="tool_arrow">Arrow</span></button>
-      <button class="tool" data-tool="rect" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg><span data-i18n="tool_rect">Rectangle</span></button>
-      <button class="tool" data-tool="circle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg><span data-i18n="tool_circle">Circle</span></button>
-      <button class="tool" data-tool="text" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg><span data-i18n="tool_text">Text</span></button>
-      <button class="tool" data-tool="pixelate" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg><span data-i18n="tool_pixelate">Pixelate</span></button>
-      <button class="tool" data-tool="crop" aria-pressed="false" data-i18n-attr="title:crop_title;aria-label:crop_title" title="Crop (C)" aria-label="Crop (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg><span data-i18n="tool_crop">Crop</span></button>
-      <span style="width:8px"></span>
-      <button class="swatch" data-color="#e5484d" style="background:#e5484d" aria-pressed="true" data-i18n-attr="aria-label:color_red" aria-label="Red"></button>
-      <button class="swatch" data-color="#e8930c" style="background:#e8930c" aria-pressed="false" data-i18n-attr="aria-label:color_orange" aria-label="Orange"></button>
-      <button class="swatch" data-color="#2f9e6e" style="background:#2f9e6e" aria-pressed="false" data-i18n-attr="aria-label:color_green" aria-label="Green"></button>
-      <button class="swatch" data-color="#3e8ef7" style="background:#3e8ef7" aria-pressed="false" data-i18n-attr="aria-label:color_blue" aria-label="Blue"></button>
-      <button class="swatch" data-color="#111111" style="background:#111111" aria-pressed="false" data-i18n-attr="aria-label:color_black" aria-label="Black"></button>
-      <button class="swatch" data-color="#ffffff" style="background:#ffffff;border-color:#ccc" aria-pressed="false" data-i18n-attr="aria-label:color_white" aria-label="White"></button>
-      <span style="width:8px"></span>
-      <button class="tool" data-width="3" aria-pressed="false" data-i18n="width_thin">Thin</button>
-      <button class="tool" data-width="6" aria-pressed="true" data-i18n="width_medium">Medium</button>
-      <button class="tool" data-width="12" aria-pressed="false" data-i18n="width_thick">Thick</button>
-      <span style="width:8px"></span>
-      <button class="tool" id="btnUndo" data-i18n-attr="title:undo_title;aria-label:undo_title" title="Undo (Ctrl+Z)" aria-label="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg><span data-i18n="annotate_undo">Undo</span></button>
-      <button class="tool" id="btnRedo" data-i18n-attr="title:redo_title;aria-label:redo_title" title="Redo (Ctrl+Y)" aria-label="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="translate(24 0) scale(-1 1)"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></g></svg><span data-i18n="redo_redo">Redo</span></button>
-      <button class="tool" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span data-i18n="annotate_clear">Clear</span></button>
+      <div class="tb-group">
+        <button class="tool" data-tool="pen" aria-pressed="true" data-i18n-attr="title:tool_pen;aria-label:tool_pen" title="Pen" aria-label="Pen"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#pen"/></svg><span class="sr-only" data-i18n="tool_pen">Pen</span></button>
+        <button class="tool" data-tool="arrow" aria-pressed="false" data-i18n-attr="title:tool_arrow;aria-label:tool_arrow" title="Arrow" aria-label="Arrow"><svg class="icon flip-rtl" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#arrow-up-right"/></svg><span class="sr-only" data-i18n="tool_arrow">Arrow</span></button>
+        <button class="tool" data-tool="rect" aria-pressed="false" data-i18n-attr="title:tool_rect;aria-label:tool_rect" title="Rectangle" aria-label="Rectangle"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#square"/></svg><span class="sr-only" data-i18n="tool_rect">Rectangle</span></button>
+        <button class="tool" data-tool="circle" aria-pressed="false" data-i18n-attr="title:tool_circle;aria-label:tool_circle" title="Circle" aria-label="Circle"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#circle"/></svg><span class="sr-only" data-i18n="tool_circle">Circle</span></button>
+        <button class="tool" data-tool="text" aria-pressed="false" data-i18n-attr="title:tool_text;aria-label:tool_text" title="Text" aria-label="Text"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#type"/></svg><span class="sr-only" data-i18n="tool_text">Text</span></button>
+        <button class="tool" data-tool="pixelate" aria-pressed="false" data-i18n-attr="title:tool_pixelate;aria-label:tool_pixelate" title="Pixelate" aria-label="Pixelate"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#droplet"/></svg><span class="sr-only" data-i18n="tool_pixelate">Pixelate</span></button>
+        <button class="tool" data-tool="crop" aria-pressed="false" data-i18n-attr="title:crop_title;aria-label:crop_title" title="Crop (C)" aria-label="Crop (C)"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#crop"/></svg><span class="sr-only" data-i18n="tool_crop">Crop</span></button>
+      </div>
+      <span class="tb-sep" aria-hidden="true"></span>
+      <div class="tb-group">
+        <button class="swatch" data-color="#e5484d" style="background:#e5484d" aria-pressed="true" data-i18n-attr="aria-label:color_red" aria-label="Red"></button>
+        <button class="swatch" data-color="#e8930c" style="background:#e8930c" aria-pressed="false" data-i18n-attr="aria-label:color_orange" aria-label="Orange"></button>
+        <button class="swatch" data-color="#2f9e6e" style="background:#2f9e6e" aria-pressed="false" data-i18n-attr="aria-label:color_green" aria-label="Green"></button>
+        <button class="swatch" data-color="#3e8ef7" style="background:#3e8ef7" aria-pressed="false" data-i18n-attr="aria-label:color_blue" aria-label="Blue"></button>
+        <button class="swatch" data-color="#111111" style="background:#111111" aria-pressed="false" data-i18n-attr="aria-label:color_black" aria-label="Black"></button>
+        <button class="swatch" data-color="#ffffff" style="background:#ffffff" aria-pressed="false" data-i18n-attr="aria-label:color_white" aria-label="White"></button>
+      </div>
+      <span class="tb-sep" aria-hidden="true"></span>
+      <div class="tb-group">
+        <button class="tool" data-width="3" aria-pressed="false" data-i18n-attr="aria-label:width_thin" aria-label="Thin"><i class="wd-line wd-thin" aria-hidden="true"></i><span class="sr-only" data-i18n="width_thin">Thin</span></button>
+        <button class="tool" data-width="6" aria-pressed="true" data-i18n-attr="aria-label:width_medium" aria-label="Medium"><i class="wd-line wd-med" aria-hidden="true"></i><span class="sr-only" data-i18n="width_medium">Medium</span></button>
+        <button class="tool" data-width="12" aria-pressed="false" data-i18n-attr="aria-label:width_thick" aria-label="Thick"><i class="wd-line wd-thick" aria-hidden="true"></i><span class="sr-only" data-i18n="width_thick">Thick</span></button>
+      </div>
+      <span class="tb-sep" aria-hidden="true"></span>
+      <div class="tb-group">
+        <button class="tool" id="btnUndo" data-i18n-attr="title:undo_title;aria-label:undo_title" title="Undo (Ctrl+Z)" aria-label="Undo (Ctrl+Z)"><svg class="icon flip-rtl" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#undo-2"/></svg><span class="sr-only" data-i18n="annotate_undo">Undo</span></button>
+        <button class="tool" id="btnRedo" data-i18n-attr="title:redo_title;aria-label:redo_title" title="Redo (Ctrl+Y)" aria-label="Redo (Ctrl+Y)"><svg class="icon flip-rtl" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#redo-2"/></svg><span class="sr-only" data-i18n="redo_redo">Redo</span></button>
+        <button class="tool" id="btnClear" data-i18n-attr="title:annotate_clear;aria-label:annotate_clear" title="Clear" aria-label="Clear"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#trash-2"/></svg><span class="sr-only" data-i18n="annotate_clear">Clear</span></button>
+      </div>
     </div>
 
     <div class="stage" id="stage">
@@ -129,12 +191,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     </div>
 
     <div class="actions">
-      <button id="btnSave" class="btn btn-primary"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> <span data-i18n="annotate_save">Save</span></button>
-      <button id="btnCopy" class="btn" data-i18n="copyButton" data-i18n-attr="title:copyTooltip;aria-label:copyTooltip">Copy</button>
-      <button id="btnCancel" class="btn btn-ghost" data-i18n="annotate_discard">Discard</button>
+      <button id="btnSave" class="btn btn-primary"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg> <span data-i18n="annotate_save">Save</span></button>
+      <button id="btnCopy" class="btn" data-i18n-attr="title:copyTooltip;aria-label:copyTooltip" title="Copy the edited screenshot to the clipboard" aria-label="Copy the edited screenshot to the clipboard"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#copy"/></svg> <span data-i18n="copyButton">Copy</span></button>
+      <button id="btnCancel" class="btn btn-ghost"><span data-i18n="annotate_discard">Discard</span></button>
     </div>
-    <p class="kbd-hint" data-i18n="annotate_kbdHint">Tip: drag on the image to draw. Text tool: click where the text should go, type, press Enter. Click placed text to select it, drag to move, press Delete or Backspace to remove. Blur: drag over the area to hide.</p>
-    <p class="kbd-hint" id="windowsNote" data-i18n="copy_windowsNote" hidden>Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.</p>
+    <p class="annotate-hint" id="hintPill" aria-live="polite"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#info"/></svg><span><b id="hintTool">Pen</b><span>: </span><span id="hintText">Drag on the image to draw.</span></span></p>
+    <p id="windowsNote" data-i18n="copy_windowsNote" hidden>Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.</p>
   </div>
 
   <script src="../shared/ui.js"></script>

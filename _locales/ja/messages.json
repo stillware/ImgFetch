@@ -2250,7 +2250,7 @@
   "copy_windowsNote": {
     "message": "注: ページ全体などの大きなスクリーンショットは正しくコピーされますが、Windows のクリップボード履歴（Win+V）には表示されません。これはコピーの問題ではなく、Windows の制限です。Ctrl+V を押すと、必要な場所に画像を貼り付けられます。",
     "description": "Note shown next to Copy for large screenshots on Windows: the copy works but Windows clipboard history cannot show it."
-  },
+  },
   "copy_windowsToast": {
     "message": "コピーしました。Ctrl+V を押して貼り付けてください。Windows のクリップボード履歴（Win+V）には大きな画像は表示されません。",
     "description": "Toast after copying a large screenshot on Windows: reminds the user to paste with Ctrl+V because clipboard history cannot show it."
@@ -2262,5 +2262,201 @@
   "parts_summaryVaried": {
     "message": "{count} 枚の画像 · サイズはさまざまです",
     "description": "Parts overview summary. Plural: parts have different sizes."
+  },
+  "gen_languageHint": {
+    "message": "ポップアップと設定の表示言語。",
+    "description": "Settings: hint under the language row."
+  },
+  "gen_afterGroup": {
+    "message": "ダウンロード後",
+    "description": "Settings: group label for the after-download rows."
+  },
+  "gen_notifyTitle": {
+    "message": "通知",
+    "description": "Settings: notification row title."
+  },
+  "gen_notifyHint": {
+    "message": "ダウンロード完了時に ImgFetch が知らせるかどうかを選択します。",
+    "description": "Settings: hint under the notification row."
+  },
+  "q_smartTitle": {
+    "message": "スマートダウンロード",
+    "description": "Settings: Smart Download radio card title."
+  },
+  "q_sourceGroup": {
+    "message": "ソースの選択",
+    "description": "Settings: group label for source selection."
+  },
+  "q_conversionGroup": {
+    "message": "変換品質",
+    "description": "Settings: group label for conversion quality sliders."
+  },
+  "q_recommended": {
+    "message": "おすすめ",
+    "description": "Settings: pill marking the recommended option."
+  },
+  "kb_changeTitle": {
+    "message": "ショートカットを変更",
+    "description": "Settings: title of the change-shortcut card."
+  },
+  "kb_changeDesc": {
+    "message": "ブラウザの拡張機能ショートカットページを開き、ImgFetch を見つけてキーを設定してください。未設定と表示される場合、そのキーがブラウザや他の拡張機能と競合しています。",
+    "description": "Settings: instructions for changing a shortcut."
+  },
+  "pr_heroTitle": {
+    "message": "アカウントなし。分析なし。追跡なし。",
+    "description": "Privacy: hero title."
+  },
+  "pr_heroSub": {
+    "message": "サーバーはありません。保存したものがデバイスの外に出ることはありません。",
+    "description": "Privacy: hero subtitle."
+  },
+  "pr_fullTitle": {
+    "message": "プライバシーステートメント全文",
+    "description": "Privacy: full statement row title."
+  },
+  "pr_fullDesc": {
+    "message": "各権限が必要な理由は「この拡張機能について」で説明しています。",
+    "description": "Privacy: full statement row description."
+  },
+  "options_navBasics": {
+    "message": "基本",
+    "description": "Settings sidebar: Basics group label."
+  },
+  "options_navCapture": {
+    "message": "キャプチャ",
+    "description": "Settings sidebar: Capture group label."
+  },
+  "options_navLibrary": {
+    "message": "ライブラリ",
+    "description": "Settings sidebar: Library group label."
+  },
+  "options_navApp": {
+    "message": "アプリ",
+    "description": "Settings sidebar: App group label."
+  },
+  "fn_previewLabel": {
+    "message": "プレビュー",
+    "description": "Settings: file name preview label."
+  },
+  "fn_previewHint": {
+    "message": "上のテンプレートを使ったファイル名の例。",
+    "description": "Settings: hint under the file name preview."
+  },
+  "dl_group": {
+    "message": "保存",
+    "description": "Settings: Downloads group label."
+  },
+  "sc_group": {
+    "message": "画像を探す",
+    "description": "Settings: Scanning group label."
+  },
+  "sh_group": {
+    "message": "キャプチャの既定値",
+    "description": "Settings: Screenshots group label."
+  },
+  "sp_group": {
+    "message": "ウェブサイト",
+    "description": "Settings: Site Preferences group label."
+  },
+  "fo_group": {
+    "message": "整理",
+    "description": "Settings: Folders group label."
+  },
+  "hi_group": {
+    "message": "履歴",
+    "description": "Settings: Download History group label."
+  },
+  "bk_group": {
+    "message": "バックアップ",
+    "description": "Settings: Backup group label."
+  },
+  "bk_dangerGroup": {
+    "message": "危険なゾーン",
+    "description": "Settings: danger zone group label."
+  },
+  "pr_sub": {
+    "message": "ImgFetch はすべてをお使いのデバイス内に保持します。",
+    "description": "Privacy: subtitle under the Privacy title."
+  },
+  "annotate_hintPen": {
+    "message": "画像の上でドラッグして描きます。",
+    "description": "Annotate: hint pill text for the Pen tool."
+  },
+  "annotate_hintArrow": {
+    "message": "画像の上でドラッグして矢印を描きます。",
+    "description": "Annotate: hint pill text for the Arrow tool."
+  },
+  "annotate_hintRect": {
+    "message": "画像の上でドラッグして四角形を描きます。",
+    "description": "Annotate: hint pill text for the Rectangle tool."
+  },
+  "annotate_hintCircle": {
+    "message": "画像の上でドラッグして円を描きます。",
+    "description": "Annotate: hint pill text for the Circle tool."
+  },
+  "annotate_hintText": {
+    "message": "テキストを置く場所をクリックし、入力して Enter を押します。配置したテキストをクリックするとドラッグでき、Delete を押すと削除できます。",
+    "description": "Annotate: hint pill text for the Text tool."
+  },
+  "annotate_hintPixelate": {
+    "message": "隠したい範囲の上でドラッグします。",
+    "description": "Annotate: hint pill text for the Pixelate tool."
+  },
+  "annotate_hintCrop": {
+    "message": "画像の上でドラッグして残す範囲を選びます。Enter で適用、Esc でキャンセルします。",
+    "description": "Annotate: hint pill text for the Crop tool."
+  },
+  "annotate_clearTitle": {
+    "message": "注釈を消去しますか？",
+    "description": "Annotate: title of the clear-annotations confirm dialog."
+  },
+  "annotate_clearMessage": {
+    "message": "このスクリーンショットの描画とテキストがすべて削除されます。画像自体は変わりません。",
+    "description": "Annotate: message of the clear-annotations confirm dialog."
+  },
+  "parts_summaryTotal": {
+    "message": "{count} 枚の画像 · 幅 {width} px · 合計 {total}",
+    "description": "Parts overview summary. Plural base: all parts share one width, total size shown."
+  },
+  "parts_discardAllTitle": {
+    "message": "すべてのパートを破棄しますか？",
+    "description": "Parts overview page: title of the discard-all confirm dialog."
+  },
+  "parts_discardAllMessage": {
+    "message": "このスクリーンショットのすべてのパートを削除します。何も保存されません。",
+    "description": "Parts overview page: message of the discard-all confirm dialog."
+  },
+  "parts_discardTitle": {
+    "message": "このパートを破棄しますか？",
+    "description": "Parts overview page: title of the discard-one-part confirm dialog."
+  },
+  "parts_discardMessage": {
+    "message": "このスクリーンショットのこのパートを削除します。保存されません。",
+    "description": "Parts overview page: message of the discard-one-part confirm dialog."
+  },
+  "welcome_hostAccessDesc": {
+    "message": "ImgFetch は、ページをスキャンしたり、そこから画像を保存したりする前に、ウェブサイトへのアクセス許可が必要です。インストール時にこの許可をスキップした場合は、ここで許可してください。",
+    "description": "Welcome page: host permission notice text."
+  },
+  "welcome_hostAccessButton": {
+    "message": "ウェブサイトへのアクセスを許可",
+    "description": "Welcome page: host permission request button."
+  },
+  "welcome_hostAccessDenied": {
+    "message": "アクセスは許可されませんでした。ImgFetch は現在のページのツールバーボタンやメニューからは引き続き使えますが、他のページからのスキャンや保存にはこの許可が必要です。この許可は、設定の「バージョン情報」画面からいつでも付与できます。",
+    "description": "Welcome page: text shown when the host permission request is denied."
+  },
+  "options_hostAccessDesc": {
+    "message": "ImgFetch は、ページをスキャンしたり、そこから画像を保存したりする前に、ウェブサイトへのアクセス許可が必要です。インストール時にこの許可をスキップした場合は、ここで許可してください。",
+    "description": "Settings About: host permission notice text."
+  },
+  "options_hostAccessButton": {
+    "message": "ウェブサイトへのアクセスを許可",
+    "description": "Settings About: host permission request button."
+  },
+  "options_hostAccessDenied": {
+    "message": "アクセスは許可されませんでした。ImgFetch は現在のページのツールバーボタンやメニューからは引き続き使えますが、他のページからのスキャンや保存にはこの許可が必要です。この許可は、設定の「バージョン情報」画面からいつでも付与できます。",
+    "description": "Settings About: text shown when the host permission request is denied."
   }
 }

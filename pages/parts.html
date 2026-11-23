@@ -23,42 +23,65 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <script src="../shared/theme-init.js"></script>
   <link rel="stylesheet" href="../shared/ui.css">
   <style>
-    body { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
-    .page-heading { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
-    .page-summary { color: var(--muted); margin: 0 0 16px; }
-    .header-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    /* Phase 3 Screen 3 (parts): sticky header, two-column card grid,
+       square thumbnails with correct aspect ratio. Page-specific layout
+       only; the shared components (buttons, toast, dialog, focus ring)
+       live in shared/ui.css. */
+    body { max-width: 1120px; margin: 0 auto; padding: 0 20px 60px; }
+    .parts-header { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 40px 0 12px; }
+    .parts-header .brand-mark { width: 40px; height: 40px; border-radius: 11px; flex: none; }
+    .parts-title { flex: 1; min-width: 0; }
+    .page-heading { font-size: 26px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin: 0; }
+    .page-summary { color: var(--muted); font-size: 14px; margin: 3px 0 0; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; flex: none; }
+    .header-actions .btn { height: 38px; border-radius: 10px; }
+    .parts-header .btn-danger { border-color: rgba(201, 42, 46, 0.35); }
+    [data-theme="dark"] .parts-header .btn-danger { border-color: rgba(240, 100, 106, 0.3); }
     .save-progress { color: var(--muted); margin: 10px 0 0; }
-    .part-card { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px; }
-    .part-thumb { flex: none; width: 220px; max-width: 40vw; height: auto; border-radius: 8px; background: var(--surface-2); display: block; }
-    .part-main { flex: 1; min-width: 0; }
-    .part-title { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
-    .part-meta { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; }
-    .part-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .part-actions .btn-danger { margin-inline-start: auto; }
-    #partList { margin-top: 18px; }
+    /* .notice sets display:flex, which beats the UA [hidden] rule. */
+    #windowsNote[hidden] { display: none; }
+    #partList { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .part-card { display: flex; gap: 18px; align-items: stretch; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; position: relative; }
+    .part-thumb-wrap { flex: none; width: 176px; height: 176px; border-radius: 10px; border: 1px solid var(--line2); background: var(--surface-2); overflow: hidden; display: block; position: relative; }
+    .part-thumb { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .part-chip { position: absolute; inset-inline-start: 8px; top: 8px; background: rgba(5, 6, 12, 0.75); color: #fff; font-size: 11px; font-weight: 650; padding: 3px 8px; border-radius: 99px; font-variant-numeric: tabular-nums; }
+    .part-main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding-top: 4px; }
+    .part-title { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; margin: 0; }
+    .part-meta { color: var(--muted); font-size: 13px; margin: 3px 0 0; }
+    .part-meta span { display: block; }
+    .part-meta span + span { margin-top: 1px; }
+    .part-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 12px; }
+    .part-actions .btn { height: 38px; border-radius: 10px; }
+    .part-discard { position: absolute; inset-inline-end: 12px; top: 12px; }
+    .part-discard .icon { width: 16px; height: 16px; }
+    @media (max-width: 900px) {
+      #partList { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .part-card { flex-direction: column; }
+      .part-thumb-wrap { width: 100%; height: auto; aspect-ratio: 1; }
+      .part-main { padding-inline-end: 0; }
+    }
   </style>
 </head>
 <body>
-  <div class="brand" style="margin-bottom:16px;">
-    <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
-    <div>
-      <div class="brand-name">ImgFetch</div>
-      <div class="brand-sub" data-i18n="capture_subtitle">Screenshot preview</div>
-    </div>
-  </div>
-
   <div id="loading" class="empty">
     <div class="spinner" role="status" data-i18n-attr="aria-label:ui_loading" aria-label="Loading"></div>
     <p data-i18n="capture_loading">Preparing your screenshot…</p>
   </div>
 
   <div id="content" hidden>
-    <h1 class="page-heading" id="partsHeading" data-i18n="parts_heading">Screenshot parts</h1>
-    <p class="page-summary" id="partsSummary"></p>
-    <div class="header-actions">
-      <button id="btnSaveAll" class="btn btn-primary" data-i18n="parts_saveAll">Save all</button>
-      <button id="btnDiscardAll" class="btn btn-danger" data-i18n="parts_discardAll">Discard all</button>
-    </div>
+    <header class="parts-header">
+      <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
+      <div class="parts-title">
+        <h1 class="page-heading" id="partsHeading" data-i18n="parts_heading">Screenshot parts</h1>
+        <p class="page-summary" id="partsSummary"></p>
+      </div>
+      <div class="header-actions">
+        <button id="btnDiscardAll" class="btn btn-danger" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#trash-2"/></svg> <span data-i18n="parts_discardAll">Discard all</span></button>
+        <button id="btnSaveAll" class="btn btn-primary" type="button"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg> <span data-i18n="parts_saveAll">Save all</span></button>
+      </div>
+    </header>
     <p class="save-progress" id="saveProgress" role="status" aria-live="polite" hidden></p>
     <p class="notice" id="windowsNote" hidden></p>
     <div id="partList" role="list"></div>

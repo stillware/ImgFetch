@@ -26,61 +26,296 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     body { margin: 0; padding: 0; }
     .settings-shell {
       display: grid;
-      grid-template-columns: 232px minmax(0, 1fr);
+      grid-template-columns: 264px minmax(0, 1fr);
       min-height: 100vh;
     }
-    /* ---------- sidebar ---------- */
+    /* ---------- sidebar: 264 px, grouped, icon per item ---------- */
     .side-nav {
-      background: var(--surface);
-      border-inline-end: 1px solid var(--border);
-      padding: 20px 12px;
+      background: var(--side);
+      border-inline-end: 1px solid var(--line);
+      padding: 22px 14px;
       position: sticky;
       top: 0;
       height: 100vh;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
     .side-brand {
       display: flex; align-items: center; gap: 10px;
-      padding: 4px 10px 16px;
+      padding: 2px 10px 18px;
     }
-    .side-brand .brand-mark { width: 32px; height: 32px; font-size: 17px; }
-    .side-brand strong { font-size: 15px; display: block; }
-    .side-brand > div span { font-size: 11px; color: var(--muted); display: block; }
+    .side-brand .brand-mark { width: 32px; height: 32px; }
+    .side-brand strong { font-size: 15px; font-weight: 650; display: block; line-height: 1.1; }
+    .side-brand > div span { font-size: 11.5px; color: var(--faint); display: block; }
+    .side-group {
+      font-size: 10.5px; font-weight: 600; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--faint);
+      padding: 14px 12px 6px;
+    }
     .side-nav button {
-      display: flex; align-items: center; width: 100%;
-      padding: 9px 12px; margin: 1px 0;
-      background: transparent; border: 0; border-radius: 8px;
-      color: var(--text); font-size: 13.5px; cursor: pointer; text-align: start;
+      display: flex; align-items: center; gap: 11px;
+      height: 36px; width: 100%;
+      padding: 0 12px;
+      background: transparent; border: 0; border-radius: 10px;
+      color: var(--muted); font: 500 13.5px var(--font);
+      cursor: pointer; text-align: start; position: relative;
     }
-    .side-nav button:hover { background: var(--surface-2); }
+    .side-nav button .icon { color: var(--faint); }
+    .side-nav button:hover { background: var(--hover); }
     .side-nav button:focus-visible { outline: none; box-shadow: var(--focus); }
     .side-nav button[aria-current="true"] {
-      background: var(--surface-2); color: var(--primary); font-weight: 600;
+      background: var(--accent-soft); color: var(--text); font-weight: 500;
     }
-    /* ---------- main ---------- */
-    .settings-main { padding: 30px 32px 70px; max-width: 740px; }
-    .page-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-    .page-head h1 { font-size: 21px; margin: 0; }
-    .page-head p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
-    #saveState { color: var(--muted); font-size: 12px; }
-    #saveState.saving { color: var(--primary); }
-    #saveState.error { color: var(--danger); }
+    .side-nav button[aria-current="true"] .icon { color: var(--accentText); }
+    .side-nav button[aria-current="true"]::before {
+      content: ""; position: absolute; inset-inline-start: -14px;
+      top: 9px; bottom: 9px; width: 3px;
+      border-radius: 0 3px 3px 0; background: var(--accent2);
+    }
+    .side-foot {
+      margin-top: auto; padding: 10px 12px;
+      font-size: 11.5px; color: var(--faint);
+      display: flex; justify-content: space-between; gap: 8px;
+    }
+    /* ---------- main: centered 720 px column ---------- */
+    .settings-main { padding: 44px 0 70px; position: relative; }
+    .opt-section { width: 720px; max-width: calc(100% - 32px); margin: 0 auto; }
     .opt-section[hidden] { display: none; }
-    .opt-section .card { margin-bottom: 0; }
-    .nav-compact { display: none; margin-bottom: 16px; }
-    .radio-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; cursor: pointer; }
-    .radio-row .hint { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
-    .site-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .opt-title { font-size: 26px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
+    .opt-desc { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
+    .opt-group { margin-top: 26px; }
+    .opt-group-label {
+      font-size: 11.5px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--faint);
+      margin: 0 4px 10px;
+    }
+    /* Cards hold rows; the rows carry the padding, so row cards have none. */
+    .settings-shell .card { border-radius: var(--r3); }
+    .opt-card { padding: 0; }
+    .opt-card > * + * { border-top: 1px solid var(--line); }
+    .opt-card > .theme-grid + .opt-row { border-top: 0; }
+    .nav-compact { display: none; }
+    /* ---------- saved pill: top right, appears briefly after a save ---------- */
+    .save-pill {
+      position: absolute; right: 36px; top: 30px; z-index: 5;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12.5px; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--line);
+      padding: 7px 12px; border-radius: 99px; box-shadow: var(--shadow);
+    }
+    .save-pill[hidden] { display: none; }
+    .save-pill .icon { width: 14px; height: 14px; color: var(--ok); stroke-width: 2.5; }
+    .save-pill.saving { color: var(--muted); }
+    .save-pill.saving .icon { color: var(--accentText); }
+    .save-pill.error { color: var(--danger); }
+    .save-pill.error .icon { color: var(--danger); }
+    /* ---------- rows: label and description left, control right ---------- */
+    .opt-row { display: flex; align-items: center; gap: 24px; padding: 16px 20px; }
+    .opt-row-text { flex: 1; min-width: 0; }
+    .opt-row-title { display: block; font-size: 14px; font-weight: 600; }
+    .opt-row-desc { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; max-width: 430px; }
+    .opt-row .opt-row-text strong { display: block; font-size: 14px; font-weight: 600; }
+    .opt-row .opt-row-text .hint { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; max-width: 430px; }
+    .opt-row select { min-width: 220px; width: auto; flex: none; }
+    .opt-row input[type="text"] { flex: 1; min-width: 0; }
+    .opt-row input[type="number"] { max-width: 120px; flex: none; }
+    /* Switch rows are card rows too: same padding and dividers. */
+    label.switch-row.opt-row { padding: 16px 20px; }
+    label.switch-row.opt-row .opt-row-text { flex: 1; min-width: 0; }
+    /* Segmented controls inside options: dark container, raised selection. */
+    .settings-shell .segmented { background: var(--bg); flex: none; }
+    .settings-shell .segmented button { padding: 6px 14px; font-size: 13px; font-weight: 550; }
+    .settings-shell .segmented button[aria-pressed="true"] {
+      background: var(--raised); box-shadow: inset 0 0 0 1px var(--line2);
+    }
+    /* Toggles match the reference size: 40 by 23, 17 px thumb. */
+    .settings-shell input.switch { width: 40px; height: 23px; }
+    .settings-shell input.switch::after { width: 17px; height: 17px; top: 3px; }
+    .settings-shell input.switch:checked::after { transform: translateX(17px); }
+    [dir="rtl"] .settings-shell input.switch:checked::after { transform: translateX(-17px); }
+    /* ---------- theme preview cards ---------- */
+    .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px; }
+    .theme-card {
+      border: 1px solid var(--line2); border-radius: 12px; padding: 8px;
+      background: var(--bg); cursor: pointer; font-family: var(--font);
+      text-align: start; appearance: none;
+    }
+    .theme-card[aria-pressed="true"] { border-color: var(--accent2); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .theme-card:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
+    /* The preview swatches depict the three themes, so their colors are
+       fixed by design, not theme tokens. */
+    .theme-preview { display: block; height: 64px; border-radius: 8px; position: relative; overflow: hidden; }
+    .theme-preview i { position: absolute; display: block; border-radius: 4px; }
+    .theme-preview i:nth-child(1) { left: 8px; top: 8px; width: 26px; bottom: 8px; }
+    .theme-preview i:nth-child(2) { left: 40px; top: 8px; right: 8px; height: 10px; }
+    .theme-preview i:nth-child(3) { left: 40px; top: 24px; right: 30px; height: 8px; }
+    .theme-preview i:nth-child(4) { left: 40px; bottom: 8px; width: 44px; height: 14px; background: #6a5cf2; }
+    .theme-preview-system { background: linear-gradient(90deg, #0f1220 50%, #f6f7fb 50%); }
+    .theme-preview-system i:nth-child(1) { background: #2a2f4a; }
+    .theme-preview-system i:nth-child(2) { background: #3a4066; }
+    .theme-preview-system i:nth-child(3) { background: #2a2f4a; }
+    .theme-preview-light { background: #f6f7fb; }
+    .theme-preview-light i:nth-child(1), .theme-preview-light i:nth-child(3) { background: #dde0ee; }
+    .theme-preview-light i:nth-child(2) { background: #c8ccdf; }
+    .theme-preview-dark { background: #0f1220; }
+    .theme-preview-dark i:nth-child(1), .theme-preview-dark i:nth-child(3) { background: #222844; }
+    .theme-preview-dark i:nth-child(2) { background: #2f3658; }
+    .theme-card-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 4px 2px; font-size: 13px; font-weight: 550; color: var(--text);
+    }
+    .theme-card-label .icon { width: 15px; height: 15px; color: var(--accentText); stroke-width: 2.5; visibility: hidden; }
+    .theme-card[aria-pressed="true"] .theme-card-label .icon { visibility: visible; }
+    /* ---------- radio cards: reference padding, accent2 selected border ---------- */
+    .radio-cards { border: 0; padding: 16px; margin: 0; display: grid; gap: 10px; }
+    .settings-shell .radio-card { margin: 0; }
+    .settings-shell .radio-card-body { padding: 14px 16px; gap: 14px; background: var(--bg); }
+    .settings-shell .radio-card-body > span { display: block; flex: 1; min-width: 0; }
+    .settings-shell .radio-card > input[type="radio"]:checked + .radio-card-body { border-color: var(--accent2); }
+    .settings-shell .radio-card > input[type="radio"]:checked + .radio-card-body::before {
+      border-color: var(--accent2); background: var(--accent2);
+    }
+    .settings-shell .radio-card-title { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .rec-pill {
+      font-size: 10.5px; font-weight: 650; background: rgba(34, 211, 160, .14);
+      color: var(--ok); padding: 2px 8px; border-radius: 99px; letter-spacing: .02em;
+    }
+    /* ---------- sliders: label row, track, hint; value as a badge ---------- */
+    .opt-slider { padding: 16px 20px; }
+    .opt-slider-label {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-size: 14px; font-weight: 600;
+    }
+    .settings-shell .range-val {
+      font: 600 12.5px var(--font); font-variant-numeric: tabular-nums;
+      color: var(--text); background: var(--raised);
+      border: 1px solid var(--line2); border-radius: 7px; padding: 3px 9px;
+      min-width: 0; text-align: center;
+    }
+    .opt-slider input[type="range"] { display: block; margin: 7px 0 0; }
+    .opt-slider .hint { font-size: 12.5px; color: var(--faint); display: block; }
+    .opt-slider-scale { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--faint); margin-top: 2px; }
+    /* Reference thumb: 18 px white disc with an accent-soft ring, no border.
+       Reference fill: accent to accent2 gradient up to the value. */
+    .settings-shell input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(90deg, var(--accent), var(--accent2) var(--fill, 50%), var(--raised) var(--fill, 50%));
+    }
+    .settings-shell input[type="range"]::-webkit-slider-thumb {
+      width: 18px; height: 18px; margin-top: -6px;
+      background: #fff; border: 0;
+      box-shadow: 0 0 0 4px var(--accent-soft), 0 2px 6px rgba(0, 0, 0, .5);
+    }
+    .settings-shell input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px;
+      background: #fff; border: 0;
+      box-shadow: 0 0 0 4px var(--accent-soft), 0 2px 6px rgba(0, 0, 0, .5);
+    }
+    /* ---------- fields inside cards (template, subfolder) ---------- */
+    .opt-field { padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; margin: 0; }
+    .opt-field[hidden] { display: none; }
+    .opt-field-label { font-weight: 600; font-size: 13.5px; }
+    .opt-field .hint { font-size: 12.5px; color: var(--muted); }
+    .token-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .token-chip { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+    .fn-preview { display: flex; flex-direction: column; gap: 4px; }
+    .fn-preview code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px; background: var(--raised); border: 1px solid var(--line);
+      border-radius: 8px; padding: 9px 11px; overflow-wrap: anywhere;
+    }
+    /* ---------- other-formats list ---------- */
+    .opt-subblock { padding: 16px 20px; }
+    .opt-subblock-title { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .opt-kv { margin: 0; display: grid; }
+    .opt-kv > div { display: flex; gap: 16px; padding: 10px 0; }
+    .opt-kv > div + div { border-top: 1px solid var(--line); }
+    .opt-kv dt { font-weight: 600; font-size: 13.5px; flex: none; width: 64px; }
+    .opt-kv dd { margin: 0; font-size: 13px; color: var(--muted); }
+    /* ---------- generic card block (site list, history list) ---------- */
+    .opt-block { padding: 16px 20px; }
+    .opt-block .small.muted { margin: 0; }
+    .site-row { display: flex; align-items: center; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); }
     .site-row:last-child { border-bottom: 0; }
-    .range-val { font-variant-numeric: tabular-nums; font-weight: 600; min-width: 44px; text-align: end; }
-    details.tokens { margin-top: 8px; }
-    details.tokens summary { cursor: pointer; font-size: 13px; color: var(--primary); }
-    .kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0 0 12px; }
-    .kv dt { font-weight: 600; font-size: 13px; }
-    .kv dd { margin: 0; font-size: 13px; }
-    .perm-list { margin: 6px 0 0; padding-inline-start: 18px; font-size: 13px; color: var(--muted); }
-    .perm-list li { margin: 3px 0; }
+    .site-row select { width: auto; min-width: 160px; flex: none; }
+    /* ---------- shortcuts ---------- */
+    .kb-row { display: flex; align-items: center; gap: 20px; padding: 14px 20px; }
+    .kb-row + .kb-row { border-top: 1px solid var(--line); }
+    .kb-row-label { flex: 1; font-size: 14px; font-weight: 550; min-width: 0; }
+    .kb-keys { display: flex; gap: 4px; align-items: center; flex: none; }
+    .kb-keys .keycap { font-size: 12px; line-height: 1; padding: 6px 9px; }
+    /* Not-set pill matches the reference size (12.5 px, 4 px 10 px). */
+    .kb-keys .badge { font-size: 12.5px; line-height: 1.45; padding: 4px 10px; }
+    .link-btn {
+      appearance: none; background: transparent; border: 0;
+      color: var(--accentText); font: 550 13px var(--font);
+      display: inline-flex; gap: 6px; align-items: center;
+      cursor: pointer; padding: 0; white-space: nowrap; flex: none;
+    }
+    .link-btn:hover { text-decoration: underline; }
+    .link-btn:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
+    .link-btn .icon { width: 16px; height: 16px; }
+    /* ---------- capture-now buttons ---------- */
+    .sh-capture-btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; max-width: 320px; flex: none; }
+    /* ---------- about ---------- */
+    .about-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; }
     .about-logo { width: 64px; height: 64px; border-radius: 16px; }
+    .about-name { font-size: 17px; font-weight: 700; }
+    .about-version { margin-inline-start: auto; }
+    .about-block { padding: 16px 20px; }
+    .about-block p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .perm-list { margin: 0; padding: 4px 20px 16px; list-style: none; display: grid; gap: 10px; font-size: 13px; color: var(--muted); }
+    .perm-list li { display: flex; gap: 10px; align-items: flex-start; }
+    .perm-list li .icon { width: 16px; height: 16px; color: var(--ok); flex: none; margin-top: 1px; stroke-width: 2.5; }
+    /* Host permission row: notice card, hidden by default exactly as today. */
+    .host-access { margin: 16px 0 0; align-items: center; }
+    .host-access .host-access-text { flex: 1; }
+    .host-access > .icon { color: var(--accentText); }
+    /* .notice sets display:flex, which beats the UA [hidden] rule. */
+    #hostAccessRow[hidden] { display: none; }
+    /* ---------- danger zone ---------- */
+    .opt-card-danger { border-color: rgba(201, 42, 46, .35); }
+    [data-theme="dark"] .opt-card-danger { border-color: rgba(240, 100, 106, .35); }
+    /* ---------- privacy ---------- */
+    .privacy-hero {
+      display: flex; gap: 18px; align-items: center; padding: 22px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(106, 92, 242, .18), rgba(34, 211, 238, .06));
+      border: 1px solid rgba(139, 127, 247, .25);
+    }
+    .privacy-hero-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--accent-soft); display: grid; place-items: center;
+      color: var(--accentText); flex: none;
+    }
+    .privacy-hero-icon .icon { width: 26px; height: 26px; }
+    .privacy-hero-title { font-size: 16px; font-weight: 650; display: block; }
+    .privacy-hero-sub { color: var(--muted); font-size: 13.5px; margin: 2px 0 0; }
+    .privacy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .privacy-card { padding: 20px; }
+    .privacy-card-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 650; margin: 0 0 12px; }
+    .privacy-card-badge { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+    .privacy-card-badge .icon { width: 16px; height: 16px; stroke-width: 2.5; }
+    .privacy-card-badge-ok { background: rgba(34, 211, 160, .14); color: var(--ok); }
+    .privacy-card-badge-no { background: rgba(240, 100, 106, .13); color: var(--danger); }
+    .privacy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+    .privacy-list li { display: flex; gap: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+    .privacy-list li .icon { width: 16px; height: 16px; margin-top: 2px; stroke-width: 2.5; flex: none; }
+    .privacy-list-ok li .icon { color: var(--ok); }
+    .privacy-list-no li .icon { color: var(--danger); }
+    .privacy-link {
+      display: inline-flex; gap: 6px; align-items: center;
+      color: var(--accentText); font-size: 13px; font-weight: 550;
+      text-decoration: none; white-space: nowrap; flex: none;
+    }
+    .privacy-link .icon { width: 16px; height: 16px; }
+    /* ---------- download history rows ---------- */
+    .hist-day { font-weight: 700; font-size: 12.5px; color: var(--muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .hist-day:first-child { margin-top: 0; }
+    .hist-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .hist-item:last-child { border-bottom: 0; }
+    .hist-item .fmt { font-size: 10px; font-weight: 700; background: var(--surface-2); border-radius: 6px; padding: 3px 7px; color: var(--muted); text-transform: uppercase; }
     /* Gentle entrance when switching sections, no jank, respects reduced motion */
     @media (prefers-reduced-motion: no-preference) {
       .opt-section:not([hidden]) { animation: section-in 0.22s ease; }
@@ -89,16 +324,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         to { opacity: 1; transform: none; }
       }
     }
-    @media (max-width: 680px) {
+    @media (max-width: 900px) {
       .settings-shell { grid-template-columns: 1fr; }
       .side-nav { display: none; }
-      .nav-compact { display: block; }
-      .settings-main { padding: 20px 16px 60px; }
+      .nav-compact { display: block; width: 720px; max-width: calc(100% - 32px); margin: 0 auto 16px; }
+      .settings-main { padding: 20px 0 60px; }
+      .save-pill { position: static; margin: 0 16px 16px auto; width: max-content; }
     }
-    /* Download history rows (same as popup) */
-    .hist-day { font-weight: 700; font-size: 12.5px; color: var(--muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.4px; }
-    .hist-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .hist-item .fmt { font-size: 10px; font-weight: 700; background: var(--surface-2); border-radius: 6px; padding: 3px 7px; color: var(--muted); text-transform: uppercase; }
+    @media (max-width: 680px) {
+      .privacy-grid { grid-template-columns: 1fr; }
+      .opt-row { flex-wrap: wrap; gap: 12px; }
+      .opt-row select { min-width: 0; width: 100%; }
+      .sh-capture-btns { max-width: none; justify-content: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .theme-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -108,27 +349,30 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
       <div><strong>ImgFetch</strong><span data-i18n="options_settings">Settings</span></div>
     </div>
-    <button data-section="general" aria-current="true" data-i18n="options_secGeneral">General</button>
-    <button data-section="downloads" aria-current="false" data-i18n="options_secDownloads">Downloads</button>
-    <button data-section="quality" aria-current="false" data-i18n="options_secQuality">Quality</button>
-    <button data-section="filenames" aria-current="false" data-i18n="options_secFilenames">File Names</button>
-    <button data-section="scanning" aria-current="false" data-i18n="options_secScanning">Scanning</button>
-    <button data-section="screenshots" aria-current="false" data-i18n="options_secScreenshots">Screenshots</button>
-    <button data-section="sites" aria-current="false" data-i18n="options_secSites">Site Preferences</button>
-    <button data-section="shortcuts" aria-current="false" data-i18n="options_secShortcuts">Shortcuts</button>
-    <button data-section="folders" aria-current="false" data-i18n="options_secFolders">Folders</button>
-    <button data-section="history" aria-current="false" data-i18n="options_secHistory">Download History</button>
-    <button data-section="backup" aria-current="false" data-i18n="options_secBackup">Backup &amp; Reset</button>
-    <button data-section="about" aria-current="false" data-i18n="options_secAbout">About</button>
-    <button data-section="privacy" aria-current="false" data-i18n="options_secPrivacy">Privacy</button>
+    <div class="side-group" data-i18n="options_navBasics">Basics</div>
+    <button type="button" data-section="general" aria-current="true"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#sliders-horizontal"/></svg><span data-i18n="options_secGeneral">General</span></button>
+    <button type="button" data-section="downloads" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#download"/></svg><span data-i18n="options_secDownloads">Downloads</span></button>
+    <button type="button" data-section="quality" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#gauge"/></svg><span data-i18n="options_secQuality">Quality</span></button>
+    <button type="button" data-section="filenames" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#file-text"/></svg><span data-i18n="options_secFilenames">File Names</span></button>
+    <div class="side-group" data-i18n="options_navCapture">Capture</div>
+    <button type="button" data-section="scanning" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#scan-search"/></svg><span data-i18n="options_secScanning">Scanning</span></button>
+    <button type="button" data-section="screenshots" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#monitor"/></svg><span data-i18n="options_secScreenshots">Screenshots</span></button>
+    <button type="button" data-section="shortcuts" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#keyboard"/></svg><span data-i18n="options_secShortcuts">Shortcuts</span></button>
+    <div class="side-group" data-i18n="options_navLibrary">Library</div>
+    <button type="button" data-section="sites" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#globe"/></svg><span data-i18n="options_secSites">Site Preferences</span></button>
+    <button type="button" data-section="folders" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#folder"/></svg><span data-i18n="options_secFolders">Folders</span></button>
+    <button type="button" data-section="history" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#history"/></svg><span data-i18n="options_secHistory">Download History</span></button>
+    <div class="side-group" data-i18n="options_navApp">App</div>
+    <button type="button" data-section="backup" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#rotate-ccw"/></svg><span data-i18n="options_secBackup">Backup &amp; Reset</span></button>
+    <button type="button" data-section="about" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#info"/></svg><span data-i18n="options_secAbout">About</span></button>
+    <button type="button" data-section="privacy" aria-current="false"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#shield-check"/></svg><span data-i18n="options_secPrivacy">Privacy</span></button>
+    <div class="side-foot"><span id="optionsVersion">Version 1.1.1</span><span>GPL v3</span></div>
   </nav>
 
   <main class="settings-main">
-    <div class="page-head">
-      <div>
-        <h1 data-i18n="options_title">ImgFetch Settings</h1>
-        <p><span data-i18n="appTagline">Smart Image Downloader</span> · <span id="saveState" data-i18n="options_saved">All changes saved</span></p>
-      </div>
+    <div class="save-pill" id="savePill" hidden>
+      <svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg>
+      <span id="saveState" data-i18n="options_saved">All changes saved</span>
     </div>
 
     <div class="nav-compact">
@@ -140,8 +384,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         <option value="filenames" data-i18n="options_secFilenames">File Names</option>
         <option value="scanning" data-i18n="options_secScanning">Scanning</option>
         <option value="screenshots" data-i18n="options_secScreenshots">Screenshots</option>
-        <option value="sites" data-i18n="options_secSites">Site Preferences</option>
         <option value="shortcuts" data-i18n="options_secShortcuts">Shortcuts</option>
+        <option value="sites" data-i18n="options_secSites">Site Preferences</option>
         <option value="folders" data-i18n="options_secFolders">Folders</option>
         <option value="history" data-i18n="options_secHistory">Download History</option>
         <option value="backup" data-i18n="options_secBackup">Backup &amp; Reset</option>
@@ -151,330 +395,504 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     </div>
 
     <!-- 1. General -->
-    <section class="card opt-section pane-anim" id="general" aria-labelledby="general-h">
-      <h2 class="section-title" id="general-h" data-i18n="options_secGeneral">General</h2>
-      <p class="section-desc" data-i18n="gen_desc">How ImgFetch looks and behaves.</p>
-      <div class="field">
-        <span class="field-label" id="themeLabel" data-i18n="gen_appearance">Appearance</span>
-        <div class="segmented" id="themeSeg" role="group" aria-labelledby="themeLabel">
-          <button data-v="system" aria-pressed="false" data-i18n="theme_system">System</button>
-          <button data-v="light" aria-pressed="false" data-i18n="theme_light">Light</button>
-          <button data-v="dark" aria-pressed="false" data-i18n="theme_dark">Dark</button>
+    <section class="opt-section pane-anim" id="general" aria-labelledby="general-h">
+      <h2 class="opt-title" id="general-h" data-i18n="options_secGeneral">General</h2>
+      <p class="opt-desc" data-i18n="gen_desc">How ImgFetch looks and behaves.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" id="themeLabel" data-i18n="gen_appearance">Appearance</h3>
+        <div class="card opt-card">
+          <div class="theme-grid" id="themeSeg" role="group" aria-labelledby="themeLabel">
+            <button type="button" class="theme-card" data-v="system" aria-pressed="false">
+              <span class="theme-preview theme-preview-system" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <span class="theme-card-label"><span data-i18n="theme_system">System</span><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg></span>
+            </button>
+            <button type="button" class="theme-card" data-v="light" aria-pressed="false">
+              <span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <span class="theme-card-label"><span data-i18n="theme_light">Light</span><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg></span>
+            </button>
+            <button type="button" class="theme-card" data-v="dark" aria-pressed="false">
+              <span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <span class="theme-card-label"><span data-i18n="theme_dark">Dark</span><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg></span>
+            </button>
+          </div>
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" id="languageLabel" data-i18n="options_language">Language</span>
+              <span class="opt-row-desc" data-i18n="gen_languageHint">Interface language for the popup and settings.</span>
+            </div>
+            <select id="language" aria-labelledby="languageLabel">
+              <option value="auto" data-i18n="languageAuto">Auto (browser language)</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="field">
-        <label for="language" class="field-label" data-i18n="options_language">Language</label>
-        <select id="language">
-          <option value="auto" data-i18n="languageAuto">Auto (browser language)</option>
-        </select>
-      </div>
-      <div class="field">
-        <span class="field-label" id="afterDlLabel" data-i18n="gen_afterDownload">After a download finishes</span>
-        <div class="segmented" id="afterDlSeg" role="group" aria-labelledby="afterDlLabel">
-          <button data-v="silent" aria-pressed="false" data-i18n="gen_silent">Stay quiet</button>
-          <button data-v="notify" aria-pressed="false" data-i18n="gen_notify">Show a notification</button>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="gen_afterGroup">After a download</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" id="afterDlLabel" data-i18n="gen_notifyTitle">Notification</span>
+              <span class="opt-row-desc" data-i18n="gen_notifyHint">Choose whether ImgFetch tells you when a download finishes.</span>
+            </div>
+            <div class="segmented" id="afterDlSeg" role="group" aria-labelledby="afterDlLabel">
+              <button type="button" data-v="silent" aria-pressed="false" data-i18n="gen_silent">Stay quiet</button>
+              <button type="button" data-v="notify" aria-pressed="false" data-i18n="gen_notify">Show a notification</button>
+            </div>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="gen_autoCollapse">Close the download panel when finished</strong><span class="hint" data-i18n="gen_autoCollapseHint">The progress view collapses back to the home screen a moment after every download completes.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="autoCollapseQueue">
+          </label>
         </div>
       </div>
-      <label class="switch-row">
-        <span><strong data-i18n="gen_autoCollapse">Close the download panel when finished</strong><span class="hint" data-i18n="gen_autoCollapseHint">The progress view collapses back to the home screen a moment after every download completes.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="autoCollapseQueue">
-      </label>
     </section>
 
-<!-- 2. Downloads -->
-    <section class="card opt-section pane-anim" id="downloads" aria-labelledby="downloads-h" hidden>
-      <h2 class="section-title" id="downloads-h" data-i18n="options_secDownloads">Downloads</h2>
-      <p class="section-desc" data-i18n="dl_desc">How files are saved to your device.</p>
-      <label class="switch-row">
-        <span><strong data-i18n="dl_saveAs">Ask where to save each file</strong><span class="hint" data-i18n="dl_saveAsHint">Shows the browser's Save dialog for every download.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="saveAsDialog">
-      </label>
-      <label class="switch-row">
-        <span><strong data-i18n="dl_autoRetry">Automatically retry failed downloads</strong><span class="hint" data-i18n="dl_autoRetryHint">If a download fails to start, ImgFetch tries one more time on its own.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="autoRetryOnce">
-      </label>
-      <div class="field">
-        <span class="field-label" id="concLabel"><span data-i18n="dl_concurrent">Simultaneous downloads:</span> <span class="range-val" id="maxConcVal">3</span></span>
-        <input type="range" id="maxConcurrent" min="1" max="6" step="1" value="3" aria-labelledby="concLabel">
-        <span class="hint" data-i18n="dl_concurrentHint">Higher is faster for many images, but some sites may throttle you.</span>
-      </div>
-    </section>
-
-<!-- 3. Quality -->
-    <section class="card opt-section pane-anim" id="quality" aria-labelledby="quality-h" hidden>
-      <h2 class="section-title" id="quality-h" data-i18n="options_secQuality">Quality</h2>
-      <p class="section-desc" data-i18n="q_desc">ImgFetch saves the best genuine source it can verify. It never upscales an image.</p>
-      <fieldset class="field" style="border:0; padding:0; margin:0 0 14px;">
-        <legend class="field-label" data-i18n="q_modeLabel">Smart quality selection</legend>
-        <label class="radio-row"><input type="radio" name="qualityPreference" value="smart">
-          <span><strong data-i18n="q_smart">Smart Download (recommended)</strong><span class="hint" data-i18n="q_smartHint">Checks every available source and saves the best genuine version it can verify.</span></span></label>
-        <label class="radio-row"><input type="radio" name="qualityPreference" value="original">
-          <span><strong data-i18n="q_original">Prefer the exact source</strong><span class="hint" data-i18n="q_originalHint">Skips the extra quality check and saves the exact image the page shows. Faster and more private.</span></span></label>
-      </fieldset>
-      <div class="field">
-        <span class="field-label" id="jpgQLabel"><span data-i18n="q_jpg">JPG quality:</span> <span class="range-val" id="jpgQVal">100%</span></span>
-        <input type="range" id="jpgQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="jpgQLabel">
-        <span class="hint" data-i18n="q_jpgHint">Used when converting to JPG. Higher means bigger files.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" id="pngQLabel"><span data-i18n="q_png">PNG quality:</span> <span class="range-val" id="pngQVal">100%</span></span>
-        <input type="range" id="pngQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="pngQLabel" aria-describedby="pngQHint">
-        <span class="hint" id="pngQHint" data-i18n="q_pngHint">100% is lossless. Lower values reduce colours to make smaller files.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" id="webpQLabel"><span data-i18n="q_webp">WebP quality:</span> <span class="range-val" id="webpQVal">100%</span></span>
-        <input type="range" id="webpQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="webpQLabel">
-        <span class="hint" data-i18n="q_webpHint">Used when converting to WebP.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" data-i18n="q_otherFormats">Other formats</span>
-        <dl class="kv small">
-          <dt>AVIF</dt><dd data-i18n="q_avifDesc">Highest quality, always 100%.</dd>
-          <dt>GIF</dt><dd data-i18n="q_gifDesc">Fixed 256-color palette (ImgFetch's own encoder).</dd>
-          <dt>BMP</dt><dd data-i18n="q_bmpDesc">Uncompressed, always 100%.</dd>
-          <dt>SVG</dt><dd data-i18n="q_svgDesc">Vector wrapper around the image.</dd>
-        </dl>
-      </div>
-    </section>
-
-<!-- 6. File Names -->
-    <section class="card opt-section pane-anim" id="filenames" aria-labelledby="filenames-h" hidden>
-      <h2 class="section-title" id="filenames-h" data-i18n="options_secFilenames">File Names</h2>
-      <p class="section-desc" data-i18n="fn_desc">ImgFetch always makes file names safe, no strange characters, ever.</p>
-      <fieldset class="field" style="border:0; padding:0; margin:0 0 14px;">
-        <legend class="field-label" data-i18n="fn_naming">Naming</legend>
-        <label class="radio-row"><input type="radio" name="filenameMode" value="original">
-          <span><strong data-i18n="fn_original">Keep the original name</strong><span class="hint" data-i18n="fn_originalHint">Uses the image's own file name, cleaned up.</span></span></label>
-        <label class="radio-row"><input type="radio" name="filenameMode" value="site">
-          <span><strong data-i18n="fn_site">Site + date + number</strong><span class="hint" data-i18n="fn_siteHint">Example: example - 2026-10-02 - 001.jpg</span></span></label>
-        <label class="radio-row"><input type="radio" name="filenameMode" value="custom">
-          <span><strong data-i18n="fn_custom">Custom template</strong><span class="hint" data-i18n="fn_customHint">Build your own pattern below.</span></span></label>
-      </fieldset>
-      <div class="field" id="customTemplateWrap" hidden>
-        <label for="customTemplate" data-i18n="fn_customLabel">Custom template</label>
-        <input type="text" id="customTemplate" maxlength="160" data-i18n-attr="placeholder:fn_templatePlaceholder" placeholder="{site} - {date} - {num}">
-        <details class="tokens">
-          <summary data-i18n="fn_tokens">Available tokens</summary>
-          <p class="small muted" data-i18n="fn_tokensList">{site} {name} {date} {time} {width} {height} {dimensions} {num}</p>
-        </details>
-      </div>
-      <label class="switch-row">
-        <span><strong data-i18n="fn_askRename">Let me rename files before downloading</strong><span class="hint" data-i18n="fn_askRenameHint">Opens a small rename sheet with a preview before single downloads from the right-click menu.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="askFilename">
-      </label>
-    </section>
-
-<!-- 4. Scanning -->
-    <section class="card opt-section pane-anim" id="scanning" aria-labelledby="scanning-h" hidden>
-      <h2 class="section-title" id="scanning-h" data-i18n="options_secScanning">Scanning</h2>
-      <p class="section-desc" data-i18n="sc_desc">How ImgFetch finds images on a page.</p>
-      <div class="field">
-        <label for="minSizePreset" data-i18n="sc_minSize">Skip images smaller than</label>
-        <select id="minSizePreset">
-          <option value="any" data-i18n="sc_sizeAny">Don't skip any</option>
-          <option value="medium" data-i18n="sc_sizeMedium">Medium (400 px)</option>
-          <option value="large" data-i18n="sc_sizeLarge">Large (1200 px)</option>
-          <option value="xlarge" data-i18n="sc_sizeXlarge">Very large (2000 px)</option>
-        </select>
-        <span class="hint" data-i18n="sc_minSizeHint">Hides tiny icons and spacers from results. You can still change this per scan.</span>
-      </div>
-      <label class="switch-row">
-        <span><strong data-i18n="sc_backgrounds">Include background images</strong><span class="hint" data-i18n="sc_backgroundsHint">Also finds images used as page backgrounds (slower on huge pages).</span></span>
-        <input type="checkbox" class="switch" role="switch" id="includeBackgrounds">
-      </label>
-      <div class="field">
-        <span class="field-label" id="scanDepthLabel" data-i18n="sc_depth">Scan depth</span>
-        <div class="segmented" id="scanDepthSeg" role="group" aria-labelledby="scanDepthLabel">
-          <button data-v="loaded" aria-pressed="false" data-i18n="sc_depthLoaded">Loaded page</button>
-          <button data-v="scroll" aria-pressed="false" data-i18n="sc_depthScroll">Scroll page</button>
-        </div>
-        <span class="hint" data-i18n="sc_depthHint">Loaded page: scans only images already loaded (fastest). Scroll page: briefly scrolls through the page first to reveal lazy-loaded images, then restores your position.</span>
-      </div>
-      <label class="switch-row">
-        <span><strong data-i18n="sc_dedupe">Remove duplicate images</strong><span class="hint" data-i18n="sc_dedupeHint">When the same image appears in several sizes, keep only the largest and hide the rest.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="dedupeScan">
-      </label>
-    </section>
-
-<!-- 5. Screenshots -->
-    <section class="card opt-section pane-anim" id="screenshots" aria-labelledby="screenshots-h" hidden>
-      <h2 class="section-title" id="screenshots-h" data-i18n="options_secScreenshots">Screenshots</h2>
-      <p class="section-desc" data-i18n="sh_desc">Defaults for page captures.</p>
-      <div class="field">
-        <span class="field-label" id="shotFormatLabel" data-i18n="sh_format">Default format</span>
-        <div class="segmented" id="shotFormatSeg" role="group" aria-labelledby="shotFormatLabel">
-          <button data-v="png" aria-pressed="false">PNG</button>
-          <button data-v="jpg" aria-pressed="false">JPG</button>
+    <!-- 2. Downloads -->
+    <section class="opt-section pane-anim" id="downloads" aria-labelledby="downloads-h" hidden>
+      <h2 class="opt-title" id="downloads-h" data-i18n="options_secDownloads">Downloads</h2>
+      <p class="opt-desc" data-i18n="dl_desc">How files are saved to your device.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="dl_group">Saving</h3>
+        <div class="card opt-card">
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="dl_saveAs">Ask where to save each file</strong><span class="hint" data-i18n="dl_saveAsHint">Shows the browser's Save dialog for every download.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="saveAsDialog">
+          </label>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="dl_autoRetry">Automatically retry failed downloads</strong><span class="hint" data-i18n="dl_autoRetryHint">If a download fails to start, ImgFetch tries one more time on its own.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="autoRetryOnce">
+          </label>
+          <div class="opt-slider">
+            <span class="opt-slider-label" id="concLabel"><span data-i18n="dl_concurrent">Simultaneous downloads:</span> <span class="range-val" id="maxConcVal">3</span></span>
+            <input type="range" id="maxConcurrent" min="1" max="6" step="1" value="3" aria-labelledby="concLabel">
+            <span class="opt-slider-scale" aria-hidden="true"><span>1</span><span>6</span></span>
+            <span class="hint" data-i18n="dl_concurrentHint">Higher is faster for many images, but some sites may throttle you.</span>
+          </div>
         </div>
       </div>
-      <div class="field">
-        <span class="field-label" id="shotQLabel"><span data-i18n="sh_quality">Quality:</span> <span class="range-val" id="shotQVal">100%</span></span>
-        <input type="range" id="screenshotQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="shotQLabel">
-      </div>
-      <div class="field">
-        <span class="field-label" data-i18n="sh_captureNow">Capture now</span>
-        <div class="row" style="flex-wrap:wrap;">
-          <button id="shotNowVisible" class="btn btn-ghost btn-sm" data-i18n="sh_visible">Visible area</button>
-          <button id="shotNowArea" class="btn btn-ghost btn-sm" data-i18n="sh_area">Select area</button>
-          <button id="shotNowElement" class="btn btn-ghost btn-sm" data-i18n="sh_element">Capture element</button>
-          <button id="shotNowFull" class="btn btn-ghost btn-sm" data-i18n="sh_full">Full page</button>
-        </div>
-        <span class="hint" data-i18n="sh_captureHint">“Select area” opens a real selection overlay on the current page, drag a rectangle, press Esc to cancel. “Capture element” lets you click any element to capture exactly that.</span>
-      </div>
-      <label class="switch-row">
-        <span><strong data-i18n="sh_annotate">Open the annotation editor after capturing</strong><span class="hint" data-i18n="sh_annotateHint">Draw arrows, add text, or blur parts of the screenshot before saving it.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="annotateAfterCapture">
-      </label>
     </section>
 
-<!-- 9. Site Preferences -->
-    <section class="card opt-section pane-anim" id="sites" aria-labelledby="sites-h" hidden>
-      <h2 class="section-title" id="sites-h" data-i18n="options_secSites">Site Preferences</h2>
-      <p class="section-desc" data-i18n="sp_desc">Give specific websites their own download behavior.</p>
-      <div class="row" style="margin-bottom:10px;">
-        <input type="text" id="siteHost" data-i18n-attr="placeholder:sp_hostPlaceholder;aria-label:sp_hostAria" placeholder="example.com" aria-label="Website domain" style="flex:1;">
-        <button id="btnCurrentSite" class="btn btn-sm btn-ghost" data-i18n="sp_currentSite">Use current site</button>
-        <button id="btnAddSite" class="btn btn-sm btn-primary" data-i18n="sp_add">Add</button>
-      </div>
-      <div id="siteList"></div>
-      <p class="small muted" style="margin-top:10px;" data-i18n="sp_legend">Smart finds the best genuine source on this site · As shown saves images exactly as displayed · Paused disables ImgFetch downloads on this site.</p>
-    </section>
-
-<!-- 8. Shortcuts -->
-    <section class="card opt-section pane-anim" id="shortcuts" aria-labelledby="shortcuts-h" hidden>
-      <h2 class="section-title" id="shortcuts-h" data-i18n="options_secShortcuts">Shortcuts</h2>
-      <p class="section-desc" data-i18n="kb_desc">Keyboard shortcuts currently assigned to ImgFetch.</p>
-      <div id="shortcutList"><p class="small muted" data-i18n="kb_loading">Loading…</p></div>
-      <div class="row" style="margin-top:12px; flex-wrap:wrap;">
-        <button id="btnCopyShortcutLink" class="btn btn-ghost btn-sm" data-i18n="kb_copyLink">Copy shortcuts page link</button>
-      </div>
-      <p class="small muted" data-i18n="kb_changeHint">To change a shortcut, open chrome://extensions/shortcuts (or edge://extensions/shortcuts in Edge), find ImgFetch, and set your preferred keys. On Mac, use ⌘ instead of Ctrl. If a shortcut shows “Not set”, the suggested key clashed with the browser or another extension, set it manually here.</p>
-    </section>
-
-<!-- 7. Folders -->
-    <section class="card opt-section pane-anim" id="folders" aria-labelledby="folders-h" hidden>
-      <h2 class="section-title" id="folders-h" data-i18n="options_secFolders">Folders</h2>
-      <p class="section-desc" data-i18n="fo_desc">Files are saved inside your browser's Downloads folder. These options organize them further.</p>
-      <div class="field">
-        <label for="folderMode" data-i18n="fo_mode">Organize downloads into</label>
-        <select id="folderMode">
-          <option value="flat" data-i18n="fo_flat">One place (no smart folders)</option>
-          <option value="site" data-i18n="fo_site">Folders by website</option>
-          <option value="type" data-i18n="fo_type">Smart folders by type</option>
-          <option value="date" data-i18n="fo_date">Folders by date</option>
-        </select>
-        <span class="hint" data-i18n="fo_modeHint">Smart folders sorts automatically: Photos, Screenshots, GIFs, Graphics. “By website” example: Downloads / example.com / photo.jpg</span>
-      </div>
-      <div class="field">
-        <label class="switch-row">
-          <span><strong data-i18n="fo_useSubfolder">Use a default subfolder</strong><span class="hint" data-i18n="fo_useSubfolderHint">When on, everything saves inside this folder first, on top of the organization above.</span></span>
-          <input type="checkbox" class="switch" role="switch" id="useSubfolder">
-        </label>
-      </div>
-      <div class="field">
-        <label for="subfolder" data-i18n="fo_subfolder">Subfolder name</label>
-        <input type="text" id="subfolder" maxlength="120" data-i18n-attr="placeholder:fo_subfolderPlaceholder" placeholder="e.g. ImgFetch">
-        <span class="hint" data-i18n="fo_subfolderHint">Example: Downloads / ImgFetch / example.com / photo.jpg. Ignored while the toggle is off.</span>
-      </div>
-    </section>
-
-<!-- 11. Download History -->
-    <section class="card opt-section pane-anim" id="history" aria-labelledby="history-h" hidden>
-      <h2 class="section-title" id="history-h" data-i18n="options_secHistory">Download History</h2>
-      <p class="section-desc" data-i18n="hi_desc">A simple list of what you saved, shown in the popup.</p>
-      <div class="field">
-        <span class="field-label" data-i18n="hi_recent">Recent downloads</span>
-        <div id="optHistoryList"></div>
-      </div>
-      <label class="switch-row">
-        <span><strong data-i18n="hi_enabled">Keep download history</strong><span class="hint" data-i18n="hi_enabledHint">Stores the file name, site, format, and size of each download.</span></span>
-        <input type="checkbox" class="switch" role="switch" id="historyEnabled">
-      </label>
-      <div class="field">
-        <label for="historyRetentionDays" data-i18n="hi_retention">Keep history for (days)</label>
-        <input type="number" id="historyRetentionDays" min="1" max="365" step="1" style="max-width:120px;">
-        <span class="hint" data-i18n="hi_retentionHint">Entries older than this are removed automatically.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" data-i18n="hi_clearNow">Clear now</span>
-        <div class="row" style="flex-wrap:wrap;">
-          <button id="btnClearHistory" class="btn btn-ghost" data-i18n="hi_clearButton">Clear download history</button>
-        </div>
-        <span class="hint" data-i18n="hi_clearHint">Removes all history entries immediately. Downloaded files are not affected.</span>
-      </div>
-    </section>
-
-<!-- 12. Backup & Reset -->
-    <section class="card opt-section pane-anim" id="backup" aria-labelledby="backup-h" hidden>
-      <h2 class="section-title" id="backup-h" data-i18n="options_secBackup">Backup &amp; Reset</h2>
-      <p class="section-desc" data-i18n="bk_desc">Take your settings with you, or start fresh.</p>
-      <div class="field">
-        <span class="field-label" data-i18n="bk_export">Export settings</span>
-        <div class="row" style="flex-wrap:wrap;">
-          <button id="btnExport" class="btn btn-ghost" data-i18n="bk_export">Export settings</button>
-        </div>
-        <span class="hint" data-i18n="bk_exportHint">Downloads a imgfetch-settings.json file with all your settings.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" data-i18n="bk_import">Import settings</span>
-        <div class="row" style="flex-wrap:wrap;">
-          <button id="btnImport" class="btn btn-ghost" data-i18n="bk_import">Import settings</button>
-          <input type="file" id="importFile" accept="application/json" class="sr-only" data-i18n-attr="aria-label:bk_importAria" aria-label="Import settings file">
-        </div>
-        <span class="hint" data-i18n="bk_importHint">Restores settings from a ImgFetch export file. Invalid files are rejected safely.</span>
-      </div>
-      <div class="field">
-        <span class="field-label" data-i18n="bk_reset">Reset to defaults</span>
-        <div class="row" style="flex-wrap:wrap;">
-          <button id="btnReset" class="btn btn-danger" data-i18n="bk_resetButton">Reset everything</button>
-        </div>
-        <span class="hint" data-i18n="bk_resetHint">Asks for confirmation first, then restores all ImgFetch defaults. History is kept unless you clear it above.</span>
-      </div>
-    </section>
-
-<!-- 11. About -->
-    <section class="card opt-section pane-anim" id="about" aria-labelledby="about-h" hidden>
-      <h2 class="section-title" id="about-h" data-i18n="options_secAbout">About</h2>
-      <div class="row" style="align-items:center; gap:14px; margin-bottom:14px;">
-        <img class="about-logo" src="../icons/icon-128.png" alt="ImgFetch logo">
-        <div>
-          <div style="font-size:17px; font-weight:700;">ImgFetch</div>
-          <div class="small muted" id="aboutTagline" data-i18n="appTagline">Smart Image Downloader</div>
+    <!-- 3. Quality -->
+    <section class="opt-section pane-anim" id="quality" aria-labelledby="quality-h" hidden>
+      <h2 class="opt-title" id="quality-h" data-i18n="options_secQuality">Quality</h2>
+      <p class="opt-desc" data-i18n="q_desc">ImgFetch saves the best genuine source it can verify. It never upscales an image.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="q_sourceGroup">Source selection</h3>
+        <div class="card opt-card">
+          <fieldset class="radio-cards">
+            <legend class="sr-only" data-i18n="q_modeLabel">Smart quality selection</legend>
+            <label class="radio-card"><input type="radio" name="qualityPreference" value="smart">
+              <span class="radio-card-body"><span><span class="radio-card-title"><span data-i18n="q_smartTitle">Smart Download</span> <span class="rec-pill" data-i18n="q_recommended">Recommended</span></span><span class="radio-card-desc" data-i18n="q_smartHint">Checks every available source and saves the best genuine version it can verify.</span></span></span></label>
+            <label class="radio-card"><input type="radio" name="qualityPreference" value="original">
+              <span class="radio-card-body"><span><span class="radio-card-title" data-i18n="q_original">Prefer the exact source</span><span class="radio-card-desc" data-i18n="q_originalHint">Skips the extra quality check and saves the exact image the page shows. Faster and more private.</span></span></span></label>
+          </fieldset>
         </div>
       </div>
-      <dl class="kv">
-        <dt data-i18n="about_version">Version</dt><dd id="aboutVersion">–</dd>
-      </dl>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="about_licence">Licence</h3>
-      <p class="small muted" id="aboutLicence">ImgFetch, Copyright (C) 2026 ImgFetch Developer. This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the GNU General Public License v3 or later. <a id="aboutLicenceLink" href="#" target="_blank" rel="noopener noreferrer">View the full licence</a>.</p>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="about_permissions">Permissions</h3>
-      <p class="small muted" style="margin:0 0 4px;" data-i18n="about_permissionsIntro">What ImgFetch can access, and why:</p>
-      <ul class="perm-list" id="aboutPermissions"><li data-i18n="ui_loading">Loading…</li></ul>
-      <p class="small muted" id="hostAccessRow" hidden><span id="hostAccessText"></span> <button class="btn btn-ghost btn-sm" id="hostAccessBtn" type="button"></button></p>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="about_docs">Documentation</h3>
-      <p class="small muted"><span data-i18n="about_docsText">Documentation, the privacy policy and the terms of use live in the public repository:</span> <a id="aboutRepoLink" href="#" target="_blank" rel="noopener noreferrer">github.com/stillware/ImgFetch</a>.</p>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="options_secPrivacy">Privacy</h3>
-      <p class="small muted" id="aboutPrivacyText"><span data-i18n="about_privacyText">ImgFetch has no server and collects nothing. Only the images you choose to download are fetched, and Google Lens (only if you click it) opens Google with the image address. See PRIVACY.md in the repository for the full statement.</span></p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="q_conversionGroup">Conversion quality</h3>
+        <div class="card opt-card">
+          <div class="opt-slider">
+            <span class="opt-slider-label" id="jpgQLabel"><span data-i18n="q_jpg">JPG quality:</span> <span class="range-val" id="jpgQVal">100%</span></span>
+            <input type="range" id="jpgQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="jpgQLabel">
+            <span class="hint" data-i18n="q_jpgHint">Used when converting to JPG. Higher means bigger files.</span>
+          </div>
+          <div class="opt-slider">
+            <span class="opt-slider-label" id="pngQLabel"><span data-i18n="q_png">PNG quality:</span> <span class="range-val" id="pngQVal">100%</span></span>
+            <input type="range" id="pngQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="pngQLabel" aria-describedby="pngQHint">
+            <span class="hint" id="pngQHint" data-i18n="q_pngHint">100% is lossless. Lower values reduce colours to make smaller files.</span>
+          </div>
+          <div class="opt-slider">
+            <span class="opt-slider-label" id="webpQLabel"><span data-i18n="q_webp">WebP quality:</span> <span class="range-val" id="webpQVal">100%</span></span>
+            <input type="range" id="webpQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="webpQLabel">
+            <span class="hint" data-i18n="q_webpHint">Used when converting to WebP.</span>
+          </div>
+          <div class="opt-subblock">
+            <span class="opt-subblock-title" data-i18n="q_otherFormats">Other formats</span>
+            <dl class="opt-kv">
+              <div><dt>AVIF</dt><dd data-i18n="q_avifDesc">Highest quality, always 100%.</dd></div>
+              <div><dt>GIF</dt><dd data-i18n="q_gifDesc">Fixed 256-color palette (ImgFetch's own encoder).</dd></div>
+              <div><dt>BMP</dt><dd data-i18n="q_bmpDesc">Uncompressed, always 100%.</dd></div>
+              <div><dt>SVG</dt><dd data-i18n="q_svgDesc">Vector wrapper around the image.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
     </section>
 
-<!-- 10. Privacy -->
-    <section class="card opt-section pane-anim" id="privacy" aria-labelledby="privacy-h" hidden>
-      <h2 class="section-title" id="privacy-h" data-i18n="options_secPrivacy">Privacy</h2>
-      <p class="section-desc" data-i18n="pr_desc">ImgFetch keeps everything on your device. No accounts, no tracking, no analytics.</p>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="pr_stores">What ImgFetch stores</h3>
-      <ul class="perm-list">
-        <li data-i18n="pr_stores1">Your settings, site preferences, and download history live in your browser's local storage, on this device only.</li>
-        <li data-i18n="pr_stores2">Downloaded images go straight to your Downloads folder. ImgFetch never uploads them anywhere.</li>
-      </ul>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="pr_never">What ImgFetch never does</h3>
-      <ul class="perm-list">
-        <li data-i18n="pr_never1">No accounts and no sign-in, there is nothing to log into.</li>
-        <li data-i18n="pr_never2">No analytics, no telemetry, no crash reporting.</li>
-        <li data-i18n="pr_never3">No remote code, every script ships inside the extension package.</li>
-        <li data-i18n="pr_never4">Images are fetched directly from the sites you visit, using your normal browser session. ImgFetch adds no tracking parameters.</li>
-      </ul>
-      <h3 class="section-title" style="font-size:14px; margin:14px 0 6px;" data-i18n="about_permissions">Permissions</h3>
-      <p class="small muted" style="margin:0;" id="privacyPermNote" data-i18n="pr_permNote">Why ImgFetch asks for each permission is explained in the About section, and the full statement is PRIVACY.md in the public repository.</p>
+    <!-- 6. File Names -->
+    <section class="opt-section pane-anim" id="filenames" aria-labelledby="filenames-h" hidden>
+      <h2 class="opt-title" id="filenames-h" data-i18n="options_secFilenames">File Names</h2>
+      <p class="opt-desc" data-i18n="fn_desc">ImgFetch always makes file names safe, no strange characters, ever.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="fn_naming">Naming</h3>
+        <div class="card opt-card">
+          <fieldset class="radio-cards">
+            <legend class="sr-only" data-i18n="fn_naming">Naming</legend>
+            <label class="radio-card"><input type="radio" name="filenameMode" value="original">
+              <span class="radio-card-body"><span><span class="radio-card-title" data-i18n="fn_original">Keep the original name</span><span class="radio-card-desc" data-i18n="fn_originalHint">Uses the image's own file name, cleaned up.</span></span></span></label>
+            <label class="radio-card"><input type="radio" name="filenameMode" value="site">
+              <span class="radio-card-body"><span><span class="radio-card-title" data-i18n="fn_site">Site + date + number</span><span class="radio-card-desc" data-i18n="fn_siteHint">Example: example - 2026-10-02 - 001.jpg</span></span></span></label>
+            <label class="radio-card"><input type="radio" name="filenameMode" value="custom">
+              <span class="radio-card-body"><span><span class="radio-card-title" data-i18n="fn_custom">Custom template</span><span class="radio-card-desc" data-i18n="fn_customHint">Build your own pattern below.</span></span></span></label>
+          </fieldset>
+          <div class="opt-field" id="customTemplateWrap" hidden>
+            <label for="customTemplate" class="opt-field-label" data-i18n="fn_customLabel">Custom template</label>
+            <input type="text" id="customTemplate" maxlength="160" data-i18n-attr="placeholder:fn_templatePlaceholder" placeholder="{site} - {date} - {num}">
+            <span class="opt-field-label" data-i18n="fn_tokens">Available tokens</span>
+            <div class="token-chips" id="tokenChips" role="group" data-i18n-attr="aria-label:fn_tokens" aria-label="Available tokens">
+              <button type="button" class="chip token-chip" data-token="{site}">{site}</button>
+              <button type="button" class="chip token-chip" data-token="{name}">{name}</button>
+              <button type="button" class="chip token-chip" data-token="{date}">{date}</button>
+              <button type="button" class="chip token-chip" data-token="{time}">{time}</button>
+              <button type="button" class="chip token-chip" data-token="{width}">{width}</button>
+              <button type="button" class="chip token-chip" data-token="{height}">{height}</button>
+              <button type="button" class="chip token-chip" data-token="{dimensions}">{dimensions}</button>
+              <button type="button" class="chip token-chip" data-token="{num}">{num}</button>
+            </div>
+            <div class="fn-preview">
+              <span class="opt-field-label" data-i18n="fn_previewLabel">Preview</span>
+              <code id="fnPreview" dir="ltr">example - 2026-10-02 - 001.jpg</code>
+              <span class="hint" data-i18n="fn_previewHint">Example file name using the template above.</span>
+            </div>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="fn_askRename">Let me rename files before downloading</strong><span class="hint" data-i18n="fn_askRenameHint">Opens a small rename sheet with a preview before single downloads from the right-click menu.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="askFilename">
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Scanning -->
+    <section class="opt-section pane-anim" id="scanning" aria-labelledby="scanning-h" hidden>
+      <h2 class="opt-title" id="scanning-h" data-i18n="options_secScanning">Scanning</h2>
+      <p class="opt-desc" data-i18n="sc_desc">How ImgFetch finds images on a page.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="sc_group">Finding images</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <label for="minSizePreset" class="opt-row-title" data-i18n="sc_minSize">Skip images smaller than</label>
+              <span class="opt-row-desc" data-i18n="sc_minSizeHint">Hides tiny icons and spacers from results. You can still change this per scan.</span>
+            </div>
+            <select id="minSizePreset">
+              <option value="any" data-i18n="sc_sizeAny">Don't skip any</option>
+              <option value="medium" data-i18n="sc_sizeMedium">Medium (400 px)</option>
+              <option value="large" data-i18n="sc_sizeLarge">Large (1200 px)</option>
+              <option value="xlarge" data-i18n="sc_sizeXlarge">Very large (2000 px)</option>
+            </select>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="sc_backgrounds">Include background images</strong><span class="hint" data-i18n="sc_backgroundsHint">Also finds images used as page backgrounds (slower on huge pages).</span></span>
+            <input type="checkbox" class="switch" role="switch" id="includeBackgrounds">
+          </label>
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" id="scanDepthLabel" data-i18n="sc_depth">Scan depth</span>
+              <span class="opt-row-desc" data-i18n="sc_depthHint">Loaded page: scans only images already loaded (fastest). Scroll page: briefly scrolls through the page first to reveal lazy-loaded images, then restores your position.</span>
+            </div>
+            <div class="segmented" id="scanDepthSeg" role="group" aria-labelledby="scanDepthLabel">
+              <button type="button" data-v="loaded" aria-pressed="false" data-i18n="sc_depthLoaded">Loaded page</button>
+              <button type="button" data-v="scroll" aria-pressed="false" data-i18n="sc_depthScroll">Scroll page</button>
+            </div>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="sc_dedupe">Remove duplicate images</strong><span class="hint" data-i18n="sc_dedupeHint">When the same image appears in several sizes, keep only the largest and hide the rest.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="dedupeScan">
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Screenshots -->
+    <section class="opt-section pane-anim" id="screenshots" aria-labelledby="screenshots-h" hidden>
+      <h2 class="opt-title" id="screenshots-h" data-i18n="options_secScreenshots">Screenshots</h2>
+      <p class="opt-desc" data-i18n="sh_desc">Defaults for page captures.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="sh_group">Capture defaults</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" id="shotFormatLabel" data-i18n="sh_format">Default format</span>
+            </div>
+            <div class="segmented" id="shotFormatSeg" role="group" aria-labelledby="shotFormatLabel">
+              <button type="button" data-v="png" aria-pressed="false">PNG</button>
+              <button type="button" data-v="jpg" aria-pressed="false">JPG</button>
+            </div>
+          </div>
+          <div class="opt-slider">
+            <span class="opt-slider-label" id="shotQLabel"><span data-i18n="sh_quality">Quality:</span> <span class="range-val" id="shotQVal">100%</span></span>
+            <input type="range" id="screenshotQuality" min="0.1" max="1" step="0.01" value="1" aria-labelledby="shotQLabel">
+          </div>
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="sh_captureNow">Capture now</span>
+              <span class="opt-row-desc" data-i18n="sh_captureHint">“Select area” opens a real selection overlay on the current page, drag a rectangle, press Esc to cancel. “Capture element” lets you click any element to capture exactly that.</span>
+            </div>
+            <div class="sh-capture-btns">
+              <button type="button" id="shotNowVisible" class="btn btn-ghost btn-sm" data-i18n="sh_visible">Visible area</button>
+              <button type="button" id="shotNowArea" class="btn btn-ghost btn-sm" data-i18n="sh_area">Select area</button>
+              <button type="button" id="shotNowElement" class="btn btn-ghost btn-sm" data-i18n="sh_element">Capture element</button>
+              <button type="button" id="shotNowFull" class="btn btn-ghost btn-sm" data-i18n="sh_full">Full page</button>
+            </div>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="sh_annotate">Open the annotation editor after capturing</strong><span class="hint" data-i18n="sh_annotateHint">Draw arrows, add text, or blur parts of the screenshot before saving it.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="annotateAfterCapture">
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Site Preferences -->
+    <section class="opt-section pane-anim" id="sites" aria-labelledby="sites-h" hidden>
+      <h2 class="opt-title" id="sites-h" data-i18n="options_secSites">Site Preferences</h2>
+      <p class="opt-desc" data-i18n="sp_desc">Give specific websites their own download behavior.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="sp_group">Websites</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <input type="text" id="siteHost" data-i18n-attr="placeholder:sp_hostPlaceholder;aria-label:sp_hostAria" placeholder="example.com" aria-label="Website domain">
+            <button type="button" id="btnCurrentSite" class="btn btn-sm btn-ghost" data-i18n="sp_currentSite">Use current site</button>
+            <button type="button" id="btnAddSite" class="btn btn-sm btn-primary" data-i18n="sp_add">Add</button>
+          </div>
+          <div class="opt-block">
+            <div id="siteList"></div>
+            <p class="small muted" style="margin-top:10px;" data-i18n="sp_legend">Smart finds the best genuine source on this site · As shown saves images exactly as displayed · Paused disables ImgFetch downloads on this site.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Shortcuts -->
+    <section class="opt-section pane-anim" id="shortcuts" aria-labelledby="shortcuts-h" hidden>
+      <h2 class="opt-title" id="shortcuts-h" data-i18n="options_secShortcuts">Shortcuts</h2>
+      <p class="opt-desc" data-i18n="kb_desc">Keyboard shortcuts currently assigned to ImgFetch.</p>
+      <div class="opt-group">
+        <div class="card opt-card">
+          <div id="shortcutList"><p class="small muted" data-i18n="kb_loading">Loading…</p></div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="kb_changeTitle">Change a shortcut</span>
+              <span class="opt-row-desc" data-i18n="kb_changeDesc">Open your browser's extension shortcuts page, find ImgFetch and set your keys. If one shows Not set, the key clashed with the browser or another extension.</span>
+            </div>
+            <button type="button" id="btnCopyShortcutLink" class="link-btn"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#external-link"/></svg><span data-i18n="kb_copyLink">Copy shortcuts page link</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Folders -->
+    <section class="opt-section pane-anim" id="folders" aria-labelledby="folders-h" hidden>
+      <h2 class="opt-title" id="folders-h" data-i18n="options_secFolders">Folders</h2>
+      <p class="opt-desc" data-i18n="fo_desc">Files are saved inside your browser's Downloads folder. These options organize them further.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="fo_group">Organization</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <label for="folderMode" class="opt-row-title" data-i18n="fo_mode">Organize downloads into</label>
+              <span class="opt-row-desc" data-i18n="fo_modeHint">Smart folders sorts automatically: Photos, Screenshots, GIFs, Graphics. “By website” example: Downloads / example.com / photo.jpg</span>
+            </div>
+            <select id="folderMode">
+              <option value="flat" data-i18n="fo_flat">One place (no smart folders)</option>
+              <option value="site" data-i18n="fo_site">Folders by website</option>
+              <option value="type" data-i18n="fo_type">Smart folders by type</option>
+              <option value="date" data-i18n="fo_date">Folders by date</option>
+            </select>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="fo_useSubfolder">Use a default subfolder</strong><span class="hint" data-i18n="fo_useSubfolderHint">When on, everything saves inside this folder first, on top of the organization above.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="useSubfolder">
+          </label>
+          <div class="field opt-field">
+            <label for="subfolder" class="opt-field-label" data-i18n="fo_subfolder">Subfolder name</label>
+            <input type="text" id="subfolder" maxlength="120" data-i18n-attr="placeholder:fo_subfolderPlaceholder" placeholder="e.g. ImgFetch">
+            <span class="hint" data-i18n="fo_subfolderHint">Example: Downloads / ImgFetch / example.com / photo.jpg. Ignored while the toggle is off.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Download History -->
+    <section class="opt-section pane-anim" id="history" aria-labelledby="history-h" hidden>
+      <h2 class="opt-title" id="history-h" data-i18n="options_secHistory">Download History</h2>
+      <p class="opt-desc" data-i18n="hi_desc">A simple list of what you saved, shown in the popup.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="hi_group">History</h3>
+        <div class="card opt-card">
+          <div class="opt-block">
+            <span class="opt-field-label" data-i18n="hi_recent">Recent downloads</span>
+            <div id="optHistoryList" style="margin-top:6px;"></div>
+          </div>
+          <label class="switch-row opt-row">
+            <span class="opt-row-text"><strong data-i18n="hi_enabled">Keep download history</strong><span class="hint" data-i18n="hi_enabledHint">Stores the file name, site, format, and size of each download.</span></span>
+            <input type="checkbox" class="switch" role="switch" id="historyEnabled">
+          </label>
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <label for="historyRetentionDays" class="opt-row-title" data-i18n="hi_retention">Keep history for (days)</label>
+              <span class="opt-row-desc" data-i18n="hi_retentionHint">Entries older than this are removed automatically.</span>
+            </div>
+            <input type="number" id="historyRetentionDays" min="1" max="365" step="1">
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="bk_dangerGroup">Danger zone</h3>
+        <div class="card opt-card opt-card-danger">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="hi_clearNow">Clear now</span>
+              <span class="opt-row-desc" data-i18n="hi_clearHint">Removes all history entries immediately. Downloaded files are not affected.</span>
+            </div>
+            <button type="button" id="btnClearHistory" class="btn btn-danger" data-i18n="hi_clearButton">Clear download history</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Backup & Reset -->
+    <section class="opt-section pane-anim" id="backup" aria-labelledby="backup-h" hidden>
+      <h2 class="opt-title" id="backup-h" data-i18n="options_secBackup">Backup &amp; Reset</h2>
+      <p class="opt-desc" data-i18n="bk_desc">Take your settings with you, or start fresh.</p>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="bk_group">Backup</h3>
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="bk_export">Export settings</span>
+              <span class="opt-row-desc" data-i18n="bk_exportHint">Downloads a imgfetch-settings.json file with all your settings.</span>
+            </div>
+            <button type="button" id="btnExport" class="btn btn-ghost" data-i18n="bk_export">Export settings</button>
+          </div>
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="bk_import">Import settings</span>
+              <span class="opt-row-desc" data-i18n="bk_importHint">Restores settings from a ImgFetch export file. Invalid files are rejected safely.</span>
+            </div>
+            <button type="button" id="btnImport" class="btn btn-ghost" data-i18n="bk_import">Import settings</button>
+            <input type="file" id="importFile" accept="application/json" class="sr-only" data-i18n-attr="aria-label:bk_importAria" aria-label="Import settings file">
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="bk_dangerGroup">Danger zone</h3>
+        <div class="card opt-card opt-card-danger">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="bk_reset">Reset to defaults</span>
+              <span class="opt-row-desc" data-i18n="bk_resetHint">Asks for confirmation first, then restores all ImgFetch defaults. History is kept unless you clear it above.</span>
+            </div>
+            <button type="button" id="btnReset" class="btn btn-danger" data-i18n="bk_resetButton">Reset everything</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. About -->
+    <section class="opt-section pane-anim" id="about" aria-labelledby="about-h" hidden>
+      <h2 class="opt-title" id="about-h" data-i18n="options_secAbout">About</h2>
+      <div class="opt-group">
+        <div class="card opt-card">
+          <div class="about-head">
+            <img class="about-logo" src="../icons/icon-128.png" alt="ImgFetch logo">
+            <div>
+              <div class="about-name">ImgFetch</div>
+              <div class="small muted" id="aboutTagline" data-i18n="appTagline">Smart Image Downloader</div>
+            </div>
+            <span class="badge about-version" id="aboutVersion">–</span>
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="about_licence">Licence</h3>
+        <div class="card opt-card">
+          <div class="about-block">
+            <p id="aboutLicence">ImgFetch, Copyright (C) 2026 ImgFetch Developer. This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the GNU General Public License v3 or later. <a id="aboutLicenceLink" href="#" target="_blank" rel="noopener noreferrer">View the full licence</a>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="about_permissions">Permissions</h3>
+        <div class="card opt-card">
+          <div class="about-block">
+            <p data-i18n="about_permissionsIntro">What ImgFetch can access, and why:</p>
+          </div>
+          <ul class="perm-list" id="aboutPermissions"><li data-i18n="ui_loading">Loading…</li></ul>
+        </div>
+        <div class="notice host-access" id="hostAccessRow" hidden>
+          <svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#info"/></svg>
+          <span class="host-access-text" id="hostAccessText"></span>
+          <button class="btn btn-secondary btn-sm" id="hostAccessBtn" type="button"></button>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="about_docs">Documentation</h3>
+        <div class="card opt-card">
+          <div class="about-block">
+            <p><span data-i18n="about_docsText">Documentation, the privacy policy and the terms of use live in the public repository:</span> <a id="aboutRepoLink" href="#" target="_blank" rel="noopener noreferrer">github.com/stillware/ImgFetch</a>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <h3 class="opt-group-label" data-i18n="options_secPrivacy">Privacy</h3>
+        <div class="card opt-card">
+          <div class="about-block">
+            <p id="aboutPrivacyText"><span data-i18n="about_privacyText">ImgFetch has no server and collects nothing. Only the images you choose to download are fetched, and Google Lens (only if you click it) opens Google with the image address. See PRIVACY.md in the repository for the full statement.</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Privacy -->
+    <section class="opt-section pane-anim" id="privacy" aria-labelledby="privacy-h" hidden>
+      <h2 class="opt-title" id="privacy-h" data-i18n="options_secPrivacy">Privacy</h2>
+      <p class="opt-desc" data-i18n="pr_sub">ImgFetch keeps everything on your device.</p>
+      <div class="opt-group">
+        <div class="privacy-hero">
+          <div class="privacy-hero-icon"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#shield-check"/></svg></div>
+          <div>
+            <span class="privacy-hero-title" data-i18n="pr_heroTitle">No accounts. No analytics. No tracking.</span>
+            <p class="privacy-hero-sub" data-i18n="pr_heroSub">There is no server. Nothing you save ever leaves your device.</p>
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <div class="privacy-grid">
+          <div class="card privacy-card">
+            <h3 class="privacy-card-title"><span class="privacy-card-badge privacy-card-badge-ok"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg></span><span data-i18n="pr_stores">What ImgFetch stores</span></h3>
+            <ul class="privacy-list privacy-list-ok">
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg><span data-i18n="pr_stores1">Your settings, site preferences, and download history live in your browser's local storage, on this device only.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#check"/></svg><span data-i18n="pr_stores2">Downloaded images go straight to your Downloads folder. ImgFetch never uploads them anywhere.</span></li>
+            </ul>
+          </div>
+          <div class="card privacy-card">
+            <h3 class="privacy-card-title"><span class="privacy-card-badge privacy-card-badge-no"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg></span><span data-i18n="pr_never">What ImgFetch never does</span></h3>
+            <ul class="privacy-list privacy-list-no">
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg><span data-i18n="pr_never1">No accounts and no sign-in, there is nothing to log into.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg><span data-i18n="pr_never2">No analytics, no telemetry, no crash reporting.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg><span data-i18n="pr_never3">No remote code, every script ships inside the extension package.</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#x"/></svg><span data-i18n="pr_never4">Images are fetched directly from the sites you visit, using your normal browser session. ImgFetch adds no tracking parameters.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="opt-group">
+        <div class="card opt-card">
+          <div class="opt-row">
+            <div class="opt-row-text">
+              <span class="opt-row-title" data-i18n="pr_fullTitle">Full privacy statement</span>
+              <span class="opt-row-desc" data-i18n="pr_fullDesc">Why each permission is needed is explained in About.</span>
+            </div>
+            <a class="privacy-link" id="privacyFullLink" href="#" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#external-link"/></svg>PRIVACY.md</a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </div>
