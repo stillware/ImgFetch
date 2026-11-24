@@ -363,6 +363,10 @@
     "message": "Đã xóa {count} ảnh trùng",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "Đã tải xuống",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "Đã ẩn {count} phần tử giao diện",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "Đã sao chép!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Sao chép hình ảnh",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Không thể sao chép hình ảnh.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "Chưa có lượt tải nào. Ảnh bạn lưu sẽ hiện ở đây.",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Mở tệp",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Mở liên kết gốc",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Đang hiển thị trong thư mục.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Hôm nay",
@@ -768,7 +788,7 @@
     "description": "Options section: Quality."
   },
   "options_secFilenames": {
-    "message": "Tên Tệp",
+    "message": "Tên tệp",
     "description": "Options section: File Names."
   },
   "options_secScanning": {
@@ -792,11 +812,11 @@
     "description": "Options section: Folders."
   },
   "options_secHistory": {
-    "message": "Lịch sử Tải xuống",
+    "message": "Lịch sử tải xuống",
     "description": "Options section: Download History."
   },
   "options_secBackup": {
-    "message": "Sao lưu và Đặt lại",
+    "message": "Sao lưu và đặt lại",
     "description": "Options section: Backup and Reset."
   },
   "options_secAbout": {
@@ -1347,6 +1367,14 @@
     "message": "Các mục cũ hơn bị xóa tự động.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Hiển thị hình thu nhỏ trong lịch sử",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Hình thu nhỏ được tạo bằng cách yêu cầu lại hình ảnh một lần nữa sau khi tải xuống.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Xóa ngay",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Cài đặt, tùy chọn trang web và lịch sử tải xuống của bạn nằm trong bộ nhớ cục bộ của trình duyệt, chỉ trên thiết bị này.",
+    "message": "Cài đặt, tùy chọn trang web và lịch sử tải xuống của bạn nằm trong bộ nhớ cục bộ của trình duyệt, chỉ trên thiết bị này. Hình thu nhỏ của lịch sử được tạo bằng cách yêu cầu lại mỗi hình ảnh đã tải xuống một lần nữa sau khi tải xuống; không có gì rời khỏi thiết bị.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "Đã sao chép ảnh chụp màn hình vào clipboard, thu nhỏ xuống {width} x {height} cho vừa.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "Ảnh chụp màn hình này quá lớn đối với bảng tạm, vì vậy chỉ phần đang hiển thị được sao chép ({width} x {height}). Hãy lưu ảnh chụp màn hình để giữ lại hình ảnh đầy đủ.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Không sao chép được ảnh chụp màn hình. Hãy thử lưu thay thế.",

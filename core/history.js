@@ -23,6 +23,8 @@
  */
 
 import { dataUrlToBlob } from './data-url.js';
+import { isPrivateNetworkFetchBlocked, isRedirectBlocked } from './urls.js';
+import { stripBidiControls } from './filenames.js';
 
 export const MAX_RECORDS = 200;
 
@@ -41,8 +43,259 @@ export const HIST_THUMB_MAX_TOTAL_BYTES = 3_145_728;
 export const HIST_URL_MAX_LENGTH = 2048;
 /** Largest in-memory image accepted as a thumbnail source. */
 export const HIST_THUMB_SOURCE_MAX_BYTES = 25_000_000;
+/** One extra request per direct download, at most: 10 s to answer. */
+export const HIST_THUMB_FETCH_TIMEOUT_MS = 10_000;
+/** Backfill cap: at most 12 thumbnails per history view open. */
+export const HIST_THUMB_BACKFILL_MAX = 12;
 /** Encoder qualities tried in order when a thumbnail is over the cap. */
 const HIST_THUMB_QUALITIES = [0.85, 0.75, 0.65, HIST_THUMB_MIN_QUALITY];
+/**
+ * H7: the conservative canvas budget (16,384 px per side,
+ * 268,435,456 total pixels). One definition, imported by the offscreen
+ * document, so the decode caps can never drift apart again.
+ */
+export const MAX_IMAGE_SIDE_PX = 16384;
+export const MAX_IMAGE_PIXELS = 268_435_456;
+
+/** Throw when an image is past the canvas budget above. */
+export function assertImagePixelBudget(w, h) {
+  if (!(w > 0 && h > 0) || w > MAX_IMAGE_SIDE_PX || h > MAX_IMAGE_SIDE_PX
+    || w * h > MAX_IMAGE_PIXELS) {
+    throw new Error('too-large');
+  }
+}
+
+/**
+ * A serial promise queue: enqueue(fn) runs fn only after every earlier
+ * enqueued fn has settled, one at a time, in enqueue order. A rejection
+ * is reported to that caller only and never breaks the chain, so later
+ * work still runs. Used for the single history writer (D4) and for the
+ * thumbnail fetch queue (B1).
+ */
+export function createSerialQueue() {
+  let tail = Promise.resolve();
+  return {
+    enqueue(fn) {
+      const run = tail.then(() => fn());
+      tail = run.then(
+        () => undefined,
+        () => undefined,
+      );
+      return run;
+    },
+  };
+}
+
+/**
+ * Backfill targets for one history view open: records that have a
+ * source URL and no thumbnail yet, newest first, at most `max`
+ * (default HIST_THUMB_BACKFILL_MAX). Records without a URL are skipped.
+ * Input order is newest first, so the filter keeps that order.
+ */
+export function selectBackfillTargets(records, max = HIST_THUMB_BACKFILL_MAX) {
+  const list = Array.isArray(records) ? records : [];
+  const out = [];
+  for (const r of list) {
+    if (out.length >= max) break;
+    if (r && typeof r.url === 'string' && r.url && !r.thumb) out.push(r);
+  }
+  return out;
+}
+
+/**
+ * Whether a thumbnail may be fetched for this record under these
+ * settings. When the setting is off, no request is ever made.
+ * `settings` may be null (old stored settings): thumbnails default on.
+ */
+export function thumbFetchAllowed(settings, record) {
+  if (settings && settings.historyShowThumbnails === false) return false;
+  if (settings && settings.historyEnabled === false) return false;
+  if (!record || typeof record.url !== 'string') return false;
+  return /^https?:\/\//i.test(record.url);
+}
+
+/** Whether a history record has a retrievable image source for Copy image (B3). */
+export function copyImageAvailable(record) {
+  return !!(record && typeof record.url === 'string' && /^https?:\/\//i.test(record.url));
+}
+
+/**
+ * B2 open-file decision, pure so tests can drive it without chrome.*:
+ * given what the page and the worker found, decide the next step.
+ * 'open': permission held and the file exists, open it in the default app.
+ * 'request': the file exists but the optional permission is not held yet.
+ * 'show': the permission was denied or is unavailable, or the open API
+ * is missing, so fall back to showing the file in its folder.
+ * 'not-found': the download no longer exists.
+ */
+export function decideOpenFile({ exists, permissionHeld, permissionAvailable, openSupported }) {
+  if (!exists) return 'not-found';
+  if (openSupported === false || permissionAvailable === false) return 'show';
+  if (permissionHeld) return 'open';
+  return 'request';
+}
+
+/**
+ * Fetch one image with the thumbnail and copy safety rules, through an
+ * injected `fetcher` (the real fetch in the worker and in pages, a stub
+ * in tests). One attempt only, never retried: a timeout (default 10 s),
+ * a size cap (default HIST_THUMB_SOURCE_MAX_BYTES, 25 MB), credentials
+ * omitted, no referrer, non-OK responses rejected. The Content-Length
+ * header is checked before the body is read, and the decoded size is
+ * checked again after it. Returns { bytes, mime, finalUrl } on success
+ * and throws on any failure. Callers treat every throw as a silent
+ * fallback, never as an error to show or retry.
+ */
+/**
+ * Sniff the real image type from the first bytes. The Content-Type
+ * header is a claim from the host, never evidence: a text/html error
+ * page served as image/jpeg must fail here, before any decoder or
+ * canvas ever sees it. Returns the MIME type, or '' when the bytes
+ * are not a recognisable image.
+ */
+export function sniffImageMime(bytes) {
+  if (!bytes || bytes.length < 2) return '';
+  const ascii = (off, len) => {
+    let s = '';
+    for (let i = off; i < off + len && i < bytes.length; i += 1) {
+      s += String.fromCharCode(bytes[i]);
+    }
+    return s;
+  };
+  if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return 'image/png';
+  if (bytes[0] === 0xFF && bytes[1] === 0xD8) return 'image/jpeg';
+  if (ascii(0, 6) === 'GIF87a' || ascii(0, 6) === 'GIF89a') return 'image/gif';
+  if (ascii(0, 4) === 'RIFF' && ascii(8, 4) === 'WEBP') return 'image/webp';
+  if (bytes[0] === 0x42 && bytes[1] === 0x4D) return 'image/bmp';
+  if (ascii(4, 4) === 'ftyp' && (ascii(8, 4) === 'avif' || ascii(8, 4) === 'avis')) return 'image/avif';
+  if (bytes[0] === 0x00 && bytes[1] === 0x00 && (bytes[2] === 0x01 || bytes[2] === 0x02) && bytes[3] === 0x00) return 'image/x-icon';
+  if ((bytes[0] === 0x49 && bytes[1] === 0x49 && bytes[2] === 0x2A && bytes[3] === 0x00)
+    || (bytes[0] === 0x4D && bytes[1] === 0x4D && bytes[2] === 0x00 && bytes[3] === 0x2A)) return 'image/tiff';
+  // SVG is text: skip a BOM, whitespace, an XML declaration and comments,
+  // then the first element must be <svg.
+  const head = ascii(0, Math.min(4096, bytes.length));
+  let s = head.replace(/^\uFEFF/, '').trimStart();
+  if (s.startsWith('<?xml')) {
+    const end = s.indexOf('?>');
+    if (end === -1) return '';
+    s = s.slice(end + 2).trimStart();
+  }
+  while (s.startsWith('<!--')) {
+    const end = s.indexOf('-->');
+    if (end === -1) return '';
+    s = s.slice(end + 3).trimStart();
+  }
+  if (/^<svg[\s>]/.test(s)) return 'image/svg+xml';
+  return '';
+}
+
+export async function fetchImageBytes(fetcher, url, options = {}) {
+  const timeoutMs = Number(options.timeoutMs) || HIST_THUMB_FETCH_TIMEOUT_MS;
+  const maxBytes = Number(options.maxBytes) || HIST_THUMB_SOURCE_MAX_BYTES;
+  if (typeof fetcher !== 'function') throw new Error('no-fetcher');
+  if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) throw new Error('bad-url');
+  // H3: the private-network guard belongs here, not only in the callers.
+  // The history Copy path used to re-fetch a record URL with no guard
+  // at all, and no caller re-checked redirects. options.pageUrl is the
+  // page the record came from (the same-host exception still applies).
+  if (options.pageUrl !== undefined && isPrivateNetworkFetchBlocked(url, options.pageUrl)) {
+    throw new Error('private-network');
+  }
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = setTimeout(() => { if (ctl) ctl.abort(); }, timeoutMs);
+  let res;
+  try {
+    res = await fetcher(url, {
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer',
+      signal: ctl ? ctl.signal : undefined,
+    });
+  } catch (err) {
+    clearTimeout(timer);
+    if (ctl && ctl.signal.aborted) throw new Error('timeout');
+    throw err;
+  }
+  if (!res || !res.ok) {
+    clearTimeout(timer);
+    throw new Error('fetch-failed');
+  }
+  // Redirect re-check before the body is read: a public URL must not
+  // bounce the request onto a private address.
+  if (options.pageUrl !== undefined && typeof res.url === 'string' && res.url
+    && isRedirectBlocked(res.url, options.pageUrl)) {
+    clearTimeout(timer);
+    throw new Error('blocked-redirect');
+  }
+  const getHeader = (name) => (res.headers && typeof res.headers.get === 'function'
+    ? res.headers.get(name) : null);
+  const declared = Number(getHeader('content-length'));
+  if (Number.isFinite(declared) && declared > maxBytes) {
+    clearTimeout(timer);
+    throw new Error('too-large');
+  }
+  let bytes;
+  try {
+    if (res.body && typeof res.body.getReader === 'function') {
+      // H3/H7: enforce the cap WHILE STREAMING. The old arrayBuffer path
+      // buffered the whole body first, so a hostile host could make the
+      // worker hold gigabytes before the cap was ever checked.
+      const reader = res.body.getReader();
+      const chunks = [];
+      let total = 0;
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value && value.length) {
+            total += value.length;
+            if (total > maxBytes) {
+              try { await reader.cancel(); } catch { /* already closed */ }
+              throw new Error('too-large');
+            }
+            chunks.push(value);
+          }
+        }
+      } finally {
+        try { reader.releaseLock(); } catch { /* already released */ }
+      }
+      bytes = new Uint8Array(total);
+      let o = 0;
+      for (const c of chunks) { bytes.set(c, o); o += c.length; }
+    } else {
+      const buf = await res.arrayBuffer();
+      if (!buf || buf.byteLength > maxBytes) throw new Error('too-large');
+      bytes = new Uint8Array(buf);
+    }
+  } catch (err) {
+    if (ctl && ctl.signal.aborted) throw new Error('timeout');
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+  const sniffed = sniffImageMime(bytes);
+  if (!sniffed) throw new Error('not-image');
+  return {
+    bytes,
+    mime: sniffed,
+    finalUrl: typeof res.url === 'string' ? res.url : '',
+  };
+}
+
+/**
+ * Encode bytes as a base64 data URL (chunked, so a large image does not
+ * blow the stack). The MIME defaults to image/png when the given one is
+ * not an image type.
+ */
+export function bytesToDataUrl(bytes, mime) {
+  const type = typeof mime === 'string' && mime.startsWith('image/')
+    ? mime.split(';')[0].trim() : 'image/png';
+  let binary = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+  }
+  return `data:${type};base64,${btoa(binary)}`;
+}
 
 /** File extensions stripped from the displayed history title (last one only). */
 const STRIPPABLE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'avif', 'bmp', 'svg']);
@@ -123,12 +376,14 @@ export function enforceThumbBudget(records) {
  */
 export function addRecord(records, record) {
   const list = Array.isArray(records) ? [...records] : [];
+  const cleanText = (v, max) => stripBidiControls(String(v || ''))
+    .replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
   const entry = {
     id: record.id || `h${Date.now()}${Math.floor(Math.random() * 1e6)}`,
-    filename: String(record.filename || 'image').slice(0, 180),
-    site: String(record.site || '').slice(0, 120),
-    pageHost: String(record.pageHost || '').slice(0, 253),
-    format: String(record.format || '').slice(0, 12),
+    filename: cleanText(record.filename, 180) || 'image',
+    site: cleanText(record.site, 120),
+    pageHost: cleanText(record.pageHost, 253),
+    format: cleanText(record.format, 12),
     width: Number(record.width) || 0,
     height: Number(record.height) || 0,
     bytes: Math.max(0, Math.round(Number(record.bytes) || 0)),
@@ -145,6 +400,45 @@ export function addRecord(records, record) {
   if (dlId !== undefined) entry.dlId = dlId;
   list.unshift(entry);
   return enforceThumbBudget(list.slice(0, MAX_RECORDS));
+}
+
+/**
+ * H6: re-sanitise one stored record on READ. addRecord sanitises on
+ * write, but storage can hold records written by older versions or
+ * tampered with by anything that can write chrome.storage.local, so a
+ * hostile record must never reach the UI unsanitised. Returns a clean
+ * record, or null when the stored value is not a record at all.
+ */
+export function sanitizeHistoryRecord(record) {
+  if (!record || typeof record !== 'object' || Array.isArray(record)) return null;
+  const cleanText = (v, max) => stripBidiControls(String(v || ''))
+    .replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
+  const cleanNum = (v, max) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return 0;
+    return Math.min(Math.max(0, Math.round(n)), max);
+  };
+  const entry = {
+    id: typeof record.id === 'string' && record.id
+      ? record.id.slice(0, 120)
+      : `h${Date.now()}${Math.floor(Math.random() * 1e6)}`,
+    filename: cleanText(record.filename, 180) || 'image',
+    site: cleanText(record.site, 120),
+    pageHost: cleanText(record.pageHost, 253),
+    format: cleanText(record.format, 12),
+    width: cleanNum(record.width, 1_000_000),
+    height: cleanNum(record.height, 1_000_000),
+    bytes: cleanNum(record.bytes, Number.MAX_SAFE_INTEGER),
+    at: cleanNum(record.at, Number.MAX_SAFE_INTEGER) || Date.now(),
+    kind: ['single', 'bulk', 'screenshot'].includes(record.kind) ? record.kind : 'single',
+  };
+  const thumb = sanitizeHistoryThumb(record.thumb);
+  if (thumb !== undefined) entry.thumb = thumb;
+  const url = sanitizeHistoryUrl(record.url);
+  if (url !== undefined) entry.url = url;
+  const dlId = sanitizeHistoryDlId(record.dlId);
+  if (dlId !== undefined) entry.dlId = dlId;
+  return entry;
 }
 
 /** Drop records older than retentionDays. */
@@ -207,7 +501,7 @@ function formatDay(key) {
  * Read image dimensions from encoded bytes without a full decode.
  * Supports PNG, GIF, JPEG and WebP; returns null when unknown.
  */
-function imageDimensions(bytes) {
+export function imageDimensions(bytes) {
   if (!bytes || bytes.length < 10) return null;
   // PNG: width and height in the IHDR chunk at offset 16.
   if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
@@ -215,6 +509,22 @@ function imageDimensions(bytes) {
     const w = (bytes[16] << 24) | (bytes[17] << 16) | (bytes[18] << 8) | bytes[19];
     const h = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
     return w > 0 && h > 0 ? { w, h } : null;
+  }
+  // BMP: width and height are little-endian int32 at offsets 18 and 22.
+  // Height may be negative (top-down bitmap); the pixel count uses its size.
+  if (bytes[0] === 0x42 && bytes[1] === 0x4D) {
+    if (bytes.length < 26) return null;
+    const w = (bytes[18] | (bytes[19] << 8) | (bytes[20] << 16) | (bytes[21] << 24)) >>> 0;
+    let h = bytes[22] | (bytes[23] << 8) | (bytes[24] << 16) | (bytes[25] << 24);
+    if (h < 0) h = -h;
+    return w > 0 && h > 0 ? { w, h } : null;
+  }
+  // ICO: width and height are single bytes at offsets 6 and 7 (0 means 256).
+  if (bytes[0] === 0x00 && bytes[1] === 0x00 && (bytes[2] === 0x01 || bytes[2] === 0x02) && bytes[3] === 0x00) {
+    if (bytes.length < 8) return null;
+    const w = bytes[6] === 0 ? 256 : bytes[6];
+    const h = bytes[7] === 0 ? 256 : bytes[7];
+    return { w, h };
   }
   // GIF: logical screen size at offset 6.
   if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) {
@@ -304,7 +614,11 @@ export async function makeHistoryThumb(source) {
     dims = { w: probe.width, h: probe.height };
     probe.close();
   }
-  if (!(dims.w > 0 && dims.h > 0)) throw new Error('bad-source');
+  // H7: cap pixel counts BEFORE decoding. A tiny file can claim enormous
+  // dimensions (decompression bomb); the header check above catches PNG,
+  // GIF, JPEG, WebP, BMP and ICO, and the probe path checks after decode
+  // for formats with no header parser (AVIF, TIFF, SVG).
+  assertImagePixelBudget(dims.w, dims.h);
   const side = Math.min(dims.w, dims.h);
   const sx = Math.floor((dims.w - side) / 2);
   const sy = Math.floor((dims.h - side) / 2);

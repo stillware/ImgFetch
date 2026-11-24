@@ -447,6 +447,10 @@
     "message": "удалено {count} дубликата",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "Скачано",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden_one": {
     "message": "скрыт {count} элемент интерфейса",
     "description": "Status line fragment. Singular."
@@ -699,6 +703,14 @@
     "message": "Скопировано!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Копировать изображение",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Не удалось скопировать изображение.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "Загрузок пока нет. Ваши сохранённые изображения появятся здесь.",
     "description": "Empty state of the download history."
@@ -739,9 +751,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Открыть файл",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Открыть ссылку на источник",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Вместо этого показана папка.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Сегодня",
@@ -1515,6 +1535,14 @@
     "message": "Записи старше этого удаляются автоматически.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Показывать миниатюры в истории",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Миниатюры создаются повторным запросом изображения после загрузки.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Очистить сейчас",
     "description": "History: clear-now label."
@@ -1648,7 +1676,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Ваши настройки, настройки сайтов и история загрузок живут в локальном хранилище браузера, только на этом устройстве.",
+    "message": "Ваши настройки, настройки сайтов и история загрузок живут в локальном хранилище браузера, только на этом устройстве. Миниатюры истории создаются повторным запросом каждого загруженного изображения после загрузки; ничто не покидает устройство.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2366,6 +2394,10 @@
   "copyDownscaled": {
     "message": "Скриншот скопирован в буфер обмена, уменьшен до {width} x {height}, чтобы поместиться.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "Этот снимок слишком большой для буфера обмена, поэтому скопирована только показанная часть ({width} x {height}). Сохраните снимок, чтобы сохранить полное изображение.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Не удалось скопировать скриншот. Попробуйте сохранить его.",

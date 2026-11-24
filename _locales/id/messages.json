@@ -363,6 +363,10 @@
     "message": "{count} duplikat dihapus",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "Diunduh",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "{count} elemen antarmuka disembunyikan",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "Disalin!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Salin gambar",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Tidak dapat menyalin gambar.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "Belum ada unduhan. Gambar yang Anda simpan akan muncul di sini.",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Buka file",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Buka tautan sumber",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Menampilkannya di folder.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Hari ini",
@@ -768,7 +788,7 @@
     "description": "Options section: Quality."
   },
   "options_secFilenames": {
-    "message": "Nama File",
+    "message": "Nama file",
     "description": "Options section: File Names."
   },
   "options_secScanning": {
@@ -776,11 +796,11 @@
     "description": "Options section: Scanning."
   },
   "options_secScreenshots": {
-    "message": "Tangkapan Layar",
+    "message": "Tangkapan layar",
     "description": "Options section: Screenshots."
   },
   "options_secSites": {
-    "message": "Preferensi Situs",
+    "message": "Preferensi situs",
     "description": "Options section: Site Preferences."
   },
   "options_secShortcuts": {
@@ -792,11 +812,11 @@
     "description": "Options section: Folders."
   },
   "options_secHistory": {
-    "message": "Riwayat Unduhan",
+    "message": "Riwayat unduhan",
     "description": "Options section: Download History."
   },
   "options_secBackup": {
-    "message": "Cadangan dan Atur Ulang",
+    "message": "Cadangan dan atur ulang",
     "description": "Options section: Backup and Reset."
   },
   "options_secAbout": {
@@ -1347,6 +1367,14 @@
     "message": "Entri yang lebih lama dihapus secara otomatis.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Tampilkan thumbnail di riwayat",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Thumbnail dibuat dengan meminta gambar sekali lagi setelah diunduh.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Hapus sekarang",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Pengaturan, preferensi situs, dan riwayat unduhan Anda berada di penyimpanan lokal browser Anda, hanya di perangkat ini.",
+    "message": "Pengaturan, preferensi situs, dan riwayat unduhan Anda berada di penyimpanan lokal browser Anda, hanya di perangkat ini. Thumbnail riwayat dibuat dengan meminta setiap gambar yang diunduh sekali lagi setelah diunduh; tidak ada yang keluar dari perangkat.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -1996,7 +2024,7 @@
     "description": "Context menu: scan the page."
   },
   "menu_screenshot": {
-    "message": "Tangkapan Layar",
+    "message": "Tangkapan layar",
     "description": "Context menu: screenshot submenu."
   },
   "menu_shotVisible": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "Tangkapan layar disalin ke papan klip, diperkecil ke {width} x {height} agar muat.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "Tangkapan layar ini terlalu besar untuk papan klip, jadi hanya bagian yang ditampilkan yang disalin ({width} x {height}). Simpan tangkapan layar untuk menyimpan gambar lengkap.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Tangkapan layar tidak dapat disalin. Coba simpan sebagai gantinya.",

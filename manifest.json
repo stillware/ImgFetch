@@ -60,6 +60,9 @@
   "manifest_version": 3,
   "minimum_chrome_version": "116",
   "name": "__MSG_appName__",
+  "optional_permissions": [
+    "downloads.open"
+  ],
   "options_page": "options/options.html",
   "permissions": [
     "contextMenus",

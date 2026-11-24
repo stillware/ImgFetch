@@ -39,16 +39,21 @@
  * that snaps fractional scrolls still stitches without gaps.
  */
 
-export const PART_MAX_SIDE = 32767; // device px, longest side of one part
-export const PART_MAX_AREA = 100_000_000; // device px^2, area of one part
+export const PART_MAX_SIDE = 16384; // device px, longest side of one part
+export const PART_MAX_AREA = 268_435_456; // device px^2, area of one part (16384 x 16384)
 export const PART_MAX_COUNT = 48; // sanity cap against runaway (e.g. infinite-scroll) pages
 export const PART_PROVEN_AREA = 64_000_000; // device px^2, area already proven by the round-3 e2e (C10)
-// Round 4: the 100 MP area above was re-proven in this environment before
-// it was adopted: a 10000x10000 offscreen canvas allocation plus a
-// lossless PNG toBlob encode plus a decode at the same dimensions all
-// succeed in the project's Chromium (see capture-e2e C12, which stitches
-// a real 100 MP part through the offscreen document). Chrome's own
-// canvas side ceiling is 32767 device px, hence PART_MAX_SIDE.
+// Phase 5 item C: the limits above are the conservative canvas limits
+// from the Phase 5 brief (16384 px per side, 268,435,456 total pixels),
+// verified against the real browser in this environment before adoption:
+// a 16384x16384 canvas allocates and PNG-encodes (about 4.3 s for a flat
+// fill), a 1440x40000 canvas allocates and encodes, but a 2880x80000
+// canvas (230,400,000 px, inside the area limit) fails toBlob and a
+// 16384x32767 canvas (536,854,528 px) fails outright, so the side cap is
+// the binding guard for tall pages, not the area cap. The worker still
+// probes the largest planned part before capturing (STITCH_PROBE) and
+// halves the area budget on failure, so a stricter browser can never
+// crash a capture halfway through.
 export const CAPTURE_MAX_DURATION_MS = 600_000; // 10 min hard cap per full-page capture
 export const CAPTURE_AREA_FLOOR = 4_000_000; // lowest area budget the allocation fallback will try
 

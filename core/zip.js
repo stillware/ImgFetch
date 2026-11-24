@@ -23,6 +23,7 @@
  * Used for "Download as ZIP": many images packed into one .zip download.
  * Filenames are sanitized (no directories, no traversal) and flagged UTF-8.
  */
+import { stripBidiControls } from './filenames.js';
 
 const CRC_TABLE = (() => {
   const t = new Uint32Array(256);
@@ -44,7 +45,7 @@ export function crc32(data) {
 
 /** Strip directories / traversal; keep a safe basename. */
 export function safeZipName(name) {
-  const base = String(name || 'file')
+  const base = stripBidiControls(String(name || 'file'))
     .split('/')
     .pop()
     .split('\\')

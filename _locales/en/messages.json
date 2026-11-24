@@ -391,6 +391,10 @@
     "message": "{count} duplicates removed",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "Downloaded",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden_one": {
     "message": "{count} interface asset hidden",
     "description": "Status line fragment. Singular."
@@ -611,6 +615,14 @@
     "message": "Copied!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Copy image",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Could not copy the image",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "No downloads yet. Your saved images will appear here.",
     "description": "Empty state of the download history."
@@ -643,9 +655,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Open file",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Open source link",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Showing it in the folder instead",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Today",
@@ -824,7 +844,7 @@
     "description": "Options section: Quality."
   },
   "options_secFilenames": {
-    "message": "File Names",
+    "message": "File names",
     "description": "Options section: File Names."
   },
   "options_secScanning": {
@@ -836,7 +856,7 @@
     "description": "Options section: Screenshots."
   },
   "options_secSites": {
-    "message": "Site Preferences",
+    "message": "Site preferences",
     "description": "Options section: Site Preferences."
   },
   "options_secShortcuts": {
@@ -848,11 +868,11 @@
     "description": "Options section: Folders."
   },
   "options_secHistory": {
-    "message": "Download History",
+    "message": "Download history",
     "description": "Options section: Download History."
   },
   "options_secBackup": {
-    "message": "Backup & Reset",
+    "message": "Backup & reset",
     "description": "Options section: Backup and Reset."
   },
   "options_secAbout": {
@@ -1403,6 +1423,14 @@
     "message": "Entries older than this are removed automatically.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Show thumbnails in history",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Thumbnails are made by requesting the image once more after download.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Clear now",
     "description": "History: clear-now label."
@@ -1536,7 +1564,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Your settings, site preferences, and download history live in your browser's local storage, on this device only.",
+    "message": "Your settings, site preferences, and download history live in your browser's local storage, on this device only. History thumbnails are made by requesting each downloaded image once more after download; nothing leaves the device.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2222,6 +2250,10 @@
   "copyDownscaled": {
     "message": "Screenshot copied to the clipboard, downscaled to {width} x {height} to fit.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "This screenshot is too large for the clipboard, so only the part shown was copied ({width} x {height}). Save the screenshot to keep the full image.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Could not copy the screenshot. Try saving it instead.",

@@ -388,6 +388,8 @@
       list.append(p.card);
       return p;
     });
+    // G2: part cards enter with a 40 ms stagger, first 8 cards only.
+    if (UI.stagger) UI.stagger(list, '.part-card', 8);
     // Lazy thumbnails: decode only when a card approaches the viewport.
     if (typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver((entries) => {

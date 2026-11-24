@@ -158,7 +158,7 @@ if (JSDOM) {
   UI2.toast('Short lived', 250); // restarts the 250 ms timer
   await sleep(150); // 300 ms after the first call: gone without the restart
   check('a repeat restarts the dismiss timer', toasts2().length === 1, `saw ${toasts2().length}`);
-  await sleep(250); // 400 ms after the repeat: expired
+  await sleep(900); // 400 ms after the repeat + 350 ms toast-out exit, plus timer slack: expired
   check('the restarted toast still expires', toasts2().length === 0, `saw ${toasts2().length}`);
   dom2.window.close();
   window.close();

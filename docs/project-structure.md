@@ -28,6 +28,7 @@ ImgFetch/
 ├── TRADEMARK.md # Name and logo policy: the GPL covers the code, not the ImgFetch name
 ├── README-package.md # Short README placed inside the store and release ZIP as README.md
 ├── .gitignore # Ignores dist output, zip files, and node_modules
+├── .gitattributes # Line ending rules: shell scripts stay LF
 ├── .github/ # Issue templates and the pull request template, named in prose below
 ├── _locales/ # 21 locale folders, 19 languages, one messages.json per folder
 ├── assets/
@@ -56,7 +57,7 @@ ImgFetch/
 │   ├── bulk-payload.js # Queue payloads for single and bulk downloads
 │   ├── capture-decision.js # Capture mode and scroll target decision logic
 │   ├── capture-storage.js # Capture record byte accounting and group pruning rules
-│   ├── clipboard-image.js # Copy size planner: full image or downscaled copy
+│   ├── clipboard-image.js # Copy size planner: full-resolution copy, visible-part fallback when past the clipboard-safe size, never downscaled
 │   ├── crop-image.js # Lossless in worker crop for Area and Element captures
 │   ├── crop-rect.js # Editor Crop geometry: clamp, resize, nudge, coordinate conversion
 │   ├── data-url.js # Chunked data URL decoder
@@ -91,6 +92,7 @@ ImgFetch/
 │   ├── permissions.md # Every manifest permission and its justification
 │   ├── project-structure.md # This document
 │   ├── security-model.md # Threat model, boundaries, and mitigations
+│   ├── security-review.md # Phase 5 Part H hostile security review: checklist, fixes, accepted risks
 │   ├── translating.md # How to add or fix a translation
 │   ├── user-guide.md # Task based user instructions
 │   ├── decisions/
@@ -138,6 +140,7 @@ ImgFetch/
 │   ├── check-docs-links.mjs # Offline checker for relative links between markdown files
 │   ├── check-duplicates.mjs # Single source of truth checker for shared limits and rules
 │   ├── check-i18n.mjs # Localization checker: keys, plurals, placeholders
+│   ├── check-security.mjs # Security static checker: manifest, forbidden APIs, sinks, remote refs, assets, fetch inventory
 │   ├── make-firefox-manifest.mjs # Derives the Firefox manifest from the root manifest for the Firefox zip
 │   ├── make-icons.py # Regenerates the extension icon set
 │   ├── package.sh # Builds the store zip files after validation and tests
@@ -146,7 +149,7 @@ ImgFetch/
 │   └── validate.py # Static checks: JSON, syntax, security rules, tree and count consistency
 ├── shared/
 │   ├── capture-io.js # Reads capture records from IndexedDB for result pages
-│   ├── copy-shot.js # Copy action for screenshots with downscale fallback
+│   ├── copy-shot.js # Copy action for screenshots at full resolution, visible-part fallback when past the clipboard-safe size
 │   ├── i18n.js # Custom localization loader and locale list
 │   ├── history-ui.js # Shared download-history row: thumbnail tile, title, badge, actions, two-step Clear
 │   ├── offscreen-bridge.js # Single route to offscreen jobs: offscreen document in Chrome and Edge, in-process in Firefox
@@ -181,43 +184,52 @@ ImgFetch/
 └── tests/
     ├── test-candidates.mjs # 21: candidate discovery and bulk payload checks
     ├── test-capture-decision.mjs # 28: capture decision logic checks
+    ├── test-capture-quality.mjs # 38: Phase 5 item C canvas limits and part count checks
     ├── test-capture-storage.mjs # 23: capture storage and Blob record checks
-    ├── test-clipboard-image.mjs # 32: copy size planner checks
+    ├── test-clipboard-image.mjs # 44: copy size planner checks
     ├── test-content-scripts.mjs # 18: content script and worker localization rule checks
     ├── test-contract-filename.mjs # 2730: filename to download path contract checks
     ├── test-contract-fullpage.mjs # 405: part planner and stitcher contract checks
     ├── test-contract-settings.mjs # 8: settings schema contract checks
-    ├── test-copy-shot.mjs # 48: Copy button behavior checks
+    ├── test-copy-shot.mjs # 61: Copy button behavior checks
     ├── test-core.mjs # 110: core logic checks for queue, settings, URLs, validation
+    ├── test-history-actions.mjs # 20: B2 open-file and B3 copy-image row behaviour checks
+    ├── test-history-b1.mjs # 10: B1 thumbnail fetch queue, caps, backfill and toggle checks
+    ├── test-history-d4.mjs # 2: D4 history single-writer race checks with 20 parallel adds
     ├── test-history-thumbs.mjs # 15: history thumbnail whitelist, caps, budget, extension strip, plurals
     ├── test-crop-rect.mjs # 87: Crop geometry and crop undo history checks
     ├── test-data-url.mjs # 13: chunked data URL decoder checks
-    ├── test-fullpage-parts.mjs # 93: part split, limit, and no truncation checks
+    ├── test-fullpage-parts.mjs # 94: part split, limit, and no truncation checks
     ├── test-fuzz-url-guard.mjs # 3000: seeded URL guard fuzz cases
     ├── test-html-modules.mjs # 31: page script module loading checks
     ├── test-i18n-core.mjs # 125: localization core checks for fallback and plurals
     ├── test-i18n-dom.mjs # 16: localization DOM checks, including right to left layout
     ├── test-links.mjs # 22: external link target and rel attribute checks
     ├── test-make-firefox-manifest.mjs # 27: Firefox manifest derivation checks
+    ├── test-motion.mjs # 748: Phase 5 Part G motion audit: token scale, forbidden properties, reduced motion, pairing rules, shared-layer use
     ├── test-no-lossy-pipeline.mjs # 3: static scan that the capture pipeline stays lossless
-    ├── test-offscreen-bridge.mjs # 65: offscreen bridge route, sender, and host permission checks
+    ├── test-offscreen-bridge.mjs # 66: offscreen bridge route, sender, and host permission checks
     ├── test-overlay.mjs # 9: element picker checks
     ├── test-parts-overview.mjs # 49: Parts overview and platform helper checks
     ├── test-perf-budget.mjs # 12: performance budget checks over recorded results
+    ├── test-phase5-visual.mjs # 138: Phase 5 visual items A1 to A8, static checks plus custom dropdown behaviour with a stub DOM
+    ├── test-phase5-bugs.mjs # 11: Phase 5 bug-fix checks: D1 rename race and bulk custom names, D2 data URL size cap, D3 queue re-download, D5 scanner deduped count
     ├── test-png-quantize.mjs # 5: PNG quantization checks
     ├── test-progress.mjs # 34: capture progress contract and toast dedup checks
     ├── test-queue-persist.mjs # 5: queue persistence checks
     ├── test-races.mjs # 6: race checks for cancel, token isolation, bursts
     ├── test-scanner.mjs # 18: relevance scoring checks
-    ├── test-security.mjs # 450: security checks, hostile input tables, forbidden API scan, fuzz
+    ├── test-security.mjs # 531: security checks, hostile input tables, forbidden API scan, fuzz
     ├── test-svg.mjs # 12: SVG sanitizer checks with a stub DOM
     ├── test-svg-real-dom.mjs # 18: SVG sanitizer checks with a real DOM through jsdom
     ├── test-undo-redo.mjs # 13: undo and redo stack checks
     ├── test-urls-ipv6.mjs # 21: IPv6 private network guard checks
+    ├── test-validate-package-mode.mjs # 31: validate.py package mode and release-check CRLF guard checks
     ├── test-zip-accum.mjs # 9: chunked ZIP abort and time limit checks
     └── test-e2e/
         ├── README.md # How to run the real browser suites
         ├── capture-e2e.mjs # Real browser capture checks for all four capture modes
+        ├── capture-quality-e2e.mjs # Real browser Phase 5 item C checks: long-page pixel accuracy, editor Copy and Save, peak heap
         ├── clipboard-e2e.mjs # Real browser Copy button checks
         ├── crop-e2e.mjs # Real browser editor Crop checks
         ├── e2e.mjs # Real browser main flow checks

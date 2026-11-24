@@ -31,8 +31,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
        with the capture tiles and nav clipped) instead of 400px.
        In a narrower tab the page scrolls horizontally; that is the
        same behaviour as the shipped product. */
-    html, body { width: 400px; }
-    body { max-height: 600px; display: flex; flex-direction: column; }
+    html, body { width: 400px; height: 600px; overflow: hidden; }
+    body { display: flex; flex-direction: column; }
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 16px; background: var(--bg); position: sticky; top: 0; z-index: 10;
@@ -42,18 +42,30 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* Mockup header shows the brand name only; the tagline stays in the
        markup (and in options/welcome) and is hidden here. */
     .topbar .brand-sub { display: none; }
-    /* Segmented nav: one pill, three icon buttons, active icon highlighted. */
-    .popup-nav { display: flex; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 3px; }
+    /* Segmented nav: one pill, three icon buttons, active icon highlighted.
+       G2: the selected indicator slides on transform only (250 ms).
+       The pill div is inserted by UI.initSlidingIndicators; without JS
+       the pressed button keeps its own background, so the .has-pill
+       rules only apply once the pill exists. */
+    .popup-nav { display: flex; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 3px; position: relative; }
     .popup-nav .icon-btn { width: 32px; height: 28px; min-width: 32px; min-height: 28px; border-radius: 7px; color: var(--faint); }
     .popup-nav .icon-btn:hover { background: var(--hover); color: var(--text); }
     .popup-nav .icon-btn[aria-pressed="true"] { background: var(--raised); color: var(--text); box-shadow: inset 0 0 0 1px var(--line2); }
-    main { overflow-y: auto; padding: 4px 16px 16px; flex: 1; scrollbar-width: thin; scrollbar-color: var(--line2) transparent; }
-    main::-webkit-scrollbar { width: 8px; }
+    .popup-nav.has-pill .icon-btn { position: relative; z-index: 1; }
+    .popup-nav.has-pill .icon-btn[aria-pressed="true"] { background: transparent; box-shadow: none; }
+    /* Phase 5 A1: main scrolls, but shows no scrollbar chrome: the
+       old 8px track/thumb sat at the window edge and read as a grey
+       band, and the grid's -5px margins also forced a horizontal bar.
+       Scrolling still works by wheel, touch and keyboard. The
+       document itself never scrolls, so no browser-default strip can
+       appear at any edge, at any DPR, in either theme. */
+    main { overflow-x: hidden; overflow-y: auto; padding: 4px 16px 16px; flex: 1; scrollbar-width: none; scrollbar-color: var(--line2) var(--bg); }
+    main::-webkit-scrollbar { width: 0; height: 0; }
+    main::-webkit-scrollbar-track { background: var(--bg); }
     main::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
-    /* Same styling for the document scrollbar, so a height-capped
-       popup never shows the browser-default grey strip on the right. */
-    html { scrollbar-width: thin; scrollbar-color: var(--line2) transparent; }
-    html::-webkit-scrollbar { width: 8px; }
+    html { scrollbar-width: none; scrollbar-color: var(--line2) var(--bg); }
+    html::-webkit-scrollbar { width: 0; height: 0; }
+    html::-webkit-scrollbar-track { background: var(--bg); }
     html::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
     /* Hero: viewfinder card with corner brackets and the fixed brand art. */
     .hero { text-align: start; padding: 0; }
@@ -68,13 +80,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .vf-corner.bl { inset-inline-start: 12px; bottom: 12px; border-inline-end: 0; border-top: 0; border-end-start-radius: 6px; }
     .vf-corner.br { inset-inline-end: 12px; bottom: 12px; border-inline-start: 0; border-top: 0; border-end-end-radius: 6px; }
     .hero-stack { position: relative; width: 150px; height: 84px; }
-    /* Hero art: the browser rasterises an <img> at its natural size,
-       so a rotated small SVG looked soft. The art now has a 600px
-       intrinsic size (see shared/assets), each <img> carries
-       width/height attributes, and the rotation lives on a wrapper
-       span, not on the <img>, so the raster stays sharp at every DPR. */
+    /* Hero art, Phase 5 A2: pure inline vector. The old img SVGs were
+       rasterised to a bitmap first and then rotated on the wrapper, so
+       the cut-out edges came out soft and stair-stepped. The same art
+       now lives once as symbol defs at the top of the body and is
+       instantiated with use: rotation applies to vector content, so
+       it re-rasterises crisply at every DPR. Positions and angles are
+       whole pixels and whole degrees, so nothing resamples. The
+       shared/assets/hero-*.svg files stay as the canonical art. */
     .hero-art-wrap { position: absolute; width: 76px; height: 56px; }
-    .hero-art { display: block; width: 76px; height: 56px; border-radius: 9px; border: 1px solid var(--line2); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); object-fit: cover; }
+    .hero-art { display: block; width: 76px; height: 56px; border-radius: 9px; border: 1px solid var(--line2); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
     .hero-art-left { inset-inline-start: 0; top: 14px; transform: rotate(-8deg); }
     .hero-art-right { inset-inline-start: 72px; top: 18px; transform: rotate(7deg); }
     .hero-art-center { inset-inline-start: 36px; top: 0; }
@@ -96,18 +111,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       padding: 16px 6px 14px; border: 1px solid var(--border); border-radius: 12px;
       background: var(--surface); color: var(--text); cursor: pointer;
       font-size: 12px; font-weight: 600; line-height: 1.45;
-      transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
+      /* G2: hover lift of 1 px, fast ease-out in, softer 250 ms settle
+         out; press is a 0.98 scale over the micro duration (80 ms). */
+      transition: border-color var(--duration-fast) var(--ease-smooth-out), background-color var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out);
     }
-    .shot-btn:hover { border-color: var(--primary); background: var(--surface-2); }
-    .shot-btn:active { transform: translateY(1px); }
+    .shot-btn:hover { border-color: var(--primary); background: var(--surface-2); transform: translateY(-1px); transition: border-color var(--duration-quick) var(--ease-out), background-color var(--duration-quick) var(--ease-out), transform var(--duration-quick) var(--ease-out); }
+    .shot-btn:active { transform: scale(0.98); transition: border-color var(--duration-micro) var(--ease-smooth-out), background-color var(--duration-micro) var(--ease-smooth-out), transform var(--duration-micro) var(--ease-smooth-out); }
     .shot-btn:focus-visible { outline: none; box-shadow: var(--focus); }
     /* svg.icon outranks .icon-20, so capture icons render at 18px; the
        mockup uses 20px icons, which also restores the tile height. */
     .shot-btn svg { color: var(--accentText); width: 20px; height: 20px; }
     .shot-btn:disabled { opacity: 0.55; cursor: default; }
-    @media (prefers-reduced-motion: reduce) {
-      .shot-btn { transition: none; }
-    }
     /* Last scan: dashed row with the real host and count; the whole row
        opens the results, which is the old View results button behavior.
        The row itself has no top margin: #homeStatus already adds 14px
@@ -117,7 +131,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       padding: 10px 12px; border: 1px dashed var(--line2); border-radius: 10px;
       background: transparent; color: var(--faint); font: 500 12px var(--font);
       cursor: pointer; text-align: start;
-      transition: background-color var(--dur-quick) var(--ease);
+      transition: background-color var(--duration-quick) var(--ease-smooth-out);
     }
     .last-scan-row:hover { background: var(--hover); }
     .last-scan-row .last-scan-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
@@ -137,8 +151,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .res-stat span { font-size: 11.5px; color: var(--muted); }
     .res-stat-big { background: linear-gradient(180deg, rgba(34, 211, 160, 0.1), rgba(34, 211, 160, 0.03)); border-color: rgba(34, 211, 160, 0.25); }
     .res-stat-big b { color: var(--ok); }
-    .res-selected-size { font-size: 12.5px; color: var(--muted); padding: 10px 2px 0; font-variant-numeric: tabular-nums; }
-    .res-selected-size[hidden] { display: none; }
+    /* Phase 5 A8: the line reserves its space permanently (fixed
+       height), so the chips and the grid never move when the line
+       appears or disappears; the text swaps in and out instead. */
+    .res-selected-size { font-size: 12.5px; color: var(--muted); padding: 10px 2px 0; font-variant-numeric: tabular-nums; height: 29px; overflow: hidden; white-space: nowrap; }
     .toolbar { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 8px; }
     .toolbar .row { flex-wrap: wrap; }
     /* Below-grid controls: orientation/sort, select all/none/invert,
@@ -148,10 +164,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .res-more { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
     .res-more .row { flex-wrap: wrap; }
     #grid { grid-template-columns: repeat(4, 1fr); }
-    /* The results pane always scrolls, so the 10px scrollbar leaves
-       358px of content; -5px each side restores the reference 368px
-       grid (4 x 86px thumbs + 3 x 8px gaps). */
-    .grid-wrap { margin: 4px -5px; }
+    /* Phase 5 A1: the old -5px margins compensated for a 10px
+       scrollbar that no longer exists; they also forced a horizontal
+       scrollbar. The grid is the reference 368px (4 x 86px thumbs +
+       3 x 8px gaps) with no offset. */
+    .grid-wrap { margin: 4px 0; }
     /* Sticky footer: Download + View all only, the mockup's two buttons.
        The rest of the old footer (quality, best-quality checkbox, ZIP,
        Scan again) lives in .res-more below the grid, so this bar stays
@@ -185,7 +202,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .q-item:last-child { border-bottom: 0; }
     .q-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
     .q-pending { background: var(--muted); }
-    .q-active { background: var(--primary); animation: sx-pulse 1s linear infinite; }
+    .q-active { background: var(--primary); animation: sx-pulse var(--duration-pulse) var(--ease-linear) infinite; }
     .q-done { background: var(--success); }
     .q-failed { background: var(--danger); }
     #homeStatus { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
@@ -209,7 +226,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #viewHistory .spread { margin: 4px 2px 4px; }
     .hist-day { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 11px; color: var(--faint); margin: 14px 2px 6px; padding: 6px 2px; text-transform: uppercase; letter-spacing: 0.08em; position: sticky; top: 0; background: var(--bg); z-index: 1; }
     .hist-day .hist-count { font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: normal; }
-    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--dur-quick) var(--ease); }
+    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--duration-quick) var(--ease-smooth-out); }
     .hist-item:hover, .hist-item:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
     .hist-tile { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line2); background: var(--raised); color: var(--muted); display: grid; place-items: center; flex: none; overflow: hidden; position: relative; }
     .hist-tile .icon { width: 20px; height: 20px; }
@@ -235,16 +252,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     [data-theme="dark"] .hist-fmt-webp { color: #67e0f3; background: rgba(34, 211, 238, 0.13); }
     .hist-sub { font-size: 11.5px; color: var(--faint); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .hist-side { display: grid; flex: none; }
-    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--dur-quick) var(--ease); }
-    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); }
-    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; }
-    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; }
+    /* G2: hover action buttons fade in 150 ms, out 80 ms. The base
+       rule is the out duration; the hover rule shortens nothing, it
+       lengthens the in transition, so the return uses the base. */
+    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--duration-micro) var(--ease-smooth-out); }
+    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--duration-micro) var(--ease-smooth-out); }
+    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
     .hist-action { position: relative; }
     .hist-action .icon { width: 16px; height: 16px; }
-    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); z-index: 2; }
-    .hist-copied.is-visible { opacity: 1; }
+    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--duration-micro) var(--ease-smooth-out); z-index: 2; }
+    .hist-copied.is-visible { opacity: 1; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
     #btnClearHistory.is-confirm { color: var(--danger); }
-    @media (prefers-reduced-motion: reduce) { .hist-size, .hist-actions, .hist-copied { transition: none; } }
     .preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
     .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; margin: 10px 0; }
     .kv dt { color: var(--muted); } .kv dd { margin: 0; word-break: break-all; }
@@ -252,6 +271,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="hero-g1" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g1-glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff4c2"/><stop offset="0.55" stop-color="#fff4c2"/><stop offset="1" stop-color="#fff4c2" stop-opacity="0"/></radialGradient><linearGradient id="g1-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e1b4b"/><stop offset="0.45" stop-color="#c2410c"/><stop offset="0.75" stop-color="#fb923c"/><stop offset="1" stop-color="#fde68a"/></linearGradient></defs><rect width="300" height="300" fill="url(#g1-a)"/><circle cx="210" cy="150" r="48" fill="url(#g1-glow)"/><circle cx="210" cy="150" r="20" fill="#fffbe6"/> <polygon points="0,210 60,140 105,190 150,120 215,200 260,150 300,195 300,300 0,300" fill="#7c2d12" opacity=".75"/> <polygon points="0,245 50,185 100,235 160,170 230,245 300,200 300,300 0,300" fill="#3b1d2e"/> <polygon points="0,285 80,240 150,275 220,235 300,270 300,300 0,300" fill="#140d1c"/></symbol><symbol id="hero-g2" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g2-haze" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#e0f2fe"/><stop offset="0.6" stop-color="#e0f2fe"/><stop offset="1" stop-color="#e0f2fe" stop-opacity="0"/></radialGradient><radialGradient id="g2-cloud" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffffff"/><stop offset="0.6" stop-color="#ffffff"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient><linearGradient id="g2-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c4a6e"/><stop offset="0.5" stop-color="#38bdf8"/><stop offset="0.52" stop-color="#0ea5e9"/><stop offset="1" stop-color="#082f49"/></linearGradient><linearGradient id="g2-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#0c4a6e"/></linearGradient></defs><rect width="300" height="300" fill="url(#g2-a)"/><rect y="156" width="300" height="144" fill="url(#g2-s)"/> <ellipse cx="150" cy="150" rx="150" ry="16" fill="url(#g2-haze)" opacity=".5"/> <rect x="20.014243992052155" y="280.4917420402596" width="34.46186276826163" height="2" rx="1" fill="#e0f2fe" opacity="0.22369282321245074"/><rect x="209.63637209014797" y="233.9257165155959" width="36.46561567507014" height="2" rx="1" fill="#e0f2fe" opacity="0.41321855632738136"/><rect x="216.31945862263416" y="235.1420325902952" width="54.22572712145081" height="2" rx="1" fill="#e0f2fe" opacity="0.37257011156648867"/><rect x="232.35692992450527" y="199.04057284306762" width="38.711572265583825" height="2" rx="1" fill="#e0f2fe" opacity="0.39776547367114823"/><rect x="201.49187902058097" y="176.46647641736385" width="54.195477764213216" height="2" rx="1" fill="#e0f2fe" opacity="0.3137634819204749"/><rect x="259.82447351320855" y="266.8890783828167" width="26.141824999890208" height="2" rx="1" fill="#e0f2fe" opacity="0.3295694120831645"/><rect x="260.0237407256028" y="252.62017317238272" width="52.18771176514575" height="2" rx="1" fill="#e0f2fe" opacity="0.352101457632194"/><rect x="257.1188294687862" y="279.0000993334689" width="38.61229067138037" height="2" rx="1" fill="#e0f2fe" opacity="0.2673851972293971"/><rect x="237.66444846878966" y="209.87019151443158" width="27.62865960487568" height="2" rx="1" fill="#e0f2fe" opacity="0.2541738540186425"/><rect x="131.40219355533003" y="205.38480819919369" width="66.86308493691641" height="2" rx="1" fill="#e0f2fe" opacity="0.3450797432777843"/><rect x="209.61077179275955" y="275.34224041986386" width="22.93114027144906" height="2" rx="1" fill="#e0f2fe" opacity="0.24572179571060546"/><rect x="165.76380605146466" y="231.05614167687304" width="41.072151335455544" height="2" rx="1" fill="#e0f2fe" opacity="0.2175324650097324"/><rect x="256.33213951081603" y="176.58558074691592" width="38.27317225666399" height="2" rx="1" fill="#e0f2fe" opacity="0.2704428242614692"/><rect x="192.7494692954931" y="280.9217458548591" width="45.742742757193156" height="2" rx="1" fill="#e0f2fe" opacity="0.2079426410179318"/><rect x="125.461637082259" y="204.03128070478851" width="38.22283557533419" height="2" rx="1" fill="#e0f2fe" opacity="0.2983826024915942"/><rect x="106.46862805190898" y="233.79923158502172" width="50.70218727490966" height="2" rx="1" fill="#e0f2fe" opacity="0.23163070584723292"/><rect x="255.6886438725929" y="224.94041538561714" width="63.150577528006664" height="2" rx="1" fill="#e0f2fe" opacity="0.3722955924562623"/><rect x="184.93093492692847" y="231.9492231784152" width="45.247483176760134" height="2" rx="1" fill="#e0f2fe" opacity="0.3911482626531032"/> <ellipse cx="90" cy="70" rx="60" ry="12" fill="url(#g2-cloud)" opacity=".5"/><ellipse cx="220" cy="95" rx="50" ry="9" fill="url(#g2-cloud)" opacity=".4"/></symbol><symbol id="hero-g4" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g4-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020617"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs><rect width="300" height="300" fill="url(#g4-a)"/><circle cx="235" cy="60" r="20" fill="#fef9c3"/><circle cx="244" cy="55" r="18" fill="#1e1b4b"/> <circle cx="177.8747747083543" cy="19.291310878140532" r="1.6062451049248898" fill="#fff" opacity="0.9307392363114"/><circle cx="267.17234284950996" cy="123.93092679974201" r="1.58931477083327" fill="#fff" opacity="0.8566766973848812"/><circle cx="82.62647384899971" cy="1.4681240643691849" r="0.7979527130247805" fill="#fff" opacity="0.4456239037428163"/><circle cx="0.47510275639365557" cy="86.35761246381216" r="0.7776515367802472" fill="#fff" opacity="0.8446893328077576"/><circle cx="146.80824999083217" cy="96.25354476098602" r="0.7856582676459375" fill="#fff" opacity="0.9292521626359095"/><circle cx="70.54871086522411" cy="52.35230551676466" r="1.5731327451174766" fill="#fff" opacity="0.4710235947142465"/><circle cx="146.77818117047573" cy="0.4157683534621114" r="1.5955889997517638" fill="#fff" opacity="0.7821594139477981"/><circle cx="276.63511032081914" cy="2.939608936635595" r="1.580063411723852" fill="#fff" opacity="0.5128804213893043"/><circle cx="290.62114501866563" cy="79.13935339969554" r="1.315250760137686" fill="#fff" opacity="0.5597628170437007"/><circle cx="66.83302673829395" cy="29.25084890297188" r="1.1772929621288983" fill="#fff" opacity="0.43140725019919096"/><circle cx="230.8270489009223" cy="98.0984096406486" r="1.3568928318363116" fill="#fff" opacity="0.6989123364439758"/><circle cx="9.819306950000724" cy="15.442890709006642" r="1.602835539496893" fill="#fff" opacity="0.4784561621390545"/><circle cx="206.35853554418242" cy="125.02321583452785" r="0.5444731220810083" fill="#fff" opacity="0.9298814077535092"/><circle cx="258.41005661450794" cy="138.98337601636695" r="1.6451489178208396" fill="#fff" opacity="0.8589309074259042"/><circle cx="125.88055358542155" cy="34.749918084009515" r="1.3731991824103513" fill="#fff" opacity="0.9293293853892616"/><circle cx="119.49011865979531" cy="32.86468041728469" r="0.9858609140319101" fill="#fff" opacity="0.9321910671574022"/><circle cx="167.63285722938963" cy="49.20134536419126" r="1.245813165393571" fill="#fff" opacity="0.8409353848737364"/><circle cx="100.50678644352908" cy="101.52788631689171" r="1.0073028114192666" fill="#fff" opacity="0.5191757618073262"/><circle cx="93.5143478650201" cy="137.96746478321379" r="1.6929766697776396" fill="#fff" opacity="0.779444476393724"/><circle cx="261.65737466032493" cy="128.56476083796693" r="0.7394463175160094" fill="#fff" opacity="0.787129245785591"/><circle cx="40.61695921263516" cy="69.6422938209224" r="1.1688478420809134" fill="#fff" opacity="0.8628409269558457"/><circle cx="283.72967344882414" cy="67.49010538099805" r="0.7245811865779483" fill="#fff" opacity="0.668001407789067"/><circle cx="49.83035542528627" cy="92.76569530030979" r="1.1260649626264652" fill="#fff" opacity="0.7369134314995788"/><circle cx="152.02160670981817" cy="106.00052022654587" r="0.9349438361986279" fill="#fff" opacity="0.8505274951693265"/><circle cx="7.80565543463717" cy="41.837081975227726" r="1.1500293513061615" fill="#fff" opacity="0.5216537013285112"/><circle cx="216.87911414395978" cy="40.726661514829225" r="0.7828578262975708" fill="#fff" opacity="0.7957432916368095"/><circle cx="128.7512699275982" cy="10.543714133344459" r="1.4274580496025542" fill="#fff" opacity="0.8937198350642435"/><circle cx="274.63396236981913" cy="127.40258979024486" r="1.3170851826747345" fill="#fff" opacity="0.9753326071311406"/><circle cx="7.564026539942262" cy="106.67722651114559" r="1.221251195632504" fill="#fff" opacity="0.8344224977467314"/><circle cx="269.45981465720564" cy="5.182307039006757" r="0.663152039313294" fill="#fff" opacity="0.448162369266228"/> <rect x="-6" y="218.96999854080843" width="28.16467524979481" height="81.03000145919155" fill="#0b1026"/><rect x="-2" y="226.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="10.082337624897406" y="226.96999854080843" width="4" height="5" fill="#fde68a"/><rect x="-2" y="240.96999854080843" width="4" height="5" fill="#fde68a"/><rect x="10.082337624897406" y="240.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="-2" y="254.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="10.082337624897406" y="254.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="-2" y="268.96999854080843" width="4" height="5" fill="#fde68a"/><rect x="10.082337624897406" y="268.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="-2" y="282.96999854080843" width="4" height="5" fill="#1e293b"/><rect x="10.082337624897406" y="282.96999854080843" width="4" height="5" fill="#fde68a"/><rect x="28" y="142.41205065157826" width="34.452042307915185" height="157.58794934842174" fill="#0b1026"/><rect x="32" y="150.41205065157826" width="4" height="5" fill="#fde68a"/><rect x="47.22602115395759" y="150.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="164.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="47.22602115395759" y="164.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="178.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="47.22602115395759" y="178.41205065157826" width="4" height="5" fill="#fde68a"/><rect x="32" y="192.41205065157826" width="4" height="5" fill="#fde68a"/><rect x="47.22602115395759" y="192.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="206.41205065157826" width="4" height="5" fill="#fde68a"/><rect x="47.22602115395759" y="206.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="220.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="47.22602115395759" y="220.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="234.41205065157826" width="4" height="5" fill="#fde68a"/><rect x="47.22602115395759" y="234.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="248.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="47.22602115395759" y="248.41205065157826" width="4" height="5" fill="#1e293b"/><rect x="32" y="262.4120506515783" width="4" height="5" fill="#fde68a"/><rect x="47.22602115395759" y="262.4120506515783" width="4" height="5" fill="#fde68a"/><rect x="62" y="100.80384482201367" width="35.612654032936625" height="199.19615517798633" fill="#0b1026"/><rect x="66" y="108.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="108.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="122.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="122.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="136.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="136.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="150.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="150.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="164.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="164.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="66" y="178.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="178.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="192.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="192.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="66" y="206.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="206.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="66" y="220.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="220.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="234.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="234.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="66" y="248.80384482201367" width="4" height="5" fill="#1e293b"/><rect x="81.80632701646832" y="248.80384482201367" width="4" height="5" fill="#fde68a"/><rect x="66" y="262.8038448220137" width="4" height="5" fill="#fde68a"/><rect x="81.80632701646832" y="262.8038448220137" width="4" height="5" fill="#fde68a"/><rect x="96" y="135.233237019383" width="38.65630865127608" height="164.766762980617" fill="#0b1026"/><rect x="100" y="143.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="143.233237019383" width="4" height="5" fill="#fde68a"/><rect x="100" y="157.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="157.233237019383" width="4" height="5" fill="#1e293b"/><rect x="100" y="171.233237019383" width="4" height="5" fill="#1e293b"/><rect x="117.32815432563804" y="171.233237019383" width="4" height="5" fill="#fde68a"/><rect x="100" y="185.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="185.233237019383" width="4" height="5" fill="#1e293b"/><rect x="100" y="199.233237019383" width="4" height="5" fill="#1e293b"/><rect x="117.32815432563804" y="199.233237019383" width="4" height="5" fill="#1e293b"/><rect x="100" y="213.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="213.233237019383" width="4" height="5" fill="#fde68a"/><rect x="100" y="227.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="227.233237019383" width="4" height="5" fill="#fde68a"/><rect x="100" y="241.233237019383" width="4" height="5" fill="#fde68a"/><rect x="117.32815432563804" y="241.233237019383" width="4" height="5" fill="#1e293b"/><rect x="100" y="255.233237019383" width="4" height="5" fill="#1e293b"/><rect x="117.32815432563804" y="255.233237019383" width="4" height="5" fill="#fde68a"/><rect x="100" y="269.233237019383" width="4" height="5" fill="#1e293b"/><rect x="117.32815432563804" y="269.233237019383" width="4" height="5" fill="#fde68a"/><rect x="130" y="147.42473433605616" width="42.003611821682945" height="152.57526566394384" fill="#0b1026"/><rect x="134" y="155.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="153.00180591084148" y="155.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="134" y="169.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="153.00180591084148" y="169.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="134" y="183.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="153.00180591084148" y="183.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="134" y="197.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="153.00180591084148" y="197.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="134" y="211.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="153.00180591084148" y="211.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="134" y="225.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="153.00180591084148" y="225.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="134" y="239.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="153.00180591084148" y="239.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="134" y="253.42473433605616" width="4" height="5" fill="#fde68a"/><rect x="153.00180591084148" y="253.42473433605616" width="4" height="5" fill="#1e293b"/><rect x="134" y="267.4247343360562" width="4" height="5" fill="#fde68a"/><rect x="153.00180591084148" y="267.4247343360562" width="4" height="5" fill="#fde68a"/><rect x="164" y="190.00358657911588" width="28.318447866625363" height="109.99641342088412" fill="#0b1026"/><rect x="168" y="198.00358657911588" width="4" height="5" fill="#fde68a"/><rect x="180.1592239333127" y="198.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="168" y="212.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="180.1592239333127" y="212.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="168" y="226.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="180.1592239333127" y="226.00358657911588" width="4" height="5" fill="#fde68a"/><rect x="168" y="240.00358657911588" width="4" height="5" fill="#fde68a"/><rect x="180.1592239333127" y="240.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="168" y="254.00358657911588" width="4" height="5" fill="#1e293b"/><rect x="180.1592239333127" y="254.00358657911588" width="4" height="5" fill="#fde68a"/><rect x="168" y="268.0035865791159" width="4" height="5" fill="#fde68a"/><rect x="180.1592239333127" y="268.0035865791159" width="4" height="5" fill="#1e293b"/><rect x="198" y="148.54393577135352" width="28.33667708110841" height="151.45606422864648" fill="#0b1026"/><rect x="202" y="156.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="214.1683385405542" y="156.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="170.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="214.1683385405542" y="170.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="184.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="214.1683385405542" y="184.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="202" y="198.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="214.1683385405542" y="198.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="212.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="214.1683385405542" y="212.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="226.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="214.1683385405542" y="226.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="240.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="214.1683385405542" y="240.54393577135352" width="4" height="5" fill="#fde68a"/><rect x="202" y="254.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="214.1683385405542" y="254.54393577135352" width="4" height="5" fill="#1e293b"/><rect x="202" y="268.5439357713535" width="4" height="5" fill="#fde68a"/><rect x="214.1683385405542" y="268.5439357713535" width="4" height="5" fill="#1e293b"/><rect x="232" y="197.38031801645658" width="37.622836818742954" height="102.61968198354342" fill="#0b1026"/><rect x="236" y="205.38031801645658" width="4" height="5" fill="#1e293b"/><rect x="252.81141840937147" y="205.38031801645658" width="4" height="5" fill="#fde68a"/><rect x="236" y="219.38031801645658" width="4" height="5" fill="#fde68a"/><rect x="252.81141840937147" y="219.38031801645658" width="4" height="5" fill="#fde68a"/><rect x="236" y="233.38031801645658" width="4" height="5" fill="#1e293b"/><rect x="252.81141840937147" y="233.38031801645658" width="4" height="5" fill="#fde68a"/><rect x="236" y="247.38031801645658" width="4" height="5" fill="#1e293b"/><rect x="252.81141840937147" y="247.38031801645658" width="4" height="5" fill="#fde68a"/><rect x="236" y="261.3803180164566" width="4" height="5" fill="#1e293b"/><rect x="252.81141840937147" y="261.3803180164566" width="4" height="5" fill="#fde68a"/><rect x="236" y="275.3803180164566" width="4" height="5" fill="#fde68a"/><rect x="252.81141840937147" y="275.3803180164566" width="4" height="5" fill="#fde68a"/><rect x="266" y="110.46914316735655" width="28.093079631260167" height="189.53085683264345" fill="#0b1026"/><rect x="270" y="118.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="118.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="132.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="132.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="146.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="282.04653981563007" y="146.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="160.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="282.04653981563007" y="160.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="174.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="174.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="188.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="188.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="270" y="202.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="282.04653981563007" y="202.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="216.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="216.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="270" y="230.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="230.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="244.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="282.04653981563007" y="244.46914316735655" width="4" height="5" fill="#fde68a"/><rect x="270" y="258.46914316735655" width="4" height="5" fill="#1e293b"/><rect x="282.04653981563007" y="258.46914316735655" width="4" height="5" fill="#1e293b"/></symbol></defs></svg>
   <header class="topbar">
     <div class="brand">
       <img class="brand-mark" src="../icons/icon-32.png" alt="" aria-hidden="true">
@@ -279,9 +299,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         <div class="hero-viewfinder">
           <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
           <div class="hero-stack">
-            <span class="hero-art-wrap hero-art-left"><img class="hero-art" src="../shared/assets/hero-g2.svg" width="76" height="56" alt="" aria-hidden="true"></span>
-            <span class="hero-art-wrap hero-art-right"><img class="hero-art" src="../shared/assets/hero-g4.svg" width="76" height="56" alt="" aria-hidden="true"></span>
-            <span class="hero-art-wrap hero-art-center"><img class="hero-art" src="../shared/assets/hero-g1.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+            <span class="hero-art-wrap hero-art-left"><svg class="hero-art" aria-hidden="true"><use href="#hero-g2"/></svg></span>
+            <span class="hero-art-wrap hero-art-right"><svg class="hero-art" aria-hidden="true"><use href="#hero-g4"/></svg></span>
+            <span class="hero-art-wrap hero-art-center"><svg class="hero-art" aria-hidden="true"><use href="#hero-g1"/></svg></span>
           </div>
         </div>
         <h1 data-i18n="popup_heroTitleNew">Find. Select. Download.</h1>
@@ -321,9 +341,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <div class="hero-viewfinder">
         <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
         <div class="hero-stack">
-          <span class="hero-art-wrap hero-art-left"><img class="hero-art" src="../shared/assets/hero-g2.svg" width="76" height="56" alt="" aria-hidden="true"></span>
-          <span class="hero-art-wrap hero-art-right"><img class="hero-art" src="../shared/assets/hero-g4.svg" width="76" height="56" alt="" aria-hidden="true"></span>
-          <span class="hero-art-wrap hero-art-center"><img class="hero-art" src="../shared/assets/hero-g1.svg" width="76" height="56" alt="" aria-hidden="true"></span>
+          <span class="hero-art-wrap hero-art-left"><svg class="hero-art" aria-hidden="true"><use href="#hero-g2"/></svg></span>
+          <span class="hero-art-wrap hero-art-right"><svg class="hero-art" aria-hidden="true"><use href="#hero-g4"/></svg></span>
+          <span class="hero-art-wrap hero-art-center"><svg class="hero-art" aria-hidden="true"><use href="#hero-g1"/></svg></span>
         </div>
         <div class="scan-line" aria-hidden="true"></div>
       </div>
@@ -344,7 +364,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         </div>
       </div>
       <div id="resSummary" class="res-summary"></div>
-      <div id="resSelectedSize" class="res-selected-size" hidden></div>
+      <div id="resSelectedSize" class="res-selected-size"></div>
       <div class="toolbar">
         <div class="row" id="formatChips" role="group" data-i18n-attr="aria-label:popup_formatFilterAria" aria-label="Format filter"></div>
       </div>

@@ -23,8 +23,11 @@
  */
 import { encodeGif, encodeGifAnimated } from '../core/gif.js';
 import { createZipParts } from '../core/zip.js';
-import { isPrivateNetworkFetchBlocked, isRedirectBlocked } from '../core/urls.js';
+import { isPrivateNetworkFetchBlocked, isRedirectBlocked, dataUrlDecodedSize, DATA_URL_DOWNLOAD_MAX_DECODED } from '../core/urls.js';
 import { dataUrlToBlob } from '../core/data-url.js';
+import {
+  imageDimensions, sniffImageMime, assertImagePixelBudget,
+} from '../core/history.js';
 import { sanitizeSvgDocument, stripSvgDoctype } from '../core/svg.js';
 import { quantizePngRgba } from '../core/png-quantize.js';
 // N2: chunked-ZIP accumulator with abort + 2-min TTL (no more leaked chunks).
@@ -65,20 +68,117 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     if (res && isRedirectBlocked(res.url, pageUrl)) throw new Error('blocked-redirect');
   }
 
+  /**
+   * H3/H7: the one capped fetch for network bytes in this document.
+   * Timeout, Content-Length pre-check, the size cap enforced WHILE
+   * STREAMING (the body is never buffered past maxBytes), credentials
+   * omitted, no referrer, and the final URL re-checked against the
+   * private-network guard before the body is read. Returns
+   * { bytes, contentType, finalUrl }. Throws on any failure.
+   */
+  async function fetchBytesCapped(url, { maxBytes, timeoutMs, pageUrl, headers }) {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), timeoutMs);
+    let res;
+    try {
+      res = await fetch(url, {
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        signal: ctl.signal,
+        ...(headers ? { headers } : {}),
+      });
+    } catch (err) {
+      clearTimeout(timer);
+      if (ctl.signal.aborted) throw new Error('timeout');
+      throw err;
+    }
+    try {
+      throwIfRedirectBlocked(res, pageUrl);
+      if (!res.ok) throw new Error(`http-${res.status}`);
+      const declared = Number(res.headers.get('content-length'));
+      if (Number.isFinite(declared) && declared > maxBytes) throw new Error('too-large');
+      let bytes;
+      if (res.body && typeof res.body.getReader === 'function') {
+        const reader = res.body.getReader();
+        const chunks = [];
+        let total = 0;
+        try {
+          for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            if (value && value.length) {
+              total += value.length;
+              if (total > maxBytes) {
+                try { await reader.cancel(); } catch { /* already closed */ }
+                throw new Error('too-large');
+              }
+              chunks.push(value);
+            }
+          }
+        } finally {
+          try { reader.releaseLock(); } catch { /* already released */ }
+        }
+        bytes = new Uint8Array(total);
+        let o = 0;
+        for (const c of chunks) { bytes.set(c, o); o += c.length; }
+      } else {
+        const buf = await res.arrayBuffer();
+        if (!buf || buf.byteLength > maxBytes) throw new Error('too-large');
+        bytes = new Uint8Array(buf);
+      }
+      return { bytes, contentType: res.headers.get('content-type') || '', finalUrl: res.url || '' };
+    } catch (err) {
+      if (ctl.signal.aborted) throw new Error('timeout');
+      throw err;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  /**
+   * H3/H7: load one image as a bitmap. Network sources go through the
+   * capped fetch (30 s, 50 MB while streaming, redirect re-check) and
+   * are sniffed from their magic bytes before any decoder runs; the
+   * pixel budget is checked from the header dimensions before decoding
+   * and again on the decoded bitmap, so a decompression bomb (a tiny
+   * file claiming enormous dimensions) fails here instead of crashing
+   * the offscreen document. Data URLs are decoded locally (chunked
+   * atob via core/data-url.js), never through fetch(dataUrl).
+   */
+  const LOAD_BITMAP_MAX_BYTES = 50_000_000;
+  const LOAD_BITMAP_TIMEOUT_MS = 30_000;
+
   async function loadBitmap(src, pageUrl) {
     let blob;
     if (typeof src === 'string' && src.startsWith('data:')) {
-      // F6: screenshot data URLs are decoded locally (chunked atob via
-      // core/data-url.js), never through fetch(dataUrl).
       blob = dataUrlToBlob(src);
+      // Header pixel check before decoding (first 64 bytes hold every
+      // header this parser reads). Unknown formats fall through to the
+      // post-decode check below.
+      const head = new Uint8Array(await blob.slice(0, 64).arrayBuffer());
+      const dims = imageDimensions(head);
+      if (dims) assertImagePixelBudget(dims.w, dims.h);
     } else {
-      const res = await fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-      throwIfRedirectBlocked(res, pageUrl);
-      if (!res.ok) throw new Error(`http-${res.status}`);
-      blob = await res.blob();
+      const { bytes } = await fetchBytesCapped(src, {
+        maxBytes: LOAD_BITMAP_MAX_BYTES,
+        timeoutMs: LOAD_BITMAP_TIMEOUT_MS,
+        pageUrl,
+      });
+      const sniffed = sniffImageMime(bytes);
+      if (!sniffed) throw new Error('not-image');
+      const dims = imageDimensions(bytes);
+      if (dims) assertImagePixelBudget(dims.w, dims.h);
+      blob = new Blob([bytes], { type: sniffed });
     }
     if (!blob.type.startsWith('image/')) throw new Error('not-image');
-    return createImageBitmap(blob);
+    const bitmap = await createImageBitmap(blob);
+    try {
+      assertImagePixelBudget(bitmap.width, bitmap.height);
+    } catch (err) {
+      bitmap.close();
+      throw err;
+    }
+    return bitmap;
   }
 
   function encode(bitmap, sx, sy, sw, sh, format, quality) {
@@ -126,11 +226,13 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function sanitizeSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const res = await fetch(msg.srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-    throwIfRedirectBlocked(res, msg.pageUrl);
-    if (!res.ok) throw new Error(`http-${res.status}`);
-    const text = await res.text();
-    if (text.length > 5_000_000) throw new Error('too-large');
+    // H3/H7: the old res.text() buffered the whole file before the
+    // 5 MB check was ever reached. The capped fetch enforces it while
+    // streaming instead.
+    const { bytes } = await fetchBytesCapped(msg.srcUrl, {
+      maxBytes: 5_000_000, timeoutMs: 30_000, pageUrl: msg.pageUrl,
+    });
+    const text = new TextDecoder().decode(bytes);
     // Strip DOCTYPE / internal entities before parsing: billion-laughs
     // style entity expansion would otherwise hang the parser on hostile
     // input. DOCTYPE never affects SVG rendering.
@@ -157,10 +259,10 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
         if (typeof src === 'string' && src.startsWith('data:')) {
           text = (await dataUrlToBlob(src).text()).slice(0, 4000);
         } else {
-          const res = await fetch(src, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-          if (res.ok && !isRedirectBlocked(res.url, pageUrl)) {
-            text = (await res.text()).slice(0, 4000);
-          }
+          const { bytes } = await fetchBytesCapped(src, {
+            maxBytes: 5_000_000, timeoutMs: 30_000, pageUrl,
+          });
+          text = new TextDecoder().decode(bytes).slice(0, 4000);
         }
       } catch {
         /* fall through */
@@ -219,14 +321,19 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function sniffType(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const res = await fetch(msg.srcUrl, {
-      credentials: 'omit',
-      referrerPolicy: 'no-referrer',
-      headers: { Range: 'bytes=0-31' },
-    }).catch(() => null);
-    if (res && isRedirectBlocked(res.url, msg.pageUrl)) throw new Error('sniff-failed');
-    if (!res || (!res.ok && res.status !== 206)) throw new Error('sniff-failed');
-    const buf = await res.arrayBuffer().catch(() => null);
+    // H7: the Range probe is capped at 64 bytes while streaming. The old
+    // path took res.arrayBuffer() after a 200: a server that ignores Range
+    // answers 200 with the whole file, which was then held in full.
+    let fetched;
+    try {
+      fetched = await fetchBytesCapped(msg.srcUrl, {
+        maxBytes: 64, timeoutMs: 30_000, pageUrl: msg.pageUrl,
+        headers: { Range: 'bytes=0-31' },
+      });
+    } catch {
+      throw new Error('sniff-failed');
+    }
+    const buf = fetched.bytes.buffer;
     if (!buf || buf.byteLength < 4) throw new Error('sniff-failed');
     const sniffed = sniffImageType(buf);
     const ext = sniffed && ZIP_TYPE_TO_EXT[sniffed];
@@ -271,8 +378,12 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     try {
       const w = bitmap.width;
       const h = bitmap.height;
-      if (!(w > 0 && h > 0) || w > 8000 || h > 8000) throw new Error('bad-size');
-      if (w * h > 32_000_000) throw new Error('too-large');
+      // Phase 5 item C: the clipboard-safe size is the conservative
+      // canvas limit (16384 px per side, 268,435,456 total pixels), not
+      // the old 8000 px / 32 MP cap; a long screenshot past the old cap
+      // threw instead of being copied.
+      if (!(w > 0 && h > 0) || w > 16384 || h > 16384) throw new Error('bad-size');
+      if (w * h > 268_435_456) throw new Error('too-large');
       const canvas = document.createElement('canvas');
       canvas.width = w;
       canvas.height = h;
@@ -387,30 +498,25 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
       if (buf.byteLength > ZIP_MAX_FILE_BYTES) return { skipped: 'too-large' };
       return { data: new Uint8Array(buf), contentType: '', url, index: i, name: f.name };
     }
-    let res;
+    // H3/H7: the cap is enforced while streaming, not after buffering
+    // the whole file (the old arrayBuffer path held the full body
+    // before the 50 MB check ran).
+    let fetched;
     try {
-      const ctl = new AbortController();
-      const timer = setTimeout(() => ctl.abort(), ZIP_FETCH_TIMEOUT_MS);
-      try {
-        res = await fetch(url, {
-          credentials: 'omit',
-          referrerPolicy: 'no-referrer',
-          signal: ctl.signal,
-        });
-      } finally {
-        clearTimeout(timer);
-      }
+      fetched = await fetchBytesCapped(url, {
+        maxBytes: ZIP_MAX_FILE_BYTES, timeoutMs: ZIP_FETCH_TIMEOUT_MS, pageUrl,
+      });
     } catch (err) {
-      return { skipped: err && err.name === 'AbortError' ? 'timeout' : 'fetch-failed' };
+      const m = String((err && err.message) || 'fetch-failed');
+      if (m === 'timeout' || m === 'too-large' || m === 'blocked-redirect' || m.startsWith('http-')) {
+        return { skipped: m };
+      }
+      return { skipped: 'fetch-failed' };
     }
-    if (isRedirectBlocked(res.url, pageUrl)) return { skipped: 'blocked-redirect' };
-    if (!res.ok) return { skipped: `http-${res.status}` };
-    const buf = await res.arrayBuffer().catch(() => null);
-    if (!buf || buf.byteLength === 0) return { skipped: 'empty-body' };
-    if (buf.byteLength > ZIP_MAX_FILE_BYTES) return { skipped: 'too-large' };
+    if (!fetched.bytes || fetched.bytes.byteLength === 0) return { skipped: 'empty-body' };
     return {
-      data: new Uint8Array(buf),
-      contentType: res.headers.get('content-type') || '',
+      data: fetched.bytes,
+      contentType: fetched.contentType,
       url,
       index: i,
       name: f.name,
@@ -488,6 +594,24 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   }
 
   /**
+   * D2: turn a large data: image URL into a blob: URL the download
+   * manager can take when chrome.downloads.download refuses the data:
+   * URL itself. The service worker has no document, so it cannot make
+   * a blob URL; this offscreen document can. Decoding is chunked
+   * (core/data-url.js), the same cap as normalizeUrl applies, and the
+   * worker revokes the blob URL once Chrome has the download on record.
+   * Only image data URLs are accepted, nothing is fetched.
+   */
+  function dataUrlToBlobUrl(msg) {
+    const src = msg.srcUrl;
+    if (typeof src !== 'string' || !src.startsWith('data:image/')) throw new Error('bad-source');
+    if (dataUrlDecodedSize(src) > DATA_URL_DOWNLOAD_MAX_DECODED) throw new Error('too-large');
+    const blob = dataUrlToBlob(src);
+    if (!blob || !String(blob.type || '').startsWith('image/')) throw new Error('not-image');
+    return { ok: true, url: URL.createObjectURL(blob) };
+  }
+
+  /**
    * Real 24-bit BMP encoding (headers + pixel data, no compression).
    * Canvas cannot encode BMP, so it is written by hand, never faked.
    */
@@ -550,16 +674,25 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function convertSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
-    const res = await fetch(msg.srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-    throwIfRedirectBlocked(res, msg.pageUrl);
-    if (!res.ok) throw new Error(`http-${res.status}`);
-    const blob = await res.blob();
+    let blob;
+    if (typeof msg.srcUrl === 'string' && msg.srcUrl.startsWith('data:')) {
+      blob = dataUrlToBlob(msg.srcUrl);
+    } else {
+      // H3/H7: capped while streaming, sniffed, never fetched blind.
+      const { bytes } = await fetchBytesCapped(msg.srcUrl, {
+        maxBytes: LOAD_BITMAP_MAX_BYTES, timeoutMs: LOAD_BITMAP_TIMEOUT_MS, pageUrl: msg.pageUrl,
+      });
+      const sniffed = sniffImageMime(bytes);
+      if (!sniffed) throw new Error('not-image');
+      blob = new Blob([bytes], { type: sniffed });
+    }
     if (!blob.type.startsWith('image/')) throw new Error('not-image');
     const bitmap = await createImageBitmap(blob);
     const w = bitmap.width;
     const h = bitmap.height;
     bitmap.close();
     if (w <= 0 || h <= 0) throw new Error('not-image');
+    assertImagePixelBudget(w, h);
     const dataUrl = await new Promise((resolve, reject) => {
       const fr = new FileReader();
       fr.onload = () => resolve(String(fr.result));
@@ -593,11 +726,18 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    */
   async function tryAnimatedGif(srcUrl, pageUrl) {
     if (typeof ImageDecoder === 'undefined') return null;
-    const res = await fetch(srcUrl, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-    if (!res.ok) return null;
-    if (isRedirectBlocked(res.url, pageUrl)) return null;
-    const buf = await res.arrayBuffer();
-    if (buf.byteLength === 0 || buf.byteLength > GIF_PROBE_MAX_BYTES) return null;
+    let buf;
+    try {
+      // H7: the old arrayBuffer path buffered the whole file before
+      // the 100 MB check ran; the capped fetch enforces it streaming.
+      const fetched = await fetchBytesCapped(srcUrl, {
+        maxBytes: GIF_PROBE_MAX_BYTES, timeoutMs: 30_000, pageUrl,
+      });
+      buf = fetched.bytes.buffer;
+    } catch {
+      return null;
+    }
+    if (buf.byteLength === 0) return null;
     const type = sniffImageType(buf);
     if (!type) return null;
     let decoder = null;
@@ -1081,6 +1221,9 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
         break;
       case 'REVOKE_URL':
         result = revokeObjectUrl(msg);
+        break;
+      case 'DATA_URL_TO_BLOB_URL':
+        result = dataUrlToBlobUrl(msg);
         break;
       case 'CONVERT_BMP':
         result = await convertBmp(msg);

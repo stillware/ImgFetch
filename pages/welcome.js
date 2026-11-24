@@ -106,6 +106,8 @@
     row.hidden = granted;
   }
   let step = 0;
+  let shownStep = -1;
+  let paintedOnce = false;
   let settings = null;
   let saveTimer = 0;
   const $ = (id) => document.getElementById(id);
@@ -113,10 +115,20 @@
   const dots = () => [...document.querySelectorAll('.dots i')];
 
   function paint() {
+    const prevStep = shownStep;
     steps().forEach((s, i) => s.classList.toggle('active', i === step));
     dots().forEach((d, i) => d.classList.toggle('on', i === step));
     document.getElementById('btnBack').hidden = step === 0;
     document.getElementById('btnNext').textContent = step === steps().length - 1 ? tr('welcome_start', 'Start using ImgFetch') : tr('welcome_next', 'Next');
+    // G2: the incoming step slides in the direction of travel (250 ms,
+    // 8 px, blur to 0); the first paint never animates, and a language
+    // change (same step) does not replay the slide.
+    if (paintedOnce && prevStep >= 0 && prevStep !== step) {
+      const el = steps()[step];
+      if (el && UI.runViewTransition) UI.runViewTransition(el, step > prevStep ? 'forward' : 'back');
+    }
+    paintedOnce = true;
+    shownStep = step;
   }
 
   document.getElementById('btnBack').addEventListener('click', () => {

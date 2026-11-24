@@ -18,7 +18,8 @@
 /**
  * ImgFetch, content/scanner.js
  * Runs in the page (ISOLATED world). Exposes window.__imgfetch:
- *   scanPage(options)        -> { images:[...], pageTitle, pageHost, pageUrl }
+ *   scanPage(options)        -> { images:[...], pageTitle, pageHost, pageUrl,
+ *                                 count, droppedBySize, droppedByRelevance, deduped }
  *   findBestSource(srcUrl)   -> { url, width, height, confidence, kind }
  *   getImageInfo(srcUrl)     -> { ... } | null
  *
@@ -32,7 +33,8 @@
 
   // L12: scanner discovery cap for data: URLs (2 MB). Scan results travel
   // through extension messaging, keep them small. The download path allows
-  // more (DATA_URL_DOWNLOAD_MAX in core/urls.js); the limits differ by path.
+  // more (DATA_URL_DOWNLOAD_MAX_DECODED in core/urls.js); the limits differ
+  // by path.
   const SCAN_DATA_URL_MAX = 2_000_000;
 
   const LAZY_ATTRS = [
@@ -55,8 +57,8 @@
         return u.toString();
       }
       if (u.protocol === 'data:' && /^data:image\//i.test(value.slice(0, 64))) {
-        // L12: scanner discovery cap (2 MB), see DATA_URL_DOWNLOAD_MAX in
-        // core/urls.js for why the download path allows more.
+        // L12: scanner discovery cap (2 MB), see DATA_URL_DOWNLOAD_MAX_DECODED
+        // in core/urls.js for why the download path allows more.
         return value.length > SCAN_DATA_URL_MAX ? null : value;
       }
       // blob: URLs are how GIF-heavy sites (Giphy, Tenor, editors) serve
@@ -667,6 +669,7 @@
     let order = 0;
     let droppedBySize = 0;
     let droppedByRelevance = 0;
+    let deduped = 0;
 
     const emit = (done, total) => {
       try {
@@ -680,7 +683,14 @@
     // Exact-URL dedup happens here (src+srcset+lazy of one element).
     const collectRaw = (record, el, kind, naturalW, naturalH, fromLazy) => {
       const key = (record.src || '').toLowerCase();
-      if (!key || seen.has(key)) return;
+      if (!key) return;
+      if (seen.has(key)) {
+        // D5: exact-URL duplicates were dropped silently, so the results
+        // summary could never report them. Count each one here; the
+        // worker adds this to its own size-variant dedupe count.
+        deduped += 1;
+        return;
+      }
       // Extremely large inline data-URL images would blow up session storage
       // and thumbnails; skip them (documented limitation).
       if (key.startsWith('data:') && key.length > 500_000) return;
@@ -1037,7 +1047,7 @@
       console.debug(`[imgfetch:scan] ${images.length} kept, ${droppedByRelevance} UI assets filtered, ${droppedBySize} dropped by size filter`);
     }
 
-    return { images, pageTitle, pageHost, pageUrl, count: images.length, droppedBySize, droppedByRelevance };
+    return { images, pageTitle, pageHost, pageUrl, count: images.length, droppedBySize, droppedByRelevance, deduped };
   }
 
   /**

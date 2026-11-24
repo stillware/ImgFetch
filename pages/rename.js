@@ -55,17 +55,26 @@ const tabId = q.get('tabId') || '';
 const $ = (id) => document.getElementById(id);
 UI.applyTheme('system');
 
+/**
+ * D1: the suggested filename arrives asynchronously (the worker may need
+ * to wake first), while the field is focused for immediate typing. Once
+ * the user has typed anything, a late suggestion must never overwrite
+ * their text, or the download silently uses the automatic name.
+ */
+let userEdited = false;
+$('filename').addEventListener('input', () => { userEdited = true; });
+
 async function init() {
   if (srcUrl) $('preview').src = srcUrl;
   try {
     const { settings } = await UI.send('GET_SETTINGS');
     UI.applyTheme(settings.theme);
     const res = await UI.send('SUGGEST_FILENAME', { srcUrl, format, pageUrl });
-    if (res && res.name) $('filename').value = res.name;
+    if (res && res.name && !userEdited) $('filename').value = res.name;
   } catch {
-    /* fall back to URL hint */
+    /* fall back to URL hint, but never over user-typed text */
     try {
-      $('filename').value = (srcUrl.split('/').pop() || 'image').split('?')[0] || 'image';
+      if (!userEdited) $('filename').value = (srcUrl.split('/').pop() || 'image').split('?')[0] || 'image';
     } catch { /* malformed URL; keep default filename */ }
   }
   paintFormatHint();

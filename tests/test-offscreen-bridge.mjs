@@ -112,6 +112,7 @@ const EXPECTED_TYPES = [
   'BUILD_ZIP',
   'ZIP_ABORT',
   'REVOKE_URL',
+  'DATA_URL_TO_BLOB_URL',
   'CONVERT_BMP',
   'CONVERT_SVG',
   'SANITIZE_SVG',
@@ -132,6 +133,7 @@ check('offscreen type allowlist matches the handler switch exactly',
 check('offscreen type allowlist has no duplicates',
   new Set(OFFSCREEN_MESSAGE_TYPES).size === OFFSCREEN_MESSAGE_TYPES.length);
 check('isOffscreenMessageType accepts a known type', isOffscreenMessageType('SNIFF_TYPE') === true);
+check('isOffscreenMessageType accepts the D2 blob URL type', isOffscreenMessageType('DATA_URL_TO_BLOB_URL') === true);
 check('isOffscreenMessageType rejects an unknown type', isOffscreenMessageType('NOPE') === false);
 check('isOffscreenMessageType rejects a non string', isOffscreenMessageType(null) === false);
 

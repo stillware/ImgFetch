@@ -2,8 +2,8 @@
 
 Ready to paste listing text for the Edge Add-ons store and the Chrome Web Store, with permission justifications and a pre-submission checklist.
 
-Applies to: ImgFetch 1.1.0
-Last verified: 2026-10-22
+Applies to: ImgFetch 1.1.1
+Last verified: 2026-11-23
 
 ## Store status
 
@@ -56,7 +56,7 @@ Screenshot editor
 Annotate a capture before saving it with Pen, Arrow, Rectangle, Circle, Text, and Pixelate. The Crop tool (shortcut C) is non-destructive: the original image and your annotations are never modified, and Save and Copy export exactly the cropped region. Undo and Redo cover both annotations and the crop. Undo works with Ctrl+Z (Cmd+Z on macOS) and Redo with Ctrl+Y or Ctrl+Shift+Z (Cmd+Shift+Z on macOS).
 
 Queue and history
-A download queue shows live progress for each file, with retry and cancel. Download history records file names and sizes and can be searched, cleared, or turned off in Settings.
+A download queue shows live progress for each file, with retry and cancel. Download history records file names and sizes and can be searched, cleared, or turned off in Settings. History rows can also show a small local thumbnail, made by requesting each downloaded image once more after the download; thumbnails can be turned off in Settings.
 
 Private by design
 ImgFetch has no accounts, no sign-in, no analytics, no telemetry, and no tracking. Settings and history stay in your browser on your device. Captures wait in local browser storage for up to 1 hour. All conversion and capture work happens on your device.

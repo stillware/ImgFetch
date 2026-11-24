@@ -363,6 +363,10 @@
     "message": "{count}개 중복 제거됨",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "다운로드됨",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "{count}개 UI 요소 숨겨짐",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "복사했습니다!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "이미지 복사",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "이미지를 복사할 수 없습니다.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "아직 다운로드가 없습니다. 저장한 이미지가 여기에 표시됩니다.",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "파일 열기",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "원본 링크 열기",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "대신 폴더에 표시합니다.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "오늘",
@@ -1347,6 +1367,14 @@
     "message": "이보다 오래된 항목은 자동으로 삭제됩니다.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "기록에 썸네일 표시",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "썸네일은 다운로드 후 이미지를 한 번 더 요청하여 만듭니다.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "지금 지우기",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "설정, 사이트 환경설정, 다운로드 기록은 브라우저의 로컬 저장소에 저장되며, 이 기기에만 존재합니다.",
+    "message": "설정, 사이트 환경설정, 다운로드 기록은 브라우저의 로컬 저장소에 저장되며, 이 기기에만 존재합니다. 기록 썸네일은 다운로드 후 다운로드한 각 이미지를 한 번 더 요청하여 만듭니다. 기기에서 나가는 것은 없습니다.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "스크린샷이 클립보드에 복사되었습니다. 맞게 {width} x {height}로 축소되었습니다.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "이 스크린샷은 클립보드에는 너무 커서 표시된 부분만 복사했습니다 ({width} x {height}). 전체 이미지를 유지하려면 스크린샷을 저장하세요.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "스크린샷을 복사하지 못했습니다. 대신 저장해 보세요.",

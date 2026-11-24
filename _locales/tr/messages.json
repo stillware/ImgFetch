@@ -363,6 +363,10 @@
     "message": "{count} yineleme kaldırıldı",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "İndirildi",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "{count} arayüz öğesi gizlendi",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "Kopyalandı!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Görüntüyü kopyala",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Görüntü kopyalanamadı.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "Henüz indirme yok. Kaydedilen görüntüleriniz burada görünecek.",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Dosyayı aç",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Kaynak bağlantısını aç",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Bunun yerine klasörde gösteriliyor.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Bugün",
@@ -768,7 +788,7 @@
     "description": "Options section: Quality."
   },
   "options_secFilenames": {
-    "message": "Dosya Adları",
+    "message": "Dosya adları",
     "description": "Options section: File Names."
   },
   "options_secScanning": {
@@ -776,11 +796,11 @@
     "description": "Options section: Scanning."
   },
   "options_secScreenshots": {
-    "message": "Ekran Görüntüleri",
+    "message": "Ekran görüntüleri",
     "description": "Options section: Screenshots."
   },
   "options_secSites": {
-    "message": "Site Tercihleri",
+    "message": "Site tercihleri",
     "description": "Options section: Site Preferences."
   },
   "options_secShortcuts": {
@@ -792,11 +812,11 @@
     "description": "Options section: Folders."
   },
   "options_secHistory": {
-    "message": "İndirme Geçmişi",
+    "message": "İndirme geçmişi",
     "description": "Options section: Download History."
   },
   "options_secBackup": {
-    "message": "Yedekleme ve Sıfırlama",
+    "message": "Yedekleme ve sıfırlama",
     "description": "Options section: Backup and Reset."
   },
   "options_secAbout": {
@@ -1347,6 +1367,14 @@
     "message": "Bundan eski girdiler otomatik kaldırılır.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Geçmişte küçük resimleri göster",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Küçük resimler, indirme sonrasında görüntünün bir kez daha istenmesiyle oluşturulur.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Şimdi temizle",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Ayarlarınız, site tercihleriniz ve indirme geçmişiniz tarayıcınızın yerel depolamasında, yalnızca bu cihazda yaşar.",
+    "message": "Ayarlarınız, site tercihleriniz ve indirme geçmişiniz tarayıcınızın yerel depolamasında, yalnızca bu cihazda yaşar. Geçmiş küçük resimleri, indirilen her görüntünün indirme sonrasında bir kez daha istenmesiyle oluşturulur; cihazdan hiçbir şey çıkmaz.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "Ekran görüntüsü panoya kopyalandı, sığması için {width} x {height} boyutuna küçültüldü.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "Bu ekran görüntüsü pano için çok büyük, bu yüzden yalnızca gösterilen bölüm kopyalandı ({width} x {height}). Tam görüntüyü korumak için ekran görüntüsünü kaydedin.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Ekran görüntüsü kopyalanamadı. Bunun yerine kaydetmeyi deneyin.",

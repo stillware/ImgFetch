@@ -27,6 +27,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* Phase 3 Screen 2 (editor): top bar, floating toolbar pill, dotted
        stage, hint pill. Page-specific layout only; the shared components
        (buttons, toast, dialog, focus ring) live in shared/ui.css. */
+    /* Phase 5 A8: reserve the scrollbar gutter always, so the
+       toolbar and canvas never shift sideways when the vertical
+       scrollbar appears or disappears (the old 15px jump). */
+    html { scrollbar-gutter: stable; }
     body { position: relative; display: flex; flex-direction: column; min-height: 100vh; }
     /* Top bar: brand on the left, actions visually on the right (see the
        .actions note below for why the buttons stay later in the DOM). */
@@ -100,6 +104,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .annotate-hint .icon { width: 16px; height: 16px; color: var(--accentText); flex: none; }
     .annotate-hint b { color: var(--text); font-weight: 600; }
     #windowsNote { font-size: 12px; color: var(--muted); margin: 12px 16px 24px; max-width: 700px; text-align: center; }
+    /* Phase 5 item C: real pixel size of the image shown (full part, or
+       the crop after Apply). Same muted centred line as the note below. */
+    .annotate-dims { font-size: 12px; color: var(--muted); margin: 10px 16px 0; max-width: 700px; text-align: center; }
     /* Actions live visually in the top bar (absolute, top right), but stay
        after the stage in the DOM so keyboard Tab order still walks the
        crop controls first and reaches Save next. Visual order is set with
@@ -200,6 +207,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       <button id="btnCancel" class="btn btn-ghost"><span data-i18n="annotate_discard">Discard</span></button>
     </div>
     <p class="annotate-hint" id="hintPill" aria-live="polite"><svg class="icon" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#info"/></svg><span><b id="hintTool">Pen</b><span>: </span><span id="hintText">Drag on the image to draw.</span></span></p>
+    <p class="annotate-dims" id="dimsStatus" role="status" hidden></p>
     <p id="windowsNote" data-i18n="copy_windowsNote" hidden>Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.</p>
   </div>
 

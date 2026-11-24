@@ -67,7 +67,13 @@ await test('normalizeUrl allows image data URLs, caps length', () => {
   const ok = 'data:image/png;base64,' + 'a'.repeat(100);
   assert.equal(urls.normalizeUrl(ok, null), ok);
   assert.equal(urls.normalizeUrl('data:text/plain,hi', null), null);
-  assert.equal(urls.normalizeUrl('data:image/png;base64,' + 'a'.repeat(3_000_000), null), null);
+  // D2: a 3M-char base64 payload is about 2.25 MB decoded, under the
+  // 50 MB decoded cap, so it is accepted now; the old 8192-char guard
+  // rejected every data URL longer than that.
+  const big = 'data:image/png;base64,' + 'a'.repeat(3_000_000);
+  assert.equal(urls.normalizeUrl(big, null), big);
+  const over = 'data:image/png;base64,' + 'A'.repeat(Math.ceil((urls.DATA_URL_DOWNLOAD_MAX_DECODED + 1) * 4 / 3));
+  assert.equal(urls.normalizeUrl(over, null), null);
 });
 await test('getExtensionFromUrl', () => {
   assert.equal(urls.getExtensionFromUrl('https://ex.com/a.JPG?w=1', null), 'jpg');
@@ -201,12 +207,13 @@ await test('FIX4: 40000px page at DPR 1 splits only by the side limit, no downsc
   const p = capture.planFullPageCapture({
     fullW: 1600, fullH: 40000, viewportW: 1600, viewportH: 900, dpr: 1,
   });
-  // 40000px side > 32767: two balanced parts, each at full device resolution.
-  assert.equal(p.parts.length, 2);
+  // Phase 5 item C: 40000px side > 16384, so three balanced parts, each
+  // at full device resolution.
+  assert.equal(p.parts.length, 3);
   for (const part of p.parts) {
     assert.ok(capture.isStitchSizeAccepted(part.w, part.h));
   }
-  assert.equal(p.parts[0].h + p.parts[1].h, 40000, 'no truncation, no downscale');
+  assert.equal(p.parts.reduce((n, part) => n + part.h, 0), 40000, 'no truncation, no downscale');
 });
 
 await test('FIX4: 20000px page at DPR 2 splits into full-resolution parts, whole page covered', () => {

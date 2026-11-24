@@ -31,6 +31,7 @@ import {
   filenameHintFromUrl,
   normalizeHost,
   isPrivateNetworkFetchBlocked,
+  isRedirectBlocked,
   lensUrlBlocked,
 } from '../core/urls.js';
 import {
@@ -75,7 +76,12 @@ import {
   isValidCaptureId,
   isValidCaptureGroupId,
 } from '../core/validation.js';
-import { addRecord, pruneRecords, MAX_RECORDS, makeHistoryThumb } from '../core/history.js';
+import {
+  addRecord, pruneRecords, MAX_RECORDS, makeHistoryThumb, enforceThumbBudget,
+  createSerialQueue, selectBackfillTargets, thumbFetchAllowed, fetchImageBytes,
+  bytesToDataUrl, HIST_THUMB_FETCH_TIMEOUT_MS, HIST_THUMB_SOURCE_MAX_BYTES,
+  sanitizeHistoryRecord,
+} from '../core/history.js';
 import { dedupeImages } from '../core/dedupe.js';
 import { pickBestImageUrl } from '../core/image-url.js';
 import { coerceScanState } from '../core/scan-state.js';
@@ -138,6 +144,10 @@ function mirrorI18nSettings() {
   } catch { /* storage unavailable; pages fall back to browser language */ }
 }
 const HISTORY_KEY = 'imgfetch.history';
+/** D4: one writer for every history store write, so two downloads finishing at once cannot overwrite each other. */
+const historyWriteQueue = createSerialQueue();
+/** B1: one thumbnail fetch at a time, never during the download itself. */
+const thumbFetchQueue = createSerialQueue();
 const LAST_SCAN_KEY = 'imgfetch.lastScan';
 const COUNTER_KEY = 'imgfetch.fileCounter';
 
@@ -290,12 +300,47 @@ async function restoreQueueState() {
  * M10: extracted from 4 duplicated call sites.
  */
 async function saveToDownloads({ url, path, saveAs }) {
-  return chrome.downloads.download({
+  const direct = await chrome.downloads.download({
     url,
     filename: path,
     saveAs: !!saveAs,
     conflictAction: 'uniquify',
   }).catch(() => null);
+  if (direct != null) return direct;
+  // D2: a very large data: URL can be refused by chrome.downloads even
+  // though normalizeUrl allows it (50 MB decoded cap). Convert it to a
+  // blob URL in the offscreen document and download that instead; the
+  // blob URL is revoked once Chrome has the download on record, so the
+  // blob cannot be pulled out from under a download that just started.
+  // Direct downloads stay the only path for every other URL.
+  if (typeof url !== 'string' || !url.startsWith('data:image/')) return null;
+  let blobUrl = null;
+  try {
+    const converted = await offscreenCall({ type: 'DATA_URL_TO_BLOB_URL', srcUrl: url });
+    if (!converted || !converted.ok || typeof converted.url !== 'string') return null;
+    blobUrl = converted.url;
+    const id = await chrome.downloads.download({
+      url: blobUrl,
+      filename: path,
+      saveAs: !!saveAs,
+      conflictAction: 'uniquify',
+    }).catch(() => null);
+    if (id == null) return null;
+    for (let i = 0; i < 10; i += 1) {
+      try {
+        const [d] = await chrome.downloads.search({ id });
+        if (d) break;
+      } catch {
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    return id;
+  } catch {
+    return null;
+  } finally {
+    if (blobUrl) await offscreenCall({ type: 'REVOKE_URL', url: blobUrl }).catch(() => {});
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -996,9 +1041,11 @@ function trackDownload(item, downloadId, historyEntry, thumbSource) {
         historyEntry.bytes = await downloadFileSize(downloadId);
         historyEntry.dlId = downloadId;
         // Thumbnail last, after the download has succeeded: a failure
-        // here must never break or slow the download itself, and the
-        // source is only ever image data already in memory. The source
-        // stays in this closure, never in the persisted queue item.
+        // here must never break or slow the download itself. For data:
+        // and converted downloads the source is only ever image data
+        // already in memory (B1 fetches direct downloads once more,
+        // after the record below is stored). The source stays in this
+        // closure, never in the persisted queue item.
         if (thumbSource) {
           try {
             const thumb = await makeHistoryThumb(thumbSource);
@@ -1007,7 +1054,15 @@ function trackDownload(item, downloadId, historyEntry, thumbSource) {
             /* no thumbnail, the row keeps its icon tile */
           }
         }
-        await recordHistory(historyEntry);
+        const storedId = await recordHistory(historyEntry);
+        if (storedId) historyEntry.id = storedId;
+        // B1: direct http(s) downloads had no image data in memory, so
+        // no thumbnail was made above. Fetch one now, in the background,
+        // one at a time, after the download has finished. Fire and
+        // forget: a failure here must never surface to the download.
+        if (!thumbSource && historyEntry.url) {
+          thumbFetchQueue.enqueue(() => fetchAndStoreThumb(historyEntry)).catch(() => {});
+        }
       }
     })
     .finally(() => {
@@ -1377,13 +1432,71 @@ async function performSmartDownload(item) {
   throw final;
 }
 
+/**
+ * D4: the single history writer. Every history store write goes through
+ * historyWriteQueue, so two downloads finishing at the same time can no
+ * longer read the same list and overwrite each other. Returns the stored
+ * record id (or null when history is disabled), so the caller can attach
+ * a thumbnail to the same record afterwards (B1).
+ */
 async function recordHistory(entry) {
+  return historyWriteQueue.enqueue(async () => {
+    const settings = await getSettings();
+    if (!settings.historyEnabled) return null;
+    const stored = await chrome.storage.local.get(HISTORY_KEY);
+    let records = addRecord(stored[HISTORY_KEY] || [], { ...entry, at: Date.now() });
+    records = pruneRecords(records, settings.historyRetentionDays);
+    await chrome.storage.local.set({ [HISTORY_KEY]: records.slice(0, MAX_RECORDS) });
+    return records[0] ? records[0].id : null;
+  });
+}
+
+/**
+ * B1: fetch one direct-download image once more, after its download
+ * completed, and store a 120 px thumbnail on its history record. One
+ * attempt only, serial through thumbFetchQueue, silent on any failure:
+ * the row keeps its icon tile and the download is never affected. The
+ * fetch uses the same safe policy as the offscreen pipeline:
+ * credentials omitted, no referrer, private-network and redirect
+ * guards, 10 s timeout, 25 MB cap. Never called while the setting is
+ * off, so a disabled setting means zero requests.
+ */
+async function fetchAndStoreThumb(record) {
   const settings = await getSettings();
-  if (!settings.historyEnabled) return;
-  const stored = await chrome.storage.local.get(HISTORY_KEY);
-  let records = addRecord(stored[HISTORY_KEY] || [], { ...entry, at: Date.now() });
-  records = pruneRecords(records, settings.historyRetentionDays);
-  await chrome.storage.local.set({ [HISTORY_KEY]: records.slice(0, MAX_RECORDS) });
+  if (!thumbFetchAllowed(settings, record)) return;
+  const pageUrl = record.pageHost ? `https://${record.pageHost}/` : '';
+  if (isPrivateNetworkFetchBlocked(record.url, pageUrl)) return;
+  let dataUrl = null;
+  try {
+    const fetched = await fetchImageBytes(
+      (u, init) => fetch(u, init),
+      record.url,
+      { timeoutMs: HIST_THUMB_FETCH_TIMEOUT_MS, maxBytes: HIST_THUMB_SOURCE_MAX_BYTES, pageUrl },
+    );
+    if (isRedirectBlocked(fetched.finalUrl, pageUrl)) return;
+    if (!String(fetched.mime || '').startsWith('image/')) return;
+    dataUrl = bytesToDataUrl(fetched.bytes, fetched.mime);
+  } catch {
+    return; // silent fallback to the icon tile
+  }
+  if (!dataUrl) return;
+  let thumb = null;
+  try {
+    thumb = await makeHistoryThumb(dataUrl);
+  } catch {
+    return;
+  }
+  if (!thumb) return;
+  await historyWriteQueue.enqueue(async () => {
+    const stored = await chrome.storage.local.get(HISTORY_KEY);
+    const records = stored[HISTORY_KEY] || [];
+    const target = records.find((r) => r && r.id === record.id);
+    if (!target) return;
+    target.thumb = thumb;
+    enforceThumbBudget(records);
+    await chrome.storage.local.set({ [HISTORY_KEY]: records.slice(0, MAX_RECORDS) });
+  });
+  broadcast({ type: 'HISTORY_THUMB', id: record.id, thumb });
 }
 
 chrome.downloads.onChanged.addListener((delta) => {
@@ -1526,6 +1639,7 @@ async function scanPage(tabId) {
   let images = [];
   let droppedBySize = 0;
   let droppedByRelevance = 0;
+  let inPageDeduped = 0;
   let frameCount = 0;
   for (const r of scanResults || []) {
     const s = r && r.result;
@@ -1534,6 +1648,10 @@ async function scanPage(tabId) {
     images.push(...s.images);
     droppedBySize += Number(s.droppedBySize) || 0;
     droppedByRelevance += Number(s.droppedByRelevance) || 0;
+    // D5: each frame reports the exact-URL duplicates its scanner dropped;
+    // without this the results summary showed 0 duplicates whenever the
+    // in-page dedup had already removed them before this worker ran.
+    inPageDeduped += Number(s.deduped) || 0;
   }
   if (!images.length && frameCount === 0) throw new Error(friendlyError('scan-failed'));
   // Hard cap so a pathological page can't blow up memory/storage.
@@ -1564,7 +1682,11 @@ async function scanPage(tabId) {
     pageHost: (() => { try { return new URL(tab.url).hostname; } catch { return ''; } })(),
     at: Date.now(),
     images,
-    deduped,
+    // D5: in-page exact-URL duplicates plus this worker's size-variant
+    // duplicates. The two layers never double count: the in-page dedup
+    // runs inside one frame, the worker dedup runs on the merged list,
+    // so a duplicate counted in-page is already gone when the worker runs.
+    deduped: inPageDeduped + deduped,
     droppedBySize,
     droppedByRelevance,
   };
@@ -2669,7 +2791,17 @@ async function copyImageInPage(tabId, srcUrl) {
       try {
         let blob = null;
         try {
-          const res = await fetch(src, { credentials: 'include' });
+          // H3: cookies go only to the same origin as the page. A
+          // cross-origin image host that opts into credentialed CORS
+          // must never receive the user's cookies for that site from
+          // this fetch; the canvas fallback below covers those images.
+          let sameOrigin = false;
+          try {
+            sameOrigin = new URL(src, location.href).origin === location.origin;
+          } catch {
+            sameOrigin = false;
+          }
+          const res = await fetch(src, { credentials: sameOrigin ? 'include' : 'omit' });
           if (res.ok) {
             const b = await res.blob();
             if (b && String(b.type || '').startsWith('image/')) blob = b;
@@ -2691,7 +2823,11 @@ async function copyImageInPage(tabId, srcUrl) {
           });
           const w = img.naturalWidth;
           const h = img.naturalHeight;
-          if (!(w > 0 && h > 0) || w > 8000 || h > 8000 || w * h > 32_000_000) {
+          // Phase 5 item C: the clipboard-safe size is the conservative
+          // canvas limit (16384 px per side, 268,435,456 total pixels),
+          // not the old 8000 px / 32 MP cap; a long screenshot past the
+          // old cap was refused outright instead of copied.
+          if (!(w > 0 && h > 0) || w > 16384 || h > 16384 || w * h > 268_435_456) {
             return false;
           }
           const c = document.createElement('canvas');
@@ -3077,9 +3213,9 @@ async function handleMenuClick(info, tab) {
         break;
       }
       // Fallback chain: (1) offscreen copy, (2) in-page copy, the page
-      // owns blob: URLs and sends its own referrer/cookies, fixing hotlink-
-      // protected and page-blob images, (3) copy the link as text so the
-      // clipboard never ends up empty.
+      // owns blob: URLs and sends its own cookies only for same-origin
+      // images, fixing hotlink-protected and page-blob images, (3) copy
+      // the link as text so the clipboard never ends up empty.
       try {
         const res = await offscreenCall({ type: 'CLIPBOARD_IMAGE', srcUrl: url, pageUrl });
         if (!res || !res.ok) throw new Error('copy-failed');
@@ -3198,13 +3334,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     sendResponse({ ok: false, error: 'invalid-message' });
     return false;
   }
-  // M6: only accept messages from our own extension, and only the message
-  // types each sender kind is allowed to send. Fail closed.
-  if (!sender || sender.id !== chrome.runtime.id) {
-    sendResponse({ ok: false, error: 'foreign-sender' });
-    return false;
-  }
-
   // M6: only accept messages from our own extension, and only the message
   // types each sender kind is allowed to send. Fail closed.
   if (!sender || sender.id !== chrome.runtime.id) {
@@ -3410,14 +3539,45 @@ async function routeMessage(msg, kind, sender) {
       return { snapshot: queue.clearFinished() };
 
     case 'GET_HISTORY': {
+      // H6: sanitise on read as well as write. Storage can hold records
+      // written by older versions or tampered with, so a hostile record
+      // must never reach the popup or options page unsanitised.
       const stored = await chrome.storage.local.get(HISTORY_KEY);
-      return { records: stored[HISTORY_KEY] || [] };
+      const records = (stored[HISTORY_KEY] || [])
+        .map((r) => sanitizeHistoryRecord(r))
+        .filter((r) => r !== null)
+        .slice(0, MAX_RECORDS);
+      return { records };
     }
     case 'CLEAR_HISTORY': {
       if (kind !== 'extension') throw new Error('forbidden');
-      await chrome.storage.local.set({ [HISTORY_KEY]: [] });
+      await historyWriteQueue.enqueue(async () => {
+        await chrome.storage.local.set({ [HISTORY_KEY]: [] });
+      });
       return { cleared: true };
     }
+
+    case 'BACKFILL_HISTORY_THUMBS': {
+      // B1: when a history view opens, thumbnail the records that have
+      // a source URL and no thumb yet, at most 12, newest first, one at
+      // a time, in the background. Returns { started } at once; each
+      // finished thumbnail is broadcast as HISTORY_THUMB so the open
+      // view can update the row in place. No request is made while the
+      // setting is off.
+      if (settings.historyShowThumbnails === false) return { started: 0 };
+      const stored = await chrome.storage.local.get(HISTORY_KEY);
+      const targets = selectBackfillTargets(stored[HISTORY_KEY] || []);
+      for (const target of targets) {
+        thumbFetchQueue.enqueue(() => fetchAndStoreThumb(target)).catch(() => {});
+      }
+      return { started: targets.length };
+    }
+
+    // B2 note: there is deliberately no OPEN_DOWNLOAD case. downloads.open
+    // needs the click's user gesture, and the worker round-trip loses it
+    // (proven live: the worker call fails with "User gesture required"),
+    // so the history row opens the file from the popup/options page
+    // itself (shared/history-ui.js openDownloadFile).
 
     case 'CAPTURE_VISIBLE':
       return captureVisible();

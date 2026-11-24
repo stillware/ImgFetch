@@ -76,14 +76,15 @@ function tilesCoverPart(part, tileW, tileH) {
   return '';
 }
 
-// --- the limit rule itself ---
-check('32767 side accepted', isStitchSizeAccepted(32767, 100) === true);
-check('32768 side rejected', isStitchSizeAccepted(32768, 100) === false);
-check('100MP area accepted', isStitchSizeAccepted(10000, 10000) === true); // exactly 100,000,000
-check('over 100MP rejected', isStitchSizeAccepted(10000, 10001) === false);
+// --- the limit rule itself (Phase 5 item C: conservative canvas limits) ---
+check('16384 side accepted', isStitchSizeAccepted(16384, 100) === true);
+check('16385 side rejected', isStitchSizeAccepted(16385, 100) === false);
+check('16384x16384 area accepted', isStitchSizeAccepted(16384, 16384) === true); // exactly 268,435,456
+check('over 268435456 area rejected', isStitchSizeAccepted(16384, 16385) === false);
+check('old 32767 side now rejected', isStitchSizeAccepted(32767, 100) === false);
 check('zero rejected', isStitchSizeAccepted(0, 100) === false);
-check('PART_MAX_SIDE is 32767', PART_MAX_SIDE === 32767);
-check('PART_MAX_AREA is 100MP', PART_MAX_AREA === 100_000_000);
+check('PART_MAX_SIDE is 16384', PART_MAX_SIDE === 16384);
+check('PART_MAX_AREA is 268435456', PART_MAX_AREA === 268_435_456);
 check('PART_MAX_COUNT is 48', PART_MAX_COUNT === 48);
 check('capture duration cap is 10 minutes', CAPTURE_MAX_DURATION_MS === 600_000);
 check('allocation floor is positive and below the area cap', CAPTURE_AREA_FLOOR > 0 && CAPTURE_AREA_FLOOR < PART_MAX_AREA);
@@ -185,8 +186,10 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
 // --- Round 4: balanced parts (no giant part + tiny remainder) ---
 {
   const p = planFullPageCapture({ fullW: 1280, fullH: 48000, viewportW: 1280, viewportH: 800, dpr: 1 });
-  check('balanced: 48000px page splits into 2 parts', p.parts.length === 2, `parts=${p.parts.length}`);
-  check('balanced: parts are exactly equal here', p.parts[0].h === 24000 && p.parts[1].h === 24000,
+  // Phase 5 item C: the 16384 side cap binds first (20 tile rows of 800 px
+  // = 16000 px per band), so 48000 px splits into 3 equal parts.
+  check('balanced: 48000px page splits into 3 parts', p.parts.length === 3, `parts=${p.parts.length}`);
+  check('balanced: parts are exactly equal here', p.parts[0].h === 16000 && p.parts[1].h === 16000 && p.parts[2].h === 16000,
     p.parts.map((pt) => pt.h).join(','));
   check('balanced: cuts land on tile boundaries', p.parts.every((pt) => pt.y0 % p.tileH === 0 || pt.y0 === 0));
   const q = planFullPageCapture({ fullW: 1600, fullH: 60000, viewportW: 1600, viewportH: 900, dpr: 2 });

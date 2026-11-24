@@ -391,6 +391,10 @@
     "message": "{count} doublons supprimés",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "Téléchargée",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden_one": {
     "message": "{count} élément d’interface masqué",
     "description": "Status line fragment. Singular."
@@ -611,6 +615,14 @@
     "message": "Copié !",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "Copier l'image",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "Impossible de copier l'image.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "Aucun téléchargement pour l’instant. Vos images enregistrées apparaîtront ici.",
     "description": "Empty state of the download history."
@@ -643,9 +655,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "Ouvrir le fichier",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "Ouvrir le lien source",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "Affichage dans le dossier à la place.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "Aujourd’hui",
@@ -1403,6 +1423,14 @@
     "message": "Les entrées plus anciennes sont supprimées automatiquement.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "Afficher les miniatures dans l'historique",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "Les miniatures sont créées en demandant l'image une fois de plus après le téléchargement.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "Effacer maintenant",
     "description": "History: clear-now label."
@@ -1536,7 +1564,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "Vos paramètres, préférences de site et historique de téléchargements vivent dans le stockage local de votre navigateur, uniquement sur cet appareil.",
+    "message": "Vos paramètres, préférences de site et historique de téléchargements vivent dans le stockage local de votre navigateur, uniquement sur cet appareil. Les miniatures de l'historique sont créées en demandant chaque image téléchargée une fois de plus après le téléchargement ; rien ne quitte l'appareil.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2222,6 +2250,10 @@
   "copyDownscaled": {
     "message": "Capture copiée dans le presse-papiers, réduite à {width} x {height} pour tenir.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "Cette capture est trop grande pour le presse-papiers, seule la partie affichée a donc été copiée ({width} x {height}). Enregistrez la capture pour conserver l'image complète.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "Copie de la capture impossible. Essayez de l’enregistrer.",

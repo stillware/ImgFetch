@@ -363,6 +363,10 @@
     "message": "{count} 件の重複を削除しました",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "ダウンロード済み",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "{count} 件の UI 要素を非表示にしました",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "コピーしました！",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "画像をコピー",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "画像をコピーできませんでした。",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "まだダウンロードがありません。保存した画像はここに表示されます。",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "ファイルを開く",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "ソースリンクを開く",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "代わりにフォルダーに表示します。",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "今日",
@@ -1347,6 +1367,14 @@
     "message": "これより古いエントリは自動的に削除されます。",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "履歴にサムネイルを表示する",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "サムネイルは、ダウンロード後に画像をもう一度要求して作成されます。",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "今すぐクリア",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "設定、サイト設定、ダウンロード履歴はブラウザのローカルストレージに保存され、このデバイスのみに存在します。",
+    "message": "設定、サイト設定、ダウンロード履歴はブラウザのローカルストレージに保存され、このデバイスのみに存在します。 履歴のサムネイルは、ダウンロード後にダウンロードした各画像をもう一度要求して作成されます。デバイスから何も出ることはありません。",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "スクリーンショットをクリップボードにコピーしました。収まるよう {width} x {height} に縮小しました。",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "このスクリーンショットはクリップボードには大きすぎるため、表示されている部分のみコピーしました ({width} x {height})。完全な画像を残すにはスクリーンショットを保存してください。",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "スクリーンショットをコピーできませんでした。代わりに保存してみてください。",

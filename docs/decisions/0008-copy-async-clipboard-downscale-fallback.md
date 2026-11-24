@@ -42,3 +42,7 @@ The screenshot itself is never modified by a copy, successful or not.
 Unit coverage is in `tests/test-copy-shot.mjs` and
 `tests/test-clipboard-image.mjs`. Real Windows clipboard behavior stays a
 manual check; see [the tests guide](../tests/README.md).
+
+## Superseded (Phase 5, item C, 2026-11-23)
+
+The downscale fallback described above no longer exists. A failed copy is never retried at a smaller size. When an image is too large to copy, Copy exports the part currently shown at full resolution and the toast says so. The history of the decision is kept above; the current behaviour is in `shared/copy-shot.js` and `core/clipboard-image.js`.

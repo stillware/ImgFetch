@@ -507,6 +507,10 @@
     "message": "عدد عناصر الواجهة المخفية: {count}",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "تم تنزيلها",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden_one": {
     "message": "تم إخفاء {count} عنصر واجهة",
     "description": "Status line fragment. Singular."
@@ -787,6 +791,14 @@
     "message": "تم النسخ!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "نسخ الصورة",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "تعذّر نسخ الصورة.",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "لا توجد تنزيلات بعد. ستظهر صورك المحفوظة هنا.",
     "description": "Empty state of the download history."
@@ -835,9 +847,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "فتح الملف",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "فتح رابط المصدر",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "يتم عرضه في المجلد بدلا من ذلك.",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "اليوم",
@@ -1627,6 +1647,14 @@
     "message": "تُزال المدخلات الأقدم تلقائيًا.",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "إظهار الصور المصغرة في السجل",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "يتم إنشاء الصور المصغرة عن طريق طلب الصورة مرة أخرى بعد التنزيل.",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "مسح الآن",
     "description": "History: clear-now label."
@@ -1760,7 +1788,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "تعيش إعداداتك وتفضيلات المواقع وسجل التنزيلات في التخزين المحلي لمتصفحك، على هذا الجهاز فقط.",
+    "message": "تعيش إعداداتك وتفضيلات المواقع وسجل التنزيلات في التخزين المحلي لمتصفحك، على هذا الجهاز فقط. يتم إنشاء الصور المصغرة للسجل عن طريق طلب كل صورة تم تنزيلها مرة أخرى بعد التنزيل؛ ولا يغادر الجهاز أي شيء.",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2510,6 +2538,10 @@
   "copyDownscaled": {
     "message": "تم نسخ لقطة الشاشة إلى الحافظة، مصغّرة إلى {width} x {height} لتناسب.",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "لقطة الشاشة هذه كبيرة جدًا بالنسبة إلى الحافظة، لذلك تم نسخ الجزء المعروض فقط ({width} x {height}). احفظ لقطة الشاشة للاحتفاظ بالصورة الكاملة.",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "تعذّر نسخ لقطة الشاشة. جرّب حفظها بدلًا من ذلك.",

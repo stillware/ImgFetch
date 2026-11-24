@@ -58,6 +58,8 @@ export const MESSAGE_TYPES = new Set([
   'DOWNLOAD_STRIPPED', // L9: info page -> clean copy without EXIF/GPS
   'RESOLVE_BLOB', // page blob: URL -> data URL (in-page fetch)
   'SHOW_DOWNLOAD', // B6: reveal a finished download in the file manager
+  'BACKFILL_HISTORY_THUMBS', // B1: thumbnail history records that have no thumb yet
+  'HISTORY_THUMB', // B1: broadcast, one finished backfill thumbnail for the open view
   // Content script -> background
   'SCAN_PROGRESS',
   // Background -> popup (broadcast)
@@ -93,6 +95,7 @@ const STRING_FIELDS = {
   DOWNLOAD_STRIPPED: ['url'],
   RESOLVE_BLOB: ['url', 'tabId', 'mode'],
   SHOW_DOWNLOAD: ['downloadId'],
+  BACKFILL_HISTORY_THUMBS: [],
   GET_HISTORY: [],
   CLEAR_HISTORY: [],
   GET_QUEUE: [],
@@ -119,6 +122,11 @@ export function isValidMessage(msg) {
   // validate them anyway: the type is routable, so a malformed or
   // forged payload must fail closed like every other message.
   if (msg.type === 'CAPTURE_PROGRESS' && !isValidCaptureProgress(msg)) return false;
+  // H2: SCAN_PROGRESS is the one type a content script may send. Its
+  // counts drive the popup progress bar, so they are range-checked
+  // here (the worker) and again in the popup, which receives the
+  // broadcast directly from the content script.
+  if (msg.type === 'SCAN_PROGRESS' && !isValidScanProgress(msg)) return false;
   // Reject oversized payloads (abuse / memory protection). Image data URLs
   // (annotated screenshots) legitimately exceed the default cap.
   const maxLen = msg.type === 'SAVE_ANNOTATED' ? 45_000_000 : 1_000_000;
@@ -131,6 +139,17 @@ export function isValidMessage(msg) {
 }
 
 /** Phases a CAPTURE_PROGRESS broadcast may report. */
+/**
+ * Shape of a SCAN_PROGRESS payload from the content scanner: integer
+ * counts within sane bounds, done never past total.
+ */
+function isValidScanProgress(msg) {
+  const { done, total } = msg;
+  if (!Number.isInteger(done) || !Number.isInteger(total)) return false;
+  if (done < 0 || total < 0 || done > 1_000_000 || total > 1_000_000) return false;
+  return done <= total;
+}
+
 const CAPTURE_PROGRESS_PHASES = new Set(['capturing', 'done', 'stopped', 'error']);
 
 /**
@@ -200,6 +219,7 @@ export const SENDER_RULES = {
   GET_FORMAT_SUPPORT: ['extension'],
   RESOLVE_BLOB: ['extension'],
   SHOW_DOWNLOAD: ['extension'],
+  BACKFILL_HISTORY_THUMBS: ['extension'],
 };
 
 /**

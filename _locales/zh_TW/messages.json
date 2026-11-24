@@ -363,6 +363,10 @@
     "message": "已刪除 {count} 個重複項目",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "已下載",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "已隱藏 {count} 個介面元素",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "已複製！",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "複製圖片",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "無法複製圖片。",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "尚無下載。您儲存的圖片將顯示在這裡。",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "開啟檔案",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "開啟來源連結",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "改為在資料夾中顯示。",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "今天",
@@ -1347,6 +1367,14 @@
     "message": "較早的項目會自動刪除。",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "在歷史記錄中顯示縮圖",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "縮圖透過在下載後再次要求圖片來產生。",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "立即清除",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "您的設定、網站偏好和下載紀錄儲存在瀏覽器的本機儲存空間中，僅在此裝置上。",
+    "message": "您的設定、網站偏好和下載紀錄儲存在瀏覽器的本機儲存空間中，僅在此裝置上。 歷史記錄縮圖透過在下載後再次要求每張已下載圖片來產生；不會有任何內容離開裝置。",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "螢幕截圖已複製到剪貼簿，已縮小至 {width} x {height} 以符合。",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "此螢幕截圖對於剪貼簿來說太大了，因此僅複製了顯示的部分 ({width} x {height})。請儲存螢幕截圖以保留完整影像。",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "無法複製螢幕截圖，請改為儲存。",

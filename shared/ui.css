@@ -103,25 +103,60 @@
   --r1: 8px;
   --r2: 12px;
   --r3: 16px;
-  /* Motion: one token per use. Durations: stagger 40ms, micro 80ms,
-     quick 150ms (hover in), fast 250ms (dialog and view opens),
-     medium 350ms (dialog and panel closes), slow 400ms (panel opens),
-     very slow 500ms. Easing: default for surfaces, ease-in-out for
-     swaps and text, linear only for shimmer, pulse and the scan line,
-     overshoot only for entrances. --dur stays as the quick alias for
-     per-page styles that reference it. */
-  --dur-stagger: 40ms;
-  --dur-micro: 80ms;
-  --dur-quick: 150ms;
-  --dur-fast: 250ms;
-  --dur-medium: 350ms;
-  --dur-slow: 400ms;
-  --dur-vslow: 500ms;
-  --dur: var(--dur-quick);
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Motion (Phase 5 Part G, addendum G1 is the single source of truth).
+     Canonical names are --duration-* and --ease-*. Durations: stagger
+     40ms, micro 80ms, quick 150ms (hover in, text swap), fast 250ms
+     (dropdown/modal/view opens), medium 350ms (toast out, panel closes),
+     slow 400ms (panel opens, welcome hero), very slow 500ms (check draw).
+     Easings: smooth-out is the default for surfaces, in-out for icon and
+     text swaps, out for tooltips and hover-in, linear only for spinners,
+     shimmer and the scan line, bounce only for small pop entrances, never
+     closes. Distances, pre-scales and pre-blurs are tokens too, so no
+     motion value is ever hand written. The --dur-* and --ease names below
+     are legacy aliases that point at the canonical tokens; they are not
+     a second scale, and no file edited in Part G uses them. */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
   --ease-linear: linear;
-  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --motion-distance-text: 4px;
+  --motion-distance-shake: 6px;
+  --motion-distance-page: 8px;
+  --motion-distance-reveal: 12px;
+  --motion-distance-celebrate: 30px;
+  --motion-scale-modal: 0.96;
+  --motion-scale-dropdown-open: 0.97;
+  --motion-scale-tooltip: 0.98;
+  --motion-scale-dropdown-close: 0.99;
+  --motion-blur-small: 2px;
+  --motion-blur-page: 3px;
+  /* Loop durations for the calm infinite indicators (spinner, shimmer,
+     scan line, queue pulse). They are tokens too, so the audit test can
+     require every duration in the stylesheet to be a var() reference. */
+  --duration-spin: 800ms;
+  --duration-shimmer: 1500ms;
+  --duration-scan: 1600ms;
+  --duration-pulse: 1000ms;
+  /* Legacy aliases: per-page styles outside Part G still reference these
+     names. Each one points at the canonical token above. */
+  --dur-stagger: var(--duration-stagger);
+  --dur-micro: var(--duration-micro);
+  --dur-quick: var(--duration-quick);
+  --dur-fast: var(--duration-fast);
+  --dur-medium: var(--duration-medium);
+  --dur-slow: var(--duration-slow);
+  --dur-vslow: var(--duration-very-slow);
+  --dur: var(--duration-quick);
+  --ease: var(--ease-smooth-out);
+  --ease-overshoot: var(--ease-bounce);
   /* Legacy aliases: per-page inline styles still reference these names. */
   --primary: var(--accent);
   --primary-strong: #4a3fd1;
@@ -170,9 +205,9 @@ html { background-color: var(--bg); }
 body {
   font-family: var(--font);
   background-color: var(--bg);
-  /* Faint background radial, the only glow besides the primary button. */
-  background-image: radial-gradient(640px 320px at 50% -12%, rgba(91, 80, 230, 0.06), transparent 70%);
-  background-repeat: no-repeat;
+  /* Phase 5 A3: no background glow. The old faint radial (640px wide)
+     read as a lighter rectangle with vertical edges behind the content,
+     so the page background is now one uniform colour everywhere. */
   color: var(--text);
   font-size: 14px;
   line-height: 1.5;
@@ -180,13 +215,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 [data-theme="dark"] body {
-  background-image: radial-gradient(640px 320px at 50% -12%, rgba(106, 92, 242, 0.09), transparent 70%);
+  /* Phase 5 A3: same as light, no background glow in dark either. */
 }
 
 /* ---------- focus: visible 2 px accent2 ring plus 2 px offset ---------- */
+/* G2: the ring fades in over the quick duration (outline colour
+   transition), it never jumps. The fade applies on focus-in; focus-out
+   is instant, so keyboard users are never left waiting. */
 :focus-visible {
   outline: 2px solid var(--accent2);
   outline-offset: 2px;
+  transition: outline-color var(--duration-quick) var(--ease-smooth-out);
 }
 
 /* ---------- links: accent text in both themes, never browser blue ---------- */
@@ -195,19 +234,20 @@ body {
    the same accent, so visited links never fall back to browser purple.
    Button-styled anchors (a.btn) and the designed .privacy-link are
    excluded: their own rules already own their colours. */
-a:not(.btn):not(.privacy-link) { color: var(--accentText); text-decoration: underline; text-underline-offset: 2px; }
+a:not(.btn):not(.privacy-link) { color: var(--accentText); text-decoration: underline; text-underline-offset: 2px; transition: color var(--duration-quick) var(--ease-smooth-out); }
 a:not(.btn):not(.privacy-link):visited { color: var(--accentText); }
 a:not(.btn):not(.privacy-link):hover { color: var(--accent2); }
 a:not(.btn):not(.privacy-link):focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 
 /* ---------- smooth theme cross-fade (applied briefly by UI.applyTheme) ---------- */
+/* G3: a theme switch is instant or one 150 ms crossfade of background
+   and text colour only, never per-element chaos. The old rule also
+   faded borders, outlines, fills and strokes over 250 ms. */
 .theme-fade body,
 .theme-fade body *,
 .theme-fade body *::before,
 .theme-fade body *::after {
-  transition: background-color var(--dur-fast) var(--ease-in-out), color var(--dur-fast) var(--ease-in-out),
-    border-color var(--dur-fast) var(--ease-in-out), outline-color var(--dur-fast) var(--ease-in-out),
-    fill var(--dur-fast) var(--ease-in-out), stroke var(--dur-fast) var(--ease-in-out) !important;
+  transition: background-color var(--duration-quick) var(--ease-in-out), color var(--duration-quick) var(--ease-in-out) !important;
 }
 
 /* ---------- icons: Lucide, one family, outline, 1.75 px stroke ---------- */
@@ -264,21 +304,23 @@ img.brand-mark { display: block; }
   background-repeat: no-repeat;
   padding: 16px;
 }
-/* Cyan scan line for the scanning screen. Animates in a loop; with reduced
-   motion it stays static (see the reduced-motion block at the end). */
+/* Cyan scan line for the scanning screen. It sweeps the 148 px hero
+   (12% to 84%, a 106 px travel) on transform only, calm and linear;
+   the old keyframes animated `top`, a layout property. With reduced
+   motion it stays static (see the shared reduced-motion block). */
 .scan-line {
   position: absolute;
   inset-inline: 0;
-  top: 46%;
+  top: 12%;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--cyan), transparent);
   box-shadow: 0 0 18px 3px rgba(34, 211, 238, 0.35);
-  animation: sx-scan 1.6s linear infinite alternate;
+  animation: sx-scan var(--duration-scan) var(--ease-linear) infinite alternate;
   pointer-events: none;
 }
 @keyframes sx-scan {
-  from { top: 12%; }
-  to { top: 84%; }
+  from { transform: translateY(0); }
+  to { transform: translateY(106px); }
 }
 
 /* ---------- buttons ---------- */
@@ -287,10 +329,14 @@ img.brand-mark { display: block; }
   font: 600 13.5px/1.2 var(--font); padding: 9px 14px; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 32px;
-  transition: transform var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease);
+  /* G2: press scale is the micro duration (80 ms); hover colour is
+     150 ms in and 250 ms out, so the :hover rule below shortens the
+     colour transition while hovered and the base rule governs the
+     settle back. Transform and opacity only. */
+  transition: transform var(--duration-micro) var(--ease-smooth-out), background-color var(--duration-fast) var(--ease-smooth-out), border-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out);
   text-decoration: none; color: var(--text); background: var(--surface);
 }
-.btn:hover { background: var(--hover); border-color: var(--line2); }
+.btn:hover { background: var(--hover); border-color: var(--line2); transition: transform var(--duration-micro) var(--ease-smooth-out), background-color var(--duration-quick) var(--ease-smooth-out), border-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out); }
 .btn:active { transform: scale(0.98); }
 .btn:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 /* Secondary is the default button look: neutral surface, 1 px border. */
@@ -314,15 +360,15 @@ img.brand-mark { display: block; }
 /* Loading: spinner replaces the leading icon; the button stays the same
    size and cannot be pressed again while loading. */
 .btn.is-loading { pointer-events: none; }
-.btn.is-loading .icon-loader { animation: sx-spin 0.8s linear infinite; }
+.btn.is-loading .icon-loader { animation: sx-spin var(--duration-spin) var(--ease-linear) infinite; }
 .icon-btn {
   appearance: none; background: transparent; border: 1px solid transparent; border-radius: var(--r1);
   width: 32px; height: 32px; min-width: 32px; min-height: 32px;
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; color: var(--muted); font-size: 16px; padding: 0;
-  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
+  transition: background-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out), transform var(--duration-micro) var(--ease-smooth-out);
 }
-.icon-btn:hover { background: var(--hover); color: var(--text); }
+.icon-btn:hover { background: var(--hover); color: var(--text); transition: background-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out), transform var(--duration-micro) var(--ease-smooth-out); }
 .icon-btn:active { transform: scale(0.98); }
 .icon-btn:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 .icon-btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none; }
@@ -337,7 +383,26 @@ input[type="text"], input[type="number"], select, textarea {
   font: 400 13.5px var(--font); color: var(--text);
   background: var(--surface); border: 1px solid var(--line2);
   border-radius: var(--r1); padding: 9px 11px; width: 100%;
-  transition: border-color var(--dur-quick) var(--ease);
+  transition: border-color var(--duration-quick) var(--ease-smooth-out);
+}
+/* Phase 5 A6: one shared text-input treatment for the whole extension.
+   Accent caret at full line height, so it is visible and never overlaps
+   the placeholder; focus is a quiet accent border plus a soft ring that
+   fades in over the quick duration (150 ms). Transform, opacity and
+   colour transitions only; reduced motion collapses them (see the
+   reduced-motion block at the end of this file). */
+input[type="text"], input[type="number"], textarea {
+  caret-color: var(--accent);
+  line-height: 1.5;
+}
+input[type="text"]:focus-visible, input[type="number"]:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  /* The ring fades in over the quick duration; the transition lives on
+     the focus rule itself, so focus-out snaps back instantly and no
+     box-shadow is ever animated on a large area (see test-motion). */
+  transition: border-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out);
 }
 input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--accent2); outline-offset: 2px; border-color: var(--accent);
@@ -420,31 +485,41 @@ input.switch {
   width: 44px; height: 26px; margin: 0; padding: 0; border: none;
   border-radius: 999px; background: var(--line2);
   position: relative; cursor: pointer; outline: none;
-  transition: background-color var(--dur-quick) var(--ease);
+  /* G2: knob slides 250 ms smooth-out, track colour crossfades 150 ms. */
+  transition: background-color var(--duration-quick) var(--ease-smooth-out);
 }
 input.switch::after {
   content: ""; position: absolute; top: 3px; inset-inline-start: 3px;
   width: 20px; height: 20px; border-radius: 50%;
   background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform var(--dur-quick) var(--ease);
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
 }
 input.switch:checked { background: var(--accent); }
 input.switch:checked::after { transform: translateX(18px); }
 [dir="rtl"] input.switch:checked::after { transform: translateX(-18px); }
 input.switch:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
-@media (prefers-reduced-motion: reduce) {
-  input.switch, input.switch::after { transition: none; }
-}
 
 /* segmented control */
-.segmented { display: inline-flex; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; }
+/* G2: the selected pill slides on transform only (250 ms). The pill is
+   a div inserted by UI.initSegmentedPills; without JS the control keeps
+   its crossfade, so the .has-pill rules below only apply once the pill
+   exists. The pill is positioned from the pressed button's offset, so
+   it mirrors correctly in RTL. */
+.segmented { display: inline-flex; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; position: relative; }
 .segmented button {
   border: 0; background: transparent; color: var(--muted); font: 600 12.5px var(--font);
   padding: 7px 12px; border-radius: var(--r1); cursor: pointer; white-space: nowrap;
-  min-height: 32px;
-  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease);
+  min-height: 32px; position: relative; z-index: 1;
+  transition: background-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out);
 }
+.segmented .motion-pill {
+  position: absolute; top: 3px; left: 0; z-index: 0;
+  background: var(--surface); box-shadow: var(--shadow); border-radius: var(--r1);
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+  will-change: transform; pointer-events: none;
+}
+.segmented.has-pill button[aria-pressed="true"] { background: transparent; box-shadow: none; }
 .segmented button:hover { color: var(--text); }
 .segmented button[aria-pressed="true"] {
   background: var(--surface); color: var(--text); box-shadow: var(--shadow);
@@ -457,9 +532,10 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid var(--line2); background: var(--surface); color: var(--muted);
   font: 600 12.5px var(--font); border-radius: 999px; padding: 6px 12px; cursor: pointer;
   display: inline-flex; align-items: center; gap: 6px; min-height: 32px;
-  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease);
+  /* G2: selected state crossfades in 150 ms, settles out over 250 ms. */
+  transition: background-color var(--duration-fast) var(--ease-smooth-out), color var(--duration-fast) var(--ease-smooth-out), border-color var(--duration-fast) var(--ease-smooth-out);
 }
-.chip:hover { color: var(--text); border-color: var(--line2); background: var(--hover); }
+.chip:hover { color: var(--text); border-color: var(--line2); background: var(--hover); transition: background-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out), border-color var(--duration-quick) var(--ease-smooth-out); }
 .chip:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent2); color: var(--accentText); }
 .chip[disabled] { opacity: 0.5; cursor: not-allowed; }
@@ -515,12 +591,13 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   display: flex; gap: 12px; align-items: flex-start;
   background: var(--surface); border: 1px solid var(--line2);
   border-radius: var(--r2); padding: 12px 16px;
-  transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease);
+  transition: border-color var(--duration-quick) var(--ease-smooth-out), background-color var(--duration-quick) var(--ease-smooth-out);
 }
 .radio-card-body::before {
   content: ""; flex: none; width: 18px; height: 18px; margin-top: 2px;
   border-radius: 50%; border: 2px solid var(--line2); background: var(--surface);
-  transition: border-color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease);
+  /* G2: radio dot draws in over the quick duration (colour crossfade). */
+  transition: border-color var(--duration-quick) var(--ease-smooth-out), background-color var(--duration-quick) var(--ease-smooth-out);
 }
 .radio-card:hover .radio-card-body { border-color: var(--line2); background: var(--hover); }
 .radio-card > input[type="radio"]:checked + .radio-card-body {
@@ -544,21 +621,25 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .progress { height: 8px; border-radius: 999px; background: var(--raised); overflow: hidden; }
 .progress > i { display: block; height: 100%; width: 100%; border-radius: 999px;
   background: linear-gradient(90deg, var(--accent), var(--cyan)); transform: scaleX(0); transform-origin: left center;
-  transition: transform var(--dur-fast) var(--ease-in-out); }
+  /* G2: bulk/ZIP progress is a smooth scaleX bar, linear easing. */
+  transition: transform var(--duration-fast) var(--ease-linear); }
 [dir="rtl"] .progress > i { transform-origin: right center; }
 .progress.indeterminate > i {
   width: 40%;
-  transform: none;
-  animation: sx-progress-slide 1.2s linear infinite;
+  transform: translateX(-100%);
+  animation: sx-progress-slide var(--duration-shimmer) var(--ease-linear) infinite;
 }
+/* The old keyframes animated margin-inline-start, a layout property.
+   The bar is 40% wide, so translateX(-100%) parks it just off the
+   start edge and translateX(250%) parks it just past the far edge. */
 @keyframes sx-progress-slide {
-  0% { margin-inline-start: -40%; }
-  100% { margin-inline-start: 100%; }
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
 }
 .spinner {
   width: 34px; height: 34px; border-radius: 50%;
   border: 3px solid var(--raised); border-top-color: var(--accent);
-  animation: sx-spin 0.8s linear infinite; margin: 24px auto;
+  animation: sx-spin var(--duration-spin) var(--ease-linear) infinite; margin: 24px auto;
 }
 @keyframes sx-spin { to { transform: rotate(360deg); } }
 
@@ -571,41 +652,46 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .thumb {
   position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
   background: var(--raised); border: 2px solid transparent; cursor: pointer; padding: 0;
-  transition: transform var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease);
+  /* G2: hover reveals overlay actions with a fade and no movement, so
+     the thumb never lifts; only the border colour transitions. */
+  transition: border-color var(--duration-quick) var(--ease-smooth-out);
   width: 100%;
 }
-.thumb-wrap:hover .thumb { transform: translateY(-2px); box-shadow: var(--shadow); }
+.thumb-wrap:hover .thumb { box-shadow: var(--shadow); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Blob: thumbnails resolve async, shimmer until the preview arrives. */
 @keyframes sx-shimmer { 0% { opacity: .45; } 50% { opacity: 1; } 100% { opacity: .45; } }
 .thumb img.thumb-loading {
-  animation: sx-shimmer 1.2s linear infinite;
+  animation: sx-shimmer var(--duration-shimmer) var(--ease-linear) infinite;
   background: linear-gradient(100deg, var(--raised) 40%, var(--surface) 50%, var(--raised) 60%);
 }
-@media (prefers-reduced-motion: reduce) {
-  .thumb img.thumb-loading { animation: none; }
-}
 .thumb[aria-checked="true"] { border-color: var(--accent); }
+/* G2: the selection check pops in with the bounce easing over 250 ms
+   (entrance only); unselecting is a quick 150 ms fade. The tick stays
+   in the layout (absolute, opacity 0) so the pop can transition; the
+   post-change rule's transition governs each direction. */
 .thumb .tick {
   position: absolute; top: 5px; inset-inline-end: 5px; width: 18px; height: 18px; border-radius: 6px;
   background: var(--accent); color: #fff;
-  display: none; align-items: center; justify-content: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0.5); pointer-events: none;
+  transition: opacity var(--duration-quick) var(--ease-in-out), transform var(--duration-quick) var(--ease-in-out);
 }
 .thumb .tick .icon { width: 12px; height: 12px; stroke-width: 3; }
-.thumb[aria-checked="true"] .tick { display: inline-flex; }
+.thumb[aria-checked="true"] .tick {
+  opacity: 1; transform: scale(1);
+  transition: opacity var(--duration-fast) var(--ease-bounce), transform var(--duration-fast) var(--ease-bounce);
+}
 /* D2: magnifier opens the preview; visible on hover/focus, always on touch. */
 .thumb-wrap .zoom-btn {
   position: absolute; bottom: 6px; inset-inline-end: 6px; width: 32px; height: 32px; border-radius: 50%;
   background: rgba(10, 12, 25, 0.72); color: #fff; border: 0; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity var(--dur-quick) var(--ease);
+  opacity: 0; transition: opacity var(--duration-quick) var(--ease-smooth-out);
 }
 .thumb-wrap:hover .zoom-btn, .thumb-wrap:focus-within .zoom-btn { opacity: 1; }
 @media (hover: none) {
   .thumb-wrap .zoom-btn { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .thumb-wrap .zoom-btn { transition: none; }
 }
 .thumb .dims {
   position: absolute; inset-inline-start: 5px; bottom: 5px; font-size: 9.5px; font-weight: 700;
@@ -615,10 +701,18 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .thumb:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
 
 /* ---------- modal and confirm dialog ---------- */
+/* G2: backdrop fades 250 ms in and 150 ms out; the panel scales 0.96
+   to 1 with an 8 px rise and closes faster (150 ms). The closing class
+   is added by JS before removal (shared/ui.js and popup/popup.js);
+   under reduced motion the shared block at the end collapses both. */
 .modal-backdrop {
   position: fixed; inset: 0; background: rgba(10, 12, 25, 0.55);
   display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px;
+  animation: sx-backdrop-in var(--duration-fast) var(--ease-smooth-out);
 }
+@keyframes sx-backdrop-in { from { opacity: 0; } }
+.modal-backdrop.is-closing { animation: sx-backdrop-out var(--duration-quick) var(--ease-in-out) forwards; }
+@keyframes sx-backdrop-out { to { opacity: 0; } }
 .modal {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r3); box-shadow: var(--shadow);
   max-width: 480px; width: 100%; max-height: 92vh; overflow: auto; padding: 18px;
@@ -628,7 +722,9 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 .confirm-backdrop {
   position: fixed; inset: 0; background: rgba(10, 12, 25, 0.55); z-index: 9999;
   display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: sx-backdrop-in var(--duration-fast) var(--ease-smooth-out);
 }
+.confirm-backdrop.is-closing { animation: sx-backdrop-out var(--duration-quick) var(--ease-in-out) forwards; }
 .confirm-dialog {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r3);
   padding: 18px; max-width: 340px; width: 100%; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
@@ -644,12 +740,24 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   display: flex; align-items: center; gap: 8px;
   background: var(--raised); color: var(--text); font-size: 13.5px; padding: 10px 16px; border-radius: 10px;
   border: 1px solid var(--line2);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); animation: sx-toast-in var(--dur-fast) var(--ease);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); animation: sx-toast-in var(--duration-fast) var(--ease-smooth-out);
   max-width: 92vw; text-align: start;
 }
 .toast .icon { width: 16px; height: 16px; color: var(--ok); }
 .toast-error .icon { color: var(--danger); }
+/* G2: errors may shake, 6 px then 8 px segments of 80 ms each, after
+   the 250 ms entrance. Exit is a 350 ms fade with no travel, applied
+   by UI.toast as .is-leaving before removal. */
+.toast-error { animation: sx-toast-in var(--duration-fast) var(--ease-smooth-out), sx-shake calc(var(--duration-micro) * 4) var(--ease-in-out) var(--duration-fast); }
+.toast.is-leaving { animation: sx-toast-out var(--duration-medium) var(--ease-smooth-out) forwards; }
 @keyframes sx-toast-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes sx-toast-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes sx-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(calc(var(--motion-distance-shake) * -1)); }
+  50% { transform: translateX(var(--motion-distance-shake)); }
+  75% { transform: translateX(var(--motion-distance-page)); }
+}
 
 /* ---------- empty / notice ---------- */
 .empty { text-align: center; padding: 34px 18px; color: var(--muted); }
@@ -672,15 +780,13 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 [data-theme="dark"] .notice.ok { background: rgba(34, 211, 160, 0.12); }
 
 /* ---------- skeleton ---------- */
+/* G2: shimmer with linear easing, 1.5 s loop, only while loading. */
 .skeleton {
   border-radius: var(--r1); background: var(--raised);
-  animation: sx-shimmer 1.2s linear infinite;
+  animation: sx-shimmer var(--duration-shimmer) var(--ease-linear) infinite;
 }
 .skeleton-text { height: 13px; }
 .skeleton-thumb { aspect-ratio: 1; border-radius: 10px; }
-@media (prefers-reduced-motion: reduce) {
-  .skeleton { animation: none; }
-}
 
 /* ---------- tooltip ---------- */
 /* CSS-only tooltip from [data-tip]. Shows on hover and keyboard focus.
@@ -694,7 +800,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid var(--line2); border-radius: var(--r1);
   font: 600 12px/1.3 var(--font); padding: 5px 8px; white-space: nowrap;
   box-shadow: var(--shadow); opacity: 0; pointer-events: none;
-  transition: opacity var(--dur-quick) var(--ease), transform var(--dur-quick) var(--ease);
+  transition: opacity var(--duration-quick) var(--ease-smooth-out), transform var(--duration-quick) var(--ease-smooth-out);
   z-index: 60;
 }
 [dir="rtl"] [data-tip]::after { transform: translateX(50%) translateY(2px); }
@@ -706,35 +812,164 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Pane enter animation, replays every time `hidden` is removed (display
-   flips from none), so view/pane switches feel smooth instead of instant.
-   Honors prefers-reduced-motion via the block below. */
-@keyframes sx-pane-in { from { opacity: 0; transform: translateY(5px); } }
-.pane-anim { animation: sx-pane-in var(--dur-fast) var(--ease); }
-
-/* Download-complete check draw, 300 ms. Applied to the check icon shown
-   after a download finishes. */
+/* ---------- shared motion layer (Phase 5 Part G, addendum G4) ---------- */
+/* One layer, used by every component through UI.runViewTransition,
+   UI.stagger, UI.swapText and friends in shared/ui.js. No copy-pasted
+   keyframes elsewhere: sx-pane-in and sx-grid-in were removed, and the
+   welcome sx-fade duplicate went with them. The old .pane-anim marker
+   classes stay in the markup (harmless) but no longer animate anything;
+   entrances are driven by the helpers, so the popup never animates on
+   first paint. will-change is set here and the class is removed by the
+   helper once the animation ends. */
+.motion-page-in-fwd, .motion-page-in-back {
+  animation-duration: var(--duration-fast);
+  animation-timing-function: var(--ease-smooth-out);
+  animation-fill-mode: both;
+  will-change: transform, opacity, filter;
+}
+.motion-page-in-fwd { animation-name: sx-page-in-fwd; }
+.motion-page-in-back { animation-name: sx-page-in-back; }
+/* G2: page slide, 8 px, 250 ms, smooth-out, 3 px blur settling to 0. */
+@keyframes sx-page-in-fwd {
+  from { opacity: 0; transform: translateX(var(--motion-distance-page)); filter: blur(var(--motion-blur-page)); }
+  to { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+@keyframes sx-page-in-back {
+  from { opacity: 0; transform: translateX(calc(var(--motion-distance-page) * -1)); filter: blur(var(--motion-blur-page)); }
+  to { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+/* RTL: forward and back mirror, so a forward step still moves away from
+   the reading direction. Physical translateX would not mirror on its own. */
+[dir="rtl"] .motion-page-in-fwd { animation-name: sx-page-in-back; }
+[dir="rtl"] .motion-page-in-back { animation-name: sx-page-in-fwd; }
+.motion-pop { animation: sx-pop var(--duration-fast) var(--ease-bounce) both; will-change: transform, opacity; }
+@keyframes sx-pop { from { opacity: 0; transform: scale(var(--motion-scale-modal)); } }
+/* Stagger: 40 ms per item, first 8 only (the helper caps it), 12 px up
+   and fade over 250 ms. --i is the item index, set by UI.stagger. */
+.motion-stagger { animation: sx-stagger-in var(--duration-fast) var(--ease-smooth-out) both; animation-delay: calc(var(--i, 0) * var(--duration-stagger)); will-change: transform, opacity; }
+@keyframes sx-stagger-in { from { opacity: 0; transform: translateY(var(--motion-distance-reveal)); } }
+/* Text swap: 150 ms, 4 px rise. The opacity-only variant is for swaps
+   whose target is a button itself, where a translate would move the
+   whole control. */
+.motion-text-swap { display: inline-block; animation: sx-text-swap var(--duration-quick) var(--ease-in-out); }
+@keyframes sx-text-swap { from { opacity: 0; transform: translateY(var(--motion-distance-text)); } }
+.motion-text-swap-opacity { animation: sx-text-swap-opacity var(--duration-quick) var(--ease-in-out); }
+@keyframes sx-text-swap-opacity { from { opacity: 0; } }
+.motion-fade-in { animation: sx-fade-in var(--duration-fast) var(--ease-smooth-out); }
+@keyframes sx-fade-in { from { opacity: 0; } }
+.motion-fade-out { animation: sx-fade-out var(--duration-quick) var(--ease-smooth-out) forwards; }
+@keyframes sx-fade-out { to { opacity: 0; } }
+/* One-time welcome hero entrance: opacity and 12 px rise, 400 ms. */
+.motion-hero-in { animation: sx-hero-in var(--duration-slow) var(--ease-smooth-out) both; will-change: transform, opacity; }
+@keyframes sx-hero-in { from { opacity: 0; transform: translateY(var(--motion-distance-reveal)); } }
+/* Download-complete check draw, 500 ms. Applied to the check icon
+   shown after a download finishes (UI.showSuccessCheck). */
 @keyframes sx-check-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
-.check-draw { stroke-dasharray: 24; animation: sx-check-draw var(--dur-fast) var(--ease) forwards; }
-
-/* Results grid: thumbnails enter with a 40 ms stagger, capped at the
-   first four per page (popup.js sets --stagger-i), so the last staggered
-   thumb starts at 120 ms and the whole entrance stays under 300 ms. */
-.grid .thumb-wrap { animation: sx-grid-in var(--dur-quick) var(--ease) both; animation-delay: calc(var(--stagger-i, 0) * var(--dur-stagger)); }
-@keyframes sx-grid-in { from { opacity: 0; transform: translateY(6px); } }
-/* Dialogs: open 250 ms with overshoot, close 150 ms ease-in-out. The
+.check-draw { stroke-dasharray: 24; animation: sx-check-draw var(--duration-very-slow) var(--ease-smooth-out) forwards; }
+/* Dialogs: open 250 ms with bounce, close 150 ms ease-in-out. The
    closing class is added by JS before removal (shared/ui.js and
    popup/popup.js); under reduced motion the block below collapses both. */
-.modal, .confirm-dialog { animation: sx-dialog-in var(--dur-fast) var(--ease-overshoot); }
-@keyframes sx-dialog-in { from { opacity: 0; transform: translateY(6px) scale(0.97); } }
-.modal-backdrop.is-closing .modal, .confirm-backdrop.is-closing .confirm-dialog { animation: sx-dialog-out var(--dur-quick) var(--ease-in-out) forwards; }
-@keyframes sx-dialog-out { to { opacity: 0; transform: translateY(4px) scale(0.97); } }
+.modal, .confirm-dialog { animation: sx-dialog-in var(--duration-fast) var(--ease-bounce); }
+@keyframes sx-dialog-in { from { opacity: 0; transform: translateY(var(--motion-distance-page)) scale(var(--motion-scale-modal)); } }
+.modal-backdrop.is-closing .modal, .confirm-backdrop.is-closing .confirm-dialog { animation: sx-dialog-out var(--duration-quick) var(--ease-in-out) forwards; }
+@keyframes sx-dialog-out { to { opacity: 0; transform: translateY(var(--motion-distance-text)) scale(var(--motion-scale-modal)); } }
+/* History thumbnails fade in over 150 ms once loaded (JS adds
+   .is-loaded on the load event, or at once when already complete).
+   No pop, no layout shift: the tile keeps its size throughout. */
+.hist-thumb { opacity: 0; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+.hist-thumb.is-loaded { opacity: 1; }
+/* Sliding indicators (popup nav pill, options sidebar bar). The pill
+   is a div inserted by UI.initSlidingIndicators; it moves on transform
+   only (250 ms), its size is set instantly to the active item. */
+.motion-indicator {
+  position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none;
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+  will-change: transform;
+}
+.popup-nav .motion-indicator { background: var(--raised); box-shadow: inset 0 0 0 1px var(--line2); border-radius: 7px; }
+.side-nav .motion-indicator { background: var(--accent2); border-radius: 0 3px 3px 0; width: 3px; }
+[dir="rtl"] .side-nav .motion-indicator { border-radius: 3px 0 0 3px; }
 
+/* ---------- custom dropdown (Phase 5 A7) ---------- */
+/* One shared replacement for every native select in the extension, so
+   the list never shows the system blue highlight. The real select stays
+   in the DOM as the source of truth (same id, value and change events),
+   visually hidden; the button and listbox below are its face. Built on
+   the design tokens: surface popover, raised/accent-tint rows, check
+   icon on the selected row, accent focus ring. Open 250 ms with the
+   dropdown scale, close 150 ms; opacity and transform only. */
+.if-dropdown { position: relative; display: inline-flex; vertical-align: middle; }
+.if-native-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: 0; padding: 0;
+  opacity: 0; pointer-events: none; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+.if-dropdown-btn {
+  appearance: none; display: inline-flex; align-items: center; gap: 8px;
+  min-width: 0; width: 100%; min-height: 32px;
+  font: 400 13.5px var(--font); color: var(--text); text-align: start;
+  background: var(--surface); border: 1px solid var(--line2); border-radius: var(--r1);
+  padding: 8px 11px; cursor: pointer;
+  transition: border-color var(--duration-quick) var(--ease-smooth-out), background-color var(--duration-quick) var(--ease-smooth-out);
+}
+.if-dropdown-btn:hover { background: var(--hover); }
+.if-dropdown-btn:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); transition: border-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out); }
+.if-dropdown-btn[aria-expanded="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); transition: border-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out); }
+.if-dropdown-btn[disabled] { opacity: 0.55; cursor: not-allowed; background: var(--raised); }
+.if-dropdown-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.if-dropdown-btn .icon { width: 16px; height: 16px; flex: none; color: var(--muted); transition: transform var(--duration-quick) var(--ease-smooth-out); }
+.if-dropdown-btn[aria-expanded="true"] .icon { transform: rotate(180deg); }
+.if-dropdown-list {
+  position: fixed; z-index: 200; min-width: 160px; max-width: min(320px, calc(100vw - 16px));
+  max-height: 240px; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--surface); border: 1px solid var(--line2); border-radius: var(--r2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); padding: 4px;
+  /* G2: open 250 ms with the 0.97 scale and a 4 px rise, close 150 ms
+     with the 0.99 scale; opacity and transform only. The close
+     transition is the base rule, the open one overrides while open. */
+  opacity: 0; transform: scale(var(--motion-scale-dropdown-open)) translateY(var(--motion-distance-text)); transform-origin: top center;
+  pointer-events: none; visibility: hidden;
+  transition: opacity var(--duration-quick) var(--ease-in-out), transform var(--duration-quick) var(--ease-in-out), visibility 0s var(--ease-in-out) var(--duration-quick);
+}
+.if-dropdown-list.is-open-up { transform-origin: bottom center; transform: scale(var(--motion-scale-dropdown-open)) translateY(calc(var(--motion-distance-text) * -1)); }
+.if-dropdown-list.is-open { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; visibility: visible;
+  transition: opacity var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out), visibility 0s; }
+.if-dropdown-option {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  padding: 8px 10px; border: 0; border-radius: var(--r1);
+  background: transparent; color: var(--text); font: 400 13.5px var(--font); text-align: start;
+  cursor: pointer; white-space: normal; overflow-wrap: anywhere;
+  /* G2: rows have an 80 ms hover tint. */
+  transition: background-color var(--duration-micro) var(--ease-smooth-out);
+}
+.if-dropdown-option .if-option-text { flex: 1; min-width: 0; }
+.if-dropdown-option .icon { width: 16px; height: 16px; flex: none; color: var(--accentText); opacity: 0; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+.if-dropdown-option[aria-selected="true"] { background: var(--accent-soft); color: var(--accentText); font-weight: 600; }
+.if-dropdown-option[aria-selected="true"] .icon { opacity: 1; }
+.if-dropdown-option.is-active { background: var(--hover); }
+.if-dropdown-option[aria-selected="true"].is-active { background: var(--accent-soft); }
+.if-dropdown-option[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.if-dropdown-option:focus-visible { outline: none; }
+/* ---------- reduced motion: ONE shared rule (Phase 5 Part G, G0.5) ---------- */
+/* Every animation in the extension is neutralised here, and only here:
+   one-shot entrances finish in 0.01 ms, infinite indicators stop
+   entirely (a 0.01 ms loop would still run), and every transition
+   collapses. Per-component reduced-motion blocks were removed. Where a
+   stopped animation would leave a wrong resting state (the indeterminate
+   progress bar parked off screen, the check draw half drawn), the
+   explicit rules below restore the plain resting state. */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  .scan-line { animation: none; }
-  .progress.indeterminate > i { animation: none; margin-inline-start: 0; width: 100%; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scan-line, .spinner, .btn.is-loading .icon-loader, .skeleton,
+  .thumb img.thumb-loading, .progress.indeterminate > i, .q-active { animation: none !important; }
+  .progress.indeterminate > i { transform: none; width: 100%; }
   .check-draw { animation: none; stroke-dasharray: none; }
-  .grid .thumb-wrap, .modal, .confirm-dialog { animation: none; }
-  [data-tip]::after { transition: none; }
+  .motion-page-in-fwd, .motion-page-in-back, .motion-pop, .motion-stagger,
+  .motion-text-swap, .motion-text-swap-opacity, .motion-fade-in, .motion-fade-out,
+  .motion-hero-in, .modal, .confirm-dialog, .modal-backdrop, .confirm-backdrop,
+  .toast, .toast-error, .save-pill { animation: none !important; }
+  .motion-indicator, .segmented .motion-pill { transition: none !important; }
 }

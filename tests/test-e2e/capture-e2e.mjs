@@ -1328,8 +1328,9 @@ if (FULL) {
     await sleep(300);
     const st4 = await ann.evaluate(() => ({ redo: document.getElementById('btnRedo').disabled }));
     ev.undoRedo = { afterDraw: st1, afterUndo: st2, afterRedo: st3, redoCleared: st4 };
-    // Copy: the 64 MP image exceeds the 12 MP clipboard budget, so the
-    // editor must downscale honestly and still produce a valid PNG.
+    // Copy: Phase 5 item C, the 64 MP image is inside the clipboard-safe
+    // size (16384 px per side, 268,435,456 total pixels), so the editor
+    // copies it at FULL resolution now, never downscaled.
     await ann.click('#btnCopy');
     await sleep(2000);
     const clip = await ann.evaluate(async () => {
@@ -1352,7 +1353,7 @@ if (FULL) {
       } catch (e) { return { ok: false, reason: String((e && e.message) || e).slice(0, 120) }; }
     });
     ev.clipboard = clip;
-    const copyOk = clip && clip.ok === true && clip.magic === true && (clip.w * clip.h) <= 12000000 + 100000;
+    const copyOk = clip && clip.ok === true && clip.magic === true && clip.w === 8000 && clip.h === 8000;
     // Save: full 8000x8000 PNG must land on disk.
     const before = new Set(fs.readdirSync(downloadDir));
     await ann.click('#btnSave');

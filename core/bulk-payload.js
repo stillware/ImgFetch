@@ -85,6 +85,9 @@ export function bulkItemPayload(it, resolved) {
     srcUrl: it.srcUrl,
     mode: r.mode,
     format: r.format || 'as-is',
+    // D1: a bulk item may carry a custom name too; it is sanitized by
+    // pickFilename in the worker exactly like a single download name.
+    customName: typeof it.customName === 'string' ? it.customName.slice(0, 120) : '',
     pageUrl: r.pageUrl || '',
     pageTitle: r.pageTitle || '',
     tabId: typeof r.tabId === 'number' ? r.tabId : null,

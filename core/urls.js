@@ -36,15 +36,57 @@ const SUPPORTED_SCHEMES = new Set(['http:', 'https:', 'data:', 'blob:']);
  * because the paths have genuinely different needs):
  * - Scanner discovery uses SCAN_DATA_URL_MAX (2 MB, in content/scanner.js).
  *   Scan results travel through extension messaging; keep them small.
- * - Download resolution uses DATA_URL_DOWNLOAD_MAX (30 MB, below). Page
- *   blob: URLs resolved in-page arrive as data URLs and are routinely
- *   several MB (e.g. GIFs); rejecting them would break real downloads.
+ * - Download resolution uses DATA_URL_DOWNLOAD_MAX_DECODED (50 MB decoded,
+ *   below). Page blob: URLs resolved in-page arrive as data URLs and are
+ *   routinely several MB (e.g. GIFs); rejecting them would break real
+ *   downloads. The cap is measured on decoded bytes, not on the URL
+ *   string: a base64 payload is about four thirds the decoded size, so
+ *   a 30 MB image is about a 40 MB URL string and is allowed.
  */
-export const DATA_URL_DOWNLOAD_MAX = 30_000_000;
+export const DATA_URL_DOWNLOAD_MAX_DECODED = 50_000_000;
+/**
+ * Decoded byte size of a data: URL, or Infinity when it cannot be
+ * measured (malformed percent encoding). Base64 payloads are measured
+ * from the payload length and its padding, without decoding the bytes.
+ * Non-base64 payloads are measured as the UTF-8 bytes of the
+ * percent-decoded payload. Used by normalizeUrl and by the offscreen
+ * blob URL fallback, so both apply the same cap.
+ */
+export function dataUrlDecodedSize(value) {
+  if (typeof value !== 'string' || !/^data:/i.test(value)) return Infinity;
+  const comma = value.indexOf(',');
+  if (comma < 0) return Infinity;
+  const header = value.slice(5, comma);
+  const payload = value.slice(comma + 1);
+  const isBase64 = header.split(';').some((p) => p.toLowerCase() === 'base64');
+  if (isBase64) {
+    const clean = payload.replace(/\s+/g, '');
+    // The payload must be measurable base64: only the standard alphabet,
+    // padding only at the end, and a whole number of quanta. Anything
+    // else cannot be measured, so it fails closed (rejected).
+    if (/[^A-Za-z0-9+/=]/.test(clean)) return Infinity;
+    const eq = clean.indexOf('=');
+    if (eq !== -1 && eq < clean.length - 2) return Infinity;
+    if (clean.length % 4 === 1) return Infinity;
+    let pad = 0;
+    if (clean.endsWith('==')) pad = 2;
+    else if (clean.endsWith('=')) pad = 1;
+    return Math.max(0, Math.floor((clean.length * 3) / 4) - pad);
+  }
+  try {
+    return new TextEncoder().encode(decodeURIComponent(payload)).length;
+  } catch {
+    return Infinity;
+  }
+}
 export function normalizeUrl(raw, base) {
   if (typeof raw !== 'string') return null;
   const value = raw.trim();
-  if (!value || value.length > 8192) return null;
+  if (!value) return null;
+  // D2: the 8192 cap below is for address-like URLs. A data: URL carries
+  // its bytes in the URL itself, so it is exempt here and is capped by
+  // decoded size in the data: branch instead.
+  if (!/^data:/i.test(value) && value.length > 8192) return null;
   let url;
   try {
     url = base ? new URL(value, base) : new URL(value);
@@ -53,9 +95,9 @@ export function normalizeUrl(raw, base) {
   }
   if (!SUPPORTED_SCHEMES.has(url.protocol)) return null;
   if (url.protocol === 'data:') {
-    // Only allow image data URLs; cap length to avoid memory blowups.
+    // Only allow image data URLs; cap decoded size to avoid memory blowups.
     if (!/^data:image\//i.test(value.slice(0, 64))) return null;
-    if (value.length > DATA_URL_DOWNLOAD_MAX) return null;
+    if (dataUrlDecodedSize(value) > DATA_URL_DOWNLOAD_MAX_DECODED) return null;
     return value;
   }
   if (url.protocol === 'blob:') {
@@ -330,6 +372,21 @@ export function getHostLabel(raw, base) {
     return parts.slice(-take).join('.') || 'download';
   } catch {
     return 'download';
+  }
+}
+
+/**
+ * H3: true when raw resolves to the same origin as base. Used by the
+ * in-page Copy Image fetch: cookies are sent only for same-origin
+ * images, never to a cross-origin host.
+ */
+export function isSameOriginUrl(raw, base) {
+  try {
+    const u = new URL(String(raw), String(base || ''));
+    const b = new URL(String(base || ''));
+    return u.origin === b.origin;
+  } catch {
+    return false;
   }
 }
 

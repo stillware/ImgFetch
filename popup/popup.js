@@ -32,6 +32,7 @@ import {
   buildHistoryRow,
   historyCountLabel,
   wireClearHistory,
+  updateHistoryRowThumb,
   HISTORY_FORMAT_LABELS as FORMAT_LABELS,
 } from '../shared/history-ui.js';
 import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
@@ -47,6 +48,7 @@ const state = {
   scan: null,          // { images, url, title, at }
   visible: [],         // filtered+sorted images
   selected: new Set(),
+  downloaded: new Set(), // D3: image ids downloaded in this popup session
   filters: { size: 'any', formats: [], orientations: [], query: '', sort: 'order' },
   quality: 'smart',    // 'smart' | 'normal'
   avifOk: null,       // M12: null = unknown (assume supported), false = hide AVIF UI
@@ -176,7 +178,7 @@ async function init() {
   await i18nReady;
   applyI18n();
   applyDynamicTitles();
-  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); renderCaptureProgress(); refreshResultsChrome(); });
+  onLanguageChange(() => { applyI18n(); applyDynamicTitles(); renderCaptureProgress(); refreshResultsChrome(); if (UI.refreshDropdowns) UI.refreshDropdowns(document); });
   try {
     const { settings } = await UI.send('GET_SETTINGS');
     state.settings = settings;
@@ -208,6 +210,8 @@ async function init() {
   wireResults();
   wireQueue();
   wireHistory();
+  // Phase 5 A7: one shared custom dropdown per native select.
+  if (UI.initDropdowns) UI.initDropdowns(document);
 
   chrome.runtime.onMessage.addListener(onRuntimeMessage);
 
@@ -261,6 +265,12 @@ function onRuntimeMessage(msg, sender) {
   if (!msg || typeof msg.type !== 'string') return;
   switch (msg.type) {
     case 'SCAN_PROGRESS': {
+      // H2: this broadcast arrives directly from the content script, so
+      // the worker's isValidMessage never sees it. Reject malformed
+      // counts before they reach the progress bar.
+      if (!Number.isInteger(msg.done) || !Number.isInteger(msg.total)
+        || msg.done < 0 || msg.total < 0 || msg.done > 1_000_000 || msg.total > 1_000_000
+        || msg.done > msg.total) break;
       // A scan started by the global shortcut while this popup sat on its
       // dashboard: follow it live instead of waiting for another click.
       // Only the opening broadcast (0 done, no real total yet) starts a
@@ -286,6 +296,9 @@ function onRuntimeMessage(msg, sender) {
         renderQueue(msg.snapshot);
         renderHomeStatus(msg.snapshot);
         maybeAutoCollapseQueue(msg.snapshot);
+        // D3: a finished queue item marks its tile downloaded, even when
+        // the download was started outside this results view.
+        markDownloaded((msg.snapshot.items || []).filter((i) => i.state === 'done').map((i) => i.id));
       }
       break;
     case 'NOTICE_TEXT':
@@ -298,6 +311,15 @@ function onRuntimeMessage(msg, sender) {
       if (msg.detail) UI.toast(msg.detail);
       else if (msg.code) UI.toast(friendlyNotice(msg.code));
       break;
+    case 'HISTORY_THUMB': {
+      // B1 backfill: a thumbnail arrived after the row was painted.
+      // Update that row's tile in place, without re-rendering the list.
+      if (msg.id && msg.thumb && state.view === 'history') {
+        const row = document.querySelector(`[data-record-id="${CSS.escape(String(msg.id))}"]`);
+        if (row) updateHistoryRowThumb(row, msg.thumb);
+      }
+      break;
+    }
     default:
       break;
   }
@@ -366,18 +388,38 @@ function currentRoute() {
   return { view: state.view, pane: state.pane };
 }
 
-function applyRoute(route) {
+function routeOrder(route) {
+  // G2: the page slide follows navigation, so routes have an order:
+  // home panes first, history last. A move to a later route slides
+  // forward, to an earlier one slides back.
+  if (route.view === 'history') return 4;
+  return { idle: 0, scanning: 1, results: 2, queue: 3 }[route.pane] ?? 0;
+}
+
+let routedOnce = false;
+
+function applyRoute(route, direction) {
   state.view = route.view;
   state.pane = route.pane;
   $('viewHome').hidden = route.view !== 'home';
   $('viewHistory').hidden = route.view !== 'history';
   $('navHome').setAttribute('aria-pressed', String(route.view === 'home'));
   $('navHistory').setAttribute('aria-pressed', String(route.view === 'history'));
+  let shown = null;
   if (route.view === 'home') {
     for (const [name, id] of Object.entries(PANE_IDS)) {
       $(id).hidden = name !== route.pane;
     }
+    shown = $(PANE_IDS[route.pane]);
+  } else {
+    shown = $('viewHistory');
   }
+  // G2: the newly shown view slides in (8 px, 250 ms, blur to 0).
+  // The first route is the popup's first paint and never animates.
+  if (routedOnce && direction && direction !== 'none' && shown && UI.runViewTransition) {
+    UI.runViewTransition(shown, direction);
+  }
+  routedOnce = true;
 }
 
 /**
@@ -392,14 +434,14 @@ function navigate(view, pane, opts = {}) {
     nav.stack.push(cur);
     if (nav.stack.length > 20) nav.stack.shift();
   }
-  applyRoute(next);
+  applyRoute(next, same || opts.replace ? 'none' : (routeOrder(next) >= routeOrder(cur) ? 'forward' : 'back'));
   onEnterRoute(next);
 }
 
 function goBack() {
   const prev = nav.stack.pop();
   if (prev) {
-    applyRoute(prev);
+    applyRoute(prev, 'back');
     onEnterRoute(prev);
   } else {
     goHome();
@@ -420,7 +462,7 @@ function goHome() {
   updateFooter();
   nav.stack.length = 0;
   const route = { view: 'home', pane: 'idle' };
-  applyRoute(route);
+  applyRoute(route, 'back');
   onEnterRoute(route);
 }
 
@@ -667,7 +709,7 @@ async function doScan() {
   } catch (err) {
     if (scanDismissed) return;
     navigate('home', 'idle');
-    UI.toast(err.message);
+    UI.toastError(err.message);
   }
 }
 
@@ -771,6 +813,12 @@ function showScan(scan, selectAll) {
     return;
   }
   navigate('home', 'results');
+  // D3: seed already-downloaded badges from the live queue, so tiles
+  // downloaded earlier in this session show their badge when results open.
+  UI.send('GET_QUEUE').then(({ snapshot }) => {
+    if (!snapshot || !state.scan) return;
+    markDownloaded((snapshot.items || []).filter((i) => i.state === 'done').map((i) => i.id));
+  }).catch(() => {});
 }
 
 /**
@@ -867,9 +915,9 @@ function viewAll() {
   const search = $('search');
   if (search) search.value = '';
   const orient = $('filterOrient');
-  if (orient) orient.value = '';
+  if (orient) { orient.value = ''; if (UI.syncDropdown) UI.syncDropdown(orient); }
   const sort = $('sortMode');
-  if (sort) sort.value = 'order';
+  if (sort) { sort.value = 'order'; if (UI.syncDropdown) UI.syncDropdown(sort); }
   setSizeFilter('any');
   $('viewHome').scrollTop = 0;
 }
@@ -970,12 +1018,16 @@ function appendGridPage() {
 }
 
 /** Build the thumb wrapper for visible[i], tagged with its index. */
-function makeThumbAt(i) {
+function makeThumbAt(i, allowStagger = true) {
   const el = makeThumbBtn(state.visible[i]);
   el.querySelector('.thumb').dataset.vindex = String(i);
-  // Stage 4 stagger: at most the first four thumbs of a page are
-  // delayed (0, 40, 80, 120 ms), so the entrance stays under 300 ms.
-  el.style.setProperty('--stagger-i', String(Math.min(i % GRID_PAGE, 3)));
+  // G2: the results grid staggers the first 8 tiles only (40 ms each,
+  // 12 px up and fade over 250 ms). Later pages appear at once, and
+  // virtualised re-inflations on scroll never re-animate.
+  if (allowStagger && i < 8) {
+    el.style.setProperty('--i', String(i));
+    el.classList.add('motion-stagger');
+  }
   return el;
 }
 
@@ -1031,9 +1083,43 @@ function inflateGridPlaceholder(ph) {
   const frag = document.createDocumentFragment();
   const end = Math.min(start + count, state.visible.length);
   for (let i = start; i < end; i++) {
-    frag.append(makeThumbAt(i));
+    frag.append(makeThumbAt(i, false));
   }
   ph.replaceWith(frag);
+}
+
+/**
+ * D3: already-downloaded badge. An image downloaded in this popup session
+ * is marked on its tile so a second download is a deliberate repeat,
+ * never a surprise, and never blocked. The badge is the shared .badge-ok
+ * pill, positioned opposite the selection tick; no new CSS is needed.
+ */
+function makeDownloadedBadge() {
+  const badge = UI.el('span', t('results_downloaded'), 'badge badge-ok dl-badge');
+  // Small enough to fit inside an 86 px thumb: the shared .badge is
+  // 12 px with 8 px side padding, which clips the word on a tile. It
+  // sits just below the top row so it never covers the selection check
+  // (top end, shown when the tile is selected), the format tag (bottom
+  // start) or the zoom button (bottom end).
+  badge.style.cssText = 'position:absolute; top:26px; inset-inline-start:5px; font-size:10px; padding:2px 5px;';
+  return badge;
+}
+
+/** Record downloaded ids and paint their badges onto tiles on screen. */
+function markDownloaded(ids) {
+  let changed = false;
+  for (const id of ids || []) {
+    if (id && !state.downloaded.has(id)) {
+      state.downloaded.add(id);
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  for (const id of ids || []) {
+    if (!id) continue;
+    const btn = document.querySelector(`.thumb[data-img-id="${CSS.escape(String(id))}"]`);
+    if (btn && !btn.querySelector('.dl-badge')) btn.append(makeDownloadedBadge());
+  }
 }
 
 function makeThumbBtn(img) {
@@ -1087,8 +1173,10 @@ function makeThumbBtn(img) {
     line.setAttribute('d', 'm21 21-4.3-4.3');
     svg.append(circle, line);
     zoom.append(svg);
-    if (dims) btn.append(thumb, tick, dims);
-    else btn.append(thumb, tick);
+    const parts = [thumb, tick];
+    if (dims) parts.push(dims);
+    if (state.downloaded.has(img.id)) parts.push(makeDownloadedBadge());
+    btn.append(...parts);
     wrap.append(btn, zoom);
     btn.addEventListener('click', () => {
       toggleSelect(img.id);
@@ -1163,12 +1251,15 @@ function knownImageBytes(img) {
 /**
  * Selected total size, under the summary cards. Shown only when at
  * least one selected image has a known size; marked approximate when
- * some selected images have unknown sizes. Hidden otherwise.
+ * some selected images have unknown sizes. Phase 5 A8: the line
+ * reserves its space permanently (fixed height in popup.html), so it
+ * is never hidden; the text swaps in and out instead, and the chips
+ * and the grid never move.
  */
 function paintSelectedSize() {
   const el = $('resSelectedSize');
   if (!el || !state.scan) return;
-  if (state.selected.size === 0) { el.hidden = true; el.textContent = ''; return; }
+  if (state.selected.size === 0) { UI.swapText(el, ''); return; }
   let total = 0;
   let known = 0;
   let unknown = 0;
@@ -1178,12 +1269,11 @@ function paintSelectedSize() {
     if (b == null) unknown += 1;
     else { total += b; known += 1; }
   }
-  if (known === 0 || total <= 0) { el.hidden = true; el.textContent = ''; return; }
+  if (known === 0 || total <= 0) { UI.swapText(el, ''); return; }
   const size = UI.formatBytes(total);
-  el.textContent = unknown > 0
+  UI.swapText(el, unknown > 0
     ? t('results_selectedSizeApprox', { size })
-    : t('results_selectedSize', { size });
-  el.hidden = false;
+    : t('results_selectedSize', { size }));
 }
 
 function updateFooter() {
@@ -1195,8 +1285,9 @@ function updateFooter() {
   const hiddenTxt = hidden > 0 ? ` · ${t('results_hiddenByFilters', { count: hidden })}` : '';
   $('resultCount').textContent = `${t('results_shownFound', { shown: state.visible.length, total })}${deduped}${uiHidden}${hiddenTxt}`;
   // The label span carries the text; the download icon beside it is static
-  // markup, so localizing never wipes it.
-  $('btnDownloadLabel').textContent = n === 0 ? t('popup_download') : t('popup_downloadCount', { count: n });
+  // markup, so localizing never wipes it. The count swaps with the 150 ms
+  // text swap (G2) instead of jumping.
+  UI.swapText($('btnDownloadLabel'), n === 0 ? t('popup_download') : t('popup_downloadCount', { count: n }));
   $('btnDownload').disabled = n === 0;
   $('btnZip').disabled = n === 0;
   if (state.scan) {
@@ -1243,9 +1334,17 @@ async function downloadSelected() {
   if (!items.length) return;
   try {
     await UI.send('DOWNLOAD_MANY', { items });
+    markDownloaded(items.map((i) => i.id));
+    // G2: the button shows the 500 ms success check draw, then the
+    // queue view opens. The button is disabled during the draw so a
+    // second click cannot re-send the batch.
+    const btn = $('btnDownload');
+    btn.disabled = true;
+    await UI.showSuccessCheck(btn);
+    btn.disabled = false;
     navigate('home', 'queue');
   } catch (err) {
-    UI.toast(err.message);
+    UI.toastError(err.message);
   }
 }
 
@@ -1303,6 +1402,7 @@ function openPreview(img) {
         format: format || 'as-is',
         candidates: Array.isArray(img.candidates) ? img.candidates.slice(0, 6) : null,
       });
+      markDownloaded([img.id]);
       navigate('home', 'queue');
     } catch (err) {
       UI.toast(err.message);
@@ -1356,7 +1456,7 @@ function openPreview(img) {
     setTimeout(() => {
       root.textContent = '';
       if (prevFocus && prevFocus.focus) prevFocus.focus();
-    }, 150);
+    }, UI.motionDurationMs ? UI.motionDurationMs('--duration-quick', 150) : 150);
   };
   const onKey = (e) => {
     if (e.key === 'Escape') { close(); return; }
@@ -1488,6 +1588,8 @@ function wireHistory() {
     toast: (msg) => UI.toast(msg),
     clear: () => UI.send('CLEAR_HISTORY'),
     onCleared: () => loadHistory(),
+    list: $('historyList'),
+    swapText: (node, text) => UI.swapText(node, text),
   });
 }
 
@@ -1501,11 +1603,14 @@ async function loadHistory() {
     // Only the latest overlapping load may paint (see options loadOptHistory).
     if (seq !== historyLoadSeq) return;
     if (!records || !records.length) {
-      list.append(UI.emptyState({
+      const es = UI.emptyState({
         icon: 'history',
         title: t('history_emptyTitle'),
         description: t('history_emptyDesc'),
-      }));
+      });
+      list.append(es);
+      // G2: the empty state fades in over 250 ms.
+      if (UI.fadeIn) UI.fadeIn(es);
       return;
     }
     const frag = document.createDocumentFragment();
@@ -1518,6 +1623,12 @@ async function loadHistory() {
       }
     }
     list.append(frag);
+    // G2: history rows enter with a 40 ms stagger, first 8 rows only.
+    if (UI.stagger) UI.stagger(list, '.hist-item', 8);
+    // B1 backfill: thumbnail the records that still have no thumb, in
+    // the background. The worker caps it at 12 per view open and
+    // broadcasts each finished thumbnail (HISTORY_THUMB above).
+    UI.send('BACKFILL_HISTORY_THUMBS').catch(() => {});
   } catch (err) {
     list.append(UI.el('p', err.message, 'muted small'));
   }
@@ -1530,5 +1641,6 @@ function historyRow(r) {
     formatSize: (rec) => UI.formatHistorySize(rec),
     showDownload: (dlId) => UI.send('SHOW_DOWNLOAD', { downloadId: String(dlId) }),
     toast: (msg) => UI.toast(msg),
+    showThumbnails: !state.settings || state.settings.historyShowThumbnails !== false,
   });
 }

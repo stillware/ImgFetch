@@ -26,7 +26,7 @@
  *   next part's first tile, assertTabStillActive() then threw
  *   friendlyError('capture-failed') because the source tab was no longer
  *   the active tab, so parts 2..N were never captured. A part is capped
- *   by PART_MAX_SIDE = 32767 device px (core/fullpage-capture.js), so on
+ *   by PART_MAX_SIDE = 16384 device px (core/fullpage-capture.js), so on
  *   a very tall page only the first part ever landed.
  *
  * Unlike capture-e2e.mjs (which mirrors the tile loop because automated
@@ -43,9 +43,9 @@
  *
  * Fixture: the fixture server's /rows page at 48,000 CSS px tall. With
  * the 1280x800 test viewport at DPR 1 that is 60 viewport heights and,
- * per the real planner, 2 balanced parts of 24,000 device px each
- * (PART_MAX_SIDE is 32767 device px and the 100 MP area cap does not
- * bind at this width). Parts are stored as Blob records (round 4);
+ * per the real planner, 3 balanced parts of 16,000 device px each
+ * (PART_MAX_SIDE is 16384 device px and the 268,435,456 px area cap does
+ * not bind at this width). Parts are stored as Blob records (round 4);
  * the record reader below converts each Blob back to bytes inside the
  * page, so the row-by-row verification is exactly as strict as the
  * dataUrl version was. Every 100px row carries a unique colour, so

@@ -180,36 +180,57 @@ async function click(btn) {
   check('success: editor canvas untouched', editor.width === 640 && editor.height === 480);
 }
 
-// 2. Downscale path: over-budget canvas is drawn into a temp canvas at the
-//    planned size, clipboard gets the PNG, toast reports the downscaled dims.
+// 2. Phase 5 item C: a 24 MP canvas (6000x4000) is inside the
+//    clipboard-safe size, so it copies at FULL resolution now: no temp
+//    canvas, no downscale, copySuccess toast. The old 12 MP budget that
+//    shrank this exact size is gone.
 {
   reset();
   const btn = makeButton();
-  const editor = makeCanvas(6000, 4000); // 24 MP, over the 12 MP budget
+  const editor = makeCanvas(6000, 4000); // 24 MP, over the old 12 MP budget
   initCopyButton(btn, () => editor, { t: tStub, toast: toastStub });
   await click(btn);
-  check('downscale: one temp canvas', createdCanvases.length === 1);
-  const tmp = createdCanvases[0];
-  const scale = Math.sqrt(12_000_000 / (6000 * 4000));
-  const expW = Math.max(1, Math.floor(6000 * scale));
-  const expH = Math.max(1, Math.floor(4000 * scale));
-  check('downscale: temp canvas at planned size',
-    tmp.width === expW && tmp.height === expH, `got ${tmp.width}x${tmp.height} want ${expW}x${expH}`);
-  check('downscale: editor drawn into the target-size temp canvas',
-    tmp.drawn.length === 1 && tmp.drawn[0][0] === editor &&
-    tmp.drawn[0][3] === expW && tmp.drawn[0][4] === expH,
-    JSON.stringify(tmp.drawn && tmp.drawn[0] && tmp.drawn[0].slice(3)));
-  check('downscale: no bitmap decode on the editor path', bitmapCalls.length === 0);
-  check('downscale: clipboard write happened', writes.length === 1);
-  const downCall = tCalls.find(([k]) => k === 'copyDownscaled');
-  check('downscale: toasts copyDownscaled with dims',
-    !!downCall && downCall[1] && downCall[1].width === expW && downCall[1].height === expH,
-    JSON.stringify(downCall && downCall[1]));
-  check('downscale: editor canvas untouched', editor.width === 6000 && editor.height === 4000);
+  check('full copy: no temp canvas', createdCanvases.length === 0);
+  check('full copy: no bitmap decode on the editor path', bitmapCalls.length === 0);
+  check('full copy: clipboard write happened', writes.length === 1);
+  check('full copy: toasts copySuccess', tCalls.some(([k]) => k === 'copySuccess'));
+  check('full copy: never toasts a downscale',
+    !tCalls.some(([k]) => k === 'copyDownscaled'));
+  check('full copy: editor canvas untouched', editor.width === 6000 && editor.height === 4000);
 }
 
-// 3. Persistent clipboard failure: retry once, then an honest copyFailed
-//    toast; no exception escapes; the screenshot survives.
+// 2b. Phase 5 item C: a canvas past the clipboard-safe size copies the
+//     part currently shown, 1:1, and says so. No silent downscale.
+{
+  reset();
+  const btn = makeButton();
+  const editor = makeCanvas(20000, 20000); // past the 16384 side cap
+  initCopyButton(btn, () => editor, {
+    t: tStub, toast: toastStub,
+    getViewRect: () => ({ x: 0, y: 0, w: 20000, h: 20000 }),
+  });
+  await click(btn);
+  check('visible part: one temp canvas for the 1:1 crop', createdCanvases.length === 1);
+  const tmp = createdCanvases[0];
+  check('visible part: temp canvas at the safe size, not a rescale',
+    tmp.width === 16384 && tmp.height === 16384, `got ${tmp.width}x${tmp.height}`);
+  check('visible part: editor drawn 1:1 from the view origin',
+    tmp.drawn.length === 1 && tmp.drawn[0][0] === editor &&
+    tmp.drawn[0][1] === 0 && tmp.drawn[0][2] === 0 &&
+    tmp.drawn[0][3] === 16384 && tmp.drawn[0][4] === 16384 &&
+    tmp.drawn[0][7] === 16384 && tmp.drawn[0][8] === 16384,
+    JSON.stringify(tmp.drawn && tmp.drawn[0]));
+  check('visible part: clipboard write happened', writes.length === 1);
+  const visCall = tCalls.find(([k]) => k === 'copyVisiblePart');
+  check('visible part: toasts copyVisiblePart with dims',
+    !!visCall && visCall[1] && visCall[1].width === 16384 && visCall[1].height === 16384,
+    JSON.stringify(visCall && visCall[1]));
+  check('visible part: editor canvas untouched', editor.width === 20000 && editor.height === 20000);
+}
+
+// 3. Persistent clipboard failure: one honest copyFailed toast, no
+//    exception escapes, the screenshot survives. Phase 5 item C: a
+//    failed copy is never retried at a smaller size.
 {
   reset();
   writeBehavior = 'throw';
@@ -219,23 +240,26 @@ async function click(btn) {
   let threw = false;
   try { await click(btn); } catch { threw = true; }
   check('failure: handler does not throw', !threw);
-  check('failure: retried once (2 attempts total)', writes.length === 2, `writes=${writes.length}`);
+  check('failure: single attempt, no smaller retry', writes.length === 1, `writes=${writes.length}`);
   check('failure: toasts copyFailed', tCalls.some(([k]) => k === 'copyFailed'));
   check('failure: no fake success toast',
     !tCalls.some(([k]) => k === 'copySuccess' || k === 'copyDownscaled'));
   check('failure: screenshot intact', editor.width === 640 && editor.height === 480);
 }
 
-// 4. Already-downscaled first attempt fails: no further retry, copyFailed.
+// 4. Oversize-copy failure: a single attempt, then copyFailed.
 {
   reset();
   writeBehavior = 'throw';
   const btn = makeButton();
-  const editor = makeCanvas(6000, 4000);
-  initCopyButton(btn, () => editor, { t: tStub, toast: toastStub });
+  const editor = makeCanvas(20000, 20000);
+  initCopyButton(btn, () => editor, {
+    t: tStub, toast: toastStub,
+    getViewRect: () => ({ x: 0, y: 0, w: 20000, h: 20000 }),
+  });
   await click(btn);
-  check('downscaled failure: single attempt, no extra retry', writes.length === 1, `writes=${writes.length}`);
-  check('downscaled failure: toasts copyFailed', tCalls.some(([k]) => k === 'copyFailed'));
+  check('oversize failure: single attempt, no extra retry', writes.length === 1, `writes=${writes.length}`);
+  check('oversize failure: toasts copyFailed', tCalls.some(([k]) => k === 'copyFailed'));
 }
 
 // 5. Clipboard API unavailable (no ClipboardItem): honest failure, no crash.
@@ -366,17 +390,41 @@ check('copyImageBlob exported', typeof copyImageBlob === 'function');
     !tCalls.some(([k]) => k === 'copy_windowsToast'));
 }
 
-// 14. Phase C3: a downscaled blob copy keeps the downscaled toast even
-//     on Windows with a large source (its toast already reports size).
+// 14. Phase 5 item C: a large stored PNG blob is written byte for byte,
+//     never downscaled, even on Windows with a large source.
 {
   reset();
   fakePlatform = 'Win32';
   const stored = { type: 'image/png', size: 30_000_000, __w: 6000, __h: 4000 };
   await copyImageBlob(stored, { t: tStub, toast: toastStub });
-  check('downscaled blob: toasts copyDownscaled',
-    tCalls.some(([k]) => k === 'copyDownscaled'), JSON.stringify(tCalls));
-  check('downscaled blob: no windows toast',
-    !tCalls.some(([k]) => k === 'copy_windowsToast'));
+  check('large blob: one clipboard write', writes.length === 1);
+  const v = writes[0] && writes[0][0].map && writes[0][0].map['image/png'];
+  const writtenBlob = v && typeof v.then === 'function' ? await v : v;
+  check('large blob: written byte for byte', writtenBlob === stored);
+  check('large blob: never toasts a downscale',
+    !tCalls.some(([k]) => k === 'copyDownscaled'), JSON.stringify(tCalls));
+  check('large blob: toasts copy_windowsToast on Windows',
+    tCalls.some(([k]) => k === 'copy_windowsToast'), JSON.stringify(tCalls));
+}
+
+// 15. Phase 5 item C: a non-PNG stored blob is decoded and re-encoded
+//     as PNG at its NATIVE size (no resize options on the decode).
+{
+  reset();
+  const stored = { type: 'image/jpeg', size: 120_000, __w: 800, __h: 600 };
+  await copyImageBlob(stored, { t: tStub, toast: toastStub });
+  check('non-PNG blob: one clipboard write', writes.length === 1);
+  check('non-PNG blob: decoded at native size, never resized',
+    bitmapCalls.length === 1 && bitmapCalls[0].width === 800 && bitmapCalls[0].height === 600,
+    JSON.stringify(bitmapCalls));
+  check('non-PNG blob: one canvas at native size', createdCanvases.length === 1);
+  const tmp = createdCanvases[0];
+  check('non-PNG blob: canvas is 800x600', tmp.width === 800 && tmp.height === 600,
+    `${tmp.width}x${tmp.height}`);
+  const v = writes[0] && writes[0][0].map && writes[0][0].map['image/png'];
+  const writtenBlob = v && typeof v.then === 'function' ? await v : v;
+  check('non-PNG blob: written as image/png', !!writtenBlob && writtenBlob.type === 'image/png');
+  check('non-PNG blob: toasts copySuccess', tCalls.some(([k]) => k === 'copySuccess'));
 }
 
 console.log(`${pass} passed, ${fail} failed`);

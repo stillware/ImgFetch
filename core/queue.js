@@ -51,7 +51,24 @@ export class DownloadQueue {
   enqueue(list) {
     for (const entry of list || []) {
       const id = entry.id || `q${++this.seq}-${Date.now()}`;
-      if (this.items.has(id)) continue;
+      const existing = this.items.get(id);
+      if (existing) {
+        // D3: re-downloading an already downloaded image must work. A
+        // finished item is re-queued with its new payload instead of
+        // being silently skipped; an item still pending or active keeps
+        // its single in-flight run, so a double click never duplicates
+        // a download that is already running.
+        if ([ItemState.DONE, ItemState.FAILED, ItemState.CANCELLED].includes(existing.state)) {
+          existing.label = String(entry.label || existing.label || 'image');
+          existing.payload = entry.payload;
+          existing.state = ItemState.PENDING;
+          existing.attempts = 0;
+          existing.error = null;
+          existing.chromeDownloadId = null;
+          existing.history = null;
+        }
+        continue;
+      }
       this.items.set(id, {
         id,
         label: String(entry.label || 'image'),

@@ -19,12 +19,13 @@
  * ImgFetch, options/options.js
  * Settings page controller. Every change saves automatically (debounced).
  */
-import { parseSettingsImport, buildFilename } from '../core/filenames.js';
+import { parseSettingsImport, buildFilename, SETTINGS_IMPORT_MAX_CHARS } from '../core/filenames.js';
+import { stripUnknownSettings } from '../core/settings.js';
 import { initI18n, t, applyI18n, onLanguageChange, setLanguage, LOCALES, LOCALE_INFO } from '../shared/i18n.js';
 import { normalizeHost } from '../core/urls.js';
 import { hasHostPermission, requestHostPermission, HOST_PERMISSION_ORIGINS } from '../shared/offscreen-bridge.js';
 import { groupByDay } from '../core/history.js';
-import { buildHistoryRow, historyCountLabel, wireClearHistory } from '../shared/history-ui.js';
+import { buildHistoryRow, historyCountLabel, wireClearHistory, updateHistoryRowThumb } from '../shared/history-ui.js';
 
 const UI = window.ImgFetchUI;
 
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
   await i18nReady;
   applyI18n();
-  onLanguageChange(() => { applyI18n(); paintAboutPrivacy(); paintPrivacyPermNote(); buildSettingsSearchIndex(); applySettingsSearchFilter(false); });
+  onLanguageChange(() => { applyI18n(); paintAboutPrivacy(); paintPrivacyPermNote(); buildSettingsSearchIndex(); applySettingsSearchFilter(false); if (UI.refreshDropdowns) UI.refreshDropdowns(document); });
   try {
     const res = await UI.send('GET_SETTINGS');
     settings = res.settings;
@@ -56,6 +57,8 @@ async function init() {
   UI.watchSystemTheme(() => settings.theme);
   buildLanguageOptions();
   paintAll();
+  // Phase 5 A7: one shared custom dropdown per native select.
+  if (UI.initDropdowns) UI.initDropdowns(document);
   wireAll();
   $('aboutVersion').textContent = chrome.runtime.getManifest().version;
   $('optionsVersion').textContent = `${t('about_version')} ${chrome.runtime.getManifest().version}`;
@@ -68,7 +71,8 @@ async function init() {
 function scheduleSave() {
   const el = $('saveState');
   const pill = $('savePill');
-  el.textContent = t('options_saving');
+  // G2: the pill text swaps (150 ms) instead of jumping.
+  UI.swapText(el, t('options_saving'));
   pill.hidden = false;
   pill.className = 'save-pill saving';
   clearTimeout(saveTimer);
@@ -78,12 +82,12 @@ function scheduleSave() {
       const res = await UI.send('SAVE_SETTINGS', { settings });
       settings = res.settings;
       UI.applyTheme(settings.theme);
-      el.textContent = t('options_saved');
+      UI.swapText(el, t('options_saved'));
       pill.className = 'save-pill';
       // The pill appears briefly after a save, then hides again.
       savePillTimer = setTimeout(() => { pill.hidden = true; }, 2600);
     } catch (err) {
-      el.textContent = t('options_saveFailed');
+      UI.swapText(el, t('options_saveFailed'));
       pill.className = 'save-pill error';
       UI.toast(err.message);
     }
@@ -394,6 +398,7 @@ function wireLanguage() {
 
 function renderSiteList() {
   const list = $('siteList');
+  if (UI.destroyDropdowns) UI.destroyDropdowns(list);
   list.textContent = '';
   const entries = Object.entries(settings.sitePrefs || {});
   if (!entries.length) {
@@ -430,6 +435,7 @@ function renderSiteList() {
     frag.append(row);
   }
   list.append(frag);
+  if (UI.initDropdowns) UI.initDropdowns(list);
 }
 
 function cleanHost(raw) {
@@ -468,12 +474,57 @@ function wireSites() {
 /* ---------------- download history ---------------- */
 
 function wireHistorySection() {
+  // B1: the "Show thumbnails in history" toggle. options.html is not
+  // edited in this phase, so the row is built here in the existing
+  // switch-row style (same classes as the historyEnabled row above it).
+  // data-i18n attributes keep it translated when the language changes.
+  const enabledRow = $('historyEnabled') && $('historyEnabled').closest('label');
+  if (enabledRow && enabledRow.parentNode && !$('historyShowThumbnails')) {
+    const thumbsRow = document.createElement('label');
+    thumbsRow.className = 'switch-row opt-row';
+    const rowText = document.createElement('span');
+    rowText.className = 'opt-row-text';
+    const strong = document.createElement('strong');
+    strong.setAttribute('data-i18n', 'hi_showThumbs');
+    strong.textContent = t('hi_showThumbs');
+    const hint = document.createElement('span');
+    hint.className = 'hint';
+    hint.setAttribute('data-i18n', 'hi_showThumbsHint');
+    hint.textContent = t('hi_showThumbsHint');
+    rowText.append(strong, hint);
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.className = 'switch';
+    input.setAttribute('role', 'switch');
+    input.id = 'historyShowThumbnails';
+    input.checked = settings.historyShowThumbnails !== false;
+    input.addEventListener('change', (e) => {
+      settings.historyShowThumbnails = e.target.checked;
+      scheduleSave();
+      loadOptHistory(); // hide or show the stored thumbnails at once
+    });
+    thumbsRow.append(rowText, input);
+    enabledRow.parentNode.insertBefore(thumbsRow, enabledRow.nextSibling);
+  }
+  // B1 backfill: a thumbnail that arrives while this section is open
+  // updates its row in place, without re-rendering the list.
+  if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onMessage) {
+    chrome.runtime.onMessage.addListener((msg, sender) => {
+      // H2: the worker is the only sender of HISTORY_THUMB broadcasts.
+      if (!sender || sender.id !== chrome.runtime.id) return;
+      if (!msg || msg.type !== 'HISTORY_THUMB' || !msg.id || !msg.thumb) return;
+      const row = document.querySelector(`[data-record-id="${CSS.escape(String(msg.id))}"]`);
+      if (row) updateHistoryRowThumb(row, msg.thumb);
+    });
+  }
   loadOptHistory();
   wireClearHistory($('btnClearHistory'), {
     t,
     toast: (msg) => UI.toast(msg),
     clear: () => UI.send('CLEAR_HISTORY'),
     onCleared: () => loadOptHistory(),
+    list: $('optHistoryList'),
+    swapText: (node, text) => UI.swapText(node, text),
   });
 }
 
@@ -488,7 +539,10 @@ async function loadOptHistory() {
     // only the latest may paint, or rows duplicate.
     if (seq !== optHistoryLoadSeq) return;
     if (!records || !records.length) {
-      list.append(UI.el('p', t('history_empty'), 'muted small'));
+      const p = UI.el('p', t('history_empty'), 'muted small');
+      list.append(p);
+      // G2: the empty state fades in over 250 ms.
+      if (UI.fadeIn) UI.fadeIn(p);
       return;
     }
     const frag = document.createDocumentFragment();
@@ -500,10 +554,17 @@ async function loadOptHistory() {
           formatSize: (rec) => UI.formatHistorySize(rec),
           showDownload: (dlId) => UI.send('SHOW_DOWNLOAD', { downloadId: String(dlId) }),
           toast: (msg) => UI.toast(msg),
+          showThumbnails: !settings || settings.historyShowThumbnails !== false,
         }));
       }
     }
     list.append(frag);
+    // G2: history rows enter with a 40 ms stagger, first 8 rows only.
+    if (UI.stagger) UI.stagger(list, '.hist-item', 8);
+    // B1 backfill: thumbnail the records that still have no thumb, in
+    // the background. The worker caps it at 12 per view open and
+    // broadcasts each finished thumbnail (HISTORY_THUMB above).
+    UI.send('BACKFILL_HISTORY_THUMBS').catch(() => {});
   } catch (err) {
     list.append(UI.el('p', err.message, 'muted small'));
   }
@@ -530,10 +591,19 @@ function wireBackup() {
     const file = e.target.files && e.target.files[0];
     e.target.value = '';
     if (!file) return;
+    // H6: refuse an oversized import file before reading it into memory.
+    if (file.size > SETTINGS_IMPORT_MAX_CHARS) {
+      UI.toast(t('bk_importInvalid'));
+      return;
+    }
     try {
       const text = await file.text();
       const data = parseSettingsImport(text);
-      const imported = data.settings && typeof data.settings === 'object' ? data.settings : data;
+      // H6: an import accepts only known settings keys. Unknown fields
+      // (and any __proto__ key) are dropped here, before SAVE_SETTINGS.
+      const imported = stripUnknownSettings(
+        data.settings && typeof data.settings === 'object' ? data.settings : data,
+      );
       const res = await UI.send('SAVE_SETTINGS', { settings: imported });
       settings = res.settings;
       paintAll();
@@ -601,6 +671,27 @@ const COMMAND_ORDER = [
   'imgfetch-scan-page-alt',
 ];
 
+/**
+ * Phase 5 A5: the shortcuts label column follows the longest label.
+ * Measures each label unwrapped with an offscreen probe in the label
+ * font, then sets --kb-label-w on the list, clamped to 160..320px, so
+ * the keys column starts at the same X in every row, in every locale.
+ */
+function sizeShortcutLabels(list) {
+  const labels = [...list.querySelectorAll('.kb-row-label')];
+  if (!labels.length) return;
+  const probe = document.createElement('span');
+  const cs = getComputedStyle(labels[0]);
+  probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;';
+  probe.style.font = cs.font;
+  document.body.appendChild(probe);
+  let max = 0;
+  for (const l of labels) { probe.textContent = l.textContent; max = Math.max(max, probe.offsetWidth); }
+  probe.remove();
+  const w = Math.min(320, Math.max(160, Math.ceil(max)));
+  list.style.setProperty('--kb-label-w', `${w}px`);
+}
+
 async function wireShortcuts() {
   const list = $('shortcutList');
   try {
@@ -614,7 +705,7 @@ async function wireShortcuts() {
     } else {
       for (const c of known) {
         const row = UI.el('div', null, 'kb-row');
-        row.append(UI.el('span', t(COMMAND_LABEL_KEYS[c.name]), 'kb-label'));
+        row.append(UI.el('span', t(COMMAND_LABEL_KEYS[c.name]), 'kb-row-label'));
         const keys = UI.el('span', null, 'kb-keys');
         if (c.shortcut) {
           for (const part of String(c.shortcut).split('+')) {
@@ -626,6 +717,7 @@ async function wireShortcuts() {
         row.append(keys);
         list.append(row);
       }
+      sizeShortcutLabels(list);
     }
   } catch {
     list.textContent = '';
@@ -840,7 +932,16 @@ function applySettingsSearchFilter(jump) {
     const btn = document.querySelector(`.side-nav button[data-section="${entry.id}"]`);
     if (!btn) continue;
     const hit = !q || entry.hay.includes(q);
-    btn.style.display = hit ? '' : 'none';
+    // G2: search results filter with a fast 150 ms fade. Showing and
+    // hiding are animated only when the state actually changes, so
+    // typing does not replay a fade on every keystroke, and a pending
+    // hide is cancelled by a show (see UI.setVisibleAnimated).
+    if (UI.setVisibleAnimated) {
+      if (hit && btn.style.display === 'none') void UI.setVisibleAnimated(btn, true);
+      else if (!hit && btn.style.display !== 'none') void UI.setVisibleAnimated(btn, false);
+    } else {
+      btn.style.display = hit ? '' : 'none';
+    }
     if (hit) matches.push(entry.id);
   }
   // A group label shows only while at least one of its items matches.
@@ -851,9 +952,19 @@ function applySettingsSearchFilter(jump) {
       if (next.tagName === 'BUTTON' && next.style.display !== 'none') { any = true; break; }
       next = next.nextElementSibling;
     }
-    g.style.display = any ? '' : 'none';
+    if (UI.setVisibleAnimated) {
+      if (any && g.style.display === 'none') void UI.setVisibleAnimated(g, true);
+      else if (!any && g.style.display !== 'none') void UI.setVisibleAnimated(g, false);
+    } else {
+      g.style.display = any ? '' : 'none';
+    }
   });
-  if (empty) empty.hidden = q === '' || matches.length > 0;
+  // G2: the "no results" state fades in over 250 ms.
+  if (empty) {
+    const show = q !== '' && matches.length === 0;
+    if (show && empty.hidden) { empty.hidden = false; if (UI.fadeIn) UI.fadeIn(empty); }
+    else if (!show) empty.hidden = true;
+  }
   if (!q || !jump || matches.length === 0) return;
   const current = document.querySelector('.side-nav button[aria-current="true"]');
   const currentId = current ? current.dataset.section : '';
@@ -918,12 +1029,27 @@ const SECTION_IDS = [
   'privacy',
 ];
 
+let sectionShownOnce = false;
+let currentSectionId = 'general';
+
 function showSection(id) {
   if (!SECTION_IDS.includes(id)) id = 'general';
+  const prevIdx = SECTION_IDS.indexOf(currentSectionId);
+  const nextIdx = SECTION_IDS.indexOf(id);
   for (const s of SECTION_IDS) {
     const el = $(s);
     if (el) el.hidden = s !== id;
   }
+  // G2: the content swaps with the 250 ms page slide (8 px, blur to 0),
+  // direction following the sidebar order; the sidebar indicator slides
+  // with it (UI.initSlidingIndicators). The first section is the page's
+  // first paint and never animates.
+  if (sectionShownOnce && prevIdx !== nextIdx) {
+    const sec = $(id);
+    if (sec && UI.runViewTransition) UI.runViewTransition(sec, nextIdx > prevIdx ? 'forward' : 'back');
+  }
+  sectionShownOnce = true;
+  currentSectionId = id;
   document.querySelectorAll('.side-nav button').forEach((b) => {
     b.setAttribute('aria-current', String(b.dataset.section === id));
   });
@@ -933,7 +1059,7 @@ function showSection(id) {
   const label = navLabel ? navLabel.textContent.trim() : '';
   document.title = label && id !== 'general' ? t('options_sectionTitle', { section: label }) : t('options_title');
   const select = $('navSelect');
-  if (select) select.value = id;
+  if (select) { select.value = id; if (UI.syncDropdown) UI.syncDropdown(select); }
   if (location.hash !== `#${id}`) {
     history.replaceState(null, '', `#${id}`);
   }

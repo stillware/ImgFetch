@@ -32,6 +32,17 @@ const BLOCKED_EXTENSIONS = new Set([
 ]);
 
 const ILLEGAL_CHARS = /[<>:"/\\|?*\u0000-\u001f]/g;
+/**
+ * H5: directional formatting characters that let a hostile name spoof
+ * its displayed order (U+202E right-to-left override makes
+ * "photo-gnp.exe" display as "photo-exe.png"). They carry no meaning
+ * in a file name, so they are stripped everywhere a name is cleaned.
+ * Zero-width joiners inside real words are not in this set.
+ */
+const BIDI_CONTROLS = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\uFEFF]/g;
+export function stripBidiControls(raw) {
+  return String(raw ?? '').replace(BIDI_CONTROLS, '');
+}
 const MAX_SEGMENT = 96;
 const MAX_FILENAME = 180;
 
@@ -47,7 +58,7 @@ export function sanitizeSegment(raw) {
   } catch {
     /* keep as-is */
   }
-  s = s
+  s = stripBidiControls(s)
     .replace(ILLEGAL_CHARS, '')
     .replace(/[\s\u00a0]+/g, ' ')
     .trim()
@@ -145,7 +156,16 @@ export function joinDownloadPath(folder, filename, extraExts = []) {
 }
 
 /** Validate an imported settings JSON string; returns parsed object or throws. */
+/**
+ * H6: an imported settings file is untrusted input. Cap it at
+ * 1,000,000 characters before parsing: a real export is a few KB,
+ * and an unbounded JSON.parse of a hostile file would hang the page.
+ */
+export const SETTINGS_IMPORT_MAX_CHARS = 1_000_000;
 export function parseSettingsImport(text) {
+  if (typeof text !== 'string' || text.length > SETTINGS_IMPORT_MAX_CHARS) {
+    throw new Error('too-large');
+  }
   const data = JSON.parse(text);
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     throw new Error('not-an-object');

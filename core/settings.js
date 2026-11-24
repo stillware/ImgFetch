@@ -62,6 +62,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   // History & privacy
   historyEnabled: true,
   historyRetentionDays: 30,
+  historyShowThumbnails: true, // B1: show thumbnails in history, default on
   // Advanced
   sitePrefs: {}, // { host: 'smart' | 'best'(legacy) | 'normal' | 'disabled' }
 });
@@ -84,6 +85,25 @@ function clampNumber(v, min, max, fallback) {
 }
 
 /** Merge stored settings over defaults and validate every field. */
+/**
+ * H6: the import-time allowlist. A backup import is untrusted input, so
+ * only keys in DEFAULT_SETTINGS are accepted from it; unknown fields
+ * are dropped, never stored. This lives apart from normalizeSettings
+ * on purpose: normal loads preserve unknown keys for forward
+ * compatibility (a newer version's keys survive a downgrade, see
+ * tests/test-contract-settings.mjs), while an import must not smuggle
+ * anything in. The returned object is a fresh plain object, so a
+ * __proto__ key in the input can never retarget a prototype.
+ */
+export function stripUnknownSettings(stored) {
+  const out = {};
+  if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return out;
+  for (const key of Object.keys(DEFAULT_SETTINGS)) {
+    if (Object.prototype.hasOwnProperty.call(stored, key)) out[key] = stored[key];
+  }
+  return out;
+}
+
 export function normalizeSettings(stored) {
   const s = { ...DEFAULT_SETTINGS, ...(stored || {}) };
   // B3: defaultAction is removed (it had no UI and no generic download
@@ -113,7 +133,7 @@ export function normalizeSettings(stored) {
   s.historyRetentionDays = Math.round(
     clampNumber(s.historyRetentionDays, 1, 365, 30),
   );
-  for (const k of ['saveAsDialog', 'autoRetryOnce', 'organizeBySite', 'includeBackgrounds', 'historyEnabled', 'detectLazyScroll', 'dedupeScan', 'askFilename', 'annotateAfterCapture', 'useSubfolder']) {
+  for (const k of ['saveAsDialog', 'autoRetryOnce', 'organizeBySite', 'includeBackgrounds', 'historyEnabled', 'historyShowThumbnails', 'detectLazyScroll', 'dedupeScan', 'askFilename', 'annotateAfterCapture', 'useSubfolder']) {
     s[k] = s[k] === true;
   }
   // Legacy alias: organizeBySite true => folderMode 'site'.
@@ -126,6 +146,14 @@ export function normalizeSettings(stored) {
   const prefs = {};
   if (s.sitePrefs && typeof s.sitePrefs === 'object') {
     for (const [host, mode] of Object.entries(s.sitePrefs)) {
+      // H6: __proto__ is not a hostname. Object.entries on a JSON-parsed
+      // object can carry it, and prefs['__proto__'] = an object would
+      // retarget the object's prototype. The mode here is a validated
+      // string, so the assignment would be ignored anyway; dropping the
+      // key explicitly keeps the stored object clean. constructor and
+      // prototype stay allowed: assigned as own string properties they
+      // are inert (the prototype is untouched, see the security tests).
+      if (host === '__proto__') continue;
       const h = String(host).toLowerCase().slice(0, 253);
       if (/^[a-z0-9.-]+$/.test(h) && ['smart', 'best', 'normal', 'disabled'].includes(mode)) {
         prefs[h] = mode;

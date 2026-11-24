@@ -2,8 +2,8 @@
 
 What ImgFetch stores on your device, what it sends, and what it never does.
 
-Applies to: ImgFetch 1.1.0
-Last verified: 2026-10-22
+Applies to: ImgFetch 1.1.1
+Last verified: 2026-11-23
 Effective date: 2026-10-13
 
 ## Short version
@@ -17,7 +17,7 @@ All of the following stays in your browser, on your device:
 | Data | Where it is stored | Notes |
 |---|---|---|
 | Settings and per-site preferences | `chrome.storage.local` | Your choices in Settings, saved locally |
-| Download history | `chrome.storage.local` | File names, source hosts, formats, sizes, a small preview image, the source link and the browser download id. The preview is a 120 px thumbnail made only from image data already in memory, never by fetching the image again. All of it stays on this device only. At most 200 records are kept, for the retention period you set in Settings (30 days by default). Previews take at most 3 MB in total, and Clear history removes everything, including the previews, links and ids. |
+| Download history | `chrome.storage.local` | File names, source hosts, formats, sizes, a small preview image, the source link and the browser download id. The preview is a 120 px thumbnail. For screenshots, captures and data: downloads it is made from image data already in memory. For a direct web download the extension requests the same image once more after the download, only to build the small local thumbnail; you can turn thumbnails off in Settings, Download history, and then no extra request is ever made. All of it stays on this device only. At most 200 records are kept, for the retention period you set in Settings (30 days by default). Previews take at most 3 MB in total, and Clear history removes everything, including the previews, links and ids. |
 | The file counter | `chrome.storage.local` | Used for automatic file naming |
 | The last page scan | `chrome.storage.session` | Kept for the browser session only |
 | Screenshots and full page capture parts waiting in a preview or editor page | IndexedDB in the browser | Capture records expire after 1 hour, and at most 60 records are kept. Saving a capture downloads it through the browser like any other download |
@@ -28,8 +28,9 @@ Downloads themselves are saved by the browser to your Downloads folder, or to th
 
 Only network requests that your own actions require:
 
-- **Image downloads and conversions.** When you ask ImgFetch to download or convert an image, it fetches that image from its host. Fetching an image necessarily reveals your IP address to that host, as with any download. ImgFetch adds no cookies or credentials to these requests.
+- **Image downloads and conversions.** When you ask ImgFetch to download or convert an image, it fetches that image from its host. Fetching an image necessarily reveals your IP address to that host, as with any download. ImgFetch adds no cookies or credentials to these requests. The one exception is the Copy Image fallback, which is fetched inside the page and sends the page's own cookies only when the image is on the same origin as the page; a cross-origin image sends no cookies and falls back to copying the visible pixels.
 - **Result thumbnails.** When you scan a page, the popup loads small previews directly from the image hosts so you can see what was found. This contacts those hosts, as any image view would. Nothing is sent to ImgFetch or to any third party.
+- **History thumbnails for direct downloads.** After a direct web download finishes, the extension requests the same image once more, only to build the small 120 px preview kept with its history record. The request carries no cookies or credentials and reveals only your IP address to that image host, as the download itself already did. Nothing is sent anywhere else, and nothing leaves the device. Turning thumbnails off in Settings, Download history stops these requests entirely; existing previews are hidden but kept until you clear history.
 - **Google Lens, only if you click it.** The "Search Image with Google Lens" menu item opens a Google Lens tab with the image address so Google can search for it. This happens only after you click the menu item. ImgFetch never contacts Google otherwise, and nothing is sent to ImgFetch servers, because there are none.
 
 ## What ImgFetch never does
@@ -52,7 +53,8 @@ ImgFetch requests only the permissions its features need. The full list, with th
 | `activeTab` | Capturing screenshots of the page you invoked ImgFetch from |
 | `offscreen` | Format conversion and ZIP building in a hidden document |
 | `notifications` | An optional note when a download finishes. You can turn it off in Settings |
-| `clipboardWrite` | Copy actions: "Copy Image Link", and the Copy button in the screenshot editor, which copies the edited image. ImgFetch writes to the clipboard and never reads it |
+| `clipboardWrite` | Copy actions: "Copy Image Link", the Copy button in the screenshot editor, which copies the edited image, and the Copy button on a history row, which copies the downloaded image itself. ImgFetch writes to the clipboard and never reads it |
+| `downloads.open` (optional) | Opens a downloaded file in its default app when you click Open on a history row. It is requested only then, from that click; if you decline, the file is shown in its folder instead. It is optional so existing users are not asked for a new permission when the extension updates. |
 | Host access (`https://*/*` and `http://*/*`) | Downloading images from the sites you visit |
 
 ## Your controls

@@ -20,32 +20,46 @@
  * Pure copy-size planner for the annotate editor's Copy button.
  * No DOM, no chrome.*: unit-testable in Node.
  *
- * planCopy(width, height) answers: can this canvas be encoded and written
- * to the clipboard as-is, or must it be downscaled first to stay under the
- * pixel budget? The UI layer (shared/copy-shot.js) does the actual canvas
- * work; this module only computes sizes, so it is safe to test in Node.
- */
-
-/**
- * Pixel budget for the clipboard PNG: 12,000,000 px (12 MP).
+ * Phase 5 item C: this module NEVER plans a downscale. The old 12 MP
+ * budget silently shrank every long screenshot on Copy (a 1440x20000
+ * part was copied at 0.65 scale, a 1440x29600 part at 0.53), which is
+ * exactly the blur the owner saw when pasting into a viewer and zooming:
+ * fine text and 1 px grid lines cannot survive a 0.5 scale. The capture
+ * and stitch are pixel exact (measured: tile vs stitched PNG exact
+ * fraction 1.0000 at every height and DPR), and a full-resolution PNG
+ * written to the clipboard and read back is also pixel exact (measured
+ * up to 2160x30000), so there is no quality reason to shrink.
  *
- * Why this number: a 4K screenshot (3840 x 2160 = 8.3 MP) passes through
- * untouched, which covers every realistic screenshot on current displays.
- * Anything larger is downscaled before toBlob and the clipboard write, so
- * the visible page never allocates a giant canvas or blocks the UI on a
- * huge encode. The offscreen document's clipboardImage handler (used by the
- * background worker, which has no user gesture of its own) allows more
- * (8000 px side, 32 MP), because the capture pipeline must accept whatever
- * the screen produces; the visible page can afford to be more conservative.
+ * planCopy(width, height) answers: can this image be written to the
+ * clipboard at full resolution, or is it past the clipboard-safe size?
+ * The safe size is the conservative canvas limit from the Phase 5 brief
+ * (16384 px per side, 268,435,456 total pixels), verified against the
+ * real browser: a 16384x16384 canvas allocates and PNG-encodes, and a
+ * full-resolution clipboard write/read round-trips pixel exact up to
+ * 2160x30000. When the image is past the safe size the caller must NOT
+ * shrink it: it copies the part currently shown instead (see
+ * planVisibleCopy) and tells the user why.
  */
-export const COPY_PIXEL_BUDGET = 12_000_000;
+
+export const CLIPBOARD_MAX_SIDE = 16384;
+export const CLIPBOARD_MAX_AREA = 268_435_456;
+
+/** True when width x height fits the clipboard-safe size. */
+export function isClipboardSizeSafe(width, height) {
+  const w = Number(width);
+  const h = Number(height);
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return false;
+  return w <= CLIPBOARD_MAX_SIDE && h <= CLIPBOARD_MAX_SIDE && w * h <= CLIPBOARD_MAX_AREA;
+}
 
 /**
- * Compute the output size for a clipboard copy of a width x height image.
- * Returns { width, height, downscaled, scale }.
- *   - area within budget: the size is returned unchanged (downscaled false).
- *   - area over budget: aspect-preserving downscale so the output area fits
- *     the budget; scale is the linear factor applied to each side, in (0, 1).
+ * Compute the copy plan for a width x height image.
+ * Returns { width, height, full, tooLarge }.
+ *   - within the safe size: the size is returned unchanged (full true).
+ *   - past the safe size: the size is still returned unchanged, with
+ *     full false and tooLarge true. The caller copies the visible part
+ *     (planVisibleCopy) instead of shrinking; nothing here ever returns
+ *     a smaller size.
  * Throws a plain Error on non-finite or non-positive inputs; the UI layer
  * catches it and shows an honest toast.
  */
@@ -55,15 +69,41 @@ export function planCopy(width, height) {
       width <= 0 || height <= 0) {
     throw new Error('planCopy: width and height must be positive finite numbers');
   }
-  const area = width * height;
-  if (area <= COPY_PIXEL_BUDGET) {
-    return { width, height, downscaled: false, scale: 1 };
+  const full = isClipboardSizeSafe(width, height);
+  return { width, height, full, tooLarge: !full };
+}
+
+/**
+ * The rectangle to copy when the whole image is too large for the
+ * clipboard: the part currently shown, clamped to the clipboard-safe
+ * size. view is { x, y, w, h } in full-image pixels (the editor's
+ * current view: the crop, or the whole image); full is
+ * { width, height } of the image. Returns { x, y, w, h }, always inside
+ * the image, always within the safe size, always at least 1x1, and
+ * never resampled: the caller draws this source rectangle 1:1.
+ * The rectangle is anchored at the view origin, so the user gets the
+ * top-left of what they are looking at.
+ */
+export function planVisibleCopy(view, full) {
+  const rawW = Number((full && full.width) || 0);
+  const rawH = Number((full && full.height) || 0);
+  if (!Number.isFinite(rawW) || !Number.isFinite(rawH) || rawW <= 0 || rawH <= 0) {
+    throw new Error('planVisibleCopy: full image size must be positive');
   }
-  const scale = Math.sqrt(COPY_PIXEL_BUDGET / area);
-  return {
-    width: Math.max(1, Math.floor(width * scale)),
-    height: Math.max(1, Math.floor(height * scale)),
-    downscaled: true,
-    scale,
-  };
+  const fw = Math.max(1, Math.floor(rawW));
+  const fh = Math.max(1, Math.floor(rawH));
+  const vx = Math.max(0, Math.floor(Number((view && view.x) || 0)));
+  const vy = Math.max(0, Math.floor(Number((view && view.y) || 0)));
+  const vw = Math.max(1, Math.floor(Number((view && view.w) || 0)));
+  const vh = Math.max(1, Math.floor(Number((view && view.h) || 0)));
+  const x = Math.min(vx, fw - 1);
+  const y = Math.min(vy, fh - 1);
+  let w = Math.min(vw, fw - x, CLIPBOARD_MAX_SIDE);
+  let h = Math.min(vh, fh - y, CLIPBOARD_MAX_SIDE);
+  if (w * h > CLIPBOARD_MAX_AREA) {
+    const scale = Math.sqrt(CLIPBOARD_MAX_AREA / (w * h));
+    w = Math.max(1, Math.floor(w * scale));
+    h = Math.max(1, Math.floor(h * scale));
+  }
+  return { x, y, w, h };
 }

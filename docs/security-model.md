@@ -2,8 +2,8 @@
 
 How ImgFetch defends against hostile pages, hostile image hosts, and hostile files, and which risks it accepts on purpose.
 
-Applies to: ImgFetch 1.1.0
-Last verified: 2026-10-22
+Applies to: ImgFetch 1.1.1
+Last verified: 2026-11-23
 
 ## Overview
 
@@ -54,7 +54,7 @@ Out of scope attackers, such as a compromised browser or a second malicious exte
 | --- | --- |
 | Allowed schemes | `http:`, `https:`, `data:image/*`, and page `blob:` URLs, which are resolved inside the page before download. `javascript:`, `data:text/html`, `ftp:`, and `file:` are rejected. |
 | Embedded credentials | URLs with a username or password are rejected. |
-| Length caps | URLs are capped at 8,192 characters. Data URLs are capped at 30,000,000 characters on the download path and at 2,000,000 characters in the scanner. |
+| Length caps | URLs are capped at 8,192 characters. Data URLs are capped at 50,000,000 decoded bytes on the download path and at 2,000,000 characters in the scanner. |
 | Private network blocking | Loopback, RFC 1918 ranges, link-local, CGNAT (100.64.0.0/10), 0.0.0.0/8, `localhost`, the `.local`, `.internal`, `.lan`, and `.home.arpa` suffixes, and single label hostnames count as private. IPv6 loopback, unspecified, unique local, and link-local addresses count as private, including IPv4 addresses embedded in mapped, compatible, NAT64, and 6to4 forms. |
 
 `isPrivateNetworkFetchBlocked` applies the private network rule with one exception: a fetch to the same private host as the page itself is allowed, so a user intranet keeps working.
@@ -93,7 +93,7 @@ Every runtime message to the service worker passes through `isValidMessage` and 
 
 | Check | Detail |
 | --- | --- |
-| Type allowlist | Only the 39 types in `MESSAGE_TYPES` are routable. Unknown types and malformed envelopes are rejected. Broadcast types such as `QUEUE_UPDATE` and `NOTICE` are not accepted as inbound messages. |
+| Type allowlist | Only the 41 types in `MESSAGE_TYPES` are routable. Unknown types and malformed envelopes are rejected. Broadcast types such as `QUEUE_UPDATE` and `NOTICE` are not accepted as inbound messages. |
 | Field types | Declared string fields must be strings. A numeric or null value in a checked field rejects the message. |
 | Size caps | A message is rejected when its JSON form is longer than 1,000,000 characters. `SAVE_ANNOTATED` is the one exception, capped at 45,000,000 characters. |
 | Annotated save cap | The worker also rejects a `SAVE_ANNOTATED` data URL longer than 40,000,000 characters with a too-large error. |
@@ -105,8 +105,10 @@ Every runtime message to the service worker passes through `isValidMessage` and 
 ### Offscreen document isolation
 
 Conversion, sanitization, stitching, ZIP building, and clipboard work run in one offscreen document, created on demand by the worker with the reasons BLOBS and CLIPBOARD.
-It is closed again after 30 seconds idle. It exposes 22 message types, each reached only through a worker message carrying the target `offscreen`.
+It is closed again after 30 seconds idle. It exposes 23 message types, each reached only through a worker message carrying the target `offscreen`.
 Fetches inside it send no credentials and no referrer (`credentials: 'omit'`, `referrerPolicy: 'no-referrer'`), so cookies and tokens never leak to image hosts.
+
+Copy credentials policy: conversion, thumbnail, ZIP, sniff and EXIF fetches always send no cookies or credentials. The only fetch that ever sends credentials is the in-page Copy Image fallback, and only when the image is on the same origin as the page (`background/service-worker.js`, `copyImageInPage`); a cross-origin image sends nothing and falls back to the canvas route. A same-origin image behind a login still copies, which is exactly what the page itself does when it loads that image.
 A fetched blob must have an `image/*` MIME type before it is decoded.
 
 ### No remote code and content security policy

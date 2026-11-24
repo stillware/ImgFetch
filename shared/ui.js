@@ -60,10 +60,11 @@
       return resolved;
     }
     // Smooth cross-fade so switching themes never flashes or jerks.
+    // G3: one 150 ms crossfade of background and text colour only.
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce) {
       root.classList.add('theme-fade');
-      setTimeout(() => root.classList.remove('theme-fade'), 350);
+      setTimeout(() => root.classList.remove('theme-fade'), motionDurationMs('--duration-quick', 150));
     }
     root.setAttribute('data-theme', resolved);
     try { root.style.colorScheme = resolved; } catch { /* old browser; ignore */ }
@@ -105,25 +106,31 @@
    * for a success toast). Callers that pass no icon get the plain text
    * toast exactly as before. The icon is decorative: the dedupe below
    * still compares textContent, which an svg child does not change.
+   * G2: enters in 250 ms (8 px up, fade); leaving is a 350 ms fade with
+   * no travel, applied as .is-leaving before removal, so a toast never
+   * vanishes mid-read. Under reduced motion both are instant.
    */
-  function toast(message, ms, icon) {
+  function toast(message, ms, icon, opts) {
     let stack = document.querySelector('.toast-stack');
     if (!stack) {
       stack = el('div', null, 'toast-stack');
       stack.setAttribute('aria-live', 'polite');
       document.body.appendChild(stack);
     }
+    const error = !!(opts && opts.error);
     // Round 5: a repeated identical text replaces the visible toast
     // (and restarts its timer) instead of stacking a copy of it.
     for (const child of [...stack.children]) {
       if (child.textContent === message) {
         clearTimeout(child._toastTimer);
-        child._toastTimer = setTimeout(() => child.remove(), ms || 2600);
+        clearTimeout(child._toastLeaveTimer);
+        child.classList.remove('is-leaving');
+        child._toastTimer = setTimeout(() => dismissToast(child), ms || 2600);
         stack.appendChild(child);
         return;
       }
     }
-    const t = el('div', null, 'toast');
+    const t = el('div', null, 'toast' + (error ? ' toast-error' : ''));
     if (icon) {
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('class', 'icon');
@@ -135,8 +142,26 @@
     }
     t.appendChild(document.createTextNode(message));
     stack.appendChild(t);
-    t._toastTimer = setTimeout(() => t.remove(), ms || 2600);
+    t._toastTimer = setTimeout(() => dismissToast(t), ms || 2600);
     while (stack.children.length > 3) stack.firstChild.remove();
+  }
+
+  /** Remove a toast, playing its 350 ms exit fade first (G2). */
+  function dismissToast(t) {
+    if (!t || !t.isConnected) return;
+    clearTimeout(t._toastTimer);
+    if (prefersReducedMotion()) { t.remove(); return; }
+    t.classList.add('is-leaving');
+    const done = () => t.remove();
+    t.addEventListener('animationend', function h(e) {
+      if (e.target === t) { t.removeEventListener('animationend', h); done(); }
+    });
+    t._toastLeaveTimer = setTimeout(done, motionDurationMs('--duration-medium', 350) + 100);
+  }
+
+  /** Error toast: same timing, plus the small shake from G2. */
+  function toastError(message, ms) {
+    toast(message, ms, 'alert-triangle', { error: true });
   }
 
   /**
@@ -176,7 +201,7 @@
         };
         if (reduce) { settle(); return; }
         backdrop.classList.add('is-closing');
-        setTimeout(settle, 150);
+        setTimeout(settle, motionDurationMs('--duration-quick', 150));
       };
       cancelBtn.addEventListener('click', () => finish(false));
       okBtn.addEventListener('click', () => finish(true));
@@ -339,7 +364,522 @@
     };
   }
 
+
+  /**
+   * Custom dropdown (Phase 5 A7). One shared replacement for every native
+   * select in the extension, so the option list never shows the system
+   * blue highlight. The real select stays in the DOM as the source of
+   * truth (same id, same value, same change events); the button and the
+   * listbox below are only its face. Listbox is appended to document.body
+   * and positioned fixed, so it never clips inside the popup scroll area
+   * and flips up when there is no room below. Keyboard: Arrow Up/Down,
+   * Home/End, typeahead, Enter/Space to choose, Escape to close and
+   * return focus, click outside to close. RTL correct (logical layout
+   * comes from the button rect). Motion: open 250 ms, close 150 ms,
+   * opacity and transform only (see shared/ui.css).
+   */
+  let __dropdownSeq = 0;
+  const __dropdowns = new WeakMap();
+
+  function __dropdownOptionData(select) {
+    return [...select.options].map((o) => ({
+      value: o.value, label: o.textContent, disabled: !!o.disabled,
+    }));
+  }
+
+  function __dropdownLabel(select) {
+    const opt = select.options[select.selectedIndex];
+    return opt ? opt.textContent : '';
+  }
+
+  function createDropdown(select) {
+    if (!select || select.tagName !== 'SELECT') return null;
+    const existing = __dropdowns.get(select);
+    if (existing) return existing;
+    const wrap = document.createElement('span');
+    wrap.className = 'if-dropdown';
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select);
+    select.classList.add('if-native-hidden');
+    try { select.tabIndex = -1; } catch { /* ignore */ }
+    select.setAttribute('aria-hidden', 'true');
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'if-dropdown-btn';
+    const label = document.createElement('span');
+    label.className = 'if-dropdown-label';
+    btn.appendChild(label);
+    btn.appendChild(icon('chevron-down', { size: 16 }));
+    const listId = `if-dropdown-list-${++__dropdownSeq}`;
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', listId);
+    // Label the button like the select was labelled.
+    for (const attr of ['aria-label', 'aria-labelledby']) {
+      const v = select.getAttribute(attr);
+      if (v) btn.setAttribute(attr, v);
+    }
+    if (!btn.getAttribute('aria-label') && !btn.getAttribute('aria-labelledby')) {
+      const labelled = select.id && document.querySelector(`label[for="${select.id}"]`);
+      if (labelled) btn.setAttribute('aria-label', labelled.textContent.trim());
+    }
+    wrap.appendChild(btn);
+
+    const list = document.createElement('div');
+    list.className = 'if-dropdown-list';
+    list.id = listId;
+    list.setAttribute('role', 'listbox');
+    document.body.appendChild(list);
+
+    const inst = { select, wrap, btn, label, list, open: false, activeIndex: -1, typeahead: '', typeaheadTimer: 0 };
+    __dropdowns.set(select, inst);
+
+    function buildOptions() {
+      list.textContent = '';
+      __dropdownOptionData(select).forEach((data, i) => {
+        const opt = document.createElement('div');
+        opt.className = 'if-dropdown-option';
+        opt.id = `${listId}-opt-${i}`;
+        opt.setAttribute('role', 'option');
+        opt.setAttribute('aria-selected', String(select.value === data.value));
+        if (data.disabled) opt.setAttribute('aria-disabled', 'true');
+        const text = document.createElement('span');
+        text.className = 'if-option-text';
+        text.textContent = data.label;
+        opt.appendChild(text);
+        opt.appendChild(icon('check', { size: 16 }));
+        opt.addEventListener('mousedown', (e) => { e.preventDefault(); });
+        opt.addEventListener('click', () => { choose(i); });
+        opt.addEventListener('mousemove', () => { setActive(i, false); });
+        list.appendChild(opt);
+      });
+    }
+    function sync() {
+      label.textContent = __dropdownLabel(select);
+      btn.disabled = !!select.disabled;
+      [...list.children].forEach((opt, i) => {
+        opt.setAttribute('aria-selected', String(select.options[i] && select.value === select.options[i].value));
+      });
+      const idx = [...select.options].findIndex((o) => o.value === select.value);
+      inst.activeIndex = idx;
+      btn.removeAttribute('aria-activedescendant');
+    }
+    function setActive(i, scroll) {
+      const opts = [...list.children];
+      if (!opts.length) return;
+      const n = opts.length;
+      const next = ((i % n) + n) % n;
+      opts.forEach((o) => o.classList.remove('is-active'));
+      opts[next].classList.add('is-active');
+      inst.activeIndex = next;
+      btn.setAttribute('aria-activedescendant', opts[next].id);
+      if (scroll !== false && opts[next].scrollIntoView) {
+        try { opts[next].scrollIntoView({ block: 'nearest' }); } catch { /* ignore */ }
+      }
+    }
+    function position() {
+      const r = btn.getBoundingClientRect();
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      list.style.minWidth = `${Math.max(160, r.width)}px`;
+      list.style.width = `${r.width}px`;
+      let left = r.left;
+      left = Math.max(8, Math.min(left, vw - Math.min(320, Math.max(160, r.width)) - 8));
+      list.style.left = `${left}px`;
+      const below = vh - r.bottom;
+      const above = r.top;
+      const need = Math.min(240, list.scrollHeight + 8);
+      const openUp = below < need && above > below;
+      list.classList.toggle('is-open-up', openUp);
+      list.style.top = openUp ? `${Math.max(8, r.top - need - 4)}px` : `${r.bottom + 4}px`;
+      list.style.maxHeight = `${Math.max(120, Math.min(240, openUp ? above - 12 : below - 12))}px`;
+    }
+    function open() {
+      if (inst.open || select.disabled) return;
+      buildOptions();
+      sync();
+      inst.open = true;
+      btn.setAttribute('aria-expanded', 'true');
+      position();
+      list.classList.add('is-open');
+      setActive(inst.activeIndex >= 0 ? inst.activeIndex : 0, false);
+      document.addEventListener('mousedown', onDocDown, true);
+      window.addEventListener('resize', onReposition);
+      document.addEventListener('scroll', onReposition, true);
+    }
+    function close(refocus) {
+      if (!inst.open) return;
+      inst.open = false;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.removeAttribute('aria-activedescendant');
+      list.classList.remove('is-open');
+      document.removeEventListener('mousedown', onDocDown, true);
+      window.removeEventListener('resize', onReposition);
+      document.removeEventListener('scroll', onReposition, true);
+      if (refocus) btn.focus();
+    }
+    function onReposition() { if (inst.open) position(); }
+    function onDocDown(e) {
+      if (!wrap.contains(e.target) && !list.contains(e.target)) close(false);
+    }
+    function choose(i) {
+      const opt = select.options[i];
+      if (!opt || opt.disabled) return;
+      const changed = select.value !== opt.value;
+      select.value = opt.value;
+      sync();
+      close(true);
+      if (changed) select.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    function onTypeahead(ch) {
+      inst.typeahead += ch.toLowerCase();
+      clearTimeout(inst.typeaheadTimer);
+      inst.typeaheadTimer = setTimeout(() => { inst.typeahead = ''; }, 600);
+      const opts = __dropdownOptionData(select);
+      const start = (inst.activeIndex + 1) % Math.max(1, opts.length);
+      for (let k = 0; k < opts.length; k += 1) {
+        const i = (start + k) % opts.length;
+        if (!opts[i].disabled && opts[i].label.toLowerCase().startsWith(inst.typeahead)) {
+          setActive(i);
+          return;
+        }
+      }
+    }
+    btn.addEventListener('click', () => { if (inst.open) close(false); else open(); });
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!inst.open) { open(); setActive(e.key === 'ArrowDown' ? 0 : __dropdownOptionData(select).length - 1); return; }
+        setActive(inst.activeIndex + (e.key === 'ArrowDown' ? 1 : -1));
+      } else if (e.key === 'Home') { if (inst.open) { e.preventDefault(); setActive(0); } }
+      else if (e.key === 'End') { if (inst.open) { e.preventDefault(); setActive(__dropdownOptionData(select).length - 1); } }
+      else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (inst.open) choose(inst.activeIndex); else open();
+      } else if (e.key === 'Escape') { if (inst.open) { e.preventDefault(); close(true); } }
+      else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (!inst.open) open();
+        onTypeahead(e.key);
+      } else if (e.key === 'Tab') { close(false); }
+    });
+    inst.buildOptions = buildOptions;
+    inst.sync = sync;
+    inst.close = close;
+    buildOptions();
+    sync();
+    return inst;
+  }
+
+  /** Enhance every native select under root (or root itself). Idempotent. */
+  function initDropdowns(root) {
+    const scope = root || document;
+    const selects = scope === document ? [...document.querySelectorAll('select')]
+      : (scope.tagName === 'SELECT' ? [scope] : [...scope.querySelectorAll('select')]);
+    return selects.map((s) => createDropdown(s)).filter(Boolean);
+  }
+
+  /** Re-read a select's current value into its dropdown button. */
+  function syncDropdown(select) {
+    const inst = select && __dropdowns.get(select);
+    if (inst) inst.sync();
+  }
+
+  /** Rebuild a dropdown's option list (labels changed, e.g. new locale). */
+  function refreshDropdown(select) {
+    const inst = select && __dropdowns.get(select);
+    if (!inst) return;
+    inst.buildOptions();
+    inst.sync();
+  }
+
+  /**
+   * Tear down every enhanced dropdown under root (listbox removed,
+   * select unwrapped and unhidden). Call before re-rendering a list
+   * that owns selects, e.g. the site-preference rows, so no orphaned
+   * listbox is left in the document body.
+   */
+  function destroyDropdowns(root) {
+    const scope = root || document;
+    const selects = scope === document ? [...document.querySelectorAll('select')]
+      : (scope.tagName === 'SELECT' ? [scope] : [...scope.querySelectorAll('select')]);
+    for (const select of selects) {
+      const inst = __dropdowns.get(select);
+      if (!inst) continue;
+      inst.close(false);
+      if (inst.list && inst.list.remove) inst.list.remove();
+      if (inst.wrap && inst.wrap.parentNode) inst.wrap.parentNode.insertBefore(select, inst.wrap);
+      if (inst.wrap && inst.wrap.remove) inst.wrap.remove();
+      select.classList.remove('if-native-hidden');
+      select.removeAttribute('aria-hidden');
+      try { select.tabIndex = 0; } catch { /* ignore */ }
+      __dropdowns.delete(select);
+    }
+  }
+
+  /** Refresh every enhanced dropdown under root. */
+  function refreshDropdowns(root) {
+    const scope = root || document;
+    const selects = scope === document ? [...document.querySelectorAll('select')]
+      : (scope.tagName === 'SELECT' ? [scope] : [...scope.querySelectorAll('select')]);
+    selects.forEach((s) => refreshDropdown(s));
+  }
+  /* ---------------- shared motion layer (Phase 5 Part G, G4) ---------------- */
+  /* One small set of helpers; components use these, never copy-pasted
+     keyframes or hand-written timeouts. Every helper is a no-op under
+     prefers-reduced-motion (the CSS block collapses the rest), and
+     every animation is interruptible: re-entering removes the class and
+     the safety timeout cleans up if animationend never fires (for
+     example when the element was hidden mid-animation). */
+
+  /** True when the user asked for reduced motion. */
+  function prefersReducedMotion() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
+  }
+
+  /** Read a --duration-* token in ms, for JS timeouts that must match
+     the CSS timing (dialog close, toast exit, theme fade). Falls back
+     to the given ms when the token cannot be read. */
+  function motionDurationMs(name, fallbackMs) {
+    try {
+      const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      const m = v.match(/^([\d.]+)ms$/);
+      if (m) return Number(m[1]);
+      const s = v.match(/^([\d.]+)s$/);
+      if (s) return Number(s[1]) * 1000;
+    } catch { /* fall through to the fallback */ }
+    return fallbackMs;
+  }
+
+  /** Run a callback when el's animation ends, or after ms, whichever
+     comes first. The safety timeout covers hidden elements and removed
+     listeners; the listener covers the normal path. */
+  function onMotionEnd(el, ms, cb) {
+    let done = false;
+    const finish = () => { if (done) return; done = true; cb(); };
+    const timer = setTimeout(finish, ms);
+    el.addEventListener('animationend', function h(e) {
+      if (e.target !== el) return;
+      el.removeEventListener('animationend', h);
+      clearTimeout(timer);
+      finish();
+    });
+  }
+
+  let __viewTransitionToken = 0;
+  /**
+   * Page/view slide for a newly shown view (G2): 8 px, 250 ms,
+   * smooth-out, 3 px blur settling to 0. direction is 'forward',
+   * 'back' or 'none' (no animation, e.g. first paint). Mirrored in RTL
+   * by the CSS. A second call while one is running restarts the slide
+   * from the current state instead of stacking two animations.
+   */
+  function runViewTransition(el, direction) {
+    if (!el || direction === 'none' || direction == null || prefersReducedMotion()) return;
+    const cls = direction === 'back' ? 'motion-page-in-back' : 'motion-page-in-fwd';
+    const token = ++__viewTransitionToken;
+    el._motionToken = token;
+    el.classList.remove('motion-page-in-fwd', 'motion-page-in-back');
+    void el.offsetWidth;
+    el.classList.add(cls);
+    onMotionEnd(el, motionDurationMs('--duration-fast', 250) + 100, () => {
+      if (el._motionToken === token) el.classList.remove(cls);
+    });
+  }
+
+  /**
+   * Stagger the first `limit` items (default 8) of a list: each gets
+   * .motion-stagger with --i as its index, so the entrance is 40 ms per
+   * item and the whole stagger stays under 300 ms. Items past the cap
+   * appear at once, with no leftover delay. Call after rendering.
+   */
+  function stagger(container, selector, limit) {
+    if (!container || typeof container.querySelectorAll !== 'function') return;
+    const cap = typeof limit === 'number' ? limit : 8;
+    const items = container.querySelectorAll(selector || '.motion-stagger-item');
+    items.forEach((item, i) => {
+      if (i < cap) {
+        item.style.setProperty('--i', String(i));
+        item.classList.add('motion-stagger');
+      } else {
+        item.classList.remove('motion-stagger');
+        item.style.removeProperty('--i');
+      }
+    });
+  }
+
+  /**
+   * Text swap (G2): replace el's text with a 150 ms, 4 px swap. A
+   * no-op when the text is unchanged, so per-second updates (scan
+   * progress) never animate. Buttons swap opacity only, so the control
+   * itself never moves; other elements slide the text. The class is
+   * removed when the animation ends, so a later swap replays cleanly.
+   */
+  function swapText(el, text) {
+    if (!el) return;
+    const next = text == null ? '' : String(text);
+    if (el.textContent === next) return;
+    el.textContent = next;
+    if (prefersReducedMotion()) return;
+    const cls = el.tagName === 'BUTTON' ? 'motion-text-swap-opacity' : 'motion-text-swap';
+    el.classList.remove('motion-text-swap', 'motion-text-swap-opacity');
+    void el.offsetWidth;
+    el.classList.add(cls);
+    onMotionEnd(el, motionDurationMs('--duration-quick', 150) + 100, () => el.classList.remove(cls));
+  }
+
+  /** Fade el in over 250 ms (empty states, search no-results). */
+  function fadeIn(el) {
+    if (!el || prefersReducedMotion()) return;
+    el.classList.remove('motion-fade-in');
+    void el.offsetWidth;
+    el.classList.add('motion-fade-in');
+    onMotionEnd(el, motionDurationMs('--duration-fast', 250) + 100, () => el.classList.remove('motion-fade-in'));
+  }
+
+  /**
+   * Show or hide el with a fade. Hiding fades out over 150 ms and only
+   * then sets display none; showing restores display at once and fades
+   * in. A pending hide is cancelled by a show (rapid typing in the
+   * settings search), and vice versa. Under reduced motion both are
+   * instant. Returns a promise that resolves when the hide completes.
+   */
+  function setVisibleAnimated(el, visible) {
+    if (!el) return Promise.resolve();
+    clearTimeout(el._motionVisTimer);
+    if (visible) {
+      el.classList.remove('motion-fade-out');
+      el.style.display = '';
+      fadeIn(el);
+      return Promise.resolve();
+    }
+    if (prefersReducedMotion() || el.style.display === 'none') {
+      el.style.display = 'none';
+      return Promise.resolve();
+    }
+    el.classList.add('motion-fade-out');
+    return new Promise((resolve) => {
+      el._motionVisTimer = setTimeout(() => {
+        el.style.display = 'none';
+        el.classList.remove('motion-fade-out');
+        resolve();
+      }, motionDurationMs('--duration-quick', 150));
+    });
+  }
+
+  /**
+   * Success check draw (G2): swap the button's leading icon for a
+   * check that draws itself over 500 ms, then restore the icon.
+   * Resolves after the draw. A button with no icon, or reduced motion,
+   * resolves at once with no swap.
+   */
+  function showSuccessCheck(button, ms) {
+    if (!button) return Promise.resolve();
+    const old = button.querySelector('svg');
+    const hold = typeof ms === 'number' ? ms : motionDurationMs('--duration-very-slow', 500);
+    if (!old || prefersReducedMotion()) return Promise.resolve();
+    const check = icon('check', { size: 16 });
+    check.classList.add('check-draw');
+    old.replaceWith(check);
+    return new Promise((resolve) => {
+      setTimeout(() => { check.replaceWith(old); resolve(); }, hold);
+    });
+  }
+
+  /**
+   * Sliding indicators (G2): one shared pill per container that moves
+   * on transform only (250 ms) to the active item. Containers: the
+   * popup nav (.popup-nav, horizontal), the options sidebar (.side-nav,
+   * vertical accent bar) and every segmented control (.segmented,
+   * horizontal pill). The pill's size is set instantly to the active
+   * item; only its position transitions. Positions come from
+   * getBoundingClientRect, so they are correct in RTL too; the sidebar
+   * bar mirrors to the inline-start side. A MutationObserver watches
+   * the active attribute, so the pill follows programmatic changes
+   * (section switches, segmented paint) with no per-page wiring.
+   */
+  function __initPill(container, pillClass, activeSelector, axis) {
+    const activeAttr = axis === 'vertical' ? 'aria-current' : 'aria-pressed';
+    const pill = document.createElement('div');
+    pill.className = pillClass;
+    pill.setAttribute('aria-hidden', 'true');
+    container.appendChild(pill);
+    container.classList.add('has-pill');
+    const position = () => {
+      const active = container.querySelector(activeSelector);
+      if (!active || prefersReducedMotion()) {
+        if (!active) pill.style.opacity = '0';
+        else { pill.style.opacity = ''; }
+        if (!active) return;
+      }
+      const c = container.getBoundingClientRect();
+      const r = active.getBoundingClientRect();
+      if (axis === 'vertical') {
+        const rtl = document.documentElement.dir === 'rtl';
+        const bx = rtl ? (r.right - c.left) + 14 - 3 : (r.left - c.left) - 14;
+        pill.style.width = '3px';
+        pill.style.height = Math.max(0, r.height - 18) + 'px';
+        pill.style.transform = `translate(${bx}px, ${r.top - c.top + 9}px)`;
+      } else {
+        pill.style.width = r.width + 'px';
+        pill.style.height = r.height + 'px';
+        pill.style.transform = `translate(${r.left - c.left}px, ${r.top - c.top}px)`;
+      }
+      pill.style.opacity = '';
+    };
+    const schedule = () => requestAnimationFrame(position);
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === activeAttr) { schedule(); return; }
+      }
+    });
+    observer.observe(container, { attributes: true, subtree: true, attributeFilter: [activeAttr] });
+    window.addEventListener('resize', schedule);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule).catch(() => {});
+    schedule();
+    requestAnimationFrame(schedule);
+  }
+
+  function initSlidingIndicators() {
+    try {
+      document.querySelectorAll('.popup-nav').forEach((nav) => {
+        if (!nav.querySelector('.motion-indicator')) __initPill(nav, 'motion-indicator', '[aria-pressed="true"]', 'horizontal');
+      });
+      document.querySelectorAll('.side-nav').forEach((nav) => {
+        if (!nav.querySelector('.motion-indicator')) __initPill(nav, 'motion-indicator', '[aria-current="true"]', 'vertical');
+      });
+      document.querySelectorAll('.segmented').forEach((seg) => {
+        if (!seg.querySelector('.motion-pill')) __initPill(seg, 'motion-pill', '[aria-pressed="true"]', 'horizontal');
+      });
+    } catch { /* indicators are decorative; a failure never breaks the page */ }
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSlidingIndicators);
+    } else {
+      initSlidingIndicators();
+    }
+  }
+
   window.ImgFetchUI = {
+    prefersReducedMotion,
+    motionDurationMs,
+    runViewTransition,
+    stagger,
+    swapText,
+    fadeIn,
+    setVisibleAnimated,
+    showSuccessCheck,
+    toastError,
+    initSlidingIndicators,
+    dismissToast,
+    createDropdown,
+    initDropdowns,
+    destroyDropdowns,
+    syncDropdown,
+    refreshDropdown,
+    refreshDropdowns,
     applyTheme,
     watchSystemTheme,
     el,

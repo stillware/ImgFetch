@@ -17,9 +17,16 @@
 # ImgFetch release check: runs every test, validator, and packaging step,
 # then writes docs/tests/test-report.md from the real command output.
 # No hand-typed numbers. Fails loudly on any failure.
+# CRLF guard: if this file was checked out with CRLF line endings, bash
+# chokes on the trailing carriage returns, so strip them to a temp copy
+# and re-run that copy, keeping the original repo root so ROOT still
+# resolves. The .gitattributes rule keeps checkouts LF; this guard is
+# the fallback for a CRLF copy (zip download, Windows copy). The temp
+# copy is left in the system temp directory for the OS to clean up.
+if grep -q $'\r' "$0" 2>/dev/null; then _rc_tmp="$(mktemp)"; _rc_root="$(cd "$(dirname "$0")/.." && pwd)"; tr -d '\r' < "$0" > "$_rc_tmp" && IMGFETCH_RELEASE_ROOT="$_rc_root" exec bash "$_rc_tmp" "$@"; echo "CRLF guard: could not re-run the LF copy" >&2; exit 1; fi # CRLF guard
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="${IMGFETCH_RELEASE_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$ROOT"
 
 REPORT="$ROOT/docs/tests/test-report.md"
@@ -87,12 +94,12 @@ bash scripts/package.sh > "$TMPD/package.txt" 2>&1 || { cat "$TMPD/package.txt";
 tail -3 "$TMPD/package.txt"
 
 VERSION="$(python3 -c "import json; print(json.load(open('manifest.json'))['version'])")"
-echo "== release-check: validate.py on EXTRACTED zips =="
+echo "== release-check: validate.py --package on EXTRACTED zips =="
 for TARGET in chrome edge; do
   D="$TMPD/zip-$TARGET"
   mkdir -p "$D"
   unzip -q "dist/imgfetch-${TARGET}-${VERSION}.zip" -d "$D"
-  python3 scripts/validate.py "$D" > "$TMPD/validate-$TARGET.txt" 2>&1 || { echo "FAIL: validate on $TARGET zip"; cat "$TMPD/validate-$TARGET.txt"; exit 1; }
+  python3 scripts/validate.py --package "$D" > "$TMPD/validate-$TARGET.txt" 2>&1 || { echo "FAIL: validate on $TARGET zip"; cat "$TMPD/validate-$TARGET.txt"; exit 1; }
   echo "  $TARGET zip: $(tail -1 "$TMPD/validate-$TARGET.txt")"
 done
 

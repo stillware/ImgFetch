@@ -32,10 +32,12 @@
  *  C0  extension loads, annotate page opens, Copy button is wired
  *  C1  direct path: draw an edit, click Copy, clipboard holds a valid PNG
  *      of the edited canvas size, edit pixels are present in the copy
- *  C2  downscale path: 5000x3000 fixture (over the pixel budget) copies at
- *      exactly planCopy()'s dims, toast reports the downscale
+ *  C2  full-resolution path (Phase 5 item C): 5000x3000 fixture (over the
+ *      old 12 MP budget, inside the clipboard-safe size) copies at its
+ *      full 5000x3000 size, toast reports a plain success, no downscale
  *  C3  failure path: clipboard.write throws, error toast appears, the copy
- *      is retried once, no exception escapes, the screenshot stays intact
+ *      is attempted once only (no smaller retry), no exception escapes,
+ *      the screenshot stays intact
  *  C4  editor Windows clipboard note (Phase C3): shown for a large image
  *      and for a capture part under a Windows platform override, hidden
  *      for a small image and on the real (non-Windows) platform
@@ -350,27 +352,27 @@ if (p1) {
   }
 }
 
-/* ---------------- C2: downscale path ---------------- */
+/* ---------------- C2: full-resolution path (Phase 5 item C) ---------------- */
 
 try {
   const bigB64 = flatPng(5000, 3000, 0, 120, 200).toString('base64');
   const p2 = await openAnnotate(bigB64, 'downscale');
   const plan = planCopy(5000, 3000);
-  if (!plan.downscaled) throw new Error('fixture error: 5000x3000 did not exceed the pixel budget');
+  if (!plan.full) throw new Error('fixture error: 5000x3000 is not a full copy under the safe size');
   await p2.click('#btnCopy');
   await p2.waitForSelector('.toast', { timeout: 20000 });
   const big = await readClipboardPng(p2);
-  phase('C2 downscaled copy is a valid PNG', !!(big.ok && big.magic),
+  phase('C2 full-resolution copy is a valid PNG', !!(big.ok && big.magic),
     { note: big.ok ? `${big.width}x${big.height}` : big.reason });
-  phase('C2 downscaled dims match planCopy()',
-    big.ok && big.width === plan.width && big.height === plan.height,
-    { note: big.ok ? `got ${big.width}x${big.height}, want ${plan.width}x${plan.height}` : big.reason });
+  phase('C2 copy dims are the full 5000x3000, never downscaled',
+    big.ok && big.width === 5000 && big.height === 3000,
+    { note: big.ok ? `got ${big.width}x${big.height}` : big.reason });
   const toast = await lastToast(p2);
-  phase('C2 toast reports the downscale', /downscal/i.test(toast),
+  phase('C2 toast reports a plain success, no downscale', !/downscal/i.test(toast),
     { note: toast.slice(0, 140) });
   await p2.close();
 } catch (e) {
-  phase('C2 downscale copy path', false, { note: e.message.slice(0, 200) });
+  phase('C2 full-resolution copy path', false, { note: e.message.slice(0, 200) });
 }
 
 /* ---------------- C3: failure path ---------------- */
@@ -391,7 +393,7 @@ try {
   phase('C3 honest error toast on clipboard failure', /could not copy/i.test(toast),
     { note: toast.slice(0, 140) });
   const calls = await p3.evaluate(() => window.__writeCalls);
-  phase('C3 copy retried once (2 attempts total)', calls === 2, { note: `write calls: ${calls}` });
+  phase('C3 copy attempted once only, no smaller retry', calls === 1, { note: `write calls: ${calls}` });
   const intact = await p3.evaluate(() => {
     const c = document.getElementById('editor');
     if (!c || c.width !== 640 || c.height !== 480) return false;

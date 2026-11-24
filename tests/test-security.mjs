@@ -45,6 +45,8 @@ import {
   joinDownloadPath,
   safeExtension,
   parseSettingsImport,
+  stripBidiControls,
+  SETTINGS_IMPORT_MAX_CHARS,
 } from '../core/filenames.js';
 import { safeZipName } from '../core/zip.js';
 import {
@@ -52,10 +54,21 @@ import {
   isPrivateNetworkUrl,
   isPrivateNetworkFetchBlocked,
   isRedirectBlocked,
-  DATA_URL_DOWNLOAD_MAX,
+  isSameOriginUrl,
+  DATA_URL_DOWNLOAD_MAX_DECODED,
 } from '../core/urls.js';
 import { dataUrlToBytes } from '../core/data-url.js';
-import { normalizeSettings, DEFAULT_SETTINGS } from '../core/settings.js';
+import { normalizeSettings, stripUnknownSettings, DEFAULT_SETTINGS } from '../core/settings.js';
+import {
+  fetchImageBytes,
+  sniffImageMime,
+  sanitizeHistoryRecord,
+  assertImagePixelBudget,
+  imageDimensions,
+  MAX_IMAGE_SIDE_PX,
+  MAX_IMAGE_PIXELS,
+  HIST_THUMB_SOURCE_MAX_BYTES,
+} from '../core/history.js';
 import {
   isValidMessage,
   senderKind,
@@ -865,9 +878,10 @@ console.log('6. private-network URL guard hostile table');
     }
     check(`normalizeUrl: ${name}`, got === expected, `got ${String(got).slice(0, 60)}`);
   }
-  // Data URL download cap: over the limit is rejected, at the limit kept.
+  // Data URL download cap (D2: decoded bytes, not URL length): over the
+  // limit is rejected, at the limit kept.
   {
-    const over = 'data:image/png;base64,' + 'A'.repeat(DATA_URL_DOWNLOAD_MAX);
+    const over = 'data:image/png;base64,' + 'A'.repeat(Math.ceil((DATA_URL_DOWNLOAD_MAX_DECODED + 1) * 4 / 3));
     check('normalizeUrl: oversized data URL rejected', normalizeUrl(over, null) === null);
     const under = 'data:image/png;base64,' + 'A'.repeat(1000);
     check('normalizeUrl: small data URL kept', normalizeUrl(under, null) === under);
@@ -1328,11 +1342,22 @@ console.log('11. round-4 leftovers: redirect re-check, popup sender, dead crop, 
   check('F1: null final URL passes', isRedirectBlocked(null, PAGE) === false);
   check('F1: undefined final URL passes', isRedirectBlocked(undefined, PAGE) === false);
 
-  // F1 placement: every offscreen fetch site is guarded.
+  // F1 placement: every offscreen fetch site is guarded. Phase 5 Part H
+  // collapsed the seven guarded fetch sites into one choke point:
+  // fetchBytesCapped is the only place that calls fetch(), it re-checks
+  // the final URL, and every network path routes through it. One guarded
+  // call site plus all paths through it is the same guarantee, with no
+  // site left to forget the check.
   const offSrc = fs.readFileSync(path.join(ROOT, 'offscreen', 'offscreen.js'), 'utf8');
   check('F1: offscreen defines the redirect guard', offSrc.includes('function throwIfRedirectBlocked'));
-  const guardHits = offSrc.match(/(?:throwIfRedirectBlocked|isRedirectBlocked)\(res/g) || [];
-  check('F1: all 7 offscreen fetch sites re-check the final URL', guardHits.length >= 7, `${guardHits.length} guards`);
+  const directFetches = (offSrc.match(/await fetch\(/g) || []).length;
+  check('F1: offscreen has exactly one direct fetch call site', directFetches === 1, `${directFetches} sites`);
+  check('F1: the single fetch site is inside fetchBytesCapped',
+    /async function fetchBytesCapped[\s\S]*?await fetch\(/.test(offSrc));
+  check('F1: fetchBytesCapped re-checks the final URL',
+    /async function fetchBytesCapped[\s\S]*?throwIfRedirectBlocked\(res, pageUrl\)/.test(offSrc));
+  const cappedCallers = (offSrc.match(/await fetchBytesCapped\(/g) || []).length;
+  check('F1: every offscreen network path routes through fetchBytesCapped', cappedCallers >= 7, `${cappedCallers} callers`);
 
   // F6: the chunked decoder is what the screenshot paths use.
   const cropSrc = fs.readFileSync(path.join(ROOT, 'core', 'crop-image.js'), 'utf8');
@@ -1372,6 +1397,232 @@ console.log('11. round-4 leftovers: redirect re-check, popup sender, dead crop, 
     check('F5: no shipped JS references CROP_IMAGE', hits === 0, `${hits} files`);
   }
 }
+
+/* ================================================ 12. Phase 5 Part H */
+console.log('12. Part H: streaming caps, sniffing, pixel budget, bidi, read sanitiser, import allowlist, SCAN_PROGRESS');
+{
+  // 12a. sniffImageMime: magic bytes decide, never the Content-Type header.
+  const pngBytes = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  const jpgBytes = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10]);
+  const jpgShort = new Uint8Array([0xff, 0xd8]);
+  const gifBytes = new TextEncoder().encode('GIF89a' + '\x01\x00\x01\x00');
+  const webpBytes = new Uint8Array([0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50]);
+  const bmpBytes = new Uint8Array([0x42, 0x4d, 0x00, 0x00, 0x00, 0x00]);
+  const avifBytes = new Uint8Array([0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66]);
+  const icoBytes = new Uint8Array([0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x10, 0x10]);
+  const tiffBytes = new Uint8Array([0x49, 0x49, 0x2a, 0x00]);
+  const svgBytes = new TextEncoder().encode('<?xml version="1.0"?><!-- c --><svg xmlns="http://www.w3.org/2000/svg"></svg>');
+  const svgBare = new TextEncoder().encode('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
+  const htmlBytes = new TextEncoder().encode('<html><body>not an image</body></html>');
+  check('H3: sniff accepts PNG magic', sniffImageMime(pngBytes) === 'image/png');
+  check('H3: sniff accepts JPEG magic', sniffImageMime(jpgBytes) === 'image/jpeg');
+  check('H3: sniff accepts a 2-byte JPEG magic', sniffImageMime(jpgShort) === 'image/jpeg');
+  check('H3: sniff accepts GIF89a', sniffImageMime(gifBytes) === 'image/gif');
+  check('H3: sniff accepts WebP', sniffImageMime(webpBytes) === 'image/webp');
+  check('H3: sniff accepts BMP', sniffImageMime(bmpBytes) === 'image/bmp');
+  check('H3: sniff accepts AVIF ftyp', sniffImageMime(avifBytes) === 'image/avif');
+  check('H3: sniff accepts ICO', sniffImageMime(icoBytes) === 'image/x-icon');
+  check('H3: sniff accepts TIFF', sniffImageMime(tiffBytes) === 'image/tiff');
+  check('H3: sniff accepts SVG with declaration and comment', sniffImageMime(svgBytes) === 'image/svg+xml');
+  check('H3: sniff accepts bare SVG', sniffImageMime(svgBare) === 'image/svg+xml');
+  check('H3: sniff rejects HTML bytes', sniffImageMime(htmlBytes) === '');
+  check('H3: sniff rejects text bytes', sniffImageMime(new TextEncoder().encode('hello world')) === '');
+  check('H3: sniff rejects empty and 1-byte input', sniffImageMime(new Uint8Array([])) === '' && sniffImageMime(new Uint8Array([0x89])) === '');
+  check('H3: sniff rejects a truncated PNG header', sniffImageMime(new Uint8Array([0x89, 0x50])) === '');
+
+  // 12b. fetchImageBytes: streaming cap, sniff, private guard, redirect re-check.
+  const streamResponse = (chunks, { url = 'https://example.com/a.png', mime = 'image/png' } = {}) => {
+    let reads = 0;
+    let cancelled = false;
+    return {
+      res: {
+        ok: true,
+        url,
+        headers: { get: (name) => (name === 'content-type' ? mime : null) },
+        body: {
+          getReader() {
+            let i = 0;
+            return {
+              async read() {
+                reads += 1;
+                if (i >= chunks.length) return { done: true, value: undefined };
+                return { done: false, value: chunks[i++] };
+              },
+              async cancel() { cancelled = true; },
+              releaseLock() {},
+            };
+          },
+        },
+      },
+      get reads() { return reads; },
+      get cancelled() { return cancelled; },
+    };
+  };
+  const bufResponse = (bytes, { url = 'https://example.com/a.png', mime = 'image/png', length = null } = {}) => ({
+    ok: true,
+    url,
+    headers: { get: (name) => (name === 'content-length' ? length : name === 'content-type' ? mime : null) },
+    async arrayBuffer() { return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength); },
+  });
+  await (async () => {
+    const png4 = new Uint8Array([0x89, 0x50, 0x4e, 0x47]);
+    const s = streamResponse([png4]);
+    const out = await fetchImageBytes(async () => s.res, 'https://example.com/a.png', { timeoutMs: 1000 });
+    check('H3: streaming fetch returns sniffed mime', out.mime === 'image/png' && out.bytes.length === 4);
+    const big = streamResponse(
+      [new Uint8Array(60).fill(0x89), new Uint8Array(60).fill(0x50)],
+      { mime: 'image/png' },
+    );
+    let threw = '';
+    try {
+      await fetchImageBytes(async () => big.res, 'https://example.com/big.png', { timeoutMs: 1000, maxBytes: 100 });
+    } catch (e) { threw = e.message; }
+    check('H3: streaming cap throws too-large past the cap', threw === 'too-large', threw);
+    check('H3: streaming cap cancels the reader instead of draining it', big.cancelled === true);
+    check('H3: streaming cap stops after the chunk that crossed the cap', big.reads === 2, `${big.reads} reads`);
+    let threwHtml = '';
+    try {
+      await fetchImageBytes(async () => bufResponse(htmlBytes, { mime: 'image/jpeg' }), 'https://example.com/a.png', { timeoutMs: 1000 });
+    } catch (e) { threwHtml = e.message; }
+    check('H3: HTML served as image/jpeg is rejected by sniffing', threwHtml === 'not-image', threwHtml);
+    let threwPrivate = '';
+    try {
+      await fetchImageBytes(async () => bufResponse(png4), 'http://192.168.1.1/a.png', { timeoutMs: 1000, pageUrl: 'https://example.com/' });
+    } catch (e) { threwPrivate = e.message; }
+    check('H3: private-network URL blocked when a pageUrl is given', threwPrivate === 'private-network', threwPrivate);
+    let threwRedirect = '';
+    try {
+      await fetchImageBytes(
+        async () => bufResponse(png4, { url: 'http://127.0.0.1/a.png' }),
+        'https://example.com/a.png', { timeoutMs: 1000, pageUrl: 'https://example.com/' },
+      );
+    } catch (e) { threwRedirect = e.message; }
+    check('H3: redirect onto a private address is refused', threwRedirect === 'blocked-redirect', threwRedirect);
+    const sameHost = await fetchImageBytes(
+      async () => bufResponse(png4, { url: 'http://127.0.0.1/a.png' }),
+      'http://127.0.0.1/a.png', { timeoutMs: 1000, pageUrl: 'http://127.0.0.1/gallery' },
+    );
+    check('H3: same private host as the page is still allowed', sameHost.mime === 'image/png');
+    const noGuard = await fetchImageBytes(async () => bufResponse(png4), 'https://example.com/a.png', { timeoutMs: 1000 });
+    check('H3: no pageUrl means no guard (old callers keep working)', noGuard.mime === 'image/png');
+  })();
+
+  // 12c. Pixel budget: header dims and the shared cap.
+  check('H7: pixel budget constants are the canvas limits', MAX_IMAGE_SIDE_PX === 16384 && MAX_IMAGE_PIXELS === 268_435_456);
+  {
+    let threw = '';
+    try { assertImagePixelBudget(16385, 10); } catch (e) { threw = e.message; }
+    check('H7: side past 16384 throws', threw === 'too-large', threw);
+    threw = '';
+    try { assertImagePixelBudget(16384, 16385); } catch (e) { threw = e.message; }
+    check('H7: height past 16384 throws', threw === 'too-large', threw);
+    threw = '';
+    try { assertImagePixelBudget(16384, 16384); } catch (e) { threw = e.message; }
+    check('H7: exactly 16384x16384 (the budget) passes', threw === '', threw);
+    threw = '';
+    try { assertImagePixelBudget(0, 100); } catch (e) { threw = e.message; }
+    check('H7: zero width throws', threw === 'too-large', threw);
+    const pngHead = new Uint8Array([
+      0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+      0x00, 0x00, 0x00, 0x0d, 0x49, 0x48, 0x44, 0x52,
+      0x00, 0x01, 0x86, 0xa0, 0x00, 0x01, 0x86, 0xa0,
+    ]);
+    const dims = imageDimensions(pngHead);
+    check('H7: header dims read a 100000x100000 PNG claim', dims && dims.w === 100000 && dims.h === 100000, JSON.stringify(dims));
+    threw = '';
+    try { assertImagePixelBudget(dims.w, dims.h); } catch (e) { threw = e.message; }
+    check('H7: the 100000x100000 claim fails the budget before decoding', threw === 'too-large', threw);
+    const bmpHead = new Uint8Array([0x42, 0x4d, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 20, 0, 0, 0]);
+    const bmpDims = imageDimensions(bmpHead);
+    check('H7: header dims read BMP dimensions', bmpDims && bmpDims.w === 10 && bmpDims.h === 20, JSON.stringify(bmpDims));
+  }
+
+  // 12d. Bidi override characters are stripped from names.
+  check('H5: sanitizeSegment strips a right-to-left override', sanitizeSegment('photo\u202Egnp.exe') === 'photognp.exe');
+  check('H5: sanitizeSegment strips isolates and LRM/RLM', sanitizeSegment('a\u2066b\u2069c\u200Ed\u200F') === 'abcd');
+  check('H5: stripBidiControls removes the full set', stripBidiControls('\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069\u200E\u200F\uFEFFx') === 'x');
+  check('H5: safeZipName strips bidi overrides', safeZipName('photo\u202Egnp.exe') === 'photognp.exe');
+  check('H5: safeZipName still blocks traversal', safeZipName('../../etc/passwd') === 'passwd');
+  const bidi202e = String.fromCharCode(0x202e);
+  const customName = buildFilename('custom', { name: 'a', custom: 'x' + bidi202e + 'y', ext: 'png' });
+  check('H5: custom template bidi is stripped by buildFilename', customName.includes('xy') && stripBidiControls(customName) === customName);
+
+  // 12e. History records are re-sanitised on read.
+  check('H6: sanitizeHistoryRecord rejects a non-record', sanitizeHistoryRecord('nope') === null && sanitizeHistoryRecord(null) === null);
+  {
+    const clean = sanitizeHistoryRecord({
+      id: 'h1', filename: 'a\u202Eb.exe', site: 'example.com', pageHost: 'example.com',
+      format: 'jpg', width: '999999999999', height: -5, bytes: -10, at: 'bogus',
+      kind: 'evil', url: 'javascript:alert(1)', thumb: 'data:image/png;base64,AAAA', dlId: -1,
+    });
+    check('H6: tampered record keeps a safe filename', clean.filename === 'ab.exe', clean.filename);
+    check('H6: tampered record drops a javascript: URL', clean.url === undefined);
+    check('H6: tampered record drops a non-JPEG/WebP thumb', clean.thumb === undefined);
+    check('H6: tampered record clamps width and drops negative sizes', clean.width === 1000000 && clean.bytes === 0, `${clean.width}/${clean.bytes}`);
+    check('H6: tampered record normalises an unknown kind', clean.kind === 'single');
+    check('H6: tampered record drops a negative download id', clean.dlId === undefined);
+    const good = sanitizeHistoryRecord({
+      id: 'h2', filename: 'photo.jpg', url: 'https://example.com/photo.jpg',
+      thumb: `data:image/jpeg;base64,${'A'.repeat(100)}`, dlId: 7,
+    });
+    check('H6: a good record survives read sanitising', good.url === 'https://example.com/photo.jpg' && good.dlId === 7 && typeof good.thumb === 'string');
+    const long = sanitizeHistoryRecord({ filename: 'x'.repeat(500), url: `https://example.com/${'a'.repeat(3000)}` });
+    check('H6: overlong filename and URL are cut on read', long.filename.length <= 180 && long.url === undefined, `${long.filename.length}`);
+  }
+
+  // 12f. Import: size cap and the unknown-key allowlist.
+  check('H6: parseSettingsImport rejects an oversized file', (() => {
+    try { parseSettingsImport(' '.repeat(SETTINGS_IMPORT_MAX_CHARS + 1)); return false; } catch (e) { return e.message === 'too-large'; }
+  })());
+  {
+    const out = stripUnknownSettings(JSON.parse('{"theme":"dark","nope":1,"__proto__":{"polluted":true}}'));
+    check('H6: import allowlist keeps known keys', out.theme === 'dark');
+    check('H6: import allowlist drops unknown keys', !('nope' in out));
+    check('H6: import allowlist drops __proto__ without polluting', !Object.prototype.hasOwnProperty.call(out, '__proto__') && {}.polluted === undefined);
+    check('H6: import allowlist takes a bare object, not a wrapper', Object.keys(stripUnknownSettings({ theme: 'light' })).length === 1);
+    check('H6: import allowlist returns empty for garbage', Object.keys(stripUnknownSettings('nope')).length === 0 && Object.keys(stripUnknownSettings(null)).length === 0);
+  }
+
+  // 12g. SCAN_PROGRESS shape validation.
+  check('H2: a well-formed SCAN_PROGRESS passes', isValidMessage({ type: 'SCAN_PROGRESS', done: 3, total: 10 }) === true);
+  check('H2: SCAN_PROGRESS done past total fails', isValidMessage({ type: 'SCAN_PROGRESS', done: 11, total: 10 }) === false);
+  check('H2: SCAN_PROGRESS negative counts fail', isValidMessage({ type: 'SCAN_PROGRESS', done: -1, total: 10 }) === false);
+  check('H2: SCAN_PROGRESS string counts fail', isValidMessage({ type: 'SCAN_PROGRESS', done: '3', total: 10 }) === false);
+  check('H2: SCAN_PROGRESS huge counts fail', isValidMessage({ type: 'SCAN_PROGRESS', done: 0, total: 1000001 }) === false);
+
+  // 12h. Same-origin rule for the in-page copy fetch.
+  check('H3: same origin matches', isSameOriginUrl('https://a.com/x.png', 'https://a.com/page') === true);
+  check('H3: cross origin does not match', isSameOriginUrl('https://b.com/x.png', 'https://a.com/page') === false);
+  check('H3: a relative URL resolves against the page', isSameOriginUrl('/x.png', 'https://a.com/page') === true);
+  check('H3: a different port is a different origin', isSameOriginUrl('https://a.com:8443/x.png', 'https://a.com/page') === false);
+  check('H3: an unparsable URL is not same-origin', isSameOriginUrl('http://[::1', 'https://a.com/page') === false);
+
+  // 12i. Placement: the Part H fixes are wired where they belong.
+  const workerSrc = fs.readFileSync(path.join(ROOT, 'background', 'service-worker.js'), 'utf8');
+  check('H2: worker has exactly one foreign-sender rejection (no duplicated check)',
+    (workerSrc.match(/error: 'foreign-sender'/g) || []).length === 1);
+  check('H3: in-page copy sends cookies same-origin only',
+    workerSrc.includes("sameOrigin ? 'include' : 'omit'"));
+  check('H6: GET_HISTORY sanitises records on read', workerSrc.includes('sanitizeHistoryRecord(r)'));
+  check('H3: thumbnail backfill passes its pageUrl to the guarded fetch',
+    workerSrc.includes('maxBytes: HIST_THUMB_SOURCE_MAX_BYTES, pageUrl'));
+  const histUiSrc = fs.readFileSync(path.join(ROOT, 'shared', 'history-ui.js'), 'utf8');
+  check('H3: history Copy passes its pageUrl to the guarded fetch',
+    histUiSrc.includes('pageUrl: r.pageHost'));
+  const popupSrc = fs.readFileSync(path.join(ROOT, 'popup', 'popup.js'), 'utf8');
+  check('H2: popup validates SCAN_PROGRESS counts before use', popupSrc.includes('Number.isInteger(msg.done)'));
+  check('H2: popup escapes a record id before querySelector', popupSrc.includes('CSS.escape(String(msg.id))'));
+  const optionsSrc = fs.readFileSync(path.join(ROOT, 'options', 'options.js'), 'utf8');
+  check('H2: options HISTORY_THUMB listener checks its sender', optionsSrc.includes("sender.id !== chrome.runtime.id"));
+  check('H2: options escapes a record id before querySelector', optionsSrc.includes('CSS.escape(String(msg.id))'));
+  check('H6: options import strips unknown settings before saving', optionsSrc.includes('stripUnknownSettings('));
+  check('H6: options import refuses an oversized file before reading it', optionsSrc.includes('SETTINGS_IMPORT_MAX_CHARS'));
+  const offSrc = fs.readFileSync(path.join(ROOT, 'offscreen', 'offscreen.js'), 'utf8');
+  check('H3: offscreen loadBitmap sniffs magic bytes', offSrc.includes('sniffImageMime(bytes)'));
+  check('H7: offscreen loadBitmap enforces the pixel budget', offSrc.includes('assertImagePixelBudget('));
+  check('H7: offscreen convertSvg enforces the pixel budget', (offSrc.match(/assertImagePixelBudget\(/g) || []).length >= 2);
+}
+
 
 /* ================================================ summary */
 

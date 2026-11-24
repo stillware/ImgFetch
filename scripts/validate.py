@@ -48,13 +48,24 @@ ZIP_EXCLUDED = {
     'store-assets/store/screenshot-modes.png',
     'MANUAL_MATRIX_CHECKLIST.md',
 }
-if len(sys.argv) > 1:
-    ROOT = Path(sys.argv[1]).resolve()
+# Argument parsing: one optional positional directory and the --package
+# flag. --package means the target is an extracted release zip: the
+# packager ships no docs/ tree (except the three shipped guides) and the
+# short package README, so the docs listing check and the README version
+# line are skipped for that target. The normal repo run (no flag) still
+# enforces every docs check exactly as before.
+PACKAGE_MODE = "--package" in sys.argv
+_argv = [a for a in sys.argv[1:] if a != "--package"]
+if len(_argv) > 1:
+    print("usage: validate.py [--package] [directory]")
+    sys.exit(2)
+if _argv:
+    ROOT = Path(_argv[0]).resolve()
 # IS_ZIP: validating an extracted store zip (not the dev tree).
 # docs/project-structure.md documents the repo tree; the zip holds a subset,
 # so the reverse tree check (every tree entry exists on disk) is skipped for
 # zips.
-IS_ZIP = len(sys.argv) > 1
+IS_ZIP = bool(_argv) or PACKAGE_MODE
 
 # Folders the static checks never descend into: build output, VCS metadata,
 # private notes and hidden folders (any directory starting with ".").
@@ -320,12 +331,17 @@ else:
 # (they are unique in this project, enforced below).
 readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
 struct_path = ROOT / "docs" / "project-structure.md"
-try:
-    struct_text = struct_path.read_text(encoding="utf-8")
-    ok("docs/project-structure.md is readable")
-except Exception as e:
-    fail(f"docs/project-structure.md is unreadable: {e}")
+if PACKAGE_MODE:
+    # The packager ships no docs/project-structure.md, so there is no
+    # listing to check against in package mode.
     struct_text = ""
+else:
+    try:
+        struct_text = struct_path.read_text(encoding="utf-8")
+        ok("docs/project-structure.md is readable")
+    except Exception as e:
+        fail(f"docs/project-structure.md is unreadable: {e}")
+        struct_text = ""
 tree_files = []
 for f in sorted(ROOT.rglob("*")):
     if not f.is_file():
@@ -355,10 +371,12 @@ basenames = [Path(p).name for p in dupes_scope]
 dupes = {b for b in basenames if b != 'README.md' and basenames.count(b) > 1}
 if dupes:
     fail(f"basename check needs unique names, duplicates: {sorted(dupes)}")
-missing_from_tree = [p for p in tree_files if Path(p).name not in struct_text]
+missing_from_tree = [] if PACKAGE_MODE else [p for p in tree_files if Path(p).name not in struct_text]
 for p in missing_from_tree:
     fail(f"project-structure.md does not mention real project file: {p}")
-if not missing_from_tree and not dupes:
+if PACKAGE_MODE:
+    ok("docs/project-structure.md listing check skipped in package mode (docs not shipped)")
+elif not missing_from_tree and not dupes:
     ok(f"project-structure.md mentions all {len(tree_files)} project files")
 # Reverse direction: names listed in the tree block must exist.
 # Skipped for extracted store zips (the tree documents the full repo).
@@ -532,7 +550,12 @@ manifest_version = manifest.get("version", "")
 
 # 10a. Version: README's "Version X" line and CHANGELOG must name the
 # manifest version.
-if f"Version {manifest_version}" not in readme_text:
+if PACKAGE_MODE:
+    # The shipped README is the short package README (README-package.md),
+    # which carries no version line; the version is still checked in the
+    # manifest itself and in CHANGELOG.md below.
+    ok("README version line skipped in package mode (short package README)")
+elif f"Version {manifest_version}" not in readme_text:
     fail(f"README does not state 'Version {manifest_version}' (manifest)")
 else:
     ok(f"README states Version {manifest_version}")
@@ -561,6 +584,14 @@ if missing_perms:
     fail(f"docs/permissions.md does not mention permissions: {missing_perms}")
 else:
     ok(f"docs/permissions.md covers all {len(declared)} permissions")
+# 10c2. Optional permissions: docs/permissions.md must justify every
+# optional manifest permission too (B2: downloads.open).
+optional_declared = manifest.get("optional_permissions", [])
+missing_optional = [p for p in optional_declared if p not in perms_doc]
+if missing_optional:
+    fail(f"docs/permissions.md does not mention optional permissions: {missing_optional}")
+else:
+    ok(f"docs/permissions.md covers all {len(optional_declared)} optional permissions")
 
 # 10d. Test counts: run every tests/test-*.mjs, parse "N passed", and require
 # the project-structure.md tree comment for that file to state the same N.
@@ -577,7 +608,7 @@ elif local_jsdom is not None:
         ":" + test_env["NODE_PATH"] if test_env.get("NODE_PATH") else ""
     )
 count_fail = 0
-for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
+for tf in ([] if PACKAGE_MODE else sorted((ROOT / "tests").glob("test-*.mjs"))):
     r = subprocess.run(
         ["node", str(tf)], capture_output=True, text=True, env=test_env, timeout=120
     )
@@ -609,7 +640,9 @@ for tf in sorted((ROOT / "tests").glob("test-*.mjs")):
     elif claimed != passed:
         fail(f"project-structure.md claims {claimed} for {tf.name} but the run shows {passed}")
         count_fail += 1
-if count_fail == 0:
+if PACKAGE_MODE:
+    ok("project-structure.md test count check skipped in package mode (tests/ not shipped)")
+elif count_fail == 0:
     ok("project-structure.md test counts match real test runs")
 
 # F4: shortcuts must agree across manifest, README, user-guide, and welcome.

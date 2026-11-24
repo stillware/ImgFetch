@@ -56,14 +56,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       height: 36px; border-radius: 10px;
       background: var(--surface); border: 1px solid var(--line);
       padding: 0 10px; color: var(--faint); font-size: 13px; margin: 0 0 6px;
+      transition: border-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out);
     }
-    .side-search:focus-within { border-color: var(--accent2); }
+    /* Phase 5 A6: focus is a quiet accent border plus a soft ring
+       fading in over 150 ms; the search icon turns accent and the
+       "/" hint fades out while focused. The input itself uses the
+       shared text-input treatment in shared/ui.css (accent caret,
+       full line height). */
+    .side-search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); color: var(--accent); transition: border-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out); }
     .side-nav .side-search input {
-      flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
-      color: var(--text); font: 400 13px var(--font); padding: 0;
+      flex: 1; min-width: 0; background: transparent; border: 0; outline: none; box-shadow: none;
+      color: var(--text); font: 400 13px var(--font); line-height: 1.5; padding: 0 2px;
     }
     .side-nav .side-search input::placeholder { color: var(--faint); }
-    .side-search .keycap { flex: none; }
+    .side-search .keycap { flex: none; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+    .side-search:focus-within .keycap { opacity: 0; }
     .side-search-empty { font-size: 12.5px; color: var(--muted); padding: 10px 12px; margin: 0; }
     .side-group {
       font-size: 10.5px; font-weight: 600; letter-spacing: .09em;
@@ -90,6 +97,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       top: 9px; bottom: 9px; width: 3px;
       border-radius: 0 3px 3px 0; background: var(--accent2);
     }
+    /* G2: the sidebar active indicator slides (250 ms, transform only).
+       The pill div is inserted by UI.initSlidingIndicators; once it
+       exists the per-button bar above is hidden so there is only one. */
+    .side-nav.has-pill button[aria-current="true"]::before { display: none; }
     .side-foot {
       margin-top: auto; padding: 10px 12px;
       font-size: 11.5px; color: var(--faint);
@@ -120,7 +131,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       font-size: 12.5px; color: var(--muted);
       background: var(--surface); border: 1px solid var(--line);
       padding: 7px 12px; border-radius: 99px; box-shadow: var(--shadow);
-      animation: sx-toast-in var(--dur-fast) var(--ease);
+      animation: sx-toast-in var(--duration-fast) var(--ease-smooth-out);
     }
     .save-pill[hidden] { display: none; }
     .save-pill .icon { width: 14px; height: 14px; color: var(--ok); stroke-width: 2.5; }
@@ -136,6 +147,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .opt-row .opt-row-text strong { display: block; font-size: 14px; font-weight: 600; }
     .opt-row .opt-row-text .hint { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; max-width: 430px; }
     .opt-row select { min-width: 220px; width: auto; flex: none; }
+    .opt-row .if-dropdown { min-width: 220px; width: auto; flex: none; }
+    .nav-compact .if-dropdown { width: 100%; }
+    .site-row .if-dropdown { min-width: 160px; flex: none; }
     .opt-row input[type="text"] { flex: 1; min-width: 0; }
     .opt-row input[type="number"] { max-width: 120px; flex: none; }
     /* Switch rows are card rows too: same padding and dividers. */
@@ -267,10 +281,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .site-row:last-child { border-bottom: 0; }
     .site-row select { width: auto; min-width: 160px; flex: none; }
     /* ---------- shortcuts ---------- */
-    .kb-row { display: flex; align-items: center; gap: 20px; padding: 14px 20px; }
+    /* Phase 5 A5: two-column grid per row, so the keys column starts
+       at the same X in every row. The label column width follows the
+       longest label (JS sets --kb-label-w on #shortcutList, clamped
+       to 160..320px); long translations wrap inside the label cell.
+       RTL mirrors automatically: the first grid column is on the
+       right. Row heights, dividers and keycap styling are unchanged. */
+    .kb-row { display: grid; grid-template-columns: var(--kb-label-w, 220px) auto; align-items: center; gap: 20px; padding: 14px 20px; }
     .kb-row + .kb-row { border-top: 1px solid var(--line); }
-    .kb-row-label { flex: 1; font-size: 14px; font-weight: 550; min-width: 0; }
-    .kb-keys { display: flex; gap: 4px; align-items: center; flex: none; }
+    .kb-row-label { font-size: 14px; font-weight: 550; min-width: 0; overflow-wrap: anywhere; }
+    .kb-keys { display: flex; gap: 4px; align-items: center; flex: none; flex-wrap: wrap; }
     .kb-keys .keycap { font-size: 12px; line-height: 1; padding: 6px 9px; }
     /* Not-set pill matches the reference size (12.5 px, 4 px 10 px). */
     .kb-keys .badge { font-size: 12.5px; line-height: 1.45; padding: 4px 10px; }
@@ -308,7 +328,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .privacy-hero {
       display: flex; gap: 18px; align-items: center; padding: 22px;
       border-radius: 16px;
-      background: linear-gradient(135deg, rgba(106, 92, 242, .18), rgba(34, 211, 238, .06));
+      /* Phase 5 A3: flat accent tint, not a gradient. The old linear
+         gradient was a lighter rectangle with hard edges behind the
+         heading; the card keeps its border and radius, the page
+         background stays one uniform colour. */
+      background: var(--accent-soft);
       border: 1px solid rgba(139, 127, 247, .25);
     }
     .privacy-hero-icon {
@@ -343,7 +367,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* Same row design as the popup history screen: 40 px thumbnail tile,
        extension-stripped title with format badge, size giving way to
        three icon buttons on hover and on keyboard focus-within. */
-    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--dur-quick) var(--ease); }
+    .hist-item { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 12px; font-size: 13px; transition: background-color var(--duration-quick) var(--ease-smooth-out); }
     .hist-item:hover, .hist-item:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
     .hist-tile { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line2); background: var(--raised); color: var(--muted); display: grid; place-items: center; flex: none; overflow: hidden; position: relative; }
     .hist-tile .icon { width: 20px; height: 20px; }
@@ -356,24 +380,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     [data-theme="dark"] .hist-fmt-webp { color: #67e0f3; background: rgba(34, 211, 238, 0.13); }
     .hist-sub { font-size: 11.5px; color: var(--faint); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .hist-side { display: grid; flex: none; }
-    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--dur-quick) var(--ease); }
-    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); }
-    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; }
-    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; }
+    /* G2: hover action buttons fade in 150 ms, out 80 ms (see popup). */
+    .hist-size { grid-area: 1 / 1; justify-self: end; align-self: center; font-size: 12px; color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; transition: opacity var(--duration-micro) var(--ease-smooth-out); }
+    .hist-actions { grid-area: 1 / 1; display: flex; gap: 4px; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--duration-micro) var(--ease-smooth-out); }
+    .hist-item:hover .hist-size, .hist-item:focus-within .hist-size { opacity: 0; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+    .hist-item:hover .hist-actions, .hist-item:focus-within .hist-actions { opacity: 1; pointer-events: auto; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
     .hist-action { position: relative; }
     .hist-action .icon { width: 16px; height: 16px; }
-    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-quick) var(--ease); z-index: 2; }
-    .hist-copied.is-visible { opacity: 1; }
+    .hist-copied { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; background: var(--raised); color: var(--text); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--duration-micro) var(--ease-smooth-out); z-index: 2; }
+    .hist-copied.is-visible { opacity: 1; transition: opacity var(--duration-quick) var(--ease-smooth-out); }
     #btnClearHistory.is-confirm { color: var(--danger); }
-    @media (prefers-reduced-motion: reduce) { .hist-size, .hist-actions, .hist-copied { transition: none; } }
-    /* Gentle entrance when switching sections, no jank, respects reduced motion */
-    @media (prefers-reduced-motion: no-preference) {
-      .opt-section:not([hidden]) { animation: section-in var(--dur-slow) var(--ease); }
-      @keyframes section-in {
-        from { opacity: 0; transform: translateY(6px); }
-        to { opacity: 1; transform: none; }
-      }
-    }
     @media (max-width: 900px) {
       /* minmax(0, 1fr), not 1fr: the 1fr track's automatic minimum is
          the 720px sections inside main, which made the page 720px

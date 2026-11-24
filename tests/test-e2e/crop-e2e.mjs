@@ -48,7 +48,9 @@
  *  K8  Arabic RTL and 480 px narrow layout, dark theme (screenshots are
  *      written next to this file's results, OUTSIDE the repo tree when
  *      IMGFETCH_SHOTS points elsewhere; the runner inspects them)
- *  K9  regression: Windows note and Copy downscale use the CROPPED size
+ *  K9  regression: Windows note and Copy use the CROPPED size (Phase 5
+ *      item C: Copy never downscales, it copies the cropped view at full
+ *      resolution)
  *  K10 robustness: double Apply, click without drag, tiny drag, tool
  *      switch mid-crop, crop twice + undo chain, corrupt record
  *  K11 display scales and DPR: label equals export at scale ~0.54 and
@@ -940,7 +942,7 @@ console.log('--- K8 RTL / narrow / dark ---');
   await ctrl2.close();
 }
 
-/* ---------------- K9: Windows note + Copy downscale use cropped size ---------------- */
+/* ---------------- K9: Windows note + Copy use cropped size (Phase 5 item C) ---------------- */
 console.log('--- K9 cropped-size regressions ---');
 {
   const idWin = await seedRecord(rowsWin, 2000, 1500);
@@ -962,8 +964,9 @@ console.log('--- K9 cropped-size regressions ---');
 {
   const idFlat = await seedRecord(flatBig, 5000, 3000);
   const page = await openAnnotate(idFlat, 'k9-copy', { platform: 'Win32' });
-  // Baseline: uncropped 15 MP copy must downscale per planCopy. The
-  // encode of a 15 MP PNG takes a moment, so poll the toast.
+  // Baseline (Phase 5 item C): the uncropped 15 MP copy is inside the
+  // clipboard-safe size, so it copies at FULL resolution now, never
+  // downscaled. The encode of a 15 MP PNG takes a moment, so poll the toast.
   await page.click('#btnCopy');
   const plan = planCopy(5000, 3000);
   let toastText1 = '';
@@ -974,9 +977,9 @@ console.log('--- K9 cropped-size regressions ---');
       return t ? t.textContent : '';
     });
   }
-  check('K9 baseline: uncropped 15 MP copy reports the downscale',
-    plan.downscaled && toastText1.includes(String(plan.width)), `toast=${toastText1} plan=${plan.width}x${plan.height}`);
-  // Cropped to 3 MP (under the 12 MP budget): no downscale any more.
+  check('K9 baseline: uncropped 15 MP copy is full resolution, no downscale',
+    plan.full && !/downscal/i.test(toastText1), `toast=${toastText1} plan=${plan.width}x${plan.height}`);
+  // Cropped to 3 MP: still full resolution, as before.
   await selectTool(page, 'crop');
   await dragCrop(page, [500, 500], [2500, 2000]);
   await page.click('#cropApply');

@@ -363,6 +363,10 @@
     "message": "ลบรูปซ้ำ {count} รูปแล้ว",
     "description": "Status line fragment. Plural."
   },
+  "results_downloaded": {
+    "message": "ดาวน์โหลดแล้ว",
+    "description": "Results grid badge on a tile whose image was already downloaded in this session."
+  },
   "results_assetsHidden": {
     "message": "ซ่อนองค์ประกอบ UI {count} รายการแล้ว",
     "description": "Status line fragment. Plural."
@@ -567,6 +571,14 @@
     "message": "คัดลอกแล้ว!",
     "description": "Small tooltip on the history copy button."
   },
+  "history_copyImage": {
+    "message": "คัดลอกรูปภาพ",
+    "description": "History row button: copy the image itself to the clipboard."
+  },
+  "history_copyImageFailed": {
+    "message": "ไม่สามารถคัดลอกรูปภาพได้",
+    "description": "Toast: copying the history image failed."
+  },
   "history_empty": {
     "message": "ยังไม่มีการดาวน์โหลด รูปภาพที่คุณบันทึกจะปรากฏที่นี่",
     "description": "Empty state of the download history."
@@ -595,9 +607,17 @@
     "message": "{label} · {count}",
     "description": "History group heading: day label and item count."
   },
+  "history_openFile": {
+    "message": "เปิดไฟล์",
+    "description": "History row button: open the downloaded file in the default app."
+  },
   "history_openSource": {
     "message": "เปิดลิงก์ต้นฉบับ",
     "description": "History row button: open the source link in a new tab."
+  },
+  "history_showInFolderInstead": {
+    "message": "กำลังแสดงในโฟลเดอร์แทน",
+    "description": "Toast: the file is shown in its folder because opening it directly was not possible."
   },
   "history_today": {
     "message": "วันนี้",
@@ -1347,6 +1367,14 @@
     "message": "รายการเก่ากว่าจะถูกลบอัตโนมัติ",
     "description": "Hint for the retention field."
   },
+  "hi_showThumbs": {
+    "message": "แสดงภาพขนาดย่อในประวัติ",
+    "description": "History: show thumbnails toggle."
+  },
+  "hi_showThumbsHint": {
+    "message": "ภาพขนาดย่อสร้างขึ้นโดยขอรูปภาพอีกครั้งหลังดาวน์โหลด",
+    "description": "Hint for the history thumbnails toggle."
+  },
   "hi_clearNow": {
     "message": "ล้างเลย",
     "description": "History: clear-now label."
@@ -1480,7 +1508,7 @@
     "description": "Privacy: stored data heading."
   },
   "pr_stores1": {
-    "message": "การตั้งค่า ค่ากำหนดเว็บไซต์ และประวัติการดาวน์โหลดของคุณอยู่ในที่เก็บข้อมูลภายในของเบราว์เซอร์ เฉพาะบนอุปกรณ์นี้",
+    "message": "การตั้งค่า ค่ากำหนดเว็บไซต์ และประวัติการดาวน์โหลดของคุณอยู่ในที่เก็บข้อมูลภายในของเบราว์เซอร์ เฉพาะบนอุปกรณ์นี้ ภาพขนาดย่อของประวัติสร้างขึ้นโดยขอภาพที่ดาวน์โหลดแต่ละภาพอีกครั้งหลังดาวน์โหลด ไม่มีสิ่งใดออกจากอุปกรณ์",
     "description": "Privacy: stored data, first item."
   },
   "pr_stores2": {
@@ -2150,6 +2178,10 @@
   "copyDownscaled": {
     "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว ย่อเหลือ {width} x {height} เพื่อให้พอดี",
     "description": "Toast: screenshot copied after downscaling."
+  },
+  "copyVisiblePart": {
+    "message": "ภาพหน้าจอนี้ใหญ่เกินไปสำหรับคลิปบอร์ด จึงคัดลอกเฉพาะส่วนที่แสดงอยู่ ({width} x {height}) โปรดบันทึกภาพหน้าจอเพื่อเก็บภาพเต็มไว้",
+    "description": "Toast: the image was too large for the clipboard, so only the visible part was copied."
   },
   "copyFailed": {
     "message": "ไม่สามารถคัดลอกภาพหน้าจอได้ ลองบันทึกแทน",

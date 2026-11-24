@@ -108,6 +108,7 @@ const HANDLED_FIELDS = new Set([
   'minimum_chrome_version',
   'name',
   'options_page',
+  'optional_permissions',
   'permissions',
   'short_name',
   'version',

@@ -661,6 +661,26 @@ function syncRecordDims() {
     recordDims.height = v.h;
   }
   refreshWindowsNote();
+  updateDimsStatus();
+}
+
+/**
+ * Phase 5 item C: the editor status line shows the REAL pixel size of
+ * the image currently shown (the crop after Apply, the full part when
+ * no crop is applied), so what Copy and Save export is never a mystery.
+ * The text reuses the capture_metaPixels string, which already exists
+ * in every locale.
+ */
+function updateDimsStatus() {
+  const el = $('dimsStatus');
+  if (!el) return;
+  const v = viewRect();
+  if (v.w > 0 && v.h > 0) {
+    el.textContent = tr('capture_metaPixels', `${v.w} × ${v.h} pixels`, { width: v.w, height: v.h });
+    el.hidden = false;
+  } else {
+    el.hidden = true;
+  }
 }
 
 function cropUnavailable() {
@@ -989,7 +1009,14 @@ document.addEventListener('keydown', (e) => {
   if (!btn) return;
   try {
     const mod = await import('../shared/copy-shot.js');
-    mod.initCopyButton(btn, () => { redraw(); return editor; });
+    // Phase 5 item C: Copy exports from the full-resolution editor
+    // canvas, never from a downscaled copy; getViewRect supplies the
+    // part currently shown for the rare image past the clipboard-safe
+    // size. Save (below) likewise exports editor.toDataURL('image/png')
+    // from the same full-resolution canvas.
+    mod.initCopyButton(btn, () => { redraw(); return editor; }, {
+      getViewRect: () => viewRect(),
+    });
   } catch {
     btn.disabled = true;
     try {
@@ -1005,6 +1032,9 @@ $('btnSave').addEventListener('click', async () => {
     redraw();
     const dataUrl = editor.toDataURL('image/png');
     await UI.send('SAVE_ANNOTATED', { id, dataUrl });
+    // G2: the Save button shows the 500 ms success check draw while
+    // the page closes 800 ms later, so the draw is visible, not cut off.
+    if (UI.showSuccessCheck) void UI.showSuccessCheck($('btnSave'));
     UI.toast(tr('annotate_saved', 'Screenshot saved.'));
     setTimeout(() => window.close(), 800);
   } catch (err) {
@@ -1068,6 +1098,7 @@ async function init() {
     // No crop yet: the display canvas is the full image, fitted on
     // screen via CSS while keeping full resolution.
     layoutEditor();
+    updateDimsStatus();
     if (!cropGeom) {
       // The geometry module failed to load: Crop stays visibly disabled.
       const btn = document.querySelector('.tool[data-tool="crop"]');
