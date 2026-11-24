@@ -21,7 +21,7 @@
  */
 import { parseExif } from '../core/exif.js';
 import { initI18n, t, applyI18n, onLanguageChange } from '../shared/i18n.js';
-import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
+import { isPrivateNetworkFetchBlocked, isRedirectBlocked } from '../core/urls.js';
 
 (() => {
   'use strict';
@@ -42,8 +42,32 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
     // B2: the info page fetches with extension privileges, apply the same
     // private-network rule as the worker (with the same-host exception).
     if (isPrivateNetworkFetchBlocked(url, pageUrl)) return null;
-    const res = await fetch(url, { credentials: 'omit', referrerPolicy: 'no-referrer' });
-    if (!res.ok || !res.body) return null;
+    // Phase 6 (F-P6-12): the pre-flight check above vets the URL the
+    // fetch STARTS at, but fetch() follows redirects silently, so a
+    // public URL could bounce the request onto a private address and
+    // this page would read its head. The final URL is re-checked here
+    // before any byte is read, and the fetch has a timeout: it used to
+    // hang the info page forever on a slow host.
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 15000);
+    let res;
+    try {
+      res = await fetch(url, {
+        credentials: 'omit', referrerPolicy: 'no-referrer', signal: ctl.signal,
+      });
+    } catch {
+      clearTimeout(timer);
+      return null;
+    }
+    if (!res.ok || !res.body) {
+      clearTimeout(timer);
+      return null;
+    }
+    if (isRedirectBlocked(res.url, pageUrl)) {
+      clearTimeout(timer);
+      try { await res.body.cancel(); } catch { /* already closed */ }
+      return null;
+    }
     const reader = res.body.getReader();
     const chunks = [];
     let total = 0;
@@ -66,6 +90,7 @@ import { isPrivateNetworkFetchBlocked } from '../core/urls.js';
       out.set(c, o);
       o += c.length;
     }
+    clearTimeout(timer);
     return out;
   }
 

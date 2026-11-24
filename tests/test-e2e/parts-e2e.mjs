@@ -305,7 +305,17 @@ try {
       buttons: [...c.querySelectorAll('.part-actions .btn')].map((b) => b.textContent.trim()),
     })),
   }));
-  const wantSummary = fill(msg('en', 'parts_summarySame_other'), { count: 3, width: 200, height: 120 });
+  // Phase 6 item 6: the page prefers the total-size summary (uniform
+  // width plus known total bytes) over the same-size form the test used
+  // to expect. The seeded PNGs are deterministic, so the total is exact.
+  const totalBytes = flatPng(200, 120, 220, 40, 40).length
+    + flatPng(200, 120, 40, 200, 40).length + flatPng(200, 120, 40, 40, 220).length;
+  const fmtBytes = (n) => {
+    let v = n; let u = 0; const units = ['B', 'KB', 'MB', 'GB'];
+    while (v >= 1024 && u < units.length - 1) { v /= 1024; u += 1; }
+    return `${v.toFixed(v < 10 ? 1 : 0)} ${units[u]}`;
+  };
+  const wantSummary = fill(msg('en', 'parts_summaryTotal_other'), { count: 3, width: 200, total: fmtBytes(totalBytes) });
   const titlesOk = info.cards.every((c, i) => c.title === fill(msg('en', 'part_title_other'), { count: i + 1, total: 3 }));
   const metasOk = info.cards.every((c) => c.meta.includes('200') && c.meta.includes('120') && /KB|B/.test(c.meta));
   const editOk = info.cards.every((c, i) => c.editHref === `annotate.html#${A.ids[i]}` && c.editTarget === '_blank' && c.editRel === 'noopener noreferrer');
@@ -373,7 +383,9 @@ try {
 // P5: Copy part 1 to the real clipboard
 try {
   await pageA.bringToFront();
-  await pageA.locator('.part-card').nth(0).locator('button.btn-ghost').click();
+  // Phase 6 item 6: Copy is the plain .btn in .part-actions, not a
+  // .btn-ghost (that class went away in the Phase 5 redesign).
+  await pageA.locator('.part-card').nth(0).locator('.part-actions button.btn:not(.btn-primary)').click();
   await pageA.waitForSelector('.toast', { timeout: 10000 });
   const clip = await pageA.evaluate(async () => {
     const items = await navigator.clipboard.read();
@@ -406,7 +418,11 @@ try {
 
 // P7: Discard part 1 (now the first card): card + record removed
 try {
-  await pageA.locator('.part-card').nth(0).locator('button.btn-danger').click();
+  // Phase 6 item 6: Discard is the .part-discard icon button, and it
+  // asks for confirmation first; the card goes away only after Confirm.
+  await pageA.locator('.part-card').nth(0).locator('button.part-discard').click();
+  await pageA.waitForSelector('.confirm-dialog', { timeout: 10000 });
+  await pageA.locator('.confirm-dialog .btn-danger').click();
   await pageA.waitForFunction(() => document.querySelectorAll('.part-card').length === 1, null, { timeout: 15000 });
   const recs = await groupRecords(A.groupId);
   phase('P7 Discard removes the part card and its record',
@@ -455,7 +471,10 @@ try {
   const pageC = await ctx.newPage();
   await pageC.goto(`chrome-extension://${extId}/pages/parts.html#${C.groupId}`);
   await pageC.waitForSelector('.part-card', { timeout: 15000 });
+  // Phase 6 item 6: Discard all asks for confirmation first.
   await pageC.click('#btnDiscardAll');
+  await pageC.waitForSelector('.confirm-dialog', { timeout: 10000 });
+  await pageC.locator('.confirm-dialog .btn-danger').click();
   await pageC.waitForSelector('#emptyState:not([hidden])', { timeout: 15000 });
   const emptyText = await pageC.textContent('#emptyText');
   const recs = await groupRecords(C.groupId);
@@ -483,7 +502,9 @@ try {
     lang: document.documentElement.getAttribute('lang'),
     heading: document.getElementById('partsHeading').textContent,
     firstTitle: document.querySelector('.part-title').textContent,
-    saveAll: document.getElementById('btnSaveAll').textContent,
+    // Phase 6 item 6: the button holds an icon and a space before the
+    // label span, so textContent carries a leading space; trim it.
+    saveAll: document.getElementById('btnSaveAll').textContent.trim(),
   }));
   phase('P10 Arabic RTL: translated heading, labels and buttons, thumbnails load',
     info.dir === 'rtl' && info.lang === 'ar' &&

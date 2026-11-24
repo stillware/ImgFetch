@@ -127,37 +127,13 @@
     "message": "Celá stránka",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Skenování",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Skenování stránky…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Hledání obrázků",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Hledám obrázky, včetně pozadí.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "Nalezeno {done}…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_few": {
-    "message": "Nalezeno {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_many": {
-    "message": "Nalezeno {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "Nalezeno {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Zatím nalezeno",
@@ -210,10 +186,6 @@
   "popup_formatFilterAria": {
     "message": "Filtr formátu",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Všechny formáty",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Vše",
@@ -363,22 +335,6 @@
     "message": "Skenovat znovu",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "Nalezen {count} obrázek",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_few": {
-    "message": "Nalezeny {count} obrázky",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_many": {
-    "message": "Nalezeno {count} obrázků",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_other": {
-    "message": "Nalezeny {count} obrázky",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Skenování dokončeno",
     "description": "Results heading when a scan finishes."
@@ -414,6 +370,22 @@
   "results_noImagesFiltered_other": {
     "message": "Nenalezeny žádné obrázky, filtr velikosti přeskočil {dropped} malé obrázky. Snižte ho v Nastavení → Skenování.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} obrázek byl příliš velký na předání a byl přeskočen. Obrázky Data-URL větší než 500 KB nelze odeslat do vyskakovacího okna.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_few": {
+    "message": "{dropped} obrázky byly příliš velké na předání a byly přeskočeny. Obrázky Data-URL větší než 500 KB nelze odeslat do vyskakovacího okna.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Few."
+  },
+  "results_tooLargeSkipped_many": {
+    "message": "{dropped} obrázků bylo příliš velkých na předání a bylo přeskočeno. Obrázky Data-URL větší než 500 KB nelze odeslat do vyskakovacího okna.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Many."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} obrázky byly příliš velké na předání a byly přeskočeny. Obrázky Data-URL větší než 500 KB nelze odeslat do vyskakovacího okna.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Těmto filtrům neodpovídá žádný obrázek.",
@@ -514,26 +486,6 @@
   "home_viewDownloads": {
     "message": "Zobrazit stahování",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "Na této stránce nalezen {count} obrázek",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_few": {
-    "message": "Na této stránce nalezeny {count} obrázky",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_many": {
-    "message": "Na této stránce nalezeno {count} obrázků",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_other": {
-    "message": "Na této stránce nalezeny {count} obrázky",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Zobrazit výsledky",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Poslední skenování",
@@ -679,14 +631,6 @@
     "message": "Historie",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Vymazat historii stahování?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Tím se odstraní seznam souborů stažených ImgFetch. Samotné soubory zůstanou ve vašem zařízení.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Vymazat historii",
     "description": "Confirm dialog button."
@@ -747,17 +691,9 @@
     "message": "Zatím tu nic není.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Otevřít soubor",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Otevřít odkaz na zdroj",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Místo toho se zobrazí složka.",
@@ -1555,10 +1491,6 @@
     "message": "Okamžitě odstraní všechny záznamy historie. Stažené soubory nejsou dotčeny.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Historii se nepodařilo vymazat.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Vezměte si nastavení s sebou, nebo začněte znovu.",
     "description": "Backup section description."
@@ -1827,6 +1759,10 @@
     "message": "Uložení se nezdařilo.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Tento snímek je příliš velký na uložení jako jeden obrázek (více než 40 MB). Stále jej můžete uložit po částech nebo uložit viditelnou oblast.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Tento odkaz editoru je neplatný.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1958,10 +1894,6 @@
   "info_copyLink": {
     "message": "Kopírovat odkaz",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Uložit jako JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Nebyl zadán žádný obrázek.",
@@ -2335,14 +2267,6 @@
     "message": "Tento prvek je vyšší než obrazovka, zachycena byla jen viditelná část. Pro zbytek použijte Celou stránku.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Tato stránka je velmi dlouhá, zachycuje se prvních {tileCount} dlaždic (horní část). Pro zbytek použijte zachycení oblasti.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Tato stránka je velmi velká, obrázek celé stránky byl zmenšen na {percent} %, aby se vešel do limitů paměti.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Zachycení celé stránky, dlaždice {n} z {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2390,10 +2314,6 @@
   "copySuccess": {
     "message": "Snímek zkopírován do schránky.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Snímek zkopírován do schránky, zmenšen na {width} x {height}, aby se vešel.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Tento snímek je pro schránku příliš velký, takže byla zkopírována pouze zobrazená část ({width} x {height}). Uložte snímek, abyste zachovali celý obrázek.",
@@ -2558,10 +2478,6 @@
   "parts_discardAria": {
     "message": "Zahodit část {count} z {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} pixelů · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Poznámka: velké snímky, například celé stránky, se kopírují správně, ale nezobrazují se v historii schránky Windows (Win+V). Jde o omezení systému Windows, ne o problém s kopírováním. Stisknutím Ctrl+V vložíte obrázek na požadované místo.",

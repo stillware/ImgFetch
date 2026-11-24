@@ -103,6 +103,55 @@ const ALLOWED_ATTRS = new Set([
 ]);
 
 /**
+ * Phase 6 (F-P6-5): intrinsic dimensions of an SVG document, read from
+ * the root <svg> element without parsing or rendering it, so callers
+ * can enforce the pixel budget BEFORE createImageBitmap decodes the
+ * file. SVG has no binary header for imageDimensions to read, so every
+ * SVG decode used to run uncapped: a tiny file can declare
+ * width="100000" height="100000" and the decoder allocates the full
+ * bitmap first. Only the first 8,192 characters are read (the root tag
+ * is at the start); width/height in px or unitless win, viewBox is the
+ * fallback, and a document with no size at all defaults to the SVG
+ * spec default of 300x150. Percentages and other units are not trusted
+ * as pixel sizes, viewBox is used instead. Returns null only when the
+ * text has no root <svg> tag at all.
+ */
+export function svgDimensions(text) {
+  const s = String(text || '').slice(0, 8192);
+  const m = /<svg\b[^>]*>/i.exec(s);
+  if (!m) return null;
+  const tag = m[0];
+  const num = (attr) => {
+    // The unit matters: a bare number or px is pixels, but a percentage
+    // (or em/pt/...) is not a pixel size and must fall through to the
+    // viewBox instead of being read as pixels.
+    const am = new RegExp(`${attr}\\s*=\\s*["']?([0-9]+(?:\\.[0-9]+)?)\\s*(px|%|[a-z]+)?["']?`, 'i').exec(tag);
+    if (!am) return null;
+    if (am[2] && am[2].toLowerCase() !== 'px') return null;
+    const n = Number(am[1]);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  };
+  const w = num('width');
+  const h = num('height');
+  if (w !== null && h !== null) return { w: Math.floor(w), h: Math.floor(h) };
+  const vm = /viewBox\s*=\s*["']?(-?[0-9.]+)[\s,]+(-?[0-9.]+)[\s,]+([0-9.]+)[\s,]+([0-9.]+)["']?/i.exec(tag);
+  if (vm) {
+    const vw = Number(vm[3]);
+    const vh = Number(vm[4]);
+    if (Number.isFinite(vw) && Number.isFinite(vh) && vw > 0 && vh > 0) {
+      return { w: Math.floor(vw), h: Math.floor(vh) };
+    }
+  }
+  if (w !== null || h !== null) {
+    // One side given, the other unknown: assume square on the known
+    // side so the budget check still bounds the decode.
+    const side = w !== null ? w : h;
+    return { w: Math.floor(side), h: Math.floor(side) };
+  }
+  return { w: 300, h: 150 };
+}
+
+/**
  * Remove DOCTYPE declarations (including internal subsets) from SVG text
  * before parsing, and drop references to the entities they defined.
  *

@@ -84,7 +84,7 @@ has(optionsHtml, '.side-search:focus-within .keycap { opacity: 0; }', 'A6 "/" hi
 has(optionsHtml, 'line-height: 1.5; padding: 0 2px;', 'A6 search input keeps full line height past the font shorthand');
 
 // A1: popup document never scrolls and main shows no scrollbar chrome.
-has(popupHtml, 'html, body { width: 400px; height: 600px; overflow: hidden; }', 'A1 popup html/body are fixed 400x600 with overflow hidden');
+has(popupHtml, 'html, body { width: 400px; height: 560px; overflow: hidden; }', 'A1 popup html/body are fixed 400x560 with overflow hidden');
 has(popupHtml, 'scrollbar-width: none;', 'A1 popup main shows no scrollbar chrome');
 has(popupHtml, '.grid-wrap { margin: 4px 0; }', 'A1 grid no longer offsets for a scrollbar that is gone');
 
@@ -95,7 +95,7 @@ lacks(popupHtml, 'hero-g4.svg', 'A2 popup has no hero raster img reference (g4)'
 has(popupHtml, '<symbol id="hero-g1"', 'A2 hero g1 is an inline symbol');
 has(popupHtml, '<symbol id="hero-g2"', 'A2 hero g2 is an inline symbol');
 has(popupHtml, '<symbol id="hero-g4"', 'A2 hero g4 is an inline symbol');
-eq((popupHtml.match(/<use href="#hero-g[124]"\/>/g) || []).length, 6, 'A2 both hero stacks instantiate the three symbols');
+eq((popupHtml.match(/<use href="#hero-g[124]"[^>]*\/>/g) || []).length, 6, 'A2 both hero stacks instantiate the three symbols');
 lacks(popupHtml, '<image', 'A2 inline hero art embeds no raster image');
 ok(!/\.hero-art \{[^}]*object-fit/s.test(popupHtml), 'A2 hero art has no object-fit resampling');
 // The canonical SVG files stay pure vector too.

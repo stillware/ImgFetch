@@ -127,29 +127,13 @@
     "message": "Page entière",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Analyse en cours",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Analyse de la page…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Recherche d’images",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Recherche d’images, y compris les arrière-plans.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "{done} trouvée pour l’instant…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "{done} trouvées pour l’instant…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Trouvées jusqu’ici",
@@ -194,10 +178,6 @@
   "popup_formatFilterAria": {
     "message": "Filtre de format",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Tous les formats",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Toutes",
@@ -331,14 +311,6 @@
     "message": "Analyser à nouveau",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "{count} image trouvée",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_other": {
-    "message": "{count} images trouvées",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Analyse terminée",
     "description": "Results heading when a scan finishes."
@@ -366,6 +338,14 @@
   "results_noImagesFiltered_other": {
     "message": "Aucune image trouvée, {dropped} petites images ont été ignorées par votre filtre de taille. Réduisez-le dans Paramètres → Analyse.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} image était trop grande pour être transférée et a été ignorée. Les images Data-URL de plus de 500 KB ne peuvent pas être envoyées à la fenêtre contextuelle.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} images étaient trop grandes pour être transférées et ont été ignorées. Les images Data-URL de plus de 500 KB ne peuvent pas être envoyées à la fenêtre contextuelle.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Aucune image ne correspond à ces filtres.",
@@ -434,18 +414,6 @@
   "home_viewDownloads": {
     "message": "Voir les téléchargements",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "{count} image trouvée sur cette page",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_other": {
-    "message": "{count} images trouvées sur cette page",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Voir les résultats",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Dernier scan",
@@ -591,14 +559,6 @@
     "message": "Historique",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Effacer l’historique des téléchargements ?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Cela supprime la liste des fichiers téléchargés par ImgFetch. Les fichiers restent sur votre appareil.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Effacer l’historique",
     "description": "Confirm dialog button."
@@ -651,17 +611,9 @@
     "message": "Rien ici pour l’instant.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Ouvrir le fichier",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Ouvrir le lien source",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Affichage dans le dossier à la place.",
@@ -1443,10 +1395,6 @@
     "message": "Supprime immédiatement toutes les entrées de l’historique. Les fichiers téléchargés ne sont pas affectés.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Effacement de l’historique impossible.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Emportez vos paramètres avec vous, ou repartez de zéro.",
     "description": "Backup section description."
@@ -1715,6 +1663,10 @@
     "message": "Échec de l’enregistrement.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Cette capture est trop grande pour être enregistrée en une seule image (plus de 40 Mo). Vous pouvez toujours l’enregistrer par parties ou enregistrer la zone visible.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Ce lien d’éditeur n’est pas valide.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1846,10 +1798,6 @@
   "info_copyLink": {
     "message": "Copier le lien",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Enregistrer en JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Aucune image spécifiée.",
@@ -2191,14 +2139,6 @@
     "message": "Cet élément est plus haut que l’écran, seule la partie visible a été capturée. Utilisez Page entière pour le reste.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Cette page est très longue, capture des {tileCount} premiers blocs (partie haute). Utilisez la capture de zone pour le reste.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Cette page est très grande, l’image de la page entière a été réduite à {percent} % pour respecter les limites de mémoire.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Capture de la page entière, bloc {n} sur {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2246,10 +2186,6 @@
   "copySuccess": {
     "message": "Capture copiée dans le presse-papiers.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Capture copiée dans le presse-papiers, réduite à {width} x {height} pour tenir.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Cette capture est trop grande pour le presse-papiers, seule la partie affichée a donc été copiée ({width} x {height}). Enregistrez la capture pour conserver l'image complète.",
@@ -2382,10 +2318,6 @@
   "parts_discardAria": {
     "message": "Supprimer la partie {count} sur {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} px · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Remarque : les grandes captures, comme les pages entières, se copient correctement mais n'apparaissent pas dans l'historique du presse-papiers de Windows (Win+V). C'est une limite de Windows, pas un problème de copie. Appuyez sur Ctrl+V pour coller l'image où vous en avez besoin.",

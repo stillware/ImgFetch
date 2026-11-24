@@ -127,29 +127,13 @@
     "message": "Full page",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Scanning",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Scanning page…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Looking for images",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Looking for images, including backgrounds.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "Found {done} so far…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "Found {done} so far…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Found so far",
@@ -194,10 +178,6 @@
   "popup_formatFilterAria": {
     "message": "Format filter",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "All formats",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "All",
@@ -331,14 +311,6 @@
     "message": "Scan again",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "{count} image found",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_other": {
-    "message": "{count} images found",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Scan complete",
     "description": "Results heading when a scan finishes."
@@ -366,6 +338,14 @@
   "results_noImagesFiltered_other": {
     "message": "No images found, {dropped} small images were skipped by your size filter. Lower it in Settings → Scanning.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} image was too large to hand over and was skipped. Data-URL images over 500 KB cannot be sent to the popup.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} images were too large to hand over and were skipped. Data-URL images over 500 KB cannot be sent to the popup.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "No images match these filters.",
@@ -434,18 +414,6 @@
   "home_viewDownloads": {
     "message": "View downloads",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "{count} image found on this page",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_other": {
-    "message": "{count} images found on this page",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "View results",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Last scan",
@@ -591,14 +559,6 @@
     "message": "History",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Clear download history?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "This removes the list of files ImgFetch downloaded. The files themselves stay on your device.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Clear history",
     "description": "Confirm dialog button."
@@ -651,17 +611,9 @@
     "message": "Nothing here yet.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Open file",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Open source link",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Showing it in the folder instead",
@@ -1443,10 +1395,6 @@
     "message": "Removes all history entries immediately. Downloaded files are not affected.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Could not clear history.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Take your settings with you, or start fresh.",
     "description": "Backup section description."
@@ -1715,6 +1663,10 @@
     "message": "Save failed.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "This screenshot is too large to save as one image (over 40 MB). You can still save it as parts or save the visible area instead.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "This editor link is invalid.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1846,10 +1798,6 @@
   "info_copyLink": {
     "message": "Copy link",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Save as JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "No image was specified.",
@@ -2191,14 +2139,6 @@
     "message": "That element is taller than the screen, only the visible part was captured. Use Full page for the whole thing.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "This page is very long, capturing the first {tileCount} tiles (top portion). Use area capture for the rest.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "This page is very large, the full-page image was scaled to {percent}% to fit memory limits.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Capturing full page, tile {n} of {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2246,10 +2186,6 @@
   "copySuccess": {
     "message": "Screenshot copied to the clipboard.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Screenshot copied to the clipboard, downscaled to {width} x {height} to fit.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "This screenshot is too large for the clipboard, so only the part shown was copied ({width} x {height}). Save the screenshot to keep the full image.",
@@ -2382,10 +2318,6 @@
   "parts_discardAria": {
     "message": "Discard part {count} of {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} pixels · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Note: Large screenshots, such as full pages, copy correctly but do not appear in the Windows clipboard history (Win+V). This is a Windows limit, not a problem with the copy. Press Ctrl+V to paste the image where you need it.",

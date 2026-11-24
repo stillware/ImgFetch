@@ -143,9 +143,17 @@ export function normalizeSettings(stored) {
   s.subfolder = String(s.subfolder || '').slice(0, 120);
   s.customTemplate = String(s.customTemplate || DEFAULT_SETTINGS.customTemplate).slice(0, 160);
   // Validate site preferences: {host: mode}
+  // Phase 6 (F-P6-8): cap the entry count. A hostile import can carry
+  // tens of thousands of sitePrefs keys (the 1 MB import cap still
+  // admits about 50,000), which normalises into a multi-MB settings
+  // object that chrome.storage.local then refuses to save (8 KB per
+  // item). Real users have a handful of site preferences; 1,000 is far
+  // past any legitimate use and keeps the stored object small.
+  const MAX_SITE_PREFS = 1000;
   const prefs = {};
   if (s.sitePrefs && typeof s.sitePrefs === 'object') {
     for (const [host, mode] of Object.entries(s.sitePrefs)) {
+      if (Object.keys(prefs).length >= MAX_SITE_PREFS) break;
       // H6: __proto__ is not a hostname. Object.entries on a JSON-parsed
       // object can carry it, and prefs['__proto__'] = an object would
       // retarget the object's prototype. The mode here is a validated

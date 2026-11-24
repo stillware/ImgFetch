@@ -23,7 +23,15 @@
  * Used for "Download as ZIP": many images packed into one .zip download.
  * Filenames are sanitized (no directories, no traversal) and flagged UTF-8.
  */
-import { stripBidiControls } from './filenames.js';
+import { stripBidiControls, truncateNoLoneSurrogate } from './filenames.js';
+
+/**
+ * Phase 6 (F-P6-10): the ZIP writer itself caps total entry bytes.
+ * Callers already cap at 300 MB, but the writer is the choke point and
+ * must not trust them: a direct caller passing gigabytes of entry data
+ * used to get a matching multi-hundred-MB buffer with no complaint.
+ */
+export const ZIP_WRITER_MAX_TOTAL_BYTES = 300_000_000;
 
 const CRC_TABLE = (() => {
   const t = new Uint32Array(256);
@@ -45,14 +53,20 @@ export function crc32(data) {
 
 /** Strip directories / traversal; keep a safe basename. */
 export function safeZipName(name) {
-  const base = stripBidiControls(String(name || 'file'))
+  // Phase 6 (F-P6-10): trim BEFORE stripping dots. The old order
+  // stripped leading dots first, so a name like ' ..' survived as '..'
+  // (the trim afterwards exposed the dots), a traversal entry in the
+  // archive. Trailing dots are stripped too: Windows drops them on
+  // extract, which used to rename entries silently.
+  const base = truncateNoLoneSurrogate(stripBidiControls(String(name || 'file'))
     .split('/')
     .pop()
     .split('\\')
     .pop()
-    .replace(/^\.+/, '')
     .replace(/[<>:"|?*\x00-\x1f]/g, '_')
-    .slice(0, 120)
+    .trim()
+    .replace(/^\.+/, '')
+    .replace(/\.+$/, ''), 120)
     .trim();
   return base || 'file';
 }
@@ -90,8 +104,18 @@ export function createZipParts(files, now) {
   if (!Array.isArray(files) || files.length === 0) throw new Error('bad-input');
   if (files.length > 500) throw new Error('too-many-files');
   const seen = new Set();
+  let totalBytes = 0;
   const prepared = files.map((file) => {
-    const data = file.data instanceof Uint8Array ? file.data : Uint8Array.from(file.data || []);
+    // Phase 6 (F-P6-10): a null entry used to throw a bare TypeError
+    // from inside the map, and non-Uint8Array data (a string, a plain
+    // array) was silently mangled into zero bytes by Uint8Array.from.
+    // Both now fail closed with a plain error, and the writer caps
+    // total bytes itself instead of trusting its callers.
+    if (!file || typeof file !== 'object') throw new Error('bad-input');
+    if (!(file.data instanceof Uint8Array)) throw new Error('bad-input');
+    const data = file.data;
+    totalBytes += data.length;
+    if (totalBytes > ZIP_WRITER_MAX_TOTAL_BYTES) throw new Error('too-large');
     let name = safeZipName(file.name);
     if (seen.has(name)) {
       const dot = name.lastIndexOf('.');

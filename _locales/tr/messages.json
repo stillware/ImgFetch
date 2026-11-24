@@ -127,25 +127,13 @@
     "message": "Tüm sayfa",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Taranıyor",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Sayfa taranıyor…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Görüntüler aranıyor",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Arka planlar dahil görseller aranıyor.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "Şu ana kadar {done} bulundu…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Şimdiye kadar bulunan",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "Biçim filtresi",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Tüm biçimler",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Tümü",
@@ -315,10 +299,6 @@
     "message": "Yeniden tara",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "{count} görüntü bulundu",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Tarama tamamlandı",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "Görüntü bulunamadı, boyut filtreniz {dropped} küçük görüntüyü atladı. Ayarlar → Tarama bölümünden düşürün.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "{dropped} görüntü aktarılamayacak kadar büyüktü ve atlandı. 500 KB üzerindeki Data-URL görüntüleri açılır pencereye gönderilemez.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "Bu filtrelere uyan görüntü yok.",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "İndirmeleri görüntüle",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "Bu sayfada {count} görüntü bulundu",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Sonuçları görüntüle",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Son tarama",
@@ -547,14 +523,6 @@
     "message": "Geçmiş",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "İndirme geçmişi temizlensin mi?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Bu, ImgFetch'in indirdiği dosyaların listesini kaldırır. Dosyaların kendileri cihazınızda kalır.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Geçmişi temizle",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "Burada henüz bir şey yok.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Dosyayı aç",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Kaynak bağlantısını aç",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Bunun yerine klasörde gösteriliyor.",
@@ -1387,10 +1347,6 @@
     "message": "Tüm geçmiş girdilerini hemen kaldırır. İndirilen dosyalar etkilenmez.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Geçmiş temizlenemedi.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Ayarlarınızı yanınıza alın ya da yeni başlayın.",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "Kaydetme başarısız.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Bu ekran görüntüsü tek bir görüntü olarak kaydedilemeyecek kadar büyük (40 MB üzeri). Yine de parça parça kaydedebilir veya görünür alanı kaydedebilirsiniz.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Bu düzenleyici bağlantısı geçersiz.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "Bağlantıyı kopyala",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "JPG olarak kaydet",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Görüntü belirtilmedi.",
@@ -2119,14 +2075,6 @@
     "message": "Bu öğe ekrandan uzun, yalnızca görünen kısım yakalandı. Geri kalanı için Tüm sayfa kullanın.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Bu sayfa çok uzun, ilk {tileCount} kutucuk (üst kısım) yakalanıyor. Geri kalanı için alan yakalama kullanın.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Bu sayfa çok büyük, tüm sayfa görüntüsü bellek sınırlarına uyması için %{percent} ölçeğine küçültüldü.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Tüm sayfa yakalanıyor, kutucuk {n} / {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "Ekran görüntüsü panoya kopyalandı.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Ekran görüntüsü panoya kopyalandı, sığması için {width} x {height} boyutuna küçültüldü.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Bu ekran görüntüsü pano için çok büyük, bu yüzden yalnızca gösterilen bölüm kopyalandı ({width} x {height}). Tam görüntüyü korumak için ekran görüntüsünü kaydedin.",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "{total} parçadan {count}. parçayı sil",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} piksel · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Not: Tam sayfalar gibi büyük ekran görüntüleri doğru şekilde kopyalanır ancak Windows pano geçmişinde (Win+V) görünmez. Bu, Windows'un bir sınırıdır, kopyalama sorunu değildir. Görüntüyü istediğiniz yere yapıştırmak için Ctrl+V tuşlarına basın.",

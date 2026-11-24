@@ -304,8 +304,8 @@ img.brand-mark { display: block; }
   background-repeat: no-repeat;
   padding: 16px;
 }
-/* Cyan scan line for the scanning screen. It sweeps the 148 px hero
-   (12% to 84%, a 106 px travel) on transform only, calm and linear;
+/* Cyan scan line for the scanning screen. It sweeps the 168 px hero
+   (12% to 84%, a 121 px travel) on transform only, calm and linear;
    the old keyframes animated `top`, a layout property. With reduced
    motion it stays static (see the shared reduced-motion block). */
 .scan-line {
@@ -320,7 +320,7 @@ img.brand-mark { display: block; }
 }
 @keyframes sx-scan {
   from { transform: translateY(0); }
-  to { transform: translateY(106px); }
+  to { transform: translateY(121px); }
 }
 
 /* ---------- buttons ---------- */
@@ -514,7 +514,7 @@ input.switch:disabled { opacity: 0.5; cursor: not-allowed; }
   transition: background-color var(--duration-quick) var(--ease-smooth-out), color var(--duration-quick) var(--ease-smooth-out);
 }
 .segmented .motion-pill {
-  position: absolute; top: 3px; left: 0; z-index: 0;
+  position: absolute; top: 0; left: 0; z-index: 0;
   background: var(--surface); box-shadow: var(--shadow); border-radius: var(--r1);
   transition: transform var(--duration-fast) var(--ease-smooth-out);
   will-change: transform; pointer-events: none;

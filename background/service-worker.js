@@ -33,6 +33,7 @@ import {
   isPrivateNetworkFetchBlocked,
   isRedirectBlocked,
   lensUrlBlocked,
+  pageUrlFromHost,
 } from '../core/urls.js';
 import {
   buildFilename,
@@ -1464,7 +1465,9 @@ async function recordHistory(entry) {
 async function fetchAndStoreThumb(record) {
   const settings = await getSettings();
   if (!thumbFetchAllowed(settings, record)) return;
-  const pageUrl = record.pageHost ? `https://${record.pageHost}/` : '';
+  // Phase 6 (F-P6-4): the exception page URL is built only from a
+  // validated host, never by interpolating the stored pageHost.
+  const pageUrl = pageUrlFromHost(record.pageHost);
   if (isPrivateNetworkFetchBlocked(record.url, pageUrl)) return;
   let dataUrl = null;
   try {
@@ -1638,6 +1641,7 @@ async function scanPage(tabId) {
   // Merge per-frame results (frames that failed to inject return nothing).
   let images = [];
   let droppedBySize = 0;
+  let droppedTooLarge = 0;
   let droppedByRelevance = 0;
   let inPageDeduped = 0;
   let frameCount = 0;
@@ -1647,6 +1651,7 @@ async function scanPage(tabId) {
     frameCount += 1;
     images.push(...s.images);
     droppedBySize += Number(s.droppedBySize) || 0;
+    droppedTooLarge += Number(s.droppedTooLarge) || 0;
     droppedByRelevance += Number(s.droppedByRelevance) || 0;
     // D5: each frame reports the exact-URL duplicates its scanner dropped;
     // without this the results summary showed 0 duplicates whenever the
@@ -1688,6 +1693,7 @@ async function scanPage(tabId) {
     // so a duplicate counted in-page is already gone when the worker runs.
     deduped: inPageDeduped + deduped,
     droppedBySize,
+    droppedTooLarge,
     droppedByRelevance,
   };
   // Session storage is only a restore cache, the popup already received the
@@ -3450,7 +3456,11 @@ async function routeMessage(msg, kind, sender) {
       const tab = await activeTab();
       const pageUrl = (tab && tab.url) || '';
       assertSiteAllowed(settings, pageUrl); // H8
-      const files = Array.isArray(msg.files) ? msg.files.slice(0, 200) : [];
+      // Phase 6 (F-P6-9): non-object entries (null, a string, a number)
+      // used to flow into the queue payload; drop them here instead of
+      // letting a downstream handler throw on them mid-batch.
+      const files = Array.isArray(msg.files)
+        ? msg.files.filter((f) => f && typeof f === 'object').slice(0, 200) : [];
       if (!files.length) return { queued: 0 };
       prepareQueue(settings);
       queue.enqueue([{
@@ -3503,7 +3513,10 @@ async function routeMessage(msg, kind, sender) {
     case 'DOWNLOAD_MANY': {
       const tab = await activeTab();
       const pageUrl = (tab && tab.url) || '';
-      const list = Array.isArray(msg.items) ? msg.items.slice(0, 500) : [];
+      // Phase 6 (F-P6-9): see DOWNLOAD_ZIP above; one null item used
+      // to throw inside bulkItemPayload and fail the whole batch.
+      const list = Array.isArray(msg.items)
+        ? msg.items.filter((it) => it && typeof it === 'object').slice(0, 500) : [];
       prepareQueue(settings);
       queue.enqueue(list.map((it, i) => ({
         id: it.id || `b-${Date.now()}-${i}`,

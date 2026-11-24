@@ -17,12 +17,75 @@
  */
 /**
  * ImgFetch, content/overlay.js
- * Full-page area selector for screenshots. Exposes
+ * Full-page area selector for screenshots. The picker UI lives in a
+ * closed shadow root (REC-1, Phase 6 item 6), so page CSS and JS cannot
+ * reach the selection box, hint pill or size label. Exposes
  *   window.__imgfetch.selectArea() -> Promise<{x,y,width,height}|null>
  * Coordinates are in CSS pixels relative to the viewport.
  */
 (() => {
   'use strict';
+
+  /* REC-1 (Phase 6 item 6): the picker UI lives in a CLOSED shadow root.
+     Page CSS and page JS cannot restyle, hide or read the selection box,
+     the hint pill or the size label, and DOM clobbering (page elements
+     with colliding ids or names) cannot reach inside. The host itself
+     stays in the document and carries the stacking (fixed, inset 0, top
+     z-index); page CSS can still hide the host, but never the shadow
+     contents. The hint text is mirrored onto the host as
+     data-imgfetch-hint so tests can assert the translated hint without
+     piercing the shadow root (a closed root returns null for
+     host.shadowRoot by design); the mirror is never rendered, only the
+     shadow copy is visible. The styles below are the old light-DOM
+     rules with the [data-imgfetch-overlay] scoping prefix dropped, as
+     shadow styles are scoped already; every declaration is unchanged. */
+  const AREA_STYLE = `
+    .sx-overlay{position:fixed;inset:0;z-index:2147483647;cursor:crosshair;
+      background:rgba(10,12,25,.35);user-select:none;-webkit-user-select:none;touch-action:none}
+    .sx-hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);
+      background:#171a2e;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:8px 14px;
+      border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.35);pointer-events:none;white-space:nowrap}
+    .sx-box{position:absolute;border:2px solid #6c63ff;
+      background:rgba(108,99,255,.12);box-shadow:0 0 0 9999px rgba(10,12,25,.35);display:none}
+    .sx-size{position:absolute;left:0;top:-26px;background:#171a2e;color:#fff;
+      font:12px/1.4 system-ui,sans-serif;padding:3px 8px;border-radius:6px;white-space:nowrap}
+  `;
+  const ELEMENT_STYLE = `
+    .sx-overlay{position:fixed;inset:0;z-index:2147483647;cursor:pointer;user-select:none;-webkit-user-select:none}
+    .sx-hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);
+      background:#171a2e;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:8px 14px;
+      border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.35);pointer-events:none;white-space:nowrap}
+    .sx-box{position:fixed;border:2px solid #6c63ff;
+      background:rgba(108,99,255,.12);pointer-events:none;display:none}
+  `;
+  function createOverlay(hintText, kind) {
+    const host = document.createElement('div');
+    host.setAttribute('data-imgfetch-hint', hintText);
+    host.style.cssText = 'position:fixed;inset:0;z-index:2147483647;';
+    const shadow = host.attachShadow({ mode: 'closed' });
+    const overlay = document.createElement('div');
+    overlay.className = 'sx-overlay';
+    const hint = document.createElement('div');
+    hint.className = 'sx-hint';
+    hint.textContent = hintText;
+    const box = document.createElement('div');
+    box.className = 'sx-box';
+    box.style.display = 'none';
+    const style = document.createElement('style');
+    style.textContent = kind === 'area' ? AREA_STYLE : ELEMENT_STYLE;
+    overlay.appendChild(style);
+    overlay.appendChild(hint);
+    overlay.appendChild(box);
+    let size = null;
+    if (kind === 'area') {
+      size = document.createElement('div');
+      size.className = 'sx-size';
+      box.appendChild(size);
+    }
+    shadow.appendChild(overlay);
+    document.documentElement.appendChild(host);
+    return { host, overlay, hint, box, size };
+  }
 
   /* B: optional localized hints ({ select, capture, inspect }); English defaults when omitted. */
   function selectArea(hints) {
@@ -33,32 +96,8 @@
       }
       document.documentElement.setAttribute('data-imgfetch-selecting', '1');
 
-      const overlay = document.createElement('div');
-      overlay.setAttribute('data-imgfetch-overlay', '1');
-      const hint = document.createElement('div');
-      hint.textContent = (hints && hints.select) || 'Drag to select: arrows move, Shift+arrows resize, Enter confirms, Esc cancels';
-      const box = document.createElement('div');
-      const style = document.createElement('style');
-      style.textContent = `
-        [data-imgfetch-overlay]{position:fixed;inset:0;z-index:2147483647;cursor:crosshair;
-          background:rgba(10,12,25,.35);user-select:none;-webkit-user-select:none;touch-action:none}
-        [data-imgfetch-overlay] .sx-hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);
-          background:#171a2e;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:8px 14px;
-          border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.35);pointer-events:none;white-space:nowrap}
-        [data-imgfetch-overlay] .sx-box{position:absolute;border:2px solid #6c63ff;
-          background:rgba(108,99,255,.12);box-shadow:0 0 0 9999px rgba(10,12,25,.35);display:none}
-        [data-imgfetch-overlay] .sx-size{position:absolute;left:0;top:-26px;background:#171a2e;color:#fff;
-          font:12px/1.4 system-ui,sans-serif;padding:3px 8px;border-radius:6px;white-space:nowrap}
-      `;
-      const size = document.createElement('div');
-      size.className = 'sx-size';
-      hint.className = 'sx-hint';
-      box.className = 'sx-box';
-      box.appendChild(size);
-      overlay.appendChild(style);
-      overlay.appendChild(hint);
-      overlay.appendChild(box);
-      document.documentElement.appendChild(overlay);
+      const hintText = (hints && hints.select) || 'Drag to select: arrows move, Shift+arrows resize, Enter confirms, Esc cancels';
+      const { host, overlay, box, size } = createOverlay(hintText, 'area');
 
       let startX = 0;
       let startY = 0;
@@ -68,7 +107,7 @@
       let onKeyArea = null; // L5: assigned below; removed in cleanup.
       const cleanup = () => {
         document.documentElement.removeAttribute('data-imgfetch-selecting');
-        overlay.remove();
+        host.remove();
         window.removeEventListener('keydown', onKey, true);
         if (onKeyArea) window.removeEventListener('keydown', onKeyArea, true);
       };
@@ -205,32 +244,13 @@
       }
       document.documentElement.setAttribute('data-imgfetch-selecting', '1');
 
-      const overlay = document.createElement('div');
-      overlay.setAttribute('data-imgfetch-overlay', '1');
-      const hint = document.createElement('div');
-      hint.textContent = (hints && hints.capture) || 'Click an element to capture it, Esc to cancel';
-      hint.className = 'sx-hint';
-      const box = document.createElement('div');
-      box.className = 'sx-box';
-      box.style.display = 'none';
-      const style = document.createElement('style');
-      style.textContent = `
-        [data-imgfetch-overlay]{position:fixed;inset:0;z-index:2147483647;cursor:pointer;user-select:none;-webkit-user-select:none}
-        [data-imgfetch-overlay] .sx-hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);
-          background:#171a2e;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:8px 14px;
-          border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.35);pointer-events:none;white-space:nowrap}
-        [data-imgfetch-overlay] .sx-box{position:fixed;border:2px solid #6c63ff;
-          background:rgba(108,99,255,.12);pointer-events:none;display:none}
-      `;
-      overlay.appendChild(style);
-      overlay.appendChild(hint);
-      overlay.appendChild(box);
-      document.documentElement.appendChild(overlay);
+      const hintText = (hints && hints.capture) || 'Click an element to capture it, Esc to cancel';
+      const { host, overlay, box } = createOverlay(hintText, 'element');
 
       let finished = false;
       const cleanup = () => {
         document.documentElement.removeAttribute('data-imgfetch-selecting');
-        overlay.remove();
+        host.remove();
         window.removeEventListener('keydown', onKey, true);
       };
       const finish = (rect) => {
@@ -250,7 +270,7 @@
         // The overlay covers the viewport, so elementFromPoint would always
         // return the overlay itself. Walk the stack and skip our own nodes.
         const els = document.elementsFromPoint(x, y);
-        return els.find((n) => n !== overlay && !overlay.contains(n)) || null;
+        return els.find((n) => n !== host && n !== overlay && !overlay.contains(n)) || null;
       };
 
       overlay.addEventListener('mousemove', (e) => {
@@ -405,32 +425,13 @@
       }
       document.documentElement.setAttribute('data-imgfetch-selecting', '1');
 
-      const overlay = document.createElement('div');
-      overlay.setAttribute('data-imgfetch-overlay', '1');
-      const hint = document.createElement('div');
-      hint.textContent = (hints && hints.inspect) || 'Click an element to inspect its image, Esc to cancel';
-      hint.className = 'sx-hint';
-      const box = document.createElement('div');
-      box.className = 'sx-box';
-      box.style.display = 'none';
-      const style = document.createElement('style');
-      style.textContent = `
-        [data-imgfetch-overlay]{position:fixed;inset:0;z-index:2147483647;cursor:pointer;user-select:none;-webkit-user-select:none}
-        [data-imgfetch-overlay] .sx-hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);
-          background:#171a2e;color:#fff;font:13px/1.4 system-ui,sans-serif;padding:8px 14px;
-          border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.35);pointer-events:none;white-space:nowrap}
-        [data-imgfetch-overlay] .sx-box{position:fixed;border:2px solid #6c63ff;
-          background:rgba(108,99,255,.12);pointer-events:none;display:none}
-      `;
-      overlay.appendChild(style);
-      overlay.appendChild(hint);
-      overlay.appendChild(box);
-      document.documentElement.appendChild(overlay);
+      const hintText = (hints && hints.inspect) || 'Click an element to inspect its image, Esc to cancel';
+      const { host, overlay, box } = createOverlay(hintText, 'element');
 
       let finished = false;
       const cleanup = () => {
         document.documentElement.removeAttribute('data-imgfetch-selecting');
-        overlay.remove();
+        host.remove();
         window.removeEventListener('keydown', onKey, true);
       };
       const finish = (value) => {
@@ -449,7 +450,7 @@
 
       const pickUnder = (x, y) => {
         const els = document.elementsFromPoint(x, y);
-        return els.find((n) => n !== overlay && !overlay.contains(n)) || null;
+        return els.find((n) => n !== host && n !== overlay && !overlay.contains(n)) || null;
       };
 
       overlay.addEventListener('mousemove', (e) => {

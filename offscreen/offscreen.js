@@ -28,7 +28,7 @@ import { dataUrlToBlob } from '../core/data-url.js';
 import {
   imageDimensions, sniffImageMime, assertImagePixelBudget,
 } from '../core/history.js';
-import { sanitizeSvgDocument, stripSvgDoctype } from '../core/svg.js';
+import { sanitizeSvgDocument, stripSvgDoctype, svgDimensions } from '../core/svg.js';
 import { quantizePngRgba } from '../core/png-quantize.js';
 // N2: chunked-ZIP accumulator with abort + 2-min TTL (no more leaked chunks).
 import { createZipAccumulator } from '../core/zip-accum.js';
@@ -148,6 +148,18 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
   const LOAD_BITMAP_MAX_BYTES = 50_000_000;
   const LOAD_BITMAP_TIMEOUT_MS = 30_000;
 
+  /**
+   * Phase 6 (F-P6-5): enforce the pixel budget on an SVG blob before it
+   * is decoded, from its declared size. Throws when the SVG declares
+   * dimensions past the budget or has no readable size at all.
+   */
+  async function assertSvgPixelBudget(blob) {
+    const svgText = await blob.slice(0, 8192).text();
+    const svgDims = svgDimensions(svgText);
+    if (!svgDims) throw new Error('not-image');
+    assertImagePixelBudget(svgDims.w, svgDims.h);
+  }
+
   async function loadBitmap(src, pageUrl) {
     let blob;
     if (typeof src === 'string' && src.startsWith('data:')) {
@@ -158,6 +170,10 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
       const head = new Uint8Array(await blob.slice(0, 64).arrayBuffer());
       const dims = imageDimensions(head);
       if (dims) assertImagePixelBudget(dims.w, dims.h);
+      // Phase 6 (F-P6-5): SVG has no binary header, so the check above
+      // never fires for it. Read the declared size from the SVG text
+      // and enforce the budget before createImageBitmap decodes it.
+      if (blob.type === 'image/svg+xml') await assertSvgPixelBudget(blob);
     } else {
       const { bytes } = await fetchBytesCapped(src, {
         maxBytes: LOAD_BITMAP_MAX_BYTES,
@@ -168,6 +184,13 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
       if (!sniffed) throw new Error('not-image');
       const dims = imageDimensions(bytes);
       if (dims) assertImagePixelBudget(dims.w, dims.h);
+      // Phase 6 (F-P6-5): SVG has no binary header; same pre-decode
+      // budget check as the data: path above, from the sniffed bytes.
+      if (sniffed === 'image/svg+xml') {
+        const svgDims = svgDimensions(new TextDecoder().decode(bytes.slice(0, 8192)));
+        if (!svgDims) throw new Error('not-image');
+        assertImagePixelBudget(svgDims.w, svgDims.h);
+      }
       blob = new Blob([bytes], { type: sniffed });
     }
     if (!blob.type.startsWith('image/')) throw new Error('not-image');
@@ -224,6 +247,24 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
    * @import / external url() in styles. External image references are
    * preserved (they're just images).
    */
+  /**
+   * Phase 6 (F-P6-3): sanitize raw SVG bytes with the same allowlist
+   * sanitizer as SANITIZE_SVG, for ZIP entries. Returns the clean bytes
+   * or null when the entry cannot be sanitized (too large, unparsable).
+   */
+  function sanitizeSvgBytes(bytes) {
+    try {
+      if (!bytes || bytes.length > 5_000_000) return null;
+      const text = new TextDecoder().decode(bytes);
+      const doc = new DOMParser().parseFromString(stripSvgDoctype(text), 'image/svg+xml');
+      if (doc.querySelector('parsererror')) return null;
+      sanitizeSvgDocument(doc);
+      return new TextEncoder().encode(new XMLSerializer().serializeToString(doc));
+    } catch {
+      return null;
+    }
+  }
+
   async function sanitizeSvg(msg) {
     if (!allowedSource(msg.srcUrl, msg.pageUrl)) throw new Error('bad-source');
     // H3/H7: the old res.text() buffered the whole file before the
@@ -470,8 +511,18 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     if (sniffed && ZIP_TYPE_TO_EXT[sniffed]) return ZIP_TYPE_TO_EXT[sniffed];
     const ct = String(contentType || '').split(';')[0].trim().toLowerCase();
     if (ZIP_TYPE_TO_EXT[ct]) return ZIP_TYPE_TO_EXT[ct];
+    // Phase 6 (F-P6-3): the URL fallback used to return ANY extension,
+    // so an entry whose bytes the sniffer did not recognise (an HTML
+    // error page, an executable, a script) was zipped as photo.exe,
+    // page.html or script.js. Only image extensions survive it now;
+    // anything else falls through to the neutral '.img'.
     const fromUrl = String(url || '').split('?')[0].match(/\.([a-z0-9]{2,5})$/i);
-    if (fromUrl && /^[a-z0-9]+$/i.test(fromUrl[1])) return fromUrl[1].toLowerCase();
+    if (fromUrl) {
+      const ext = fromUrl[1].toLowerCase();
+      if (['gif', 'png', 'jpg', 'jpeg', 'webp', 'avif', 'bmp', 'svg', 'tif', 'tiff', 'ico'].includes(ext)) {
+        return ext === 'jpeg' ? 'jpg' : ext;
+      }
+    }
     return 'img';
   }
 
@@ -559,7 +610,22 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
         continue;
       }
       acc.total += r.data.length;
-      acc.entries.push({ name: zipEntryName(r), data: r.data });
+      // Phase 6 (F-P6-3): ZIP entries are raw fetched bytes, so an SVG
+      // entry used to carry its <script>, foreignObject and event
+      // handlers into the archive: extract and open it and the script
+      // runs. SVG entries go through the same allowlist sanitizer as a
+      // direct SVG download (5 MB cap, same as SANITIZE_SVG); an entry
+      // that cannot be sanitized is skipped, never stored raw.
+      let entryData = r.data;
+      if (zipEntryExt(r.data, r.contentType, r.url) === 'svg') {
+        const clean = sanitizeSvgBytes(r.data);
+        if (!clean) {
+          acc.skipped.push('svg-unsafe');
+          continue;
+        }
+        entryData = clean;
+      }
+      acc.entries.push({ name: zipEntryName(r), data: entryData });
     }
     if (msg.more) {
       return { ok: true, pending: true, accumulated: acc.entries.length };
@@ -687,6 +753,10 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
       blob = new Blob([bytes], { type: sniffed });
     }
     if (!blob.type.startsWith('image/')) throw new Error('not-image');
+    // Phase 6 (F-P6-5): the raster is decoded at its intrinsic size,
+    // so an SVG declaring huge dimensions must be bounded before the
+    // decode, not only after it.
+    if (blob.type === 'image/svg+xml') await assertSvgPixelBudget(blob);
     const bitmap = await createImageBitmap(blob);
     const w = bitmap.width;
     const h = bitmap.height;
@@ -1279,6 +1349,18 @@ import { isStitchSizeAccepted } from '../core/fullpage-capture.js';
     // M6: the offscreen document only takes orders from our own extension.
     if (!sender || sender.id !== chrome.runtime.id) {
       sendResponse({ ok: false, error: 'foreign-sender' });
+      return true;
+    }
+    // Phase 6 (F-P6-11): the sender id check alone also passes content
+    // scripts, which run under the extension id too. The offscreen
+    // document only takes orders from extension pages and the worker:
+    // a sender with a tab whose URL is not chrome-extension:// is a
+    // content script, and it must never drive conversions, clipboard
+    // writes or ZIP builds. The worker sends with no tab, extension
+    // pages send with an extension URL, so neither is affected.
+    if (sender.tab && !(typeof sender.url === 'string'
+      && sender.url.startsWith('chrome-extension://'))) {
+      sendResponse({ ok: false, error: 'forbidden' });
       return true;
     }
     (async () => {

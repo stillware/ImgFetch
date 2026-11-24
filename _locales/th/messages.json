@@ -127,25 +127,13 @@
     "message": "ทั้งหน้า",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "กำลังสแกน",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "กำลังสแกนหน้า…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "กำลังค้นหารูปภาพ",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "กำลังค้นหาภาพ รวมถึงภาพพื้นหลัง",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "พบแล้ว {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "พบแล้ว",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "ตัวกรองรูปแบบ",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "ทุกรูปแบบ",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "ทั้งหมด",
@@ -315,10 +299,6 @@
     "message": "สแกนอีกครั้ง",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "พบ {count} รูป",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "สแกนเสร็จแล้ว",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "ไม่พบรูปภาพ ตัวกรองขนาดข้ามรูปเล็ก {dropped} รูป ลดค่าลงในการตั้งค่า → การสแกน",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "รูปภาพ {dropped} รูปใหญ่เกินไปที่จะส่งต่อจึงถูกข้าม รูป Data-URL ที่ใหญ่กว่า 500 KB ไม่สามารถส่งไปยังป๊อปอัปได้",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "ไม่มีรูปภาพตรงกับตัวกรองเหล่านี้",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "ดูการดาวน์โหลด",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "พบ {count} รูปในหน้านี้",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "ดูผลลัพธ์",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "การสแกนล่าสุด",
@@ -547,14 +523,6 @@
     "message": "ประวัติ",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "ล้างประวัติการดาวน์โหลด?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "การดำเนินการนี้จะลบรายการไฟล์ที่ ImgFetch ดาวน์โหลด ไฟล์จริงยังคงอยู่ในอุปกรณ์ของคุณ",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "ล้างประวัติ",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "ยังไม่มีอะไรที่นี่",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "เปิดไฟล์",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "เปิดลิงก์ต้นฉบับ",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "กำลังแสดงในโฟลเดอร์แทน",
@@ -1387,10 +1347,6 @@
     "message": "ลบรายการประวัติทั้งหมดทันที ไฟล์ที่ดาวน์โหลดไม่ได้รับผลกระทบ",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "ไม่สามารถล้างประวัติได้",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "พกการตั้งค่าของคุณไปด้วย หรือเริ่มใหม่",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "บันทึกไม่สำเร็จ",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "ภาพหน้าจอนี้ใหญ่เกินไปที่จะบันทึกเป็นภาพเดียว (มากกว่า 40 MB) คุณยังสามารถบันทึกเป็นส่วนๆ หรือบันทึกพื้นที่ที่มองเห็นได้",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "ลิงก์ตัวแก้ไขนี้ไม่ถูกต้อง",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "คัดลอกลิงก์",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "บันทึกเป็น JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "ไม่ได้ระบุรูปภาพ",
@@ -2119,14 +2075,6 @@
     "message": "องค์ประกอบนี้สูงกว่าหน้าจอ จับภาพเฉพาะส่วนที่เห็น ใช้ทั้งหน้าสำหรับส่วนที่เหลือ",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "หน้านี้ยาวมาก กำลังจับภาพ {tileCount} ไทล์แรก (ส่วนบน) ใช้การจับภาพพื้นที่สำหรับส่วนที่เหลือ",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "หน้านี้ใหญ่มาก รูปทั้งหน้าถูกย่อเหลือ {percent}% เพื่อให้อยู่ในขีดจำกัดหน่วยความจำ",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "กำลังจับภาพทั้งหน้า ไทล์ {n} จาก {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "คัดลอกภาพหน้าจอไปยังคลิปบอร์ดแล้ว ย่อเหลือ {width} x {height} เพื่อให้พอดี",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "ภาพหน้าจอนี้ใหญ่เกินไปสำหรับคลิปบอร์ด จึงคัดลอกเฉพาะส่วนที่แสดงอยู่ ({width} x {height}) โปรดบันทึกภาพหน้าจอเพื่อเก็บภาพเต็มไว้",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "ทิ้งส่วนที่ {count} จาก {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} พิกเซล · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "หมายเหตุ: ภาพหน้าจอขนาดใหญ่ เช่น แบบเต็มหน้า จะคัดลอกได้อย่างถูกต้อง แต่จะไม่ปรากฏในประวัติคลิปบอร์ดของ Windows (Win+V) นี่เป็นข้อจำกัดของ Windows ไม่ใช่ปัญหาในการคัดลอก กด Ctrl+V เพื่อวางรูปภาพในตำแหน่งที่ต้องการ",

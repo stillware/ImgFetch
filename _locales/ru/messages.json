@@ -127,37 +127,13 @@
     "message": "Вся страница",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Сканирование",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Сканирование страницы…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Поиск изображений",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Ищем изображения, включая фоновые.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "Найдено: {done}…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_few": {
-    "message": "Найдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_many": {
-    "message": "Найдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "Найдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Найдено пока",
@@ -210,10 +186,6 @@
   "popup_formatFilterAria": {
     "message": "Фильтр формата",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Все форматы",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Все",
@@ -363,22 +335,6 @@
     "message": "Сканировать снова",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "Найдено {count} изображение",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_few": {
-    "message": "Найдено {count} изображения",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_many": {
-    "message": "Найдено {count} изображений",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_other": {
-    "message": "Найдено {count} изображения",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Сканирование завершено",
     "description": "Results heading when a scan finishes."
@@ -414,6 +370,22 @@
   "results_noImagesFiltered_other": {
     "message": "Изображений не найдено: {dropped} маленьких изображения пропущены вашим фильтром размера. Уменьшите его в Настройки → Сканирование.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} изображение было слишком большим для передачи и пропущено. Изображения Data-URL размером более 500 КБ нельзя отправить во всплывающее окно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_few": {
+    "message": "{dropped} изображения были слишком большими для передачи и пропущены. Изображения Data-URL размером более 500 КБ нельзя отправить во всплывающее окно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Few."
+  },
+  "results_tooLargeSkipped_many": {
+    "message": "{dropped} изображений пропущено: они слишком большие для передачи. Изображения Data-URL размером более 500 КБ нельзя отправить во всплывающее окно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Many."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} изображения были слишком большими для передачи и пропущены. Изображения Data-URL размером более 500 КБ нельзя отправить во всплывающее окно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Под эти фильтры не подходит ни одно изображение.",
@@ -514,26 +486,6 @@
   "home_viewDownloads": {
     "message": "Смотреть загрузки",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "На этой странице найдено {count} изображение",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_few": {
-    "message": "На этой странице найдено {count} изображения",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_many": {
-    "message": "На этой странице найдено {count} изображений",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_other": {
-    "message": "На этой странице найдено {count} изображения",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Смотреть результаты",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Последнее сканирование",
@@ -679,14 +631,6 @@
     "message": "История",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Очистить историю загрузок?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Это удалит список файлов, загруженных ImgFetch. Сами файлы останутся на вашем устройстве.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Очистить историю",
     "description": "Confirm dialog button."
@@ -747,17 +691,9 @@
     "message": "Здесь пока ничего нет.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Открыть файл",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Открыть ссылку на источник",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Вместо этого показана папка.",
@@ -1555,10 +1491,6 @@
     "message": "Немедленно удаляет все записи истории. Загруженные файлы не затрагиваются.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Не удалось очистить историю.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Заберите настройки с собой или начните с чистого листа.",
     "description": "Backup section description."
@@ -1827,6 +1759,10 @@
     "message": "Не удалось сохранить.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Этот снимок слишком большой, чтобы сохранить его как одно изображение (более 40 МБ). Вы можете сохранить его по частям или сохранить видимую область.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Эта ссылка редактора недействительна.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1958,10 +1894,6 @@
   "info_copyLink": {
     "message": "Копировать ссылку",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Сохранить как JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Изображение не указано.",
@@ -2335,14 +2267,6 @@
     "message": "Этот элемент выше экрана, захвачена только видимая часть. Используйте «Вся страница» для остального.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Эта страница очень длинная, захватываются первые {tileCount} фрагментов (верхняя часть). Для остального используйте захват области.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Эта страница очень велика, изображение всей страницы уменьшено до {percent}%, чтобы уложиться в лимиты памяти.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Захват всей страницы, фрагмент {n} из {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2390,10 +2314,6 @@
   "copySuccess": {
     "message": "Скриншот скопирован в буфер обмена.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Скриншот скопирован в буфер обмена, уменьшен до {width} x {height}, чтобы поместиться.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Этот снимок слишком большой для буфера обмена, поэтому скопирована только показанная часть ({width} x {height}). Сохраните снимок, чтобы сохранить полное изображение.",
@@ -2558,10 +2478,6 @@
   "parts_discardAria": {
     "message": "Удалить часть {count} из {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} пикселей · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Примечание: большие снимки, например целые страницы, копируются правильно, но не появляются в истории буфера обмена Windows (Win+V). Это ограничение Windows, а не проблема копирования. Нажмите Ctrl+V, чтобы вставить изображение в нужное место.",

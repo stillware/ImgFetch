@@ -127,25 +127,13 @@
     "message": "整個頁面",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "掃描中",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "正在掃描頁面…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "正在尋找圖片",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "正在尋找圖片，包括背景圖片。",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "目前已找到 {done} 張…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "目前已找到",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "格式篩選",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "所有格式",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "全部",
@@ -315,10 +299,6 @@
     "message": "重新掃描",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "找到 {count} 張圖片",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "掃描完成",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "未找到圖片，尺寸篩選器略過了 {dropped} 張小圖片。請在「設定 → 掃描」中調低。",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "有 {dropped} 張圖片因太大而無法傳送，已略過。 超過 500 KB 的 Data-URL 圖片無法傳送到彈出視窗。",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "沒有圖片符合這些篩選條件。",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "檢視下載",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "此頁面找到 {count} 張圖片",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "檢視結果",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "上次掃描",
@@ -547,14 +523,6 @@
     "message": "紀錄",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "清除下載紀錄？",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "這將刪除 ImgFetch 下載的檔案清單，檔案本身仍保留在您的裝置上。",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "清除紀錄",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "這裡還沒有內容。",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "開啟檔案",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "開啟來源連結",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "改為在資料夾中顯示。",
@@ -1387,10 +1347,6 @@
     "message": "立即刪除所有紀錄項目，已下載的檔案不受影響。",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "無法清除紀錄。",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "帶走您的設定，或重新開始。",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "儲存失敗。",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "此螢幕截圖太大，無法儲存為一張圖片（超過 40 MB）。您仍可將其分部分儲存，或儲存可見區域。",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "此編輯器連結無效。",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "複製連結",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "另存為 JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "未指定圖片。",
@@ -2119,14 +2075,6 @@
     "message": "此元素高於螢幕，僅擷取了可見部分。如需其餘部分，請使用「整個頁面」。",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "此頁面很長，將擷取前 {tileCount} 個圖塊（頂部）。如需其餘部分，請使用區域擷取。",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "此頁面很大，整頁圖片已縮小至 {percent}% 以符合記憶體限制。",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "正在擷取整個頁面，圖塊 {n}/{tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "螢幕截圖已複製到剪貼簿。",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "螢幕截圖已複製到剪貼簿，已縮小至 {width} x {height} 以符合。",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "此螢幕截圖對於剪貼簿來說太大了，因此僅複製了顯示的部分 ({width} x {height})。請儲存螢幕截圖以保留完整影像。",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "捨棄第 {count} 個分段，共 {total} 個",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} 像素 · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "注意：大型截圖（例如整頁截圖）可以正確複製，但不會出現在 Windows 剪貼簿歷史記錄（Win+V）中。這是 Windows 的限制，不是複製出了問題。按 Ctrl+V 即可將影像貼到需要的位置。",

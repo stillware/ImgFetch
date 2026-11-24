@@ -7,11 +7,12 @@ could not be fixed in scope is listed under Accepted residual risk or
 Recommendations instead of hidden.
 
 Applies to: ImgFetch 1.1.1
-Last verified: 2026-11-23
+Last verified: 2026-11-23 (first audit, Part H)
+Second pass: 2026-11-24 (Phase 6, fresh eyes; see the section at the end)
 Reviewer method: code reading of every trust boundary, targeted grep
 evidence in `out/compare/H/`, new tests in `tests/test-security.mjs`
 (section 12), and the new static checker `scripts/check-security.mjs`
-(18 checks, all passing). The full test suite and all repo checks were
+(26 checks, all passing, after the Phase 6 extension). The full test suite and all repo checks were
 run green at the end; the numbers are in the final report, not here.
 
 Severity means: Critical (remote code or data theft with no user
@@ -399,7 +400,7 @@ every `fetch(` call site) is short and each site is accounted for:
 * Static analysis: `python3 scripts/validate.py`,
   `node scripts/check-i18n.mjs`, `node scripts/check-duplicates.mjs`
   and `node scripts/check-docs-links.mjs` all pass, plus the new
-  `node scripts/check-security.mjs` (18 checks: manifest, forbidden
+  `node scripts/check-security.mjs` (26 checks: manifest, forbidden
   APIs, `javascript:` sinks, remote references, `console.log`,
   bundled assets, permission justification, fetch inventory). The
   new script is listed in `docs/project-structure.md`.
@@ -536,6 +537,31 @@ true after Phase 5 and were fixed:
   budget. A very large image fails Copy with a quiet message instead
   of copying. Accepted: a clipboard write is not the place for a
   268 MP raster; the download itself is unaffected.
+* R9. JPEG, AVIF and TIFF header parsing gaps (Phase 6, F-P6-13).
+  CLOSED in final verification. The AVIF box and TIFF IFD parsers
+  landed under REC-2, and the JPEG parser now stops at the SOS
+  marker (0xDA) and returns null instead of scanning the entropy
+  data, so a crafted file can no longer return fake dimensions
+  (tests/test-image-dimensions.mjs: fake SOF after SOS returns null,
+  real SOF0 before SOS still reads; coordinator live check: crafted
+  7680x10000 fake returned before the fix, null after).
+* R10. The blob thumbnail path decodes a page blob through an
+  `<img>` element with no header dimension pre-check (Phase 6).
+  Accepted: the blob and the renderer are the page's own, so a bomb
+  blob can only hang the page that created it; the page could do
+  that without the extension. Proposed fix (inline header check or
+  createImageBitmap with resize) is recorded in the Phase 6 report.
+* R11. ZIP SVG entries over 5 MB are skipped, not stored (Phase 6,
+  F-P6-3). Accepted: the 5 MB cap matches the direct SVG sanitizer
+  and a larger SVG is rare; skipping fails closed and the rest of
+  the ZIP still builds.
+* R12. History backfill has no "already tried" marker (Phase 6,
+  F-P6-15). A thumbnail-less PUBLIC record is re-fetched on every
+  history view open until a thumbnail succeeds, up to 12 per open.
+  Accepted: the requests are public, credential-free and capped, and
+  a marker would need a record schema change; private-network URLs
+  are now excluded from backfill entirely, so the retry can no longer
+  probe the LAN.
 
 ## Recommendations (not fixed in this phase)
 
@@ -557,3 +583,87 @@ true after Phase 5 and were fixed:
   `validate.py` step; its exit code is already nonzero on failure.
   Not done here because `release-check.sh` belongs to the E1/E2
   release tooling and this step owns one new script only.
+## Phase 6 second security pass (fresh eyes, 2026-11-24)
+
+Method: assume the first audit missed things. Six fuzz targets, at
+least 5,000 generated cases each (36,000 cases total, deterministic
+seed 20261124) in `tests/test-security-fuzz.mjs`: runtime messages,
+URL validation, filename sanitising, settings/history import, the ZIP
+writer, and the image header parsers. Result: 444,631 passed,
+0 failed. Every fuzz failure was investigated; the generator was
+wrong in three places (partial IPv4 forms do not spell the input IP,
+fc00/fe80 prefixes are private by themselves, one extraExts
+expectation), and every other failure was a real product bug, fixed
+below. Targeted hostile tables and placement checks were added to
+`tests/test-security.mjs` section 13 (588 passed, 0 failed, was 531),
+and `scripts/check-security.mjs` grew a ninth group (26 checks, was
+18). Live-extension evidence (malicious test page, storage tampering,
+full-session network log) is in the Phase 6 report, in
+`evidence/live-session.json`: 14/14 live phases passed, 0 page
+errors, 185 requests in the session (154 chrome-extension resources,
+30 fixture images the user scanned or downloaded, 1 B1 backfill fetch
+of a stored public URL), 0 private-network requests. The live session
+is what found F-P6-15: before the fix the same run made 2 requests to
+non-fixture hosts (192.168.1.1 and example.com), both backfill
+fetches of tampered record URLs; after the fix the 192.168.1.1
+request is gone and only the documented public-URL backfill remains.
+
+### New findings and fixes
+
+| ID | Finding | Severity | Status | Evidence |
+|---|---|---|---|---|
+| F-P6-1 | IPv6 transition forms missed by the private guard: local-use NAT64 64:ff9b:1::/48, IPv4-translated ::ffff:0:0/96, Teredo 2001::/32 (client IPv4 XORed) | High | Fixed | `core/urls.js` isPrivateIPv6; section 13a, fuzz section 2 |
+| F-P6-2 | fetchImageBytes skipped the private-network guard entirely when pageUrl was undefined (fail-open API) | Medium | Fixed | `core/history.js` guard now unconditional; section 13b, fuzz section 1 |
+| F-P6-3 | ZIP entries: the URL-derived extension fallback returned any extension (photo.exe, page.html), and SVG entries were stored raw with their scripts | High | Fixed | `offscreen/offscreen.js` zipEntryExt allowlist plus sanitizeSvgBytes in buildZip; section 13j, fuzz section 5 |
+| F-P6-4 | A tampered history record pageHost such as example.com@127.0.0.1 made the same-host exception compare against loopback | Medium | Fixed | `core/urls.js` sanitizePageHost/pageUrlFromHost, used in the worker thumb fetch and history Copy, validated on history write and read; section 13c, fuzz sections 2 and 4 |
+| F-P6-5 | SVG decoded with no pre-decode pixel cap (no binary header for imageDimensions to read) in makeHistoryThumb, loadBitmap and convertSvg | Medium | Fixed | `core/svg.js` svgDimensions plus pre-checks in `core/history.js` and `offscreen/offscreen.js`; section 13d, fuzz section 6 |
+| F-P6-6 | Invisible format characters U+200B, U+2060, U+061C, U+180E, U+00AD not stripped from file names | Low | Fixed | `core/filenames.js` stripBidiControls; ZWNJ and ZWJ deliberately kept (real letters/emoji joiner); section 13e, fuzz section 3 |
+| F-P6-7 | Truncation could end on a lone surrogate; the reserved-name prefix could push a segment to 97 chars | Low | Fixed | `core/filenames.js` truncateNoLoneSurrogate, re-truncate after prefixing; `core/zip.js` safeZipName; section 13e, fuzz section 3 |
+| F-P6-8 | sitePrefs entry count unbounded: a hostile import with 100,000 keys normalised into a 3.5 MB settings object chrome.storage.local refuses to save | Low | Fixed | `core/settings.js` 1,000-entry cap; section 13f, fuzz section 4 |
+| F-P6-9 | DOWNLOAD_IMAGE/DOWNLOAD_ZIP msg.id not type-checked; a null item in DOWNLOAD_MANY or a null file in DOWNLOAD_ZIP threw a bare TypeError and failed the whole batch | Low | Fixed | `core/validation.js` STRING_FIELDS plus non-object filtering in the worker; section 13g/13j, fuzz section 1 |
+| F-P6-10 | safeZipName turned ' ..' into the traversal entry '..' (trim ran after the dot strip) and kept trailing dots; createZipParts threw a bare TypeError on null entries, silently zeroed non-Uint8Array data, and had no total cap | Medium | Fixed | `core/zip.js` dot-strip order, input validation, 300 MB writer cap; section 13i, fuzz section 5 |
+| F-P6-11 | The offscreen document accepted messages from content-script senders: the sender id check passes for them too | Medium | Fixed | `offscreen/offscreen.js` rejects tab senders whose URL is not chrome-extension://; section 13j |
+| F-P6-12 | The info page fetchHead had no timeout and no redirect re-check: a public URL redirecting to a private address had its head read | Medium | Fixed | `pages/info.js` 15 s AbortController timeout plus isRedirectBlocked on res.url; section 13j |
+| F-P6-13 | imageDimensions JPEG parser scans past SOS into entropy data and can return a fake SOF from the compressed stream; AVIF and TIFF have no header parser | Medium | Fixed | AVIF box and TIFF IFD parsing landed under REC-2 (tests/test-image-dimensions.mjs, 32 checks); the JPEG SOS stop landed in final verification (coordinator): imageDimensions returns null at marker 0xDA, with two new checks (fake SOF after SOS returns null, real SOF0 before SOS still reads), 34 checks total. Fuzz section 6 records AVIF/TIFF returning null before the fix; the SOS repro is in the Phase 6 evidence. |
+| F-P6-14 | History record sanitisers threw on null-prototype field values (String()/Number() throw on them), failing the whole history read | Low | Fixed | `core/history.js` safeText/safeNumber; section 13h, fuzz section 4 |
+| F-P6-15 | History backfill re-fetched stored record URLs on every view open with no private-network restriction, so a record with a private URL (for example a tampered one) turned the history view into a LAN prober | Low | Fixed | `core/history.js` selectBackfillTargets skips private-network URLs; the download-time thumbnail attempt is untouched, so same-host private images still get thumbs at download time; section 13k, fuzz section 4, live session L4/L7 |
+
+### Reported, not changed
+
+* `normalizeUrl` returns `blob:` URLs of any origin verbatim. No
+  change: a foreign blob URL cannot be fetched in-page or by
+  chrome.downloads, so every downstream use fails closed.
+* `convertBmp` at the 90 MP cap allocates roughly 1 GB peak (canvas
+  plus getImageData plus base64). No change: bounded by the existing
+  caps and user-initiated; recorded as a limit, not a hole.
+* Sanitised SVGs keep external `https:` references on `<use>` as
+  well as on `<image>` and `<feImage>` (same accepted risk as R2):
+  opening a saved SVG as a document can fetch the referenced file.
+* The selection overlay was not changed here: overlay findings
+  belong to the decisions worker under REC-1, per the Phase 6 scope.
+  The malicious-page probes that could run without a user gesture
+  (postMessage, custom events, DOM clobbering, scan spam on page
+  load) showed no extension action; overlay-specific CSS tricks need
+  a live capture gesture and are listed as not proven in the report.
+
+### Fuzz summary (deterministic seed 20261124)
+
+| Target | Cases | Checks passed |
+|---|---|---|
+| 1. Runtime message handlers | 6,000 | see totals below |
+| 2. normalizeUrl and the safe fetch URL validator | 6,000 | see totals below |
+| 3. Filename sanitiser | 6,000 | see totals below |
+| 4. Settings and history import | 6,000 | see totals below |
+| 5. ZIP writer | 6,000 | see totals below |
+| 6. Image header parsers | 6,000 | see totals below |
+| Total | 36,000 | 444,631 passed, 0 failed |
+
+New files: `tests/test-security-fuzz.mjs`. Changed files in this
+pass: `core/urls.js`, `core/filenames.js`, `core/settings.js`,
+`core/validation.js`, `core/history.js`, `core/svg.js`,
+`core/zip.js`, `offscreen/offscreen.js`,
+`background/service-worker.js`, `shared/history-ui.js`,
+`pages/info.js`, `tests/test-security.mjs`,
+`scripts/check-security.mjs`, `docs/project-structure.md`, this
+file. Manifest byte-identical; no new user-visible strings, so no
+locale changes.

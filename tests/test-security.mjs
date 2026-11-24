@@ -38,6 +38,7 @@ import {
   sanitizeSvgDocument,
   isSafeSvgUrl,
   stripSvgDoctype,
+  svgDimensions,
 } from '../core/svg.js';
 import {
   sanitizeSegment,
@@ -46,15 +47,18 @@ import {
   safeExtension,
   parseSettingsImport,
   stripBidiControls,
+  truncateNoLoneSurrogate,
   SETTINGS_IMPORT_MAX_CHARS,
 } from '../core/filenames.js';
-import { safeZipName } from '../core/zip.js';
+import { safeZipName, ZIP_WRITER_MAX_TOTAL_BYTES } from '../core/zip.js';
 import {
   normalizeUrl,
   isPrivateNetworkUrl,
   isPrivateNetworkFetchBlocked,
   isRedirectBlocked,
   isSameOriginUrl,
+  sanitizePageHost,
+  pageUrlFromHost,
   DATA_URL_DOWNLOAD_MAX_DECODED,
 } from '../core/urls.js';
 import { dataUrlToBytes } from '../core/data-url.js';
@@ -63,6 +67,8 @@ import {
   fetchImageBytes,
   sniffImageMime,
   sanitizeHistoryRecord,
+  addRecord,
+  selectBackfillTargets,
   assertImagePixelBudget,
   imageDimensions,
   MAX_IMAGE_SIDE_PX,
@@ -1064,7 +1070,8 @@ console.log('8. message validation hostile table');
     assert.equal({}.x, undefined);
   });
   t('extra unknown fields tolerated', () => assert.equal(isValidMessage({ type: 'SCAN_PAGE', whatever: 1 }), true));
-  t('SCAN_PROGRESS shape accepted', () => assert.equal(isValidMessage({ type: 'SCAN_PROGRESS', done: 1, total: 2 }), true));
+  t('SCAN_PROGRESS shape accepted', () => assert.equal(isValidMessage({ type: 'SCAN_PROGRESS', done: 1, total: 2 }), true));
+
 
   // DISCARD_CAPTURE (Parts overview): strict shape + minted-id formats.
   t('DISCARD_CAPTURE well-formed accepted', () => assert.equal(isValidMessage({ type: 'DISCARD_CAPTURE', id: 'cap-1700000000000-123', groupId: 'grp-1700000000000-456' }), true));
@@ -1607,8 +1614,10 @@ console.log('12. Part H: streaming caps, sniffing, pixel budget, bidi, read sani
   check('H3: thumbnail backfill passes its pageUrl to the guarded fetch',
     workerSrc.includes('maxBytes: HIST_THUMB_SOURCE_MAX_BYTES, pageUrl'));
   const histUiSrc = fs.readFileSync(path.join(ROOT, 'shared', 'history-ui.js'), 'utf8');
+  // Phase 6 (F-P6-4): the Copy pageUrl is now built from a validated
+  // host instead of the raw stored pageHost; the old interpolation is gone.
   check('H3: history Copy passes its pageUrl to the guarded fetch',
-    histUiSrc.includes('pageUrl: r.pageHost'));
+    histUiSrc.includes('pageUrl: pageUrlFromHost(r.pageHost)'));
   const popupSrc = fs.readFileSync(path.join(ROOT, 'popup', 'popup.js'), 'utf8');
   check('H2: popup validates SCAN_PROGRESS counts before use', popupSrc.includes('Number.isInteger(msg.done)'));
   check('H2: popup escapes a record id before querySelector', popupSrc.includes('CSS.escape(String(msg.id))'));
@@ -1623,6 +1632,147 @@ console.log('12. Part H: streaming caps, sniffing, pixel budget, bidi, read sani
   check('H7: offscreen convertSvg enforces the pixel budget', (offSrc.match(/assertImagePixelBudget\(/g) || []).length >= 2);
 }
 
+
+  // 13. Phase 6 second security pass: fresh-eyes findings F-P6-1 to
+  // F-P6-14. Each check below names the finding it proves.
+  const workerSrc13 = fs.readFileSync(path.join(ROOT, 'background', 'service-worker.js'), 'utf8');
+  const histUiSrc13 = fs.readFileSync(path.join(ROOT, 'shared', 'history-ui.js'), 'utf8');
+  const offSrc13 = fs.readFileSync(path.join(ROOT, 'offscreen', 'offscreen.js'), 'utf8');
+  // 13a. IPv6 transition mechanisms the first audit missed (F-P6-1).
+  check('P6: NAT64 /48 loopback blocked', isPrivateNetworkUrl('http://[64:ff9b:1::7f00:1]/x.png') === true);
+  check('P6: NAT64 /48 public allowed', isPrivateNetworkUrl('http://[64:ff9b:1::808:808]/x.png') === false);
+  check('P6: IPv4-translated loopback blocked', isPrivateNetworkUrl('http://[::ffff:0:7f00:1]/x.png') === true);
+  check('P6: IPv4-translated public allowed', isPrivateNetworkUrl('http://[::ffff:0:808:808]/x.png') === false);
+  check('P6: Teredo XORed loopback blocked', isPrivateNetworkUrl('http://[2001:0::80ff:ffff]/x.png') === true);
+  check('P6: Teredo XORed public allowed', isPrivateNetworkUrl('http://[2001:0::808:808]/x.png') === false);
+  // 13b. The fetch guard no longer depends on the caller passing a
+  // pageUrl (F-P6-2): private is blocked with no pageUrl at all.
+  await (async () => {
+    const png4 = new Uint8Array([0x89, 0x50, 0x4e, 0x47]);
+    const res = {
+      ok: true,
+      url: 'https://example.com/a.png',
+      headers: { get: () => null },
+      async arrayBuffer() { return png4.buffer.slice(0); },
+    };
+    let threw = '';
+    try {
+      await fetchImageBytes(async () => res, 'http://127.0.0.1/a.png', { timeoutMs: 1000 });
+    } catch (e) { threw = e.message; }
+    check('P6: fetchImageBytes without pageUrl blocks loopback', threw === 'private-network', threw);
+    const okPublic = await fetchImageBytes(async () => res, 'https://example.com/a.png', { timeoutMs: 1000 });
+    check('P6: fetchImageBytes without pageUrl still allows a public host', okPublic.mime === 'image/png');
+  })();
+  // 13c. A tampered pageHost cannot smuggle the same-host exception
+  // (F-P6-4): only a validated hostname builds the exception URL.
+  check('P6: pageHost with userinfo rejected', sanitizePageHost('example.com@127.0.0.1') === '');
+  check('P6: pageHost with a slash rejected', sanitizePageHost('example.com/evil') === '');
+  check('P6: pageHost with a port rejected', sanitizePageHost('example.com:8080') === '');
+  check('P6: plain pageHost kept', sanitizePageHost('sub.example.com') === 'sub.example.com');
+  check('P6: bracketed IPv6 pageHost kept', sanitizePageHost('[::1]') === '[::1]');
+  check('P6: pageUrlFromHost of a smuggled host is empty', pageUrlFromHost('example.com@127.0.0.1') === '');
+  check('P6: pageUrlFromHost of a valid host is https', pageUrlFromHost('example.com') === 'https://example.com/');
+  check('P6: smuggled host cannot exempt a loopback fetch',
+    isPrivateNetworkFetchBlocked('http://127.0.0.1/x.png', pageUrlFromHost('example.com@127.0.0.1')) === true);
+  check('P6: sanitised record drops a smuggled pageHost',
+    sanitizeHistoryRecord({ id: 'h1', filename: 'a.png', pageHost: 'example.com@127.0.0.1', kind: 'single', at: Date.now() }).pageHost === '');
+  // 13d. SVG dimensions are read before any decode (F-P6-5).
+  check('P6: svgDimensions reads width and height', JSON.stringify(svgDimensions('<svg width="100" height="50"></svg>')) === JSON.stringify({ w: 100, h: 50 }));
+  check('P6: svgDimensions falls back to viewBox', JSON.stringify(svgDimensions('<svg viewBox="0 0 640 480"></svg>')) === JSON.stringify({ w: 640, h: 480 }));
+  check('P6: svgDimensions never reads a percentage as pixels', JSON.stringify(svgDimensions('<svg width="50%" height="50%" viewBox="0 0 200 100"></svg>')) === JSON.stringify({ w: 200, h: 100 }));
+  check('P6: svgDimensions defaults to 300x150', JSON.stringify(svgDimensions('<svg></svg>')) === JSON.stringify({ w: 300, h: 150 }));
+  check('P6: svgDimensions returns null without a root tag', svgDimensions('hello') === null);
+  check('P6: an SVG bomb fails the pixel budget before decoding', (() => {
+    const d = svgDimensions('<svg width="100000" height="100000"></svg>');
+    try { assertImagePixelBudget(d.w, d.h); return false; } catch { return true; }
+  })());
+  // 13e. Filename sanitiser follow-ups (F-P6-6, F-P6-7).
+  check('P6: zero width space stripped from names', stripBidiControls('a\u200bb') === 'ab');
+  check('P6: soft hyphen stripped from names', stripBidiControls('a\u00adb') === 'ab');
+  check('P6: word joiner stripped from names', stripBidiControls('a\u2060b') === 'ab');
+  check('P6: Arabic letter mark stripped from names', stripBidiControls('a\u061cb') === 'ab');
+  check('P6: ZWNJ kept (real letter in Persian/Urdu words)', stripBidiControls('a\u200cb') === 'a\u200cb');
+  check('P6: ZWJ kept (emoji joiner)', stripBidiControls('a\u200db') === 'a\u200db');
+  check('P6: truncation drops a trailing lone surrogate', truncateNoLoneSurrogate('A'.repeat(95) + '\uD83D' + 'x'.repeat(10), 96) === 'A'.repeat(95));
+  check('P6: truncation keeps a whole surrogate pair', truncateNoLoneSurrogate('\uD83D\uDE00'.repeat(60), 100) === '\uD83D\uDE00'.repeat(50));
+  check('P6: a 96-char reserved name stays capped after the prefix', (() => {
+    const out = sanitizeSegment('CON.' + 'a'.repeat(92));
+    return out.length <= 96 && out.startsWith('_');
+  })());
+  check('P6: segment has no lone surrogate after truncation', !/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/.test(sanitizeSegment('A'.repeat(95) + '\uD83D' + 'x'.repeat(10))));
+  // 13f. Settings import: sitePrefs count cap (F-P6-8).
+  check('P6: 100k sitePrefs normalise down to 1000', (() => {
+    const big = { sitePrefs: {} };
+    for (let k = 0; k < 100000; k += 1) big.sitePrefs[`host${k}.example.com`] = 'disabled';
+    return Object.keys(normalizeSettings(big).sitePrefs).length === 1000;
+  })());
+  // 13g. Message validation: queue ids must be strings (F-P6-9).
+  check('P6: DOWNLOAD_IMAGE with an object id is rejected', isValidMessage({ type: 'DOWNLOAD_IMAGE', srcUrl: 'https://a.com/x.png', id: { evil: 1 } }) === false);
+  check('P6: DOWNLOAD_ZIP with an object id is rejected', isValidMessage({ type: 'DOWNLOAD_ZIP', id: ['x'] }) === false);
+  check('P6: DOWNLOAD_IMAGE with a string id is accepted', isValidMessage({ type: 'DOWNLOAD_IMAGE', srcUrl: 'https://a.com/x.png', id: 'd-1' }) === true);
+  // 13h. Record sanitisers are total over hostile values (F-P6-14):
+  // a null-prototype field value used to make String()/Number() throw
+  // and fail the whole history read.
+  check('P6: sanitizeHistoryRecord survives null-prototype fields', (() => {
+    const np = Object.create(null);
+    np.x = 1;
+    try {
+      const out = sanitizeHistoryRecord({ id: 'h1', filename: np, width: np, bytes: np, at: np, kind: 'single' });
+      return out !== null && out.filename === 'image' && out.width === 0;
+    } catch { return false; }
+  })());
+  check('P6: addRecord survives null-prototype fields', (() => {
+    const np = Object.create(null);
+    np.x = 1;
+    try {
+      const out = addRecord([], { id: 'h1', filename: np, width: np, kind: 'single' });
+      return Array.isArray(out) && out.length === 1 && out[0].filename === 'image';
+    } catch { return false; }
+  })());
+  // 13i. ZIP writer hardening (F-P6-10).
+  check('P6: safeZipName never returns a traversal name', safeZipName(' ..') === 'file' && safeZipName('..') === 'file' && safeZipName('a..') === 'a');
+  check('P6: ZIP writer cap constant is 300 MB', ZIP_WRITER_MAX_TOTAL_BYTES === 300_000_000);
+  // 13j. Placement: the Phase 6 fixes are wired where they belong.
+  check('P6: worker builds the thumb exception URL from a validated host', workerSrc13.includes('pageUrlFromHost(record.pageHost)'));
+  check('P6: history Copy builds the exception URL from a validated host', histUiSrc13.includes('pageUrlFromHost(r.pageHost)'));
+  check('P6: offscreen rejects content-script senders', offSrc13.includes("startsWith('chrome-extension://')") && offSrc13.includes("error: 'forbidden'"));
+  check('P6: offscreen checks the SVG budget before decoding', (offSrc13.match(/assertSvgPixelBudget\(/g) || []).length >= 3);
+  check('P6: history thumbnails check the SVG budget before decoding', fs.readFileSync(path.join(ROOT, 'core', 'history.js'), 'utf8').includes("sniffImageMime(bytes) === 'image/svg+xml'"));
+  check('P6: ZIP URL extensions are restricted to image types', offSrc13.includes("['gif', 'png', 'jpg', 'jpeg', 'webp', 'avif', 'bmp', 'svg', 'tif', 'tiff', 'ico']"));
+  check('P6: ZIP SVG entries go through the sanitizer', offSrc13.includes('sanitizeSvgBytes(r.data)') && offSrc13.includes("'svg-unsafe'"));
+  check('P6: info page fetch has a timeout and a redirect re-check', (() => {
+    const infoSrc = fs.readFileSync(path.join(ROOT, 'pages', 'info.js'), 'utf8');
+    return infoSrc.includes('AbortController') && infoSrc.includes('isRedirectBlocked(res.url, pageUrl)');
+  })());
+  check('P6: worker drops non-object bulk items', workerSrc13.includes("filter((it) => it && typeof it === 'object')"));
+  check('P6: worker drops non-object ZIP file entries', workerSrc13.includes("filter((f) => f && typeof f === 'object')"));
+  // 13k. History backfill never probes a private network (F-P6-15).
+  const backfillRecs = (urls) => urls.map((url, i) => ({ id: `b${i}`, url }));
+  check('P6: backfill skips loopback and RFC1918 URLs', (() => {
+    const out = selectBackfillTargets(backfillRecs([
+      'http://127.0.0.1/x.png', 'http://192.168.1.1/x.png', 'http://10.0.0.5/x.png',
+      'http://172.16.0.9/x.png', 'http://127.1/x.png', 'http://[::1]/x.png',
+      'http://[fe80::1]/x.png', 'http://localhost/x.png', 'http://[64:ff9b:1::7f00:1]/x.png',
+    ]));
+    return out.length === 0;
+  })());
+  check('P6: backfill keeps public URLs', (() => {
+    const out = selectBackfillTargets(backfillRecs(['https://example.com/a.png', 'http://cdn.example.org/i.jpg']));
+    return out.length === 2 && out[0].url === 'https://example.com/a.png';
+  })());
+  check('P6: backfill keeps data URLs (no network fetch)', (() => {
+    const out = selectBackfillTargets(backfillRecs(['data:image/png;base64,AAAA']));
+    return out.length === 1;
+  })());
+  check('P6: backfill skips records that already have a thumb', (() => {
+    const out = selectBackfillTargets([{ id: 'b0', url: 'https://example.com/a.png', thumb: 'data:image/jpeg;base64,AAAA' }]);
+    return out.length === 0;
+  })());
+  check('P6: backfill respects its max', selectBackfillTargets(backfillRecs(Array.from({ length: 20 }, (_, i) => `https://example.com/${i}.png`)), 3).length === 3);
+  check('P6: backfill with a private URL among public ones keeps only the public ones', (() => {
+    const out = selectBackfillTargets(backfillRecs(['https://example.com/a.png', 'http://192.168.1.1/x.png', 'https://example.org/b.png']));
+    return out.length === 2 && out.every((r) => r.url.startsWith('https://example'));
+  })());
 
 /* ================================================ summary */
 

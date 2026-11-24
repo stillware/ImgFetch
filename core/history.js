@@ -23,8 +23,9 @@
  */
 
 import { dataUrlToBlob } from './data-url.js';
-import { isPrivateNetworkFetchBlocked, isRedirectBlocked } from './urls.js';
+import { isPrivateNetworkFetchBlocked, isPrivateNetworkUrl, isRedirectBlocked, sanitizePageHost } from './urls.js';
 import { stripBidiControls } from './filenames.js';
+import { svgDimensions } from './svg.js';
 
 export const MAX_RECORDS = 200;
 
@@ -91,13 +92,21 @@ export function createSerialQueue() {
  * source URL and no thumbnail yet, newest first, at most `max`
  * (default HIST_THUMB_BACKFILL_MAX). Records without a URL are skipped.
  * Input order is newest first, so the filter keeps that order.
+ * Phase 6 (F-P6-15): records whose source URL is a private-network
+ * address are never backfill targets. The download-time thumbnail
+ * attempt already covers same-host private images; letting every
+ * history view open re-probe a stored internal address would turn
+ * the history list into a LAN prober for any record that got in with
+ * a private URL (for example a tampered record). Public URLs are
+ * unaffected, and a record with no thumbnail keeps its icon tile.
  */
 export function selectBackfillTargets(records, max = HIST_THUMB_BACKFILL_MAX) {
   const list = Array.isArray(records) ? records : [];
   const out = [];
   for (const r of list) {
     if (out.length >= max) break;
-    if (r && typeof r.url === 'string' && r.url && !r.thumb) out.push(r);
+    if (r && typeof r.url === 'string' && r.url && !r.thumb
+      && !isPrivateNetworkUrl(r.url)) out.push(r);
   }
   return out;
 }
@@ -198,7 +207,12 @@ export async function fetchImageBytes(fetcher, url, options = {}) {
   // The history Copy path used to re-fetch a record URL with no guard
   // at all, and no caller re-checked redirects. options.pageUrl is the
   // page the record came from (the same-host exception still applies).
-  if (options.pageUrl !== undefined && isPrivateNetworkFetchBlocked(url, options.pageUrl)) {
+  // Phase 6 (F-P6-2): the guard used to be skipped entirely when
+  // pageUrl was undefined, a fail-open API: any future caller that
+  // forgot the option fetched private addresses unguarded. The guard
+  // now always runs; without a pageUrl there is no same-host exception
+  // to apply, so a private URL is blocked outright.
+  if (isPrivateNetworkFetchBlocked(url, options.pageUrl || '')) {
     throw new Error('private-network');
   }
   const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
@@ -221,8 +235,8 @@ export async function fetchImageBytes(fetcher, url, options = {}) {
   }
   // Redirect re-check before the body is read: a public URL must not
   // bounce the request onto a private address.
-  if (options.pageUrl !== undefined && typeof res.url === 'string' && res.url
-    && isRedirectBlocked(res.url, options.pageUrl)) {
+  if (typeof res.url === 'string' && res.url
+    && isRedirectBlocked(res.url, options.pageUrl || '')) {
     clearTimeout(timer);
     throw new Error('blocked-redirect');
   }
@@ -374,20 +388,43 @@ export function enforceThumbBudget(records) {
  * bytes: actual on-disk file size measured at download completion (0 = unknown,
  * e.g. records written before this field existed).
  */
+// Phase 6 (F-P6-14): guarded primitive conversion for the record
+// sanitisers. String() and Number() throw on an object whose prototype
+// was poisoned (built with o['__proto__'] = ...), and a throw inside a
+// sanitiser fails the whole history read, so a hostile record must
+// degrade to a safe default instead of throwing.
+function safeText(v) {
+  try {
+    return String(v || '');
+  } catch {
+    return '';
+  }
+}
+function safeNumber(v) {
+  try {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export function addRecord(records, record) {
   const list = Array.isArray(records) ? [...records] : [];
-  const cleanText = (v, max) => stripBidiControls(String(v || ''))
+  const cleanText = (v, max) => stripBidiControls(safeText(v))
     .replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
   const entry = {
     id: record.id || `h${Date.now()}${Math.floor(Math.random() * 1e6)}`,
     filename: cleanText(record.filename, 180) || 'image',
     site: cleanText(record.site, 120),
-    pageHost: cleanText(record.pageHost, 253),
+    // Phase 6 (F-P6-4): pageHost is untrusted on read and feeds the
+    // same-host exception, so only a validated hostname is stored.
+    pageHost: sanitizePageHost(record.pageHost),
     format: cleanText(record.format, 12),
-    width: Number(record.width) || 0,
-    height: Number(record.height) || 0,
-    bytes: Math.max(0, Math.round(Number(record.bytes) || 0)),
-    at: Number(record.at) || Date.now(),
+    width: safeNumber(record.width) || 0,
+    height: safeNumber(record.height) || 0,
+    bytes: Math.max(0, Math.round(safeNumber(record.bytes) || 0)),
+    at: safeNumber(record.at) || Date.now(),
     kind: ['single', 'bulk', 'screenshot'].includes(record.kind) ? record.kind : 'single',
   };
   // New optional fields, each validated; a bad value is dropped, never stored.
@@ -411,10 +448,10 @@ export function addRecord(records, record) {
  */
 export function sanitizeHistoryRecord(record) {
   if (!record || typeof record !== 'object' || Array.isArray(record)) return null;
-  const cleanText = (v, max) => stripBidiControls(String(v || ''))
+  const cleanText = (v, max) => stripBidiControls(safeText(v))
     .replace(/[\u0000-\u001f\u007f]/g, '').slice(0, max);
   const cleanNum = (v, max) => {
-    const n = Number(v);
+    const n = safeNumber(v);
     if (!Number.isFinite(n)) return 0;
     return Math.min(Math.max(0, Math.round(n)), max);
   };
@@ -424,7 +461,9 @@ export function sanitizeHistoryRecord(record) {
       : `h${Date.now()}${Math.floor(Math.random() * 1e6)}`,
     filename: cleanText(record.filename, 180) || 'image',
     site: cleanText(record.site, 120),
-    pageHost: cleanText(record.pageHost, 253),
+    // Phase 6 (F-P6-4): see addRecord above; a tampered record must
+    // not smuggle a pageHost past the same-host exception.
+    pageHost: sanitizePageHost(record.pageHost),
     format: cleanText(record.format, 12),
     width: cleanNum(record.width, 1_000_000),
     height: cleanNum(record.height, 1_000_000),
@@ -498,8 +537,112 @@ function formatDay(key) {
 }
 
 /**
+ * AVIF dimensions from the meta box: meta > iprp > ipco > ispe
+ * (ImageSpatialExtents, width and height as big-endian uint32 after a
+ * 4-byte version/flags field). Every box walk is bounds-checked and
+ * capped, so truncated or hostile headers return null instead of
+ * throwing or reading past the buffer. When several ispe boxes are
+ * present (grid, alpha plane), the largest by area wins: the pixel
+ * budget must see the worst case, and the primary image is the largest
+ * in practice. A 64-bit largesize (size 1) is treated as malformed and
+ * returns null; the caller then falls back to the decode probe.
+ */
+function readAvifDimensions(bytes) {
+  const n = bytes.length;
+  const u32be = (o) => ((bytes[o] << 24) | (bytes[o + 1] << 16) | (bytes[o + 2] << 8) | bytes[o + 3]) >>> 0;
+  const tag = (o) => String.fromCharCode(bytes[o], bytes[o + 1], bytes[o + 2], bytes[o + 3]);
+  // Find a child box of the given type inside [start, end); returns its
+  // content range, or null. Size 0 means the box runs to the end of its
+  // parent. An empty or malformed box ends the walk with null.
+  const findBox = (start, end, want) => {
+    let off = start;
+    for (let guard = 0; guard < 64 && off + 8 <= end; guard += 1) {
+      const size = u32be(off);
+      if (size < 8) return null;
+      const boxEnd = size === 0 ? end : off + size;
+      if (boxEnd > end || boxEnd <= off + 8) return null;
+      if (tag(off + 4) === want) return { start: off + 8, end: boxEnd };
+      off = boxEnd;
+    }
+    return null;
+  };
+  let meta = null;
+  let off = 0;
+  for (let guard = 0; guard < 64 && off + 8 <= n; guard += 1) {
+    const size = u32be(off);
+    if (size < 8) break;
+    const boxEnd = size === 0 ? n : off + size;
+    if (boxEnd > n) break;
+    if (tag(off + 4) === 'meta') { meta = { start: off + 8, end: boxEnd }; break; }
+    off = boxEnd;
+  }
+  if (!meta) return null;
+  // meta is a FullBox: 4 version/flags bytes, then child boxes.
+  const iprp = findBox(meta.start + 4, meta.end, 'iprp');
+  if (!iprp) return null;
+  const ipco = findBox(iprp.start, iprp.end, 'ipco');
+  if (!ipco) return null;
+  let best = null;
+  let o = ipco.start;
+  for (let guard = 0; guard < 64 && o + 8 <= ipco.end; guard += 1) {
+    const size = u32be(o);
+    if (size < 8) break;
+    const boxEnd = size === 0 ? ipco.end : o + size;
+    if (boxEnd > ipco.end) break;
+    if (tag(o + 4) === 'ispe' && boxEnd - o >= 20) {
+      const w = u32be(o + 12);
+      const h = u32be(o + 16);
+      if (w > 0 && h > 0 && (!best || w * h > best.w * best.h)) best = { w, h };
+    }
+    o = boxEnd;
+  }
+  return best;
+}
+
+/**
+ * TIFF dimensions from the first IFD: 12-byte entries, tag 256 (width)
+ * and tag 257 (height), type SHORT (3) or LONG (4) with count 1. The
+ * header is II* (little-endian) or MM* (big-endian); a SHORT value sits
+ * in the first two bytes of the 4-byte value field in both byte orders.
+ * Out-of-range offsets or a missing tag return null, never throw.
+ */
+function readTiffDimensions(bytes) {
+  const n = bytes.length;
+  if (n < 8) return null;
+  let le;
+  if (bytes[0] === 0x49 && bytes[1] === 0x49 && bytes[2] === 0x2A && bytes[3] === 0x00) le = true;
+  else if (bytes[0] === 0x4D && bytes[1] === 0x4D && bytes[2] === 0x00 && bytes[3] === 0x2A) le = false;
+  else return null;
+  const u16 = (o) => (le ? bytes[o] | (bytes[o + 1] << 8) : (bytes[o] << 8) | bytes[o + 1]);
+  const u32 = (o) => (le
+    ? (bytes[o] | (bytes[o + 1] << 8) | (bytes[o + 2] << 16) | (bytes[o + 3] << 24)) >>> 0
+    : ((bytes[o] << 24) | (bytes[o + 1] << 16) | (bytes[o + 2] << 8) | bytes[o + 3]) >>> 0);
+  const ifd = u32(4);
+  if (ifd < 8 || ifd + 2 > n) return null;
+  const count = u16(ifd);
+  let w = 0;
+  let h = 0;
+  for (let i = 0; i < count; i += 1) {
+    const e = ifd + 2 + i * 12;
+    if (e + 12 > n) break;
+    const tag = u16(e);
+    if (tag !== 256 && tag !== 257) continue;
+    const type = u16(e + 2);
+    const cnt = u32(e + 4);
+    if (cnt !== 1) continue;
+    let v = 0;
+    if (type === 3) v = u16(e + 8);
+    else if (type === 4) v = u32(e + 8);
+    else continue;
+    if (tag === 256) w = v;
+    else h = v;
+  }
+  return w > 0 && h > 0 ? { w, h } : null;
+}
+
+/**
  * Read image dimensions from encoded bytes without a full decode.
- * Supports PNG, GIF, JPEG and WebP; returns null when unknown.
+ * Supports PNG, BMP, ICO, GIF, JPEG, WebP, AVIF and TIFF; returns null when unknown.
  */
 export function imageDimensions(bytes) {
   if (!bytes || bytes.length < 10) return null;
@@ -539,6 +682,11 @@ export function imageDimensions(bytes) {
       if (bytes[i] !== 0xFF) { i += 1; continue; }
       const marker = bytes[i + 1];
       if (marker === 0xD8 || marker === 0x01 || (marker >= 0xD0 && marker <= 0xD7)) { i += 2; continue; }
+      // Phase 6 (F-P6-13): SOS starts the entropy-coded data, which must
+      // never be scanned for markers: a crafted file can hide a fake SOF
+      // in the compressed stream and make this return false dimensions,
+      // bypassing the pixel cap. A valid file never has an SOF after SOS.
+      if (marker === 0xDA) return null;
       if (i + 4 > bytes.length) break;
       const len = (bytes[i + 2] << 8) | bytes[i + 3];
       if (len < 2) break;
@@ -571,6 +719,17 @@ export function imageDimensions(bytes) {
       return w > 0 && h > 0 ? { w, h } : null;
     }
     return null;
+  }
+  // AVIF: an ftyp box naming the avif/avis brand; dimensions live in
+  // meta > iprp > ipco > ispe, read by readAvifDimensions.
+  if (bytes.length >= 12 && bytes[4] === 0x66 && bytes[5] === 0x74 && bytes[6] === 0x79 && bytes[7] === 0x70
+    && bytes[8] === 0x61 && bytes[9] === 0x76 && bytes[10] === 0x69 && (bytes[11] === 0x66 || bytes[11] === 0x73)) {
+    return readAvifDimensions(bytes);
+  }
+  // TIFF: little-endian II* or big-endian MM* header.
+  if ((bytes[0] === 0x49 && bytes[1] === 0x49 && bytes[2] === 0x2A && bytes[3] === 0x00)
+    || (bytes[0] === 0x4D && bytes[1] === 0x4D && bytes[2] === 0x00 && bytes[3] === 0x2A)) {
+    return readTiffDimensions(bytes);
   }
   return null;
 }
@@ -609,6 +768,18 @@ export async function makeHistoryThumb(source) {
   if (!blob.type.startsWith('image/')) throw new Error('bad-source');
   const bytes = new Uint8Array(await blob.arrayBuffer());
   let dims = imageDimensions(bytes);
+  if (!dims && sniffImageMime(bytes) === 'image/svg+xml') {
+    // Phase 6 (F-P6-5): SVG has no binary header, so imageDimensions
+    // cannot bound it. Read the declared size from the SVG text and
+    // enforce the budget before the probe decode, or a tiny file
+    // declaring width="100000" height="100000" allocates the full
+    // bitmap first. An SVG with no readable size fails closed here
+    // and the row keeps its icon tile.
+    const svgText = new TextDecoder().decode(bytes.slice(0, 8192));
+    const svgDims = svgDimensions(svgText);
+    if (!svgDims) throw new Error('not-image');
+    assertImagePixelBudget(svgDims.w, svgDims.h);
+  }
   if (!dims) {
     const probe = await g.createImageBitmap(blob);
     dims = { w: probe.width, h: probe.height };
@@ -616,8 +787,8 @@ export async function makeHistoryThumb(source) {
   }
   // H7: cap pixel counts BEFORE decoding. A tiny file can claim enormous
   // dimensions (decompression bomb); the header check above catches PNG,
-  // GIF, JPEG, WebP, BMP and ICO, and the probe path checks after decode
-  // for formats with no header parser (AVIF, TIFF, SVG).
+  // GIF, JPEG, WebP, BMP, ICO, AVIF and TIFF, and the probe path checks
+  // after decode for formats with no header parser (SVG).
   assertImagePixelBudget(dims.w, dims.h);
   const side = Math.min(dims.w, dims.h);
   const sx = Math.floor((dims.w - side) / 2);

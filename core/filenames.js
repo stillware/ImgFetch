@@ -39,9 +39,27 @@ const ILLEGAL_CHARS = /[<>:"/\\|?*\u0000-\u001f]/g;
  * in a file name, so they are stripped everywhere a name is cleaned.
  * Zero-width joiners inside real words are not in this set.
  */
-const BIDI_CONTROLS = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\uFEFF]/g;
+// Phase 6 (F-P6-6): also strip invisible format characters that carry no
+// meaning in a file name but can hide text: U+200B zero width space,
+// U+2060 word joiner, U+061C Arabic letter mark, U+180E Mongolian vowel
+// separator, U+00AD soft hyphen. U+200C/U+200D are deliberately kept:
+// ZWNJ is a real letter in Persian/Urdu words and ZWJ joins emoji.
+const BIDI_CONTROLS = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\uFEFF\u200B\u2060\u061C\u180E\u00AD]/g;
 export function stripBidiControls(raw) {
   return String(raw ?? '').replace(BIDI_CONTROLS, '');
+}
+
+/**
+ * Phase 6 (F-P6-7): truncate without splitting a surrogate pair. A plain
+ * slice(0, N) can end on a lone high surrogate (a 96-char cap landing
+ * inside an emoji), and a lone surrogate in a file name is mangled or
+ * rejected by the downloads API. Drops the trailing high surrogate.
+ */
+export function truncateNoLoneSurrogate(s, max) {
+  if (s.length <= max) return s;
+  let out = s.slice(0, max);
+  if (/[\uD800-\uDBFF]$/.test(out)) out = out.slice(0, -1);
+  return out;
 }
 const MAX_SEGMENT = 96;
 const MAX_FILENAME = 180;
@@ -67,11 +85,14 @@ export function sanitizeSegment(raw) {
   // Collapse repeated dots/dashes left by removals.
   s = s.replace(/\.{2,}/g, '.').replace(/-{2,}/g, '-');
   if (!s) return '';
-  if (s.length > MAX_SEGMENT) s = s.slice(0, MAX_SEGMENT).trim();
+  if (s.length > MAX_SEGMENT) s = truncateNoLoneSurrogate(s, MAX_SEGMENT).trim();
   // L1: Windows reserved device names (CON, NUL, COM1…) are illegal as file
   // names even with an extension, prefix with an underscore.
+  // Phase 6 (F-P6-7): the prefix is applied after the length cap, so a
+  // 96-character reserved name used to come back 97 long. Re-truncate
+  // after prefixing so the cap always holds.
   const stem = s.split('.')[0];
-  if (WIN_RESERVED.test(stem)) s = `_${s}`;
+  if (WIN_RESERVED.test(stem)) s = truncateNoLoneSurrogate(`_${s}`, MAX_SEGMENT);
   return s;
 }
 
@@ -128,7 +149,7 @@ export function buildFilename(template, ctx = {}) {
   const ext = safeExtension(ctx.ext, 'png');
   let filename = `${base}.${ext}`;
   if (filename.length > MAX_FILENAME) {
-    filename = `${base.slice(0, MAX_FILENAME - ext.length - 1)}.${ext}`;
+    filename = `${truncateNoLoneSurrogate(base, MAX_FILENAME - ext.length - 1)}.${ext}`;
   }
   return filename;
 }

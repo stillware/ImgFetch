@@ -49,7 +49,7 @@ camelCase descriptor. Real examples from `_locales/en/messages.json`:
 | `ui_<name>` | `ui_cancel`, `ui_loading`, `ui_somethingWrong` | Generic interface strings |
 | `popup_<name>` | `popup_home`, `popup_scanButton`, `popup_shotVisibleLabel` | Popup strings |
 | `options_<name>` | `options_secDownloads` | Settings page strings |
-| `results_<name>` | `results_titleFound_one`, `results_titleFound_other` | Scan results strings |
+| `results_<name>` | `results_duplicatesRemoved_one`, `results_duplicatesRemoved_other` | Scan results strings |
 | `crop_<name>`, `parts_<name>`, `part_<name>` | `part_title_one` | Editor Crop and Parts overview strings |
 
 Rules:
@@ -84,7 +84,7 @@ At runtime, `resolveMessage` in `shared/i18n.js` uses `Intl.PluralRules`
 for the locale, then tries `key_<category>`, then `key_other`, then the
 bare key.
 English carries the `one` and `other` variants, for example
-`results_titleFound_one` and `results_titleFound_other`.
+`results_duplicatesRemoved_one` and `results_duplicatesRemoved_other`.
 
 Each locale must carry exactly the variants for its categories:
 
@@ -95,10 +95,10 @@ Each locale must carry exactly the variants for its categories:
 | `ar` | `key_zero`, `key_one`, `key_two`, `key_few`, `key_many`, `key_other` |
 | `ja`, `ko`, `zh_CN`, `zh_TW`, `th`, `vi`, `id`, `tr` | The bare `key` only, never suffixed variants |
 
-For example, Russian carries `results_titleFound_one`,
-`results_titleFound_few`, `results_titleFound_many`, and
-`results_titleFound_other`, while Japanese carries only
-`results_titleFound`.
+For example, Russian carries `results_duplicatesRemoved_one`,
+`results_duplicatesRemoved_few`, `results_duplicatesRemoved_many`, and
+`results_duplicatesRemoved_other`, while Japanese carries only
+`results_duplicatesRemoved`.
 
 The collapsed locales in the last row have a single plural category in the
 loader, so a suffixed variant there would never be used and the checker

@@ -49,6 +49,7 @@ import {
   stripImageExtension, sanitizeHistoryThumb, decideOpenFile, copyImageAvailable,
   fetchImageBytes, HIST_THUMB_FETCH_TIMEOUT_MS, HIST_THUMB_SOURCE_MAX_BYTES,
 } from '../core/history.js';
+import { pageUrlFromHost } from '../core/urls.js';
 import { formatGroup } from '../core/filters.js';
 
 /** Chip and thumbnail labels: WebP keeps its mixed case, the rest are caps. */
@@ -434,7 +435,10 @@ ${r.url}` : (r.filename || '');
           {
             timeoutMs: HIST_THUMB_FETCH_TIMEOUT_MS,
             maxBytes: HIST_THUMB_SOURCE_MAX_BYTES,
-            pageUrl: r.pageHost ? `https://${r.pageHost}/` : '',
+            // Phase 6 (F-P6-4): the exception page URL is built only
+            // from a validated host, never by interpolating the stored
+            // pageHost (see core/urls.js pageUrlFromHost).
+            pageUrl: pageUrlFromHost(r.pageHost),
           },
         );
         return imageBytesToPng(fetched.bytes, fetched.mime);

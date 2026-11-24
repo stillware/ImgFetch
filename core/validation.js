@@ -71,7 +71,10 @@ export const MESSAGE_TYPES = new Set([
 ]);
 
 const STRING_FIELDS = {
-  DOWNLOAD_IMAGE: ['srcUrl', 'mode', 'format', 'customName', 'pageUrl', 'tabId'],
+  // Phase 6 (F-P6-9): 'id' is used as the queue item id, so a non-string
+  // id (object, array, number) must fail validation instead of flowing
+  // into the queue snapshot.
+  DOWNLOAD_IMAGE: ['srcUrl', 'mode', 'format', 'customName', 'pageUrl', 'tabId', 'id'],
   DOWNLOAD_MANY: [],
   SCAN_PAGE: [],
   GET_LAST_SCAN: [],
@@ -91,7 +94,7 @@ const STRING_FIELDS = {
   DISCARD_CAPTURE_GROUP: ['groupId'],
   SAVE_ANNOTATED: ['id', 'dataUrl'],
   SUGGEST_FILENAME: ['srcUrl', 'format', 'pageUrl'],
-  DOWNLOAD_ZIP: [],
+  DOWNLOAD_ZIP: ['id'],
   DOWNLOAD_STRIPPED: ['url'],
   RESOLVE_BLOB: ['url', 'tabId', 'mode'],
   SHOW_DOWNLOAD: ['downloadId'],

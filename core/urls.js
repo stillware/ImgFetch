@@ -292,6 +292,27 @@ function isPrivateIPv6(host) {
   if (g[0] === 0x64 && g[1] === 0xff9b && g.slice(2, 6).every((x) => x === 0)) {
     return embeddedV4(g[6], g[7]);
   }
+  // Phase 6 (F-P6-1): local-use NAT64 64:ff9b:1::/48. The well-known
+  // prefix is only the /96 form above; the /48 form keeps the IPv4
+  // address in the last 32 bits too, and the old check missed it, so a
+  // fetch to [64:ff9b:1::7f00:1] reached loopback unguarded.
+  if (g[0] === 0x64 && g[1] === 0xff9b && g[2] === 0x0001) {
+    return embeddedV4(g[6], g[7]);
+  }
+  // Phase 6 (F-P6-1): IPv4-translated ::ffff:0:0/96 (RFC 2765). The
+  // mapped form ::ffff:a.b.c.d was caught, but the translated form
+  // ::ffff:0:a.b.c.d was not, so [::ffff:0:7f00:1] slipped through.
+  if (g.slice(0, 4).every((x) => x === 0) && g[4] === 0xffff && g[5] === 0) {
+    return embeddedV4(g[6], g[7]);
+  }
+  // Phase 6 (F-P6-1): Teredo 2001::/32 (RFC 4380). The client IPv4
+  // address is the last 32 bits XORed with 0xffffffff, so decode it
+  // before the private check. Teredo is deprecated and usually off,
+  // but the guard must not depend on that.
+  if (g[0] === 0x2001 && g[1] === 0) {
+    const n = (((~g[6] & 0xffff) * 65536 + (~g[7] & 0xffff)) >>> 0);
+    return isPrivateIPv4Octets((n >>> 24) & 255, (n >>> 16) & 255);
+  }
   // N3: 6to4 2002::/16, bits 16..47 are the IPv4 address.
   if (g[0] === 0x2002) {
     return embeddedV4(g[1], g[2]);
@@ -319,6 +340,34 @@ export function isPrivateNetworkFetchBlocked(url, pageUrl) {
     /* fall through to blocked */
   }
   return true;
+}
+
+/**
+ * Phase 6 (F-P6-4): a history record's pageHost is untrusted input on
+ * read (storage can hold tampered records), and it is used to build the
+ * page URL that the same-private-host exception compares against. A
+ * pageHost such as "example.com@127.0.0.1" made the exception compare
+ * against 127.0.0.1, so a backfill or Copy fetch to loopback passed the
+ * guard. Only a plain hostname (or a bracketed IPv6 literal) survives;
+ * anything with an @, /, :, port, query or whitespace is dropped.
+ */
+export function sanitizePageHost(value) {
+  if (typeof value !== 'string') return '';
+  const h = value.trim().toLowerCase();
+  if (!h) return '';
+  if (/^\[[0-9a-f:]+\]$/.test(h)) return h;
+  if (/^[a-z0-9]([a-z0-9._-]{0,251}[a-z0-9])?$/.test(h)) return h;
+  return '';
+}
+
+/**
+ * Phase 6 (F-P6-4): the page URL for the same-host exception, built
+ * only from a validated host. Returns '' when the host is not valid,
+ * which makes the exception unavailable (fail closed).
+ */
+export function pageUrlFromHost(host) {
+  const h = sanitizePageHost(host);
+  return h ? `https://${h}/` : '';
 }
 
 /**

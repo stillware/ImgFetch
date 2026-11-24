@@ -821,19 +821,44 @@
         pill.style.height = Math.max(0, r.height - 18) + 'px';
         pill.style.transform = `translate(${bx}px, ${r.top - c.top + 9}px)`;
       } else {
+        /* Phase 6 item 5.2: getBoundingClientRect is border-box based,
+           but an absolutely positioned pill with top/left 0 sits at the
+           container's padding-box origin, one border inside. The old
+           code translated by the full border-box offset, so the pill
+           sat 1 px low and 1 px right of the pressed button and its
+           bottom touched (or crossed) the control's border in the
+           light theme. Subtract the container's border widths so the
+           pill covers the pressed button exactly, on every control
+           that uses this helper (segmented controls and the popup
+           nav). The vertical branch keeps its own offsets. */
+        const cs = getComputedStyle(container);
+        const bl = parseFloat(cs.borderLeftWidth) || 0;
+        const bt = parseFloat(cs.borderTopWidth) || 0;
         pill.style.width = r.width + 'px';
         pill.style.height = r.height + 'px';
-        pill.style.transform = `translate(${r.left - c.left}px, ${r.top - c.top}px)`;
+        pill.style.transform = `translate(${r.left - c.left - bl}px, ${r.top - c.top - bt}px)`;
       }
       pill.style.opacity = '';
     };
     const schedule = () => requestAnimationFrame(position);
+    /* Phase 6 item 5.2: the pill is sized and placed from the active
+       button's live rect, so it must move again whenever that button
+       changes. The active button's label changes after load when
+       i18n swaps in another locale (a shorter or wider label, and a
+       direction flip to rtl), and neither event flips aria-pressed,
+       so watching that attribute alone leaves the pill sitting on
+       the old label's rect, in Arabic even hanging past the control's
+       edge. Re-position on label text changes inside the container
+       and on a direction change of the document. */
     const observer = new MutationObserver((mutations) => {
       for (const m of mutations) {
         if (m.type === 'attributes' && m.attributeName === activeAttr) { schedule(); return; }
+        if (m.type === 'characterData' || m.type === 'childList') { schedule(); return; }
       }
     });
-    observer.observe(container, { attributes: true, subtree: true, attributeFilter: [activeAttr] });
+    observer.observe(container, { attributes: true, childList: true, characterData: true, subtree: true, attributeFilter: [activeAttr] });
+    const dirObserver = new MutationObserver(() => schedule());
+    dirObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
     window.addEventListener('resize', schedule);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule).catch(() => {});
     schedule();

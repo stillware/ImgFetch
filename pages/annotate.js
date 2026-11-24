@@ -1038,7 +1038,22 @@ $('btnSave').addEventListener('click', async () => {
     UI.toast(tr('annotate_saved', 'Screenshot saved.'));
     setTimeout(() => window.close(), 800);
   } catch (err) {
-    UI.toast(err.message || tr('annotate_saveFailed', 'Save failed.'));
+    // Phase 6 item 6: an annotated image over the 40 MB save cap gets a
+    // clear message instead of a raw error. The worker reports 'too-large'
+    // when the data URL is over its 40,000,000-char cap, and the message
+    // validator reports 'invalid-message' when the whole message is over
+    // its 45,000,000-char cap (core/validation.js), so a larger image
+    // never reaches the worker. Both mean the same thing here: this Save
+    // sends only { id, dataUrl } built by this page, so the validator can
+    // only reject it for size. The original capture record is untouched
+    // (the worker throws before storing, and the validator rejects before
+    // routing), so a part can still be saved from the parts page and the
+    // visible area can still be copied. Save stays enabled.
+    if (err.message === 'too-large' || err.message === 'invalid-message') {
+      UI.toast(tr('annotate_tooLarge', 'This screenshot is too large to save as one image (over 40 MB). You can still save it as parts or save the visible area instead.'));
+    } else {
+      UI.toast(err.message || tr('annotate_saveFailed', 'Save failed.'));
+    }
     $('btnSave').disabled = false;
   }
 });

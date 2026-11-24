@@ -127,29 +127,13 @@
     "message": "Volledige pagina",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Scannen",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Pagina scannen…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Zoeken naar afbeeldingen",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Zoeken naar afbeeldingen, inclusief achtergronden.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "{done} gevonden tot nu toe…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "{done} gevonden tot nu toe…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Tot nu toe gevonden",
@@ -194,10 +178,6 @@
   "popup_formatFilterAria": {
     "message": "Formaatfilter",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Alle formaten",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Alle",
@@ -331,14 +311,6 @@
     "message": "Opnieuw scannen",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "{count} afbeelding gevonden",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_other": {
-    "message": "{count} afbeeldingen gevonden",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Scan voltooid",
     "description": "Results heading when a scan finishes."
@@ -366,6 +338,14 @@
   "results_noImagesFiltered_other": {
     "message": "Geen afbeeldingen gevonden, {dropped} kleine afbeeldingen zijn overgeslagen door je groottefilter. Zet hem lager bij Instellingen → Scannen.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} afbeelding was te groot om over te dragen en is overgeslagen. Data-URL-afbeeldingen groter dan 500 KB kunnen niet naar de pop-up worden gestuurd.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} afbeeldingen waren te groot om over te dragen en zijn overgeslagen. Data-URL-afbeeldingen groter dan 500 KB kunnen niet naar de pop-up worden gestuurd.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Geen afbeeldingen komen overeen met deze filters.",
@@ -434,18 +414,6 @@
   "home_viewDownloads": {
     "message": "Downloads bekijken",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "{count} afbeelding gevonden op deze pagina",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_other": {
-    "message": "{count} afbeeldingen gevonden op deze pagina",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Resultaten bekijken",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Laatste scan",
@@ -591,14 +559,6 @@
     "message": "Geschiedenis",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Downloadgeschiedenis wissen?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Dit verwijdert de lijst met bestanden die ImgFetch heeft gedownload. De bestanden blijven op je apparaat.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Geschiedenis wissen",
     "description": "Confirm dialog button."
@@ -651,17 +611,9 @@
     "message": "Nog niets hier.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Bestand openen",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Bronlink openen",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "In plaats daarvan wordt de map weergegeven.",
@@ -1443,10 +1395,6 @@
     "message": "Verwijdert direct alle geschiedenisitems. Gedownloade bestanden worden niet geraakt.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Kon geschiedenis niet wissen.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Neem je instellingen mee of begin opnieuw.",
     "description": "Backup section description."
@@ -1715,6 +1663,10 @@
     "message": "Opslaan mislukt.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Deze schermafbeelding is te groot om als één afbeelding op te slaan (meer dan 40 MB). Je kunt hem nog steeds in delen opslaan of het zichtbare gebied opslaan.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Deze editorlink is ongeldig.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1846,10 +1798,6 @@
   "info_copyLink": {
     "message": "Link kopiëren",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Opslaan als JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Er is geen afbeelding opgegeven.",
@@ -2191,14 +2139,6 @@
     "message": "Dat element is hoger dan het scherm, alleen het zichtbare deel is vastgelegd. Gebruik Volledige pagina voor de rest.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Deze pagina is erg lang, de eerste {tileCount} tegels (bovenste deel) worden vastgelegd. Gebruik gebiedsvastlegging voor de rest.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Deze pagina is erg groot, de volledige-pagina-afbeelding is verkleind naar {percent}% om binnen geheugenlimieten te blijven.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Volledige pagina vastleggen, tegel {n} van {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2246,10 +2186,6 @@
   "copySuccess": {
     "message": "Screenshot gekopieerd naar klembord.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Screenshot gekopieerd naar klembord, verkleind naar {width} x {height} om te passen.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Deze schermafbeelding is te groot voor het klembord, dus is alleen het weergegeven deel gekopieerd ({width} x {height}). Sla de schermafbeelding op om de volledige afbeelding te behouden.",
@@ -2382,10 +2318,6 @@
   "parts_discardAria": {
     "message": "Deel {count} van {total} weggooien",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} px · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Opmerking: grote schermafbeeldingen, zoals volledige pagina's, worden correct gekopieerd maar verschijnen niet in de klembordgeschiedenis van Windows (Win+V). Dit is een beperking van Windows, geen probleem met de kopie. Druk op Ctrl+V om de afbeelding te plakken waar je die nodig hebt.",

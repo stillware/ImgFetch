@@ -127,45 +127,13 @@
     "message": "الصفحة كاملة",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "جارٍ المسح",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "جارٍ مسح الصفحة…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "جارٍ البحث عن الصور",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "جارٍ البحث عن الصور، بما فيها الخلفيات.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_zero": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_one": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_two": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_few": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_many": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "تم العثور على {done} حتى الآن…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "تم العثور عليها حتى الآن",
@@ -226,10 +194,6 @@
   "popup_formatFilterAria": {
     "message": "فلتر الصيغة",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "كل الصيغ",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "الكل",
@@ -395,30 +359,6 @@
     "message": "إعادة المسح",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_zero": {
-    "message": "عدد الصور المعثور عليها: {count}",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_one": {
-    "message": "تم العثور على {count} صورة",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_two": {
-    "message": "تم العثور على {count} صورتين",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_few": {
-    "message": "تم العثور على {count} صور",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_many": {
-    "message": "تم العثور على {count} صورة",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_other": {
-    "message": "تم العثور على {count} صورة",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "اكتمل الفحص",
     "description": "Results heading when a scan finishes."
@@ -462,6 +402,30 @@
   "results_noImagesFiltered_other": {
     "message": "لم يتم العثور على صور، تم تخطي {dropped} صورة صغيرة بسبب فلتر الحجم. خفّضه في الإعدادات → المسح.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_zero": {
+    "message": "تم تخطي {dropped} صورة لأنها كبيرة جدًا بحيث لا يمكن تسليمها. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Zero."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "تم تخطي {dropped} صورة لأنها كبيرة جدًا بحيث لا يمكن تسليمها. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_two": {
+    "message": "تم تخطي {dropped} صورتين لأنهما كبيرتان جدًا بحيث لا يمكن تسليمهما. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Two."
+  },
+  "results_tooLargeSkipped_few": {
+    "message": "تم تخطي {dropped} صور لأنها كبيرة جدًا بحيث لا يمكن تسليمها. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Few."
+  },
+  "results_tooLargeSkipped_many": {
+    "message": "تم تخطي {dropped} صورة لأنها كبيرة جدًا بحيث لا يمكن تسليمها. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Many."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "تم تخطي {dropped} صور لأنها كبيرة جدًا بحيث لا يمكن تسليمها. لا يمكن إرسال صور Data-URL التي يزيد حجمها عن 500 KB إلى النافذة المنبثقة.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "لا توجد صور تطابق هذه الفلاتر.",
@@ -594,34 +558,6 @@
   "home_viewDownloads": {
     "message": "عرض التنزيلات",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_zero": {
-    "message": "عدد الصور في هذه الصفحة: {count}",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_one": {
-    "message": "تم العثور على {count} صورة في هذه الصفحة",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_two": {
-    "message": "تم العثور على {count} صورتين في هذه الصفحة",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_few": {
-    "message": "تم العثور على {count} صور في هذه الصفحة",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_many": {
-    "message": "تم العثور على {count} صورة في هذه الصفحة",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_other": {
-    "message": "تم العثور على {count} صورة في هذه الصفحة",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "عرض النتائج",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "آخر فحص",
@@ -767,14 +703,6 @@
     "message": "السجل",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "مسح سجل التنزيلات؟",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "سيؤدي هذا إلى إزالة قائمة الملفات التي نزّلها ImgFetch. تبقى الملفات نفسها على جهازك.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "مسح السجل",
     "description": "Confirm dialog button."
@@ -843,17 +771,9 @@
     "message": "لا شيء هنا بعد.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "فتح الملف",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "فتح رابط المصدر",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "يتم عرضه في المجلد بدلا من ذلك.",
@@ -1667,10 +1587,6 @@
     "message": "يزيل كل مدخلات السجل فورًا. لا تتأثر الملفات المنزّلة.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "تعذّر مسح السجل.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "خذ إعداداتك معك، أو ابدأ من جديد.",
     "description": "Backup section description."
@@ -1939,6 +1855,10 @@
     "message": "فشل الحفظ.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "لقطة الشاشة هذه كبيرة جدًا بحيث لا يمكن حفظها كصورة واحدة (أكثر من 40 MB). لا يزال بإمكانك حفظها كأجزاء أو حفظ المنطقة المرئية بدلًا من ذلك.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "رابط المحرر هذا غير صالح.",
     "description": "Error: the annotate page opened without a capture id."
@@ -2070,10 +1990,6 @@
   "info_copyLink": {
     "message": "نسخ الرابط",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "حفظ بصيغة JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "لم يتم تحديد صورة.",
@@ -2479,14 +2395,6 @@
     "message": "هذا العنصر أطول من الشاشة، تم التقاط الجزء المرئي فقط. استخدم “الصفحة كاملة” للباقي.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "هذه الصفحة طويلة جدًا، يتم التقاط أول {tileCount} بلاطات (الجزء العلوي). استخدم التقاط المنطقة للباقي.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "هذه الصفحة كبيرة جدًا، تم تصغير صورة الصفحة الكاملة إلى {percent}% لتناسب حدود الذاكرة.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "جارٍ التقاط الصفحة كاملة، البلاطة {n} من {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2534,10 +2442,6 @@
   "copySuccess": {
     "message": "تم نسخ لقطة الشاشة إلى الحافظة.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "تم نسخ لقطة الشاشة إلى الحافظة، مصغّرة إلى {width} x {height} لتناسب.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "لقطة الشاشة هذه كبيرة جدًا بالنسبة إلى الحافظة، لذلك تم نسخ الجزء المعروض فقط ({width} x {height}). احفظ لقطة الشاشة للاحتفاظ بالصورة الكاملة.",
@@ -2734,10 +2638,6 @@
   "parts_discardAria": {
     "message": "تجاهل الجزء {count} من {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} بكسل · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "ملاحظة: لقطات الشاشة الكبيرة، مثل الصفحات الكاملة، تُنسخ بشكل صحيح لكنها لا تظهر في سجل حافظة Windows (Win+V). هذا حد من حدود Windows وليس مشكلة في النسخ. اضغط على Ctrl+V للصق الصورة حيث تحتاجها.",

@@ -127,25 +127,13 @@
     "message": "ページ全体",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "スキャン中",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "ページをスキャンしています…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "画像を検索しています",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "背景を含め、画像を探しています。",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "これまでに {done} 件見つかりました…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "これまでに見つかった数",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "形式フィルター",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "すべての形式",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "すべて",
@@ -315,10 +299,6 @@
     "message": "再スキャン",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "{count} 件の画像が見つかりました",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "スキャン完了",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "画像が見つかりませんでした。サイズフィルターにより {dropped} 件の小さい画像がスキップされました。「設定 → スキャン」で下げてください。",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "{dropped} 件の画像が大きすぎて渡せず、スキップされました。 500 KB を超える Data-URL 画像はポップアップに送れません。",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "これらのフィルターに一致する画像はありません。",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "ダウンロードを表示",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "このページで {count} 件の画像が見つかりました",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "結果を表示",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "前回のスキャン",
@@ -547,14 +523,6 @@
     "message": "履歴",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "ダウンロード履歴をクリアしますか？",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "ImgFetch がダウンロードしたファイルの一覧を削除します。ファイル自体はデバイスに残ります。",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "履歴をクリア",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "ここにはまだ何もありません。",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "ファイルを開く",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "ソースリンクを開く",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "代わりにフォルダーに表示します。",
@@ -1387,10 +1347,6 @@
     "message": "すべての履歴エントリを今すぐ削除します。ダウンロード済みファイルには影響しません。",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "履歴をクリアできませんでした。",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "設定を持ち運んだり、最初からやり直したりできます。",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "保存に失敗しました。",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "このスクリーンショットは大きすぎて1枚の画像として保存できません（40 MB超）。パーツごとに保存したり、表示されている範囲を保存したりすることはできます。",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "このエディターのリンクは無効です。",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "リンクをコピー",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "JPG として保存",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "画像が指定されていません。",
@@ -2119,14 +2075,6 @@
     "message": "この要素は画面より高いため、表示部分のみキャプチャされました。残りは「ページ全体」を使ってください。",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "このページはとても長いため、最初の {tileCount} タイル（上部）をキャプチャします。残りは領域キャプチャを使ってください。",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "このページはとても大きいため、ページ全体の画像をメモリ制限に収めるため {percent}% に縮小しました。",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "ページ全体をキャプチャ中、タイル {n}/{tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "スクリーンショットをクリップボードにコピーしました。",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "スクリーンショットをクリップボードにコピーしました。収まるよう {width} x {height} に縮小しました。",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "このスクリーンショットはクリップボードには大きすぎるため、表示されている部分のみコピーしました ({width} x {height})。完全な画像を残すにはスクリーンショットを保存してください。",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "パート {count} / {total} を破棄",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} ピクセル · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "注: ページ全体などの大きなスクリーンショットは正しくコピーされますが、Windows のクリップボード履歴（Win+V）には表示されません。これはコピーの問題ではなく、Windows の制限です。Ctrl+V を押すと、必要な場所に画像を貼り付けられます。",

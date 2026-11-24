@@ -162,11 +162,6 @@ eq(enJson.actionTitle.message, 'ImgFetch Smart Image Downloader', 'en actionTitl
 eq(enJson.copyButton.message, 'Copy', 'en copyButton exact');
 eq(enJson.copyTooltip.message, 'Copy the edited screenshot to the clipboard', 'en copyTooltip exact');
 eq(enJson.copySuccess.message, 'Screenshot copied to the clipboard.', 'en copySuccess exact');
-eq(
-  enJson.copyDownscaled.message,
-  'Screenshot copied to the clipboard, downscaled to {width} x {height} to fit.',
-  'en copyDownscaled exact',
-);
 eq(enJson.copyFailed.message, 'Could not copy the screenshot. Try saving it instead.', 'en copyFailed exact');
 eq(enJson.copyUnavailable.message, 'Copy is unavailable right now.', 'en copyUnavailable exact');
 

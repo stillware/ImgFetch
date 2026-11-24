@@ -88,6 +88,7 @@ ImgFetch/
 │   ├── firefox.md # Firefox port status, compatibility matrix, build and test notes, known limitations
 │   ├── glossary.md # Terms used in the code and the documentation
 │   ├── limitations.md # Known limits, reasons, and workarounds
+│   ├── manual-frame-time.md # Phase 6 item 6 G5 manual worst-frame check, DevTools Performance steps for the owner
 │   ├── performance.md # Performance design and measured numbers
 │   ├── permissions.md # Every manifest permission and its justification
 │   ├── project-structure.md # This document
@@ -140,7 +141,7 @@ ImgFetch/
 │   ├── check-docs-links.mjs # Offline checker for relative links between markdown files
 │   ├── check-duplicates.mjs # Single source of truth checker for shared limits and rules
 │   ├── check-i18n.mjs # Localization checker: keys, plurals, placeholders
-│   ├── check-security.mjs # Security static checker: manifest, forbidden APIs, sinks, remote refs, assets, fetch inventory
+│   ├── check-security.mjs # Security static checker: manifest, forbidden APIs, sinks, remote refs, assets, fetch inventory, Phase 6 wiring (26 checks)
 │   ├── make-firefox-manifest.mjs # Derives the Firefox manifest from the root manifest for the Firefox zip
 │   ├── make-icons.py # Regenerates the extension icon set
 │   ├── package.sh # Builds the store zip files after validation and tests
@@ -159,6 +160,7 @@ ImgFetch/
 │   ├── assets/ # Bundled interface assets: fonts, icons, third-party licences
 │   │   ├── INTER-OFL-1.1.txt # SIL Open Font License 1.1 for the Inter typeface
 │   │   ├── LUCIDE-ISC.txt # ISC License for the Lucide icon set
+│   │   ├── brand-mark.svg # Vector brand mark (rounded square, gradient, mountains, sun dot), redrawn from icon-128.png for welcome and options
 │   │   ├── hero-g1.svg # Popup hero illustration, centre card of the fanned stack (kit g1)
 │   │   ├── hero-g2.svg # Popup hero illustration, left card of the fanned stack (kit g2)
 │   │   ├── hero-g4.svg # Popup hero illustration, right card of the fanned stack (kit g4)
@@ -182,10 +184,12 @@ ImgFetch/
 │   │   └── screenshot-modes.png # Store screenshot: the four screenshot modes
 │   └── store-listing.md # Ready to paste store listing text and submission checklist
 └── tests/
+    ├── test-a1-fringe.mjs # 9: Phase 6 item 6 A1 outer band rule, outer 12 px equal to the background except the known shadow fringe up to 16 levels
     ├── test-candidates.mjs # 21: candidate discovery and bulk payload checks
     ├── test-capture-decision.mjs # 28: capture decision logic checks
     ├── test-capture-quality.mjs # 38: Phase 5 item C canvas limits and part count checks
     ├── test-capture-storage.mjs # 23: capture storage and Blob record checks
+    ├── test-clear-messages.mjs # 88: Phase 6 item 6 clear-message string contract, oversize data-URL and oversize annotated-save toasts in all 21 locales
     ├── test-clipboard-image.mjs # 44: copy size planner checks
     ├── test-content-scripts.mjs # 18: content script and worker localization rule checks
     ├── test-contract-filename.mjs # 2730: filename to download path contract checks
@@ -202,8 +206,9 @@ ImgFetch/
     ├── test-fullpage-parts.mjs # 94: part split, limit, and no truncation checks
     ├── test-fuzz-url-guard.mjs # 3000: seeded URL guard fuzz cases
     ├── test-html-modules.mjs # 31: page script module loading checks
-    ├── test-i18n-core.mjs # 125: localization core checks for fallback and plurals
+    ├── test-i18n-core.mjs # 124: localization core checks for fallback and plurals
     ├── test-i18n-dom.mjs # 16: localization DOM checks, including right to left layout
+    ├── test-image-dimensions.mjs # 34: Phase 6 item 6 REC-2 AVIF and TIFF dimension parsing in core/history.js, plus older format regressions
     ├── test-links.mjs # 22: external link target and rel attribute checks
     ├── test-make-firefox-manifest.mjs # 27: Firefox manifest derivation checks
     ├── test-motion.mjs # 748: Phase 5 Part G motion audit: token scale, forbidden properties, reduced motion, pairing rules, shared-layer use
@@ -219,15 +224,19 @@ ImgFetch/
     ├── test-queue-persist.mjs # 5: queue persistence checks
     ├── test-races.mjs # 6: race checks for cancel, token isolation, bursts
     ├── test-scanner.mjs # 18: relevance scoring checks
-    ├── test-security.mjs # 531: security checks, hostile input tables, forbidden API scan, fuzz
+    ├── test-security-fuzz.mjs # 444631: Phase 6 second-pass hostile-input fuzz, 36000 cases over 6 targets, fixed seed
+    ├── test-security.mjs # 588: security checks, hostile input tables, forbidden API scan, fuzz
     ├── test-svg.mjs # 12: SVG sanitizer checks with a stub DOM
     ├── test-svg-real-dom.mjs # 18: SVG sanitizer checks with a real DOM through jsdom
     ├── test-undo-redo.mjs # 13: undo and redo stack checks
+    ├── test-upgrade-path.mjs # 16: Phase 6 item 7.1 upgrade path, old-format settings, history and queue state normalise, welcome on install only
     ├── test-urls-ipv6.mjs # 21: IPv6 private network guard checks
     ├── test-validate-package-mode.mjs # 31: validate.py package mode and release-check CRLF guard checks
+    ├── test-welcome-dots.mjs # 26: Phase 6 item 5.1 welcome progress dots match the step, LTR and RTL, fast clicks and keyboard, in jsdom
     ├── test-zip-accum.mjs # 9: chunked ZIP abort and time limit checks
     └── test-e2e/
         ├── README.md # How to run the real browser suites
+        ├── a1-fringe-e2e.mjs # Real browser Phase 6 item 6 A1 outer band rule at DPR 1, 1.25, 1.5 and 2 in dark and light
         ├── capture-e2e.mjs # Real browser capture checks for all four capture modes
         ├── capture-quality-e2e.mjs # Real browser Phase 5 item C checks: long-page pixel accuracy, editor Copy and Save, peak heap
         ├── clipboard-e2e.mjs # Real browser Copy button checks

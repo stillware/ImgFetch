@@ -70,7 +70,7 @@ const DOUBLE_DASH = ' -- ';
  * Reviewed allow-list for values that are legitimately identical to the
  * English source. Entries are "code:key". Reviewed 2026-10-18:
  * - Universal: brand "ImgFetch" (appName, required identical); values made
- *   only of placeholders/symbols (history_groupLine, fn_templatePlaceholder,
+ *   only of placeholders/symbols (fn_templatePlaceholder,
  *   fn_tokensList, popup_thumbTitle, info_shownAtValue); the domain example
  *   sp_hostPlaceholder ("example.com").
  * - Per-locale: true cognates and established loanwords, e.g. German
@@ -80,7 +80,6 @@ const DOUBLE_DASH = ' -- ';
  */
 const UNIVERSAL_IDENTICAL_KEYS = new Set([
   'appName',
-  'history_groupLine',
   'fn_templatePlaceholder',
   'fn_tokensList',
   'sp_hostPlaceholder',

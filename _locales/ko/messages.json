@@ -127,25 +127,13 @@
     "message": "전체 페이지",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "스캔 중",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "페이지를 스캔하는 중…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "이미지 찾는 중",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "배경을 포함하여 이미지를 찾고 있습니다.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "지금까지 {done}개 찾음…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "지금까지 찾은 수",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "형식 필터",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "모든 형식",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "전체",
@@ -315,10 +299,6 @@
     "message": "다시 스캔",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "{count}개 이미지 찾음",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "스캔 완료",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "이미지를 찾지 못했습니다. 크기 필터가 작은 이미지 {dropped}개를 건너뛰었습니다. 설정 → 스캔에서 낮추세요.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "이미지 {dropped}개가 너무 커서 전달할 수 없어 건너뛰었습니다. 500KB를 초과하는 Data-URL 이미지는 팝업으로 보낼 수 없습니다.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "이 필터에 맞는 이미지가 없습니다.",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "다운로드 보기",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "이 페이지에서 {count}개 이미지 찾음",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "결과 보기",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "마지막 스캔",
@@ -547,14 +523,6 @@
     "message": "기록",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "다운로드 기록을 지울까요?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "ImgFetch가 다운로드한 파일 목록이 삭제됩니다. 파일 자체는 기기에 남습니다.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "기록 지우기",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "아직 아무것도 없습니다.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "파일 열기",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "원본 링크 열기",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "대신 폴더에 표시합니다.",
@@ -1387,10 +1347,6 @@
     "message": "모든 기록 항목을 즉시 삭제합니다. 다운로드한 파일에는 영향이 없습니다.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "기록을 지우지 못했습니다.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "설정을 가져가거나 새로 시작하세요.",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "저장에 실패했습니다.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "이 스크린샷은 하나의 이미지로 저장하기에는 너무 큽니다(40MB 초과). 부분으로 저장하거나 보이는 영역을 저장할 수 있습니다.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "이 편집기 링크는 유효하지 않습니다.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "링크 복사",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "JPG로 저장",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "이미지가 지정되지 않았습니다.",
@@ -2119,14 +2075,6 @@
     "message": "이 요소는 화면보다 길어 보이는 부분만 캡처되었습니다. 나머지는 전체 페이지를 사용하세요.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "이 페이지는 매우 길어 처음 {tileCount}개 타일(상단)만 캡처됩니다. 나머지는 영역 캡처를 사용하세요.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "이 페이지는 매우 커서 메모리 제한에 맞게 전체 페이지 이미지를 {percent}%로 축소했습니다.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "전체 페이지 캡처 중, 타일 {n}/{tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "스크린샷이 클립보드에 복사되었습니다.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "스크린샷이 클립보드에 복사되었습니다. 맞게 {width} x {height}로 축소되었습니다.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "이 스크린샷은 클립보드에는 너무 커서 표시된 부분만 복사했습니다 ({width} x {height}). 전체 이미지를 유지하려면 스크린샷을 저장하세요.",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "전체 {total}개 중 {count}번째 파트 삭제",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height}픽셀 · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "참고: 전체 페이지와 같은 큰 스크린샷은 올바르게 복사되지만 Windows 클립보드 기록(Win+V)에는 나타나지 않습니다. 이는 복사의 문제가 아니라 Windows의 제한입니다. Ctrl+V를 눌러 필요한 곳에 이미지를 붙여 넣으세요.",

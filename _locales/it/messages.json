@@ -127,29 +127,13 @@
     "message": "Intera pagina",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Scansione",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Scansione della pagina…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Ricerca immagini",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Ricerca di immagini, inclusi gli sfondi.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "{done} trovata finora…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "{done} trovate finora…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Trovate finora",
@@ -194,10 +178,6 @@
   "popup_formatFilterAria": {
     "message": "Filtro formato",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Tutti i formati",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Tutti",
@@ -331,14 +311,6 @@
     "message": "Scansiona di nuovo",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "{count} immagine trovata",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_other": {
-    "message": "{count} immagini trovate",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Scansione completata",
     "description": "Results heading when a scan finishes."
@@ -366,6 +338,14 @@
   "results_noImagesFiltered_other": {
     "message": "Nessuna immagine trovata, {dropped} immagini piccole sono state saltate dal tuo filtro dimensione. Abbassalo in Impostazioni → Scansione.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} immagine era troppo grande per essere trasferita ed è stata saltata. Le immagini Data-URL oltre 500 KB non possono essere inviate al popup.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} immagini erano troppo grandi per essere trasferite e sono state saltate. Le immagini Data-URL oltre 500 KB non possono essere inviate al popup.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Nessuna immagine corrisponde a questi filtri.",
@@ -434,18 +414,6 @@
   "home_viewDownloads": {
     "message": "Vedi download",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "{count} immagine trovata in questa pagina",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_other": {
-    "message": "{count} immagini trovate in questa pagina",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Vedi risultati",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Ultima scansione",
@@ -591,14 +559,6 @@
     "message": "Cronologia",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Cancellare la cronologia download?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Rimuove l’elenco dei file scaricati da ImgFetch. I file restano sul tuo dispositivo.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Cancella cronologia",
     "description": "Confirm dialog button."
@@ -651,17 +611,9 @@
     "message": "Niente qui per ora.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Apri file",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Apri il link di origine",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Visualizzazione nella cartella.",
@@ -1443,10 +1395,6 @@
     "message": "Rimuove subito tutte le voci della cronologia. I file scaricati non sono toccati.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Cancellazione cronologia non riuscita.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Porta le tue impostazioni con te, o ricomincia da zero.",
     "description": "Backup section description."
@@ -1715,6 +1663,10 @@
     "message": "Salvataggio non riuscito.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Questo screenshot è troppo grande per essere salvato come un’unica immagine (oltre 40 MB). Puoi comunque salvarlo in parti o salvare l’area visibile.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Questo link dell’editor non è valido.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1846,10 +1798,6 @@
   "info_copyLink": {
     "message": "Copia link",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Salva come JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Nessuna immagine specificata.",
@@ -2191,14 +2139,6 @@
     "message": "Quell’elemento è più alto dello schermo, è stata catturata solo la parte visibile. Usa Intera pagina per il resto.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Questa pagina è molto lunga, catturo i primi {tileCount} riquadri (parte alta). Usa la cattura area per il resto.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Questa pagina è molto grande, l’immagine dell’intera pagina è stata ridotta al {percent}% per i limiti di memoria.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Cattura intera pagina, riquadro {n} di {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2246,10 +2186,6 @@
   "copySuccess": {
     "message": "Screenshot copiato negli appunti.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Screenshot copiato negli appunti, ridotto a {width} x {height} per adattarlo.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Questo screenshot è troppo grande per gli appunti, quindi è stata copiata solo la parte visualizzata ({width} x {height}). Salva lo screenshot per conservare l'immagine completa.",
@@ -2382,10 +2318,6 @@
   "parts_discardAria": {
     "message": "Scarta la parte {count} di {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} pixel · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Nota: gli screenshot grandi, come le pagine intere, vengono copiati correttamente ma non compaiono nella cronologia degli appunti di Windows (Win+V). È un limite di Windows, non un problema della copia. Premi Ctrl+V per incollare l'immagine dove ti serve.",

@@ -250,16 +250,25 @@ for (const lang of ['en', 'ar']) {
     await page.bringToFront();
     await page.waitForTimeout(800);
     const pending = send({ type: 'CAPTURE_AREA' }).catch(() => ({}));
-    await page.waitForSelector('[data-imgfetch-overlay] .sx-hint', { timeout: 15000 });
-    const hintText = await page.evaluate(() => document.querySelector('.sx-hint').textContent);
+    // Phase 6 item 6 (REC-1): the overlay lives in a closed shadow root,
+    // so page DOM queries cannot see the hint pill. The hint text is
+    // mirrored onto the host as data-imgfetch-hint; the assertion (the
+    // translated hint) is unchanged, only the read path moved. The host
+    // must also report a null shadowRoot, which proves closed mode.
+    await page.waitForSelector('[data-imgfetch-hint]', { timeout: 15000 });
+    const hintText = await page.evaluate(() => document.querySelector('[data-imgfetch-hint]').getAttribute('data-imgfetch-hint'));
     const overlayDir = await page.evaluate(() => {
-      const el = document.querySelector('[data-imgfetch-overlay]');
+      const el = document.querySelector('[data-imgfetch-hint]');
       return el ? window.getComputedStyle(el).direction : '';
     });
-    phase(`I5 overlay ${lang}: translated hint`, hintText === msg(lang, 'overlay_selectHint'),
-      { note: `hint=${JSON.stringify(hintText.slice(0, 60))} direction=${overlayDir}` });
+    const shadowClosed = await page.evaluate(() => {
+      const el = document.querySelector('[data-imgfetch-hint]');
+      return !!el && el.shadowRoot === null;
+    });
+    phase(`I5 overlay ${lang}: translated hint`, hintText === msg(lang, 'overlay_selectHint') && shadowClosed === true,
+      { note: `hint=${JSON.stringify(hintText.slice(0, 60))} direction=${overlayDir} shadowClosed=${shadowClosed}` });
     await page.keyboard.press('Escape');
-    await page.waitForSelector('[data-imgfetch-overlay]', { state: 'detached', timeout: 5000 });
+    await page.waitForSelector('[data-imgfetch-hint]', { state: 'detached', timeout: 5000 });
     await pending;
     await page.close();
   } catch (e) {

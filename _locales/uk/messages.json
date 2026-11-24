@@ -127,37 +127,13 @@
     "message": "Вся сторінка",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Сканування",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Сканування сторінки…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Пошук зображень",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Шукаємо зображення, включно з фоновими.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "Знайдено: {done}…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_few": {
-    "message": "Знайдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_many": {
-    "message": "Знайдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "Знайдено: {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Знайдено поки",
@@ -210,10 +186,6 @@
   "popup_formatFilterAria": {
     "message": "Фільтр формату",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Усі формати",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Всі",
@@ -363,22 +335,6 @@
     "message": "Сканувати знову",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "Знайдено {count} зображення",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_few": {
-    "message": "Знайдено {count} зображення",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_many": {
-    "message": "Знайдено {count} зображень",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_other": {
-    "message": "Знайдено {count} зображення",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Сканування завершено",
     "description": "Results heading when a scan finishes."
@@ -414,6 +370,22 @@
   "results_noImagesFiltered_other": {
     "message": "Зображень не знайдено: {dropped} маленьких зображення пропущено вашим фільтром розміру. Зменште його в Налаштування → Сканування.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} зображення було занадто великим для передачі і пропущено. Зображення Data-URL розміром понад 500 КБ не можна надіслати у спливне вікно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_few": {
+    "message": "{dropped} зображення були занадто великими для передачі і пропущено. Зображення Data-URL розміром понад 500 КБ не можна надіслати у спливне вікно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Few."
+  },
+  "results_tooLargeSkipped_many": {
+    "message": "{dropped} зображень пропущено: вони занадто великі для передачі. Зображення Data-URL розміром понад 500 КБ не можна надіслати у спливне вікно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Many."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} зображення були занадто великими для передачі і пропущено. Зображення Data-URL розміром понад 500 КБ не можна надіслати у спливне вікно.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Жодне зображення не відповідає цим фільтрам.",
@@ -514,26 +486,6 @@
   "home_viewDownloads": {
     "message": "Переглянути завантаження",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "На цій сторінці знайдено {count} зображення",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_few": {
-    "message": "На цій сторінці знайдено {count} зображення",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_many": {
-    "message": "На цій сторінці знайдено {count} зображень",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_other": {
-    "message": "На цій сторінці знайдено {count} зображення",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Переглянути результати",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Останнє сканування",
@@ -679,14 +631,6 @@
     "message": "Історія",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Очистити історію завантажень?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Це видалить список файлів, завантажених ImgFetch. Самі файли залишаться на вашому пристрої.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Очистити історію",
     "description": "Confirm dialog button."
@@ -747,17 +691,9 @@
     "message": "Тут поки нічого немає.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Відкрити файл",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Відкрити посилання на джерело",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Натомість показано папку.",
@@ -1555,10 +1491,6 @@
     "message": "Негайно видаляє всі записи історії. Завантажені файли не зачіпаються.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Не вдалося очистити історію.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Заберіть налаштування з собою або почніть з чистого аркуша.",
     "description": "Backup section description."
@@ -1827,6 +1759,10 @@
     "message": "Не вдалося зберегти.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Цей знімок занадто великий, щоб зберегти його як одне зображення (понад 40 МБ). Ви можете зберегти його частинами або зберегти видиму область.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Це посилання редактора недійсне.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1958,10 +1894,6 @@
   "info_copyLink": {
     "message": "Копіювати посилання",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Зберегти як JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Зображення не вказано.",
@@ -2335,14 +2267,6 @@
     "message": "Цей елемент вищий за екран, захоплено лише видиму частину. Використовуйте «Вся сторінка» для решти.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Ця сторінка дуже довга, захоплюються перші {tileCount} фрагментів (верхня частина). Для решти використовуйте захоплення області.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Ця сторінка дуже велика, зображення всієї сторінки зменшено до {percent}%, щоб вкластися в ліміти пам’яті.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Захоплення всієї сторінки, фрагмент {n} з {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2390,10 +2314,6 @@
   "copySuccess": {
     "message": "Скриншот скопійовано до буфера обміну.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Скриншот скопійовано до буфера обміну, зменшено до {width} x {height}, щоб помістився.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Цей знімок завеликий для буфера обміну, тому скопійовано лише показану частину ({width} x {height}). Збережіть знімок, щоб зберегти повне зображення.",
@@ -2558,10 +2478,6 @@
   "parts_discardAria": {
     "message": "Відкинути частину {count} з {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} пікселів · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Примітка: великі знімки, наприклад цілі сторінки, копіюються правильно, але не з'являються в історії буфера обміну Windows (Win+V). Це обмеження Windows, а не проблема копіювання. Натисніть Ctrl+V, щоб вставити зображення в потрібне місце.",

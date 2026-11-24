@@ -127,29 +127,13 @@
     "message": "Ganze Seite",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Scannen",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Seite wird gescannt…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Suche nach Bildern",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Suche nach Bildern, einschließlich Hintergründen.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "{done} bisher gefunden…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "{done} bisher gefunden…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Bisher gefunden",
@@ -194,10 +178,6 @@
   "popup_formatFilterAria": {
     "message": "Formatfilter",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Alle Formate",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Alle",
@@ -331,14 +311,6 @@
     "message": "Erneut scannen",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "{count} Bild gefunden",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_other": {
-    "message": "{count} Bilder gefunden",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Scan abgeschlossen",
     "description": "Results heading when a scan finishes."
@@ -366,6 +338,14 @@
   "results_noImagesFiltered_other": {
     "message": "Keine Bilder gefunden, {dropped} kleine Bilder wurden durch deinen Größenfilter übersprungen. Stelle ihn unter Einstellungen → Scannen niedriger ein.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} Bild war zu groß zum Übertragen und wurde übersprungen. Data-URL-Bilder über 500 KB können nicht an das Pop-up gesendet werden.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} Bilder waren zu groß zum Übertragen und wurden übersprungen. Data-URL-Bilder über 500 KB können nicht an das Pop-up gesendet werden.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Keine Bilder passen zu diesen Filtern.",
@@ -434,18 +414,6 @@
   "home_viewDownloads": {
     "message": "Downloads ansehen",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "{count} Bild auf dieser Seite gefunden",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_other": {
-    "message": "{count} Bilder auf dieser Seite gefunden",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Ergebnisse ansehen",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Letzter Scan",
@@ -591,14 +559,6 @@
     "message": "Verlauf",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Downloadverlauf löschen?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Dies entfernt die Liste der von ImgFetch heruntergeladenen Dateien. Die Dateien bleiben auf deinem Gerät.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Verlauf löschen",
     "description": "Confirm dialog button."
@@ -651,17 +611,9 @@
     "message": "Hier ist noch nichts.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Datei öffnen",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Quelllink öffnen",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Stattdessen wird der Ordner angezeigt.",
@@ -1443,10 +1395,6 @@
     "message": "Entfernt sofort alle Verlaufseinträge. Heruntergeladene Dateien sind nicht betroffen.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Verlauf konnte nicht gelöscht werden.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Nimm deine Einstellungen mit oder fang frisch an.",
     "description": "Backup section description."
@@ -1715,6 +1663,10 @@
     "message": "Speichern fehlgeschlagen.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Dieser Screenshot ist zu groß, um ihn als ein Bild zu speichern (über 40 MB). Du kannst ihn weiterhin als Teile speichern oder den sichtbaren Bereich speichern.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Dieser Editorlink ist ungültig.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1846,10 +1798,6 @@
   "info_copyLink": {
     "message": "Link kopieren",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Als JPG speichern",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Es wurde kein Bild angegeben.",
@@ -2191,14 +2139,6 @@
     "message": "Dieses Element ist höher als der Bildschirm, nur der sichtbare Teil wurde aufgenommen. Nutze Ganze Seite für den Rest.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Diese Seite ist sehr lang, die ersten {tileCount} Kacheln (oberer Teil) werden aufgenommen. Nutze die Bereichsaufnahme für den Rest.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Diese Seite ist sehr groß, das Ganzseitenbild wurde auf {percent} % verkleinert, um Speicherlimits einzuhalten.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Ganze Seite wird aufgenommen, Kachel {n} von {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2246,10 +2186,6 @@
   "copySuccess": {
     "message": "Screenshot in die Zwischenablage kopiert.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Screenshot in die Zwischenablage kopiert, auf {width} x {height} verkleinert zum Einpassen.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Dieser Screenshot ist zu groß für die Zwischenablage, daher wurde nur der angezeigte Teil kopiert ({width} x {height}). Speichere den Screenshot, um das vollständige Bild zu behalten.",
@@ -2382,10 +2318,6 @@
   "parts_discardAria": {
     "message": "Teil {count} von {total} verwerfen",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} Pixel · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Hinweis: Große Screenshots, etwa ganze Seiten, werden korrekt kopiert, erscheinen aber nicht im Windows-Zwischenablageverlauf (Win+V). Das ist eine Windows-Beschränkung, kein Problem der Kopie. Drücken Sie Strg+V, um das Bild an der gewünschten Stelle einzufügen.",

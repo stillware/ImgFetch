@@ -39,6 +39,13 @@
  *    and no script, event handler or javascript: URL in a bundled SVG.
  * 7. Every manifest permission is justified in docs/permissions.md.
  * 8. Fetch inventory: every fetch( call site is listed.
+ * 9. Phase 6 second-pass wiring: the private-network guard in
+ *    fetchImageBytes is unconditional, the offscreen document rejects
+ *    content-script senders, ZIP entry extensions are restricted to
+ *    image types with SVG entries sanitized, the info page fetch has a
+ *    timeout and a redirect re-check, history thumb/copy build the
+ *    same-host exception URL from a validated host, and SVG pixel
+ *    budgets are checked before decoding.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -192,6 +199,31 @@ const manifest = JSON.parse(read(path.join(ROOT, 'manifest.json')));
     if (!perms.includes(p)) missing.push(p);
   }
   check('docs/permissions.md justifies every manifest permission', missing.length === 0, missing.join('; '));
+}
+
+/* 9. Phase 6 second-pass wiring */
+{
+  const histSrc = read(path.join(ROOT, 'core', 'history.js'));
+  check('fetchImageBytes private guard is unconditional (no pageUrl needed)',
+    histSrc.includes("isPrivateNetworkFetchBlocked(url, options.pageUrl || '')"));
+  const offSrc = read(path.join(ROOT, 'offscreen', 'offscreen.js'));
+  check('offscreen rejects content-script senders',
+    offSrc.includes("startsWith('chrome-extension://')") && offSrc.includes("error: 'forbidden'"));
+  check('ZIP URL extensions are restricted to image types',
+    offSrc.includes("['gif', 'png', 'jpg', 'jpeg', 'webp', 'avif', 'bmp', 'svg', 'tif', 'tiff', 'ico']"));
+  check('ZIP SVG entries go through the sanitizer',
+    offSrc.includes('sanitizeSvgBytes(r.data)') && offSrc.includes("'svg-unsafe'"));
+  const infoSrc = read(path.join(ROOT, 'pages', 'info.js'));
+  check('info page fetch has a timeout and a redirect re-check',
+    infoSrc.includes('AbortController') && infoSrc.includes('isRedirectBlocked(res.url, pageUrl)'));
+  const workerSrc = read(path.join(ROOT, 'background', 'service-worker.js'));
+  const histUiSrc = read(path.join(ROOT, 'shared', 'history-ui.js'));
+  check('history thumb/copy build the exception URL from a validated host',
+    workerSrc.includes('pageUrlFromHost(record.pageHost)') && histUiSrc.includes('pageUrlFromHost(r.pageHost)'));
+  check('SVG pixel budget is checked before decoding',
+    histSrc.includes("sniffImageMime(bytes) === 'image/svg+xml'") && offSrc.includes('assertSvgPixelBudget('));
+  check('history backfill never targets a private-network URL',
+    histSrc.includes('!isPrivateNetworkUrl(r.url)') && histSrc.includes('selectBackfillTargets'));
 }
 
 /* 8. Fetch inventory (informational) */

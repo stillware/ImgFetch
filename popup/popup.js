@@ -471,7 +471,14 @@ function onEnterRoute(route) {
     loadHistory();
     return;
   }
-  if (route.pane === 'results' && state.scan) refreshVisible();
+  if (route.pane === 'results') {
+    /* Phase 6 item 1: entering results must settle View all from the
+       scan state even on a path that never reaches updateFooter
+       (Back to a results route). Without a scan the button stays
+       hidden instead of painting its empty outline box. */
+    $('btnViewAll').hidden = !state.scan || !state.scan.images || !state.scan.images.length;
+    if (state.scan) refreshVisible();
+  }
   if (route.pane === 'queue') refreshQueue();
   if (route.pane === 'idle') renderHomeStatus();
 }
@@ -802,17 +809,23 @@ function showScan(scan, selectAll) {
   $('resSub').textContent = (scan.title || '').slice(0, 70);
   renderResSummary();
   renderFormatChips();
+  const tooLarge = Number(scan.droppedTooLarge) || 0;
   if (!scan.images.length) {
     navigate('home', 'idle');
     const dropped = Number(scan.droppedBySize) || 0;
     UI.toast(
-      dropped > 0
-        ? t('results_noImagesFiltered', { count: dropped, dropped })
-        : t('results_noImages'),
+      tooLarge > 0
+        ? t('results_tooLargeSkipped', { count: tooLarge, dropped: tooLarge })
+        : dropped > 0
+          ? t('results_noImagesFiltered', { count: dropped, dropped })
+          : t('results_noImages'),
     );
     return;
   }
   navigate('home', 'results');
+  if (tooLarge > 0) {
+    UI.toast(t('results_tooLargeSkipped', { count: tooLarge, dropped: tooLarge }));
+  }
   // D3: seed already-downloaded badges from the live queue, so tiles
   // downloaded earlier in this session show their badge when results open.
   UI.send('GET_QUEUE').then(({ snapshot }) => {
@@ -1293,6 +1306,13 @@ function updateFooter() {
   if (state.scan) {
     $('btnViewAllLabel').textContent = t('popup_viewAllImages', { count: total });
   }
+  /* Phase 6 item 1: View all has no label and no purpose until a scan
+     exists, so hide it instead of painting an empty rounded outline
+     box below the Download button. The label is only set when
+     state.scan exists, so a results pane shown without a scan used to
+     show that empty box. When filters hide every image the button
+     stays visible: its label is set and it clears the filters. */
+  $('btnViewAll').hidden = !state.scan || !state.scan.images || !state.scan.images.length;
   paintSelectedSize();
 }
 

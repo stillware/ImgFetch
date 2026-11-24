@@ -19,7 +19,7 @@
  * ImgFetch, content/scanner.js
  * Runs in the page (ISOLATED world). Exposes window.__imgfetch:
  *   scanPage(options)        -> { images:[...], pageTitle, pageHost, pageUrl,
- *                                 count, droppedBySize, droppedByRelevance, deduped }
+ *                                 count, droppedBySize, droppedByRelevance, deduped, droppedTooLarge }
  *   findBestSource(srcUrl)   -> { url, width, height, confidence, kind }
  *   getImageInfo(srcUrl)     -> { ... } | null
  *
@@ -37,6 +37,12 @@
   // by path.
   const SCAN_DATA_URL_MAX = 2_000_000;
 
+  // Count of data: image URLs dropped by the discovery cap in absUrl, so a
+  // scan can report them (droppedTooLarge) instead of silently skipping
+  // them. Reset at the start of each scanPage call; one content-script
+  // instance serves one frame, and scans in a frame run one at a time.
+  let absUrlTooLargeDrops = 0;
+
   const LAZY_ATTRS = [
     'data-src', 'data-original', 'data-lazy-src', 'data-lazysrc',
     'data-srcset', 'data-image', 'data-full', 'data-full-src',
@@ -48,7 +54,10 @@
   function absUrl(raw, base) {
     if (typeof raw !== 'string') return null;
     const value = raw.trim();
-    if (!value || value.length > 8192) return null;
+    if (!value) return null;
+    // Data: image URLs have their own discovery cap (SCAN_DATA_URL_MAX, 2 MB)
+    // below, so the 8,192-char cap for http(s) URLs must not drop them first.
+    if (value.length > 8192 && !/^data:image\//i.test(value.slice(0, 64))) return null;
     try {
       const u = new URL(value, base || document.baseURI);
       if (u.protocol === 'http:' || u.protocol === 'https:') {
@@ -59,7 +68,11 @@
       if (u.protocol === 'data:' && /^data:image\//i.test(value.slice(0, 64))) {
         // L12: scanner discovery cap (2 MB), see DATA_URL_DOWNLOAD_MAX_DECODED
         // in core/urls.js for why the download path allows more.
-        return value.length > SCAN_DATA_URL_MAX ? null : value;
+        if (value.length > SCAN_DATA_URL_MAX) {
+          absUrlTooLargeDrops += 1;
+          return null;
+        }
+        return value;
       }
       // blob: URLs are how GIF-heavy sites (Giphy, Tenor, editors) serve
       // media. They only resolve inside the page, so the service worker
@@ -668,6 +681,10 @@
     const raw = []; // phase 1: unscored candidates { record, el, kind, naturalW, naturalH }
     let order = 0;
     let droppedBySize = 0;
+    let droppedTooLarge = 0;
+    // Reset the absUrl discovery-cap counter for this scan; it is folded
+    // into droppedTooLarge at the return below.
+    absUrlTooLargeDrops = 0;
     let droppedByRelevance = 0;
     let deduped = 0;
 
@@ -693,7 +710,7 @@
       }
       // Extremely large inline data-URL images would blow up session storage
       // and thumbnails; skip them (documented limitation).
-      if (key.startsWith('data:') && key.length > 500_000) return;
+      if (key.startsWith('data:') && key.length > 500_000) { droppedTooLarge += 1; return; }
       seen.add(key);
       raw.push({
         record, el: el || null, kind,
@@ -1047,7 +1064,9 @@
       console.debug(`[imgfetch:scan] ${images.length} kept, ${droppedByRelevance} UI assets filtered, ${droppedBySize} dropped by size filter`);
     }
 
-    return { images, pageTitle, pageHost, pageUrl, count: images.length, droppedBySize, droppedByRelevance, deduped };
+    // droppedTooLarge counts both the collectRaw 500 KB drops above and the
+    // absUrl 2 MB discovery-cap drops (absUrlTooLargeDrops).
+    return { images, pageTitle, pageHost, pageUrl, count: images.length, droppedBySize, droppedByRelevance, deduped, droppedTooLarge: droppedTooLarge + absUrlTooLargeDrops };
   }
 
   /**

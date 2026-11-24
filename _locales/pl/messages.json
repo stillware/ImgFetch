@@ -127,37 +127,13 @@
     "message": "Cała strona",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Skanowanie",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Skanowanie strony…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Szukanie obrazów",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Szukam obrazów, w tym obrazów tła.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar_one": {
-    "message": "Znaleziono {done}…",
-    "description": "Scan progress. Singular: one image found so far."
-  },
-  "scan_foundSoFar_few": {
-    "message": "Znaleziono {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_many": {
-    "message": "Znaleziono {done}…",
-    "description": "Scan progress. Plural: several images found so far."
-  },
-  "scan_foundSoFar_other": {
-    "message": "Znaleziono {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Znaleziono do tej pory",
@@ -210,10 +186,6 @@
   "popup_formatFilterAria": {
     "message": "Filtr formatu",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Wszystkie formaty",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Wszystkie",
@@ -363,22 +335,6 @@
     "message": "Skanuj ponownie",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound_one": {
-    "message": "Znaleziono {count} obraz",
-    "description": "Results heading. Singular."
-  },
-  "results_titleFound_few": {
-    "message": "Znaleziono {count} obrazy",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_many": {
-    "message": "Znaleziono {count} obrazów",
-    "description": "Results heading. Plural."
-  },
-  "results_titleFound_other": {
-    "message": "Znaleziono {count} obrazy",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Skanowanie zakończone",
     "description": "Results heading when a scan finishes."
@@ -414,6 +370,22 @@
   "results_noImagesFiltered_other": {
     "message": "Nie znaleziono obrazów, {dropped} małe obrazy zostały pominięte przez filtr rozmiaru. Zmniejsz go w Ustawienia → Skanowanie.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped_one": {
+    "message": "{dropped} obraz był za duży do przekazania i został pominięty. Obrazów Data-URL większych niż 500 KB nie można wysłać do wyskakującego okienka.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Singular."
+  },
+  "results_tooLargeSkipped_few": {
+    "message": "{dropped} obrazy były za duże do przekazania i zostały pominięte. Obrazów Data-URL większych niż 500 KB nie można wysłać do wyskakującego okienka.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Few."
+  },
+  "results_tooLargeSkipped_many": {
+    "message": "{dropped} obrazów zostało pominiętych, ponieważ były za duże do przekazania. Obrazów Data-URL większych niż 500 KB nie można wysłać do wyskakującego okienka.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Many."
+  },
+  "results_tooLargeSkipped_other": {
+    "message": "{dropped} obrazy były za duże do przekazania i zostały pominięte. Obrazów Data-URL większych niż 500 KB nie można wysłać do wyskakującego okienka.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner. Plural."
   },
   "results_noMatch": {
     "message": "Żaden obraz nie pasuje do tych filtrów.",
@@ -514,26 +486,6 @@
   "home_viewDownloads": {
     "message": "Zobacz pobieranie",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound_one": {
-    "message": "Znaleziono {count} obraz na tej stronie",
-    "description": "Home status card for a stored scan. Singular."
-  },
-  "home_imagesFound_few": {
-    "message": "Znaleziono {count} obrazy na tej stronie",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_many": {
-    "message": "Znaleziono {count} obrazów na tej stronie",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_imagesFound_other": {
-    "message": "Znaleziono {count} obrazy na tej stronie",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Zobacz wyniki",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Ostatnie skanowanie",
@@ -679,14 +631,6 @@
     "message": "Historia",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Wyczyścić historię pobierania?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Usuwa to listę plików pobranych przez ImgFetch. Same pliki zostają na twoim urządzeniu.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Wyczyść historię",
     "description": "Confirm dialog button."
@@ -747,17 +691,9 @@
     "message": "Tu jeszcze nic nie ma.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Otwórz plik",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Otwórz link źródłowy",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Zamiast tego pokazano folder.",
@@ -1555,10 +1491,6 @@
     "message": "Natychmiast usuwa wszystkie wpisy historii. Pobrane pliki nie są dotknięte.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Nie udało się wyczyścić historii.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Zabierz ustawienia ze sobą albo zacznij od nowa.",
     "description": "Backup section description."
@@ -1827,6 +1759,10 @@
     "message": "Zapis nieudany.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Ten zrzut ekranu jest za duży, aby zapisać go jako jeden obraz (ponad 40 MB). Nadal możesz zapisać go w częściach lub zapisać widoczny obszar.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Ten link edytora jest nieprawidłowy.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1958,10 +1894,6 @@
   "info_copyLink": {
     "message": "Kopiuj link",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Zapisz jako JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Nie podano obrazu.",
@@ -2335,14 +2267,6 @@
     "message": "Ten element jest wyższy niż ekran, przechwycono tylko widoczną część. Użyj opcji Cała strona dla reszty.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Ta strona jest bardzo długa, przechwycone zostaną pierwsze {tileCount} kafli (górna część). Użyj przechwytywania obszaru dla reszty.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Ta strona jest bardzo duża, obraz całej strony zmniejszono do {percent}%, by zmieścić się w limitach pamięci.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Przechwytywanie całej strony, kafel {n} z {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2390,10 +2314,6 @@
   "copySuccess": {
     "message": "Zrzut skopiowany do schowka.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Zrzut skopiowany do schowka, zmniejszony do {width} x {height}, aby się zmieścił.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Ten zrzut ekranu jest za duży dla schowka, więc skopiowano tylko widoczną część ({width} x {height}). Zapisz zrzut ekranu, aby zachować pełny obraz.",
@@ -2558,10 +2478,6 @@
   "parts_discardAria": {
     "message": "Odrzuć część {count} z {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} pikseli · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Uwaga: duże zrzuty ekranu, takie jak całe strony, kopiują się poprawnie, ale nie pojawiają się w historii schowka Windows (Win+V). To ograniczenie systemu Windows, a nie problem z kopiowaniem. Naciśnij Ctrl+V, aby wkleić obraz w odpowiednim miejscu.",

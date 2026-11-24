@@ -127,25 +127,13 @@
     "message": "Toàn bộ trang",
     "description": "Short label under the full-page screenshot button."
   },
-  "popup_scanningAria": {
-    "message": "Đang quét",
-    "description": "Accessibility label of the scan spinner."
-  },
   "popup_scanningTitle": {
     "message": "Đang quét trang…",
     "description": "Heading shown while a page scan runs."
   },
-  "popup_scanningStatus": {
-    "message": "Đang tìm ảnh",
-    "description": "Status line before the first scan result arrives."
-  },
   "popup_scanningDesc": {
     "message": "Đang tìm hình ảnh, bao gồm cả hình nền.",
     "description": "Subline shown while a page scan runs."
-  },
-  "scan_foundSoFar": {
-    "message": "Đã tìm thấy {done}…",
-    "description": "Scan progress. Plural: several images found so far."
   },
   "popup_scanFoundLabel": {
     "message": "Đã tìm thấy",
@@ -186,10 +174,6 @@
   "popup_formatFilterAria": {
     "message": "Bộ lọc định dạng",
     "description": "Accessibility label of the format dropdown."
-  },
-  "popup_formatAll": {
-    "message": "Mọi định dạng",
-    "description": "Format filter: show every format."
   },
   "popup_filterAll": {
     "message": "Tất cả",
@@ -315,10 +299,6 @@
     "message": "Quét lại",
     "description": "Button: run the page scan again."
   },
-  "results_titleFound": {
-    "message": "Tìm thấy {count} ảnh",
-    "description": "Results heading. Plural."
-  },
   "popup_resultsComplete": {
     "message": "Quét xong",
     "description": "Results heading when a scan finishes."
@@ -342,6 +322,10 @@
   "results_noImagesFiltered": {
     "message": "Không tìm thấy ảnh nào, bộ lọc kích thước đã bỏ qua {dropped} ảnh nhỏ. Hạ xuống trong Cài đặt → Quét.",
     "description": "Toast when only the size filter removed images. Plural."
+  },
+  "results_tooLargeSkipped": {
+    "message": "{dropped} ảnh quá lớn để chuyển qua nên đã bị bỏ qua. Ảnh Data-URL trên 500 KB không thể gửi tới cửa sổ bật lên.",
+    "description": "Toast when oversize data-URL images were skipped by the scanner."
   },
   "results_noMatch": {
     "message": "Không có ảnh nào khớp với các bộ lọc này.",
@@ -394,14 +378,6 @@
   "home_viewDownloads": {
     "message": "Xem các lượt tải",
     "description": "Home status card button: open the queue."
-  },
-  "home_imagesFound": {
-    "message": "Tìm thấy {count} ảnh trên trang này",
-    "description": "Home status card for a stored scan. Plural."
-  },
-  "home_viewResults": {
-    "message": "Xem kết quả",
-    "description": "Home status card button: open the results."
   },
   "popup_lastScan": {
     "message": "Lần quét gần nhất",
@@ -547,14 +523,6 @@
     "message": "Lịch sử",
     "description": "Accessibility label of the history view."
   },
-  "history_clearTitle": {
-    "message": "Xóa lịch sử tải xuống?",
-    "description": "Confirm dialog title."
-  },
-  "history_clearMessage": {
-    "message": "Thao tác này xóa danh sách tệp mà ImgFetch đã tải. Bản thân các tệp vẫn nằm trên thiết bị của bạn.",
-    "description": "Confirm dialog message."
-  },
   "history_clearConfirm": {
     "message": "Xóa lịch sử",
     "description": "Confirm dialog button."
@@ -603,17 +571,9 @@
     "message": "Chưa có gì ở đây.",
     "description": "Short empty state of the options history list."
   },
-  "history_groupLine": {
-    "message": "{label} · {count}",
-    "description": "History group heading: day label and item count."
-  },
   "history_openFile": {
     "message": "Mở tệp",
     "description": "History row button: open the downloaded file in the default app."
-  },
-  "history_openSource": {
-    "message": "Mở liên kết gốc",
-    "description": "History row button: open the source link in a new tab."
   },
   "history_showInFolderInstead": {
     "message": "Đang hiển thị trong thư mục.",
@@ -1387,10 +1347,6 @@
     "message": "Xóa ngay mọi mục lịch sử. Các tệp đã tải không bị ảnh hưởng.",
     "description": "Hint for clearing history."
   },
-  "hi_clearFailed": {
-    "message": "Không xóa được lịch sử.",
-    "description": "Toast: clearing history failed."
-  },
   "bk_desc": {
     "message": "Mang cài đặt của bạn theo, hoặc bắt đầu lại.",
     "description": "Backup section description."
@@ -1659,6 +1615,10 @@
     "message": "Lưu thất bại.",
     "description": "Toast: saving the screenshot failed."
   },
+  "annotate_tooLarge": {
+    "message": "Ảnh chụp màn hình này quá lớn để lưu thành một ảnh duy nhất (hơn 40 MB). Bạn vẫn có thể lưu nó thành từng phần hoặc lưu vùng hiển thị.",
+    "description": "Toast: the annotated screenshot is too large to save as one image."
+  },
   "annotate_invalidLink": {
     "message": "Liên kết trình chỉnh sửa này không hợp lệ.",
     "description": "Error: the annotate page opened without a capture id."
@@ -1790,10 +1750,6 @@
   "info_copyLink": {
     "message": "Sao chép liên kết",
     "description": "Info page: copy link button."
-  },
-  "info_saveJpg": {
-    "message": "Lưu dưới dạng JPG",
-    "description": "Info page: download as JPG."
   },
   "info_noImage": {
     "message": "Chưa chỉ định ảnh.",
@@ -2119,14 +2075,6 @@
     "message": "Phần tử này cao hơn màn hình, chỉ phần nhìn thấy được chụp. Dùng Toàn bộ trang cho phần còn lại.",
     "description": "Notice: the element was clipped to the viewport."
   },
-  "sw_tileCapped": {
-    "message": "Trang này rất dài, {tileCount} ô đầu tiên (phần trên) đang được chụp. Dùng chụp vùng cho phần còn lại.",
-    "description": "Notice: full-page capture was capped."
-  },
-  "sw_scaledDown": {
-    "message": "Trang này rất lớn, ảnh toàn trang đã thu nhỏ xuống {percent}% để vừa giới hạn bộ nhớ.",
-    "description": "Notice: full-page capture was scaled down."
-  },
   "sw_capturingTile": {
     "message": "Đang chụp toàn bộ trang, ô {n} trên {tileCount}…",
     "description": "Notice: full-page capture progress."
@@ -2174,10 +2122,6 @@
   "copySuccess": {
     "message": "Đã sao chép ảnh chụp màn hình vào clipboard.",
     "description": "Toast: screenshot copied."
-  },
-  "copyDownscaled": {
-    "message": "Đã sao chép ảnh chụp màn hình vào clipboard, thu nhỏ xuống {width} x {height} cho vừa.",
-    "description": "Toast: screenshot copied after downscaling."
   },
   "copyVisiblePart": {
     "message": "Ảnh chụp màn hình này quá lớn đối với bảng tạm, vì vậy chỉ phần đang hiển thị được sao chép ({width} x {height}). Hãy lưu ảnh chụp màn hình để giữ lại hình ảnh đầy đủ.",
@@ -2294,10 +2238,6 @@
   "parts_discardAria": {
     "message": "Hủy phần {count} trong {total}",
     "description": "Parts overview page: accessibility label of a part Discard button."
-  },
-  "parts_metaLine": {
-    "message": "{width} × {height} pixel · {size}",
-    "description": "Parts overview page: per-part dimensions and file size line."
   },
   "copy_windowsNote": {
     "message": "Lưu ý: Ảnh chụp lớn, chẳng hạn như toàn trang, sao chép đúng nhưng không xuất hiện trong lịch sử bảng tạm của Windows (Win+V). Đây là giới hạn của Windows, không phải lỗi sao chép. Nhấn Ctrl+V để dán hình ảnh vào nơi bạn cần.",
