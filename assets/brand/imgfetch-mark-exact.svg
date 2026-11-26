@@ -1,15 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="0.85" y2="1">
-      <stop offset="0" stop-color="#7142e8"/>
-      <stop offset="0.55" stop-color="#5457f3"/>
-      <stop offset="1" stop-color="#3d6cf9"/>
+    <linearGradient id="bm-bg" x1="8" y1="0" x2="120" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b7ff7"/>
+      <stop offset="0.55" stop-color="#6a5cf2"/>
+      <stop offset="1" stop-color="#4a3fd1"/>
     </linearGradient>
+    <radialGradient id="bm-shine" cx="0.28" cy="0.1" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bm-halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bm-base"><rect x="0" y="0" width="128" height="98"/></clipPath>
   </defs>
-  <rect width="512" height="512" rx="116" fill="url(#g)"/>
-  <path d="M132,401 L232,256 L292,329 L336,295 L392,401 Z"
-        fill="#a5b4fc" opacity="0.55" stroke="#a5b4fc" stroke-width="26" stroke-linejoin="round"/>
-  <path d="M118,385 L223,240 L283,315 L328,280 L378,385 Z"
-        fill="#ffffff" stroke="#ffffff" stroke-width="26" stroke-linejoin="round"/>
-  <circle cx="356" cy="154" r="31" fill="#ffffff"/>
+  <rect width="128" height="128" rx="30" fill="url(#bm-bg)"/>
+  <rect width="128" height="128" rx="30" fill="url(#bm-shine)"/>
+  <rect x="0.75" y="0.75" width="126.5" height="126.5" rx="29.25" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="91" cy="40" r="17" fill="url(#bm-halo)"/>
+  <circle cx="91" cy="40" r="8.5" fill="#ffffff"/>
+  <g clip-path="url(#bm-base)" stroke-linejoin="round" stroke-width="7">
+    <path d="M56 104 L86 62 L114 104 Z" fill="#cdc8ff" stroke="#cdc8ff"/>
+    <path d="M14 104 L50 50 L86 104 Z" fill="#ffffff" stroke="#ffffff"/>
+  </g>
 </svg>
