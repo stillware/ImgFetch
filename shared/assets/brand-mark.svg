@@ -15,20 +15,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-Vector brand mark, redrawn from icons/icon-128.png: rounded square,
-gradient, mountains, sun dot. Used in pages (welcome, options) where
-the raster icon looked soft; the PNG icons stay for the manifest and
-the toolbar.
+Vector brand mark (v2): squircle in the theme purples (accent2 to accent to deep accent),
+soft top shine, sun with a soft halo inside the tile, two rounded mountain peaks. No glow outside the tile. The PNG icons in icons/ are
+rendered from this file and must be regenerated when it changes.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6c63ff"/>
-      <stop offset="0.55" stop-color="#4a3fd1"/>
-      <stop offset="1" stop-color="#22d3ee"/>
+    <linearGradient id="bm-bg" x1="8" y1="0" x2="120" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b7ff7"/>
+      <stop offset="0.55" stop-color="#6a5cf2"/>
+      <stop offset="1" stop-color="#4a3fd1"/>
     </linearGradient>
+    <radialGradient id="bm-shine" cx="0.28" cy="0.1" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bm-halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bm-base"><rect x="0" y="0" width="128" height="98"/></clipPath>
   </defs>
-  <rect width="128" height="128" rx="22" fill="url(#brand-grad)"/>
-  <circle cx="88" cy="39" r="7" fill="#ffffff"/>
-  <path d="M27 98 L55 56 L72 76 L81 66 L96 98 Z" fill="#ffffff"/>
+  <rect width="128" height="128" rx="30" fill="url(#bm-bg)"/>
+  <rect width="128" height="128" rx="30" fill="url(#bm-shine)"/>
+  <rect x="0.75" y="0.75" width="126.5" height="126.5" rx="29.25" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="91" cy="40" r="17" fill="url(#bm-halo)"/>
+  <circle cx="91" cy="40" r="8.5" fill="#ffffff"/>
+  <g clip-path="url(#bm-base)" stroke-linejoin="round" stroke-width="7">
+    <path d="M56 104 L86 62 L114 104 Z" fill="#cdc8ff" stroke="#cdc8ff"/>
+    <path d="M14 104 L50 50 L86 104 Z" fill="#ffffff" stroke="#ffffff"/>
+  </g>
 </svg>

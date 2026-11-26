@@ -270,21 +270,17 @@ svg.icon, .icon {
 
 /* ---------- brand ---------- */
 .brand { display: flex; align-items: center; gap: 10px; }
+/* The brand mark is an <img> of the full SVG tile (brand-mark.svg): the
+   tile, its gradient and its rounded corners all live in the SVG, so this
+   rule paints nothing of its own. No background, no shadow, no filter and
+   no border-radius here, or a second gradient tile and a purple glow
+   appear around the logo. Keep only size, display and flex. */
 .brand-mark {
-  width: 32px; height: 32px; border-radius: 9px; flex: none;
-  background: linear-gradient(135deg, #6c63ff 0%, #4a3fd1 55%, #22d3ee 130%);
-  display: inline-flex; align-items: center; justify-content: center;
-  color: #fff; font-weight: 800; font-size: 18px; letter-spacing: -0.5px;
-  box-shadow: 0 3px 10px rgba(91, 80, 230, 0.4);
-  /* NOTE: never let a broader selector (e.g. ".side-brand span") override
-     display/color here, that silently broke centering once. */
+  width: 32px; height: 32px; flex: none; display: block;
+  background: none; box-shadow: none; filter: none; border-radius: 0;
 }
 .brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.2px; }
 .brand-sub { font-size: 12.5px; color: var(--muted); margin-top: -3px; }
-/* Brand tile is now the logo image itself (icon-32.png); keep it a plain
-   block so flex centering rules for the old letter mark never apply. */
-img.brand-mark { display: block; }
-
 /* ---------- viewfinder corners: the brand motif, pure CSS ---------- */
 /* One element, four corner brackets drawn with background gradients.
    Apply to the hero card, the scan area and loading states. */

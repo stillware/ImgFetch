@@ -26,9 +26,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <style>
     body { max-width: 560px; margin: 0 auto; padding: 48px 20px; text-align: center; }
     /* Welcome mark: the shared vector brand tile (brand-mark.svg), sized up.
-       The old hand-rolled gradient glyph is gone; the tile, its gradient
-       and its shadow all come from .brand-mark in shared/ui.css. */
-    .welcome-mark { width: 72px; height: 72px; border-radius: 20px; margin: 0 auto 18px; }
+       The tile, its gradient and its rounded corners all live in the SVG;
+       there is no shadow, background or border-radius on the img itself. */
+    .welcome-mark { width: 72px; height: 72px; flex: none; display: block; background: none; box-shadow: none; filter: none; border-radius: 0; margin: 0 auto 18px; }
     /* G2: one-time soft entrance on first load only, opacity and 12 px
        rise over 400 ms; the hero icon leads, the first heading follows
        40 ms later. The animation runs once at page load (the steps use

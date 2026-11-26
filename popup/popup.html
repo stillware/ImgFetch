@@ -38,7 +38,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
       padding: 14px 16px; background: var(--bg); position: sticky; top: 0; z-index: 10;
     }
     .topbar .brand-name { font-size: 15px; }
-    .topbar .brand-mark { width: 28px; height: 28px; border-radius: 8px; }
+    .topbar .brand-mark { width: 28px; height: 28px; background: none; box-shadow: none; filter: none; border-radius: 0; }
     /* Mockup header shows the brand name only; the tagline stays in the
        markup (and in options/welcome) and is hidden here. */
     .topbar .brand-sub { display: none; }
@@ -68,17 +68,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     html::-webkit-scrollbar-track { background: var(--bg); }
     html::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
     /* Hero: viewfinder card with corner brackets and the fixed brand art. */
-    .hero { text-align: start; padding: 0; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
-    /* Item 1: the home and scanning panes fill main and lay their
-       children out as a flex column with space-between, so the free
-       space distributes into the gaps (hero to title, title to
-       subtitle, subtitle to Scan, Scan to CAPTURE, CAPTURE to tiles)
-       instead of pooling as dead space below the tiles. The margins
-       on the children stay as the minimum gaps, so long German and
-       French strings and RTL Arabic still fit: when the content
-       grows the gaps shrink to their minimums and main scrolls.
-       The tiles land on main's 16 px bottom padding, the same
-       distance as the topbar's 14 px top padding. */
+    /* Phase 7 item 2b, fixed: the home view is one flex column of
+       exactly four groups: hero viewfinder, title and subtitle as one
+       block, Scan button, CAPTURE label and tiles as one block. The
+       four gaps between the groups (topbar to hero, hero to title,
+       title to Scan, Scan to CAPTURE) plus the bottom padding below
+       the last group are five equal flexible gaps, not a fixed size:
+       a fixed gap cannot fit every locale because the title block
+       height varies (52.73 en, 71.58 fr, 103.47 de, measured in the
+       real popup). Five empty spacer divs share the leftover height
+       with equal flex-grow, so the gaps shrink in de and fr while
+       staying equal within each combo. Real geometry, measured: the
+       popup is 560 px, the topbar is 64 px (36 px nav pill plus 2
+       times 14 px padding), so main is 496 px and this column is
+       476 px (main padding 4 top and 16 bottom). The groups add to
+       364.06 px in en (viewfinder 168, title 52.73, Scan 44, capture
+       99.33), so the five measured gaps are (496 less 364.06) over
+       5, which is 26.39 px; fr gives 22.62 px and de 16.24 px. The
+       spacer bases absorb the uneven main padding: top spacer 12,
+       middle spacers 16, bottom spacer 0, so 4 plus 12, 16, and 16
+       plus 0 all equal 16 plus the shared grow amount. No
+       space-between here: it used to spread the free space into the
+       tight gaps too (title to subtitle, label to tiles). The tight
+       gaps live inside the blocks instead: 2 px in the title block,
+       8 px in the capture block. When the content grows past the
+       pane (capture progress or home status shown) the spacers
+       shrink to nothing first and then main scrolls, as before. */
+    .hero { text-align: start; padding: 0; display: flex; flex-direction: column; flex: 1; }
+    .hero-gap { flex: 1 1 16px; min-height: 0; }
+    .hero-gap-top { flex-basis: 12px; }
+    .hero-gap-bottom { flex-basis: 0; }
+    .hero-title-block { display: flex; flex-direction: column; gap: 2px; }
+    .hero-capture-block { display: flex; flex-direction: column; }
     #paneIdle, #paneScanning { display: flex; flex-direction: column; height: 100%; }
     #paneIdle[hidden], #paneScanning[hidden] { display: none; }
     #paneScanning { justify-content: space-between; }
@@ -102,24 +123,28 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
        border-radius plus overflow hidden, no will-change and no
        opacity layers on these elements, so Chrome rasterises one
        vector layer instead of three rotated clipped layers. The SVG
-       renders at its natural viewBox size (150 by 84) on whole CSS
-       pixels, centred in the viewfinder. The scene art itself lives
+       renders at its natural viewBox size (162 by 90) on whole CSS
+       pixels, centred in the viewfinder. The viewBox is 12 px wider
+       and 6 px taller than the old 150 by 84, with overflow visible,
+       so the rotated side cards are no longer clipped at the edges
+       (Phase 7 item 1); the viewfinder grid still centres the SVG,
+       so no other centring change was needed. The scene art itself lives
        once as symbol defs at the top of the body and is instantiated
        with use; the shared/assets/hero-*.svg files stay as the
        canonical art. The fan is the same in LTR and RTL, so the art
        is never mirrored. */
-    .hero-stack-svg { display: block; width: 150px; height: 84px; }
-    .hero h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.45; margin: 14px 2px 0; }
+    .hero-stack-svg { display: block; width: 162px; height: 90px; overflow: visible; }
+    .hero h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.45; margin: 0 2px; }
     .pane-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin: 14px 2px 0; }
     /* Results title only: the shared .pane-title box (27.5px at 1.25) sits
        12px low and 4px short of the reference, so the title gets the
        reference line-height (1.45) and a 2px top margin; the toolbar gains
        8px on top so the chips and the grid stay where they were. */
     #resTitle { margin-top: 2px; line-height: 1.45; }
-    .hero p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 2px 2px 0; }
+    .hero p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 0 2px; }
     .pane-sub { color: var(--muted); font-size: 13px; margin: 2px 2px 0; line-height: 1.45; }
-    #btnScan { margin-top: 14px; min-height: 44px; border-radius: var(--r2); font-size: 14px; }
-    .popup-sec-label { margin: 18px 2px 8px; font-size: 11px; font-weight: 600; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+    #btnScan { margin-top: 0; min-height: 44px; border-radius: var(--r2); font-size: 14px; }
+    .popup-sec-label { margin: 0 2px 8px; font-size: 11px; font-weight: 600; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
     /* D1: screenshot group as one row of four icon buttons with labels. */
     .shot-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
     .shot-btn {
@@ -316,9 +341,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
   <main class="pane-anim" id="viewHome" data-i18n-attr="aria-label:popup_home" aria-label="Home">
     <section class="pane-anim" id="paneIdle">
       <div class="hero">
+        <div class="hero-gap hero-gap-top" aria-hidden="true"></div>
         <div class="hero-viewfinder">
           <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
-          <svg class="hero-stack-svg" viewBox="0 0 150 84" width="150" height="84" aria-hidden="true">
+          <svg class="hero-stack-svg" viewBox="-6 -3 162 90" width="162" height="90" overflow="visible" aria-hidden="true">
             <defs>
               <clipPath id="hero-clip-a-l"><rect x="0" y="14" width="76" height="56" rx="9"/></clipPath>
               <clipPath id="hero-clip-a-c"><rect x="36" y="0" width="76" height="56" rx="9"/></clipPath>
@@ -346,9 +372,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             </g>
           </svg>
         </div>
-        <h1 data-i18n="popup_heroTitleNew">Find. Select. Download.</h1>
-        <p data-i18n="popup_heroDescNew">Scan any page and save the best version of each image.</p>
+        <div class="hero-gap" aria-hidden="true"></div>
+        <div class="hero-title-block">
+          <h1 data-i18n="popup_heroTitleNew">Find. Select. Download.</h1>
+          <p data-i18n="popup_heroDescNew">Scan any page and save the best version of each image.</p>
+        </div>
+        <div class="hero-gap" aria-hidden="true"></div>
         <button id="btnScan" class="btn btn-primary btn-block"><svg class="icon icon-16" aria-hidden="true"><use href="../shared/assets/lucide-sprite.svg#scan-search"></use></svg><span data-i18n="popup_scanButton">Scan this page</span></button>
+        <div class="hero-gap" aria-hidden="true"></div>
+        <div class="hero-capture-block">
         <div class="popup-sec-label" data-i18n="popup_captureLabel">Capture</div>
         <div class="shot-row" role="group" data-i18n-attr="aria-label:popup_screenshotGroup" aria-label="Screenshot">
           <button id="btnShotVisible" class="shot-btn" data-i18n-attr="title:popup_shotVisible;aria-label:popup_shotVisible" title="Capture visible page" aria-label="Capture visible page">
@@ -376,13 +408,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
           <div class="progress cp-bar" id="captureProgressBarWrap" role="progressbar" data-i18n-attr="aria-label:popup_captureProgressAria" aria-label="Full-page capture progress" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i id="captureProgressBar"></i></div>
         </div>
         <div id="homeStatus" hidden></div>
+        </div>
+        <div class="hero-gap hero-gap-bottom" aria-hidden="true"></div>
       </div>
     </section>
 
     <section class="pane-anim" id="paneScanning" hidden>
       <div class="hero-viewfinder">
         <i class="vf-corner tl" aria-hidden="true"></i><i class="vf-corner tr" aria-hidden="true"></i><i class="vf-corner bl" aria-hidden="true"></i><i class="vf-corner br" aria-hidden="true"></i>
-        <svg class="hero-stack-svg" viewBox="0 0 150 84" width="150" height="84" aria-hidden="true">
+        <svg class="hero-stack-svg" viewBox="-6 -3 162 90" width="162" height="90" overflow="visible" aria-hidden="true">
           <defs>
             <clipPath id="hero-clip-b-l"><rect x="0" y="14" width="76" height="56" rx="9"/></clipPath>
             <clipPath id="hero-clip-b-c"><rect x="36" y="0" width="76" height="56" rx="9"/></clipPath>

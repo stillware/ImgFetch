@@ -160,7 +160,7 @@ ImgFetch/
 │   ├── assets/ # Bundled interface assets: fonts, icons, third-party licences
 │   │   ├── INTER-OFL-1.1.txt # SIL Open Font License 1.1 for the Inter typeface
 │   │   ├── LUCIDE-ISC.txt # ISC License for the Lucide icon set
-│   │   ├── brand-mark.svg # Vector brand mark (rounded square, gradient, mountains, sun dot), redrawn from icon-128.png for welcome and options
+│   │   ├── brand-mark.svg # Vector brand mark (squircle, theme purples, sun with halo, two mountain peaks), source for the PNG icons, used in welcome and options
 │   │   ├── hero-g1.svg # Popup hero illustration, centre card of the fanned stack (kit g1)
 │   │   ├── hero-g2.svg # Popup hero illustration, left card of the fanned stack (kit g2)
 │   │   ├── hero-g4.svg # Popup hero illustration, right card of the fanned stack (kit g4)
@@ -217,7 +217,7 @@ ImgFetch/
     ├── test-overlay.mjs # 9: element picker checks
     ├── test-parts-overview.mjs # 49: Parts overview and platform helper checks
     ├── test-perf-budget.mjs # 12: performance budget checks over recorded results
-    ├── test-phase5-visual.mjs # 138: Phase 5 visual items A1 to A8, static checks plus custom dropdown behaviour with a stub DOM
+    ├── test-phase5-visual.mjs # 232: Phase 5 visual items A1 to A8, static checks plus custom dropdown behaviour with a stub DOM, plus Phase 7 hero clip, logo glow removal and home spacing checks
     ├── test-phase5-bugs.mjs # 11: Phase 5 bug-fix checks: D1 rename race and bulk custom names, D2 data URL size cap, D3 queue re-download, D5 scanner deduped count
     ├── test-png-quantize.mjs # 5: PNG quantization checks
     ├── test-progress.mjs # 34: capture progress contract and toast dedup checks

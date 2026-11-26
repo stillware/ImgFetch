@@ -66,6 +66,11 @@ const optionsHtml = read('options/options.html');
 const optionsJs = read('options/options.js');
 const welcomeHtml = read('pages/welcome.html');
 const annotateHtml = read('pages/annotate.html');
+const captureHtml = read('pages/capture.html');
+const infoHtml = read('pages/info.html');
+const partsHtml = read('pages/parts.html');
+const renameHtml = read('pages/rename.html');
+const brandSvg = read('shared/assets/brand-mark.svg');
 
 // A3: no page-background glow anywhere. The body must carry no
 // background-image; the privacy hero must be flat, not a gradient.
@@ -161,18 +166,190 @@ eq(vi.options_secBackup.message, 'Sao lưu và đặt lại', 'A8 vi sidebar Sao
 const de = JSON.parse(read('_locales/de/messages.json'));
 eq(de.options_secBackup.message, 'Sichern & Zurücksetzen', 'A8 de keeps capitalised nouns (German rule)');
 
+// Phase 7 item 1: hero stack is no longer clipped. Both stacks carry the
+// enlarged viewBox, and every rotated card (and its shadow ellipse) lies
+// fully inside that viewBox with at least 1 unit margin on all sides.
+const stackTags = [...popupHtml.matchAll(/<svg class="hero-stack-svg"[^>]*>/g)].map((m) => m[0]);
+eq(stackTags.length, 2, 'P7 both hero stacks are present');
+for (const tag of stackTags) {
+  has(tag, 'viewBox="-6 -3 162 90"', 'P7 hero stack viewBox is -6 -3 162 90');
+  has(tag, 'width="162"', 'P7 hero stack width is 162');
+  has(tag, 'height="90"', 'P7 hero stack height is 90');
+  has(tag, 'overflow="visible"', 'P7 hero stack overflow is visible');
+}
+lacks(popupHtml, 'viewBox="0 0 150 84"', 'P7 old hero viewBox is gone');
+has(popupHtml, '.hero-stack-svg { display: block; width: 162px; height: 90px; overflow: visible; }', 'P7 hero stack CSS is 162 by 90 with overflow visible');
+const vb = stackTags[0].match(/viewBox="(-?\d+) (-?\d+) (\d+) (\d+)"/);
+ok(vb, 'P7 hero viewBox parses');
+const vbX = Number(vb[1]);
+const vbY = Number(vb[2]);
+const vbW = Number(vb[3]);
+const vbH = Number(vb[4]);
+// Rotated bounding box of a rect about its rotation centre.
+function rotatedRectBox(x, y, w, h, deg, cx, cy) {
+  const r = (deg * Math.PI) / 180;
+  const c = Math.cos(r);
+  const s = Math.sin(r);
+  const pts = [[x, y], [x + w, y], [x, y + h], [x + w, y + h]].map(([px, py]) => {
+    const dx = px - cx;
+    const dy = py - cy;
+    return [cx + dx * c + dy * s, cy - dx * s + dy * c];
+  });
+  const xs = pts.map((q) => q[0]);
+  const ys = pts.map((q) => q[1]);
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+}
+// Rotated bounding box of an ellipse about its group rotation centre.
+function rotatedEllipseBox(cx, cy, rx, ry, deg, rcx, rcy) {
+  const r = (deg * Math.PI) / 180;
+  const c = Math.cos(r);
+  const s = Math.sin(r);
+  const dx = cx - rcx;
+  const dy = cy - rcy;
+  const ccx = rcx + dx * c + dy * s;
+  const ccy = rcy - dx * s + dy * c;
+  const hx = Math.sqrt((rx * c) ** 2 + (ry * s) ** 2);
+  const hy = Math.sqrt((rx * s) ** 2 + (ry * c) ** 2);
+  return [ccx - hx, ccy - hy, ccx + hx, ccy + hy];
+}
+function insideViewBox(box, name) {
+  const [x0, y0, x1, y1] = box;
+  const m = Math.min(x0 - vbX, vbX + vbW - x1, y0 - vbY, vbY + vbH - y1);
+  ok(m >= 1, `${name} lies inside the viewBox with at least 1 unit margin (min margin ${m.toFixed(2)})`);
+}
+const rotations = [...popupHtml.matchAll(/rotate\((-?\d+) (\d+) (\d+)\)/g)].map((m) => [Number(m[1]), Number(m[2]), Number(m[3])]);
+eq(rotations.length, 4, 'P7 four card rotations are present (two per stack)');
+const cardRects = [...popupHtml.matchAll(/<rect x="(\d+)" y="(\d+)" width="(\d+)" height="(\d+)" rx="9" fill="none"/g)].map((m) => m.slice(1).map(Number));
+eq(cardRects.length, 6, 'P7 six card rects are present (three per stack)');
+const cardNames = ['left card', 'right card', 'centre card'];
+for (let s = 0; s < 2; s += 1) {
+  for (let i = 0; i < 3; i += 1) {
+    const [x, y, w, h] = cardRects[s * 3 + i];
+    if (i === 2) {
+      insideViewBox(rotatedRectBox(x, y, w, h, 0, x + w / 2, y + h / 2), `P7 stack ${s + 1} ${cardNames[i]}`);
+    } else {
+      const [deg, cx, cy] = rotations[s * 2 + i];
+      insideViewBox(rotatedRectBox(x, y, w, h, deg, cx, cy), `P7 stack ${s + 1} ${cardNames[i]}`);
+    }
+  }
+}
+const shadows = [...popupHtml.matchAll(/<ellipse cx="(\d+)" cy="(\d+)" rx="(\d+)" ry="(\d+)" fill="url\(#hero-shadow-[ab]\)"\/>/g)].map((m) => m.slice(1).map(Number));
+eq(shadows.length, 6, 'P7 six card shadow ellipses are present (three per stack)');
+for (let s = 0; s < 2; s += 1) {
+  for (let i = 0; i < 3; i += 1) {
+    const [cx, cy, rx, ry] = shadows[s * 3 + i];
+    if (i === 2) {
+      insideViewBox(rotatedEllipseBox(cx, cy, rx, ry, 0, cx, cy), `P7 stack ${s + 1} ${cardNames[i]} shadow`);
+    } else {
+      const [deg, rcx, rcy] = rotations[s * 2 + i];
+      insideViewBox(rotatedEllipseBox(cx, cy, rx, ry, deg, rcx, rcy), `P7 stack ${s + 1} ${cardNames[i]} shadow`);
+    }
+  }
+}
+
+// Phase 7 item 2: new logo, no glow. The shared rule paints nothing of its
+// own, the SVG owns its shape, and every page rule agrees.
+const brandRule = uiCss.match(/\.brand-mark \{[^}]*\}/);
+ok(brandRule, 'P7 shared .brand-mark rule exists');
+has(brandRule[0], 'background: none;', 'P7 shared brand mark has no background');
+has(brandRule[0], 'box-shadow: none;', 'P7 shared brand mark has no box-shadow');
+has(brandRule[0], 'filter: none;', 'P7 shared brand mark has no filter');
+has(brandRule[0], 'border-radius: 0;', 'P7 shared brand mark has no border-radius');
+lacks(brandRule[0], 'linear-gradient', 'P7 shared brand mark has no gradient');
+lacks(brandRule[0], '0 3px 10px', 'P7 shared brand mark has no glow shadow');
+lacks(brandRule[0], 'inline-flex', 'P7 shared brand mark is not the old letter mark');
+has(brandSvg, 'id="bm-bg"', 'P7 new brand mark uses the bm- gradient id');
+has(brandSvg, 'id="bm-halo"', 'P7 new brand mark keeps the sun halo inside the tile');
+lacks(brandSvg, 'brand-grad', 'P7 old brand gradient id is gone');
+has(brandSvg, 'rx="30"', 'P7 new brand mark tile uses the SVG squircle corners');
+has(brandSvg, 'viewBox="0 0 128 128"', 'P7 new brand mark is a 128 square');
+has(popupHtml, '.topbar .brand-mark { width: 28px; height: 28px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 popup header logo has no glow');
+has(optionsHtml, '.side-brand .brand-mark { width: 32px; height: 32px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 options sidebar logo has no glow');
+has(optionsHtml, '.about-logo { width: 64px; height: 64px; flex: none; display: block; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 About logo has no glow');
+has(welcomeHtml, '.welcome-mark { width: 72px; height: 72px; flex: none; display: block; background: none; box-shadow: none; filter: none; border-radius: 0; margin: 0 auto 18px; }', 'P7 welcome logo has no glow');
+has(annotateHtml, '.annotate-top .brand-mark { width: 28px; height: 28px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 annotate logo has no glow');
+has(captureHtml, '.brand-mark { width: 40px; height: 40px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 capture logo has no glow');
+has(infoHtml, '.brand-mark { width: 40px; height: 40px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 info logo has no glow');
+has(partsHtml, '.parts-header .brand-mark { width: 40px; height: 40px; flex: none; display: block; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 parts logo has no glow');
+has(renameHtml, '.brand-mark { width: 40px; height: 40px; background: none; box-shadow: none; filter: none; border-radius: 0; }', 'P7 rename logo has no glow');
+const logoPages = [popupHtml, optionsHtml, welcomeHtml, annotateHtml, captureHtml, infoHtml, partsHtml, renameHtml];
+eq(logoPages.reduce((n, html) => n + (html.match(/<img class="[^"]*brand-mark[^"]*" src="\.\.\/shared\/assets\/brand-mark\.svg"/g) || []).length, 0)
+  + (optionsHtml.match(/<img class="about-logo" src="\.\.\/shared\/assets\/brand-mark\.svg"/g) || []).length,
+  9, 'P7 nine logo images load the brand mark by img src');
+ok(!/id="bm-/.test(popupHtml + optionsHtml + welcomeHtml), 'P7 the mark is never inlined, so no page risks duplicate bm- ids');
+
+// Phase 7 item 2b, fixed: popup home vertical spacing. One flex column,
+// five equal flexible gaps: the four group gaps plus equal outer padding
+// top and bottom. A fixed gap cannot fit every locale because the title
+// block height varies (52.73 en, 71.58 fr, 103.47 de, measured in the
+// real popup), so five flex-grow spacers share the leftover height and
+// the gaps shrink in de and fr while staying equal within each combo.
+// The spacer bases (12 top, 16 middle, 0 bottom) absorb the uneven main
+// padding (4 top, 16 bottom) so every measured gap equals the same G.
+const heroRule = popupHtml.match(/\.hero \{[^}]*\}/);
+ok(heroRule, 'P7 .hero rule exists');
+lacks(heroRule[0], 'gap:', 'P7 home column carries no fixed gap');
+lacks(heroRule[0], 'padding-top:', 'P7 home column carries no top padding');
+lacks(heroRule[0], 'space-between', 'P7 home column does not use space-between');
+lacks(heroRule[0], '31.5px', 'P7 home column no longer pins the old 31.5 px gap');
+lacks(popupHtml, 'padding-top: 27.5px;', 'P7 old 27.5 px column top padding is gone');
+const heroGapRule = popupHtml.match(/\.hero-gap \{[^}]*\}/);
+ok(heroGapRule, 'P7 .hero-gap rule exists');
+has(heroGapRule[0], 'flex: 1 1 16px;', 'P7 spacers grow equally from a 16 px basis');
+has(heroGapRule[0], 'min-height: 0;', 'P7 spacers may shrink to nothing');
+has(popupHtml, '.hero-gap-top { flex-basis: 12px; }', 'P7 top spacer basis is 12 px');
+has(popupHtml, '.hero-gap-bottom { flex-basis: 0; }', 'P7 bottom spacer basis is 0 px');
+has(popupHtml, '<div class="hero-title-block">', 'P7 title and subtitle share one block');
+has(popupHtml, '<div class="hero-capture-block">', 'P7 CAPTURE label and tiles share one block');
+ok(/<div class="hero-title-block">[\s\S]*?<h1[^>]*>[\s\S]*?<p[^>]*>[\s\S]*?<\/div>/.test(popupHtml), 'P7 title block holds the h1 and the subtitle');
+ok(/<div class="hero-capture-block">[\s\S]*?<div class="popup-sec-label"[\s\S]*?<div class="shot-row"[\s\S]*?<\/div>/.test(popupHtml), 'P7 capture block holds the label and the tiles');
+has(popupHtml, '.hero h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.45; margin: 0 2px; }', 'P7 hero title carries no top margin');
+has(popupHtml, '.hero p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 0 2px; }', 'P7 hero subtitle carries no top margin');
+has(popupHtml, '#btnScan { margin-top: 0;', 'P7 Scan button carries no top margin');
+has(popupHtml, '.popup-sec-label { margin: 0 2px 8px;', 'P7 CAPTURE label carries no top margin and an 8 px bottom gap');
+has(popupHtml, '.hero-title-block { display: flex; flex-direction: column; gap: 2px; }', 'P7 title to subtitle gap is 2 px');
+ok(popupHtml.indexOf('hero-capture-block') < popupHtml.indexOf('id="captureProgress"') && popupHtml.indexOf('id="captureProgress"') < popupHtml.indexOf('id="homeStatus"'), 'P7 capture progress and home status stay inside the capture block');
+has(popupHtml, '#captureProgress { margin-top: 14px;', 'P7 capture progress keeps its 14 px gap below the tiles');
+eq((popupHtml.match(/<div class="hero-gap/g) || []).length, 5, 'P7 five flexible spacers in the home column');
+// Spacers sit before, between and after the four groups, in order.
+const heroStart = popupHtml.indexOf('<div class="hero">');
+const heroSlice = popupHtml.slice(heroStart, popupHtml.indexOf('</section>', heroStart));
+let heroPos = -1;
+let heroOrdered = true;
+for (const mark of ['<div class="hero-gap hero-gap-top"', '<div class="hero-viewfinder">', '<div class="hero-gap" aria-hidden="true"></div>', '<div class="hero-title-block">', '<div class="hero-gap" aria-hidden="true"></div>', '<button id="btnScan"', '<div class="hero-gap" aria-hidden="true"></div>', '<div class="hero-capture-block">', '<div class="hero-gap hero-gap-bottom"']) {
+  const at = heroSlice.indexOf(mark, heroPos + 1);
+  if (at < 0) { heroOrdered = false; break; }
+  heroPos = at;
+}
+ok(heroOrdered, 'P7 spacers sit before, between and after the four groups in order');
+// The equal-gap model, from geometry measured in the real popup at DPR 1:
+// popup 560, topbar 64, main 496, main padding 4 top and 16 bottom, so
+// the .hero column is 476 tall and the five measured gaps share 496 less
+// the group heights. Spacer bases add to 60 (12 plus 3 times 16 plus 0).
+// These checks pin the model, not rendered pixels; the proof worker
+// re-measures the real popup in every locale, DPR and theme.
+const homeGroups = { en: 168 + 52.73 + 44 + 99.33, ar: 168 + 52.73 + 44 + 99.33, fr: 168 + 71.58 + 44 + 99.33, de: 168 + 103.47 + 44 + 99.33 };
+const homeGap = { en: 26.39, ar: 26.39, fr: 22.62, de: 16.24 };
+for (const lang of Object.keys(homeGroups)) {
+  const groups = homeGroups[lang];
+  const g = (496 - groups) / 5;
+  const share = (476 - groups - 60) / 5;
+  ok(Math.abs(g - homeGap[lang]) < 0.01 && Math.abs(g - (16 + share)) < 0.01 && 12 + share > 0 && share > 0,
+    `P7 home equal gap model fits in ${lang} (G ${g.toFixed(2)} px, spacers ${(12 + share).toFixed(2)} / ${(16 + share).toFixed(2)} / ${share.toFixed(2)} px)`);
+}
+
 // No em dash, en dash or spaced double hyphen in any file this item touched.
 // options/options.html and options/options.js carry a pre-existing en dash
 // placeholder in the About version span (baseline, not a Phase 5 addition),
 // so the whole-file dash check covers only the files this item owns outright.
-for (const rel of ['shared/ui.css', 'shared/ui.js', 'popup/popup.html', 'popup/popup.js', 'pages/welcome.html', 'pages/annotate.html', 'tests/test-phase5-visual.mjs']) {
+for (const rel of ['shared/ui.css', 'shared/ui.js', 'popup/popup.html', 'popup/popup.js', 'pages/welcome.html', 'pages/annotate.html', 'pages/capture.html', 'pages/info.html', 'pages/parts.html', 'pages/rename.html', 'docs/project-structure.md', 'tests/test-phase5-visual.mjs']) {
   const text = read(rel);
   ok(!text.includes('\u2014') && !text.includes('\u2013'), `no em/en dash in ${rel}`);
   // Build the needle from parts so this check itself does not contain it.
   ok(!text.includes(' ' + '--' + ' '), `no spaced double hyphen in ${rel}`);
 }
 // CRLF: every touched code file keeps CRLF line endings.
-for (const rel of ['shared/ui.css', 'shared/ui.js', 'popup/popup.html', 'popup/popup.js', 'options/options.html', 'options/options.js', 'pages/welcome.html', 'pages/annotate.html', 'tests/test-phase5-visual.mjs']) {
+for (const rel of ['shared/ui.css', 'shared/ui.js', 'popup/popup.html', 'popup/popup.js', 'options/options.html', 'options/options.js', 'pages/welcome.html', 'pages/annotate.html', 'pages/capture.html', 'pages/info.html', 'pages/parts.html', 'pages/rename.html', 'docs/project-structure.md', 'tests/test-phase5-visual.mjs']) {
   const buf = readFileSync(join(PROJ, rel));
   const lf = (buf.toString('utf8').match(/\n/g) || []).length;
   const crlf = (buf.toString('utf8').match(/\r\n/g) || []).length;
